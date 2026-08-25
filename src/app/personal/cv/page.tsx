@@ -34,7 +34,9 @@ export default function CvPage() {
           {/* asChild keeps these anchors — a download and an external link are
               navigation, not buttons, whatever they look like. */}
           <Button asChild size="lg" className="h-11 rounded-xl px-5 font-semibold">
-            <a href={withBasePath(pdf.url)} download>
+            {/* The file is served as cv.pdf; `download` renames the visitor's
+                copy to something they can find again in a downloads folder. */}
+            <a href={withBasePath(pdf.url)} download={pdf.fileName}>
               Download CV
             </a>
           </Button>

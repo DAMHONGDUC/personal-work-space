@@ -28,8 +28,44 @@ const PDF_URL = `/${path.relative(
 export type CvPdf = {
   /** Site-relative URL, without the base path. */
   url: string;
+  /** What the browser saves the file as, rather than the `cv.pdf` it is served as. */
+  fileName: string;
   sizeKb: number;
 };
+
+/**
+ * `CV_DAM_HONG_DUC_25_08_2026.pdf` — the name the download is saved under.
+ *
+ * The file stays `cv.pdf` on the server: one stable URL, which is what the app
+ * stores and any existing link points at. The readable name is the anchor's
+ * `download` attribute instead, so only the copy on the visitor's disk carries
+ * it.
+ *
+ * The date is the day the site was built. Every route is prerendered and the
+ * export has no server, so this is fixed when `next build` runs — a CV rebuilt
+ * and deployed today is downloaded with today's date on it.
+ */
+export function cvPdfFileName(builtAt = new Date(), from = cv.header.name): string {
+  const name = from
+    // Decompose, then drop the combining marks: đ and the Vietnamese tones do
+    // not survive a filename intact on every platform.
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/đ/g, "d")
+    .replace(/Đ/g, "D")
+    .toUpperCase()
+    // Anything that is not a letter or a digit becomes the one separator, so
+    // spaces, punctuation and a double space all read the same way.
+    .replace(/[^A-Z0-9]+/g, "_")
+    .replace(/^_|_$/g, "");
+
+  // The builder's own calendar day, and day-first because that is how the date
+  // is read where this CV is sent.
+  const day = String(builtAt.getDate()).padStart(2, "0");
+  const month = String(builtAt.getMonth() + 1).padStart(2, "0");
+
+  return `CV_${name}_${day}_${month}_${builtAt.getFullYear()}.pdf`;
+}
 
 /**
  * The compiled PDF, or null when it has not been built yet.
@@ -46,6 +82,7 @@ export function getCvPdf(): CvPdf | null {
 
   return {
     url: PDF_URL,
+    fileName: cvPdfFileName(),
     sizeKb: Math.max(1, Math.round(fs.statSync(file).size / 1024)),
   };
 }
