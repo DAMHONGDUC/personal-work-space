@@ -15,7 +15,8 @@ code.
 src/data/
 ├── site.json              publisher, url, email + shared legal sections
 ├── cv/
-│   └── cv_2.json          the CV content
+│   ├── cv_full.json       one file per version of the CV
+│   └── cv_no_freelancer.json
 └── apps/
     └── baro-ease.json     one file per app
 cv/
@@ -57,9 +58,11 @@ to serve. Use `npm run preview`.
 
 ## Updating the CV
 
-Edit `src/data/cv/cv_2.json` — `npm run dev` picks it up. The deployed PDF is compiled
-from LaTeX in CI; `npm run cv:pdf` builds it locally if you have LaTeX. See
-[cv/README.md](cv/README.md) for how to preview it without installing anything.
+Edit a file in `src/data/cv/` — `npm run dev` picks it up. Each file is a whole
+version of the CV, cut for a different reader, and the CV page offers them all in
+a dropdown. The deployed PDFs are compiled from LaTeX in CI; `npm run cv:pdf`
+builds them locally if you have LaTeX. See [cv/README.md](cv/README.md) for how
+to preview one without installing anything.
 
 ## Adding an app
 

@@ -61,9 +61,14 @@
     in place, so a differing id would drop the reader out of their section.
   - Commands in a `code` block stay the same in both languages. Anything that
     needs explaining goes in the localized `caption`, not a comment in the code.
-- **CV**: `src/data/cv/`. Which file in there is live is decided by
-  `ResourceConstant.CV_DATA_FILE` — check it before editing, because any other
-  file beside it is a valid CV too and editing the wrong one changes nothing.
+- **CV**: one file per version in `src/data/cv/`, each a whole CV cut for a
+  different reader, and the filename is its slug. Every one of them is built and
+  offered in the dropdown on the CV page, under the `label` it gives itself, so
+  editing any of them changes something. `ResourceConstant.CV_DATA_FILE` only
+  picks which one a visitor lands on and which one answers the legacy
+  `/cv.pdf`. Adding a file means naming it in `src/lib/cv.ts` as well — that is
+  the one content directory that cannot read itself, because a static export
+  needs a literal import path, and a test compares the list against the folder.
   The LaTeX in `cv/build/` is **generated** — never edit it, and never edit
   `cv/template/main.tex` to change wording.
 - Every text field in the CV JSON is **plain text**. The renderer escapes LaTeX
@@ -156,10 +161,12 @@
 
 ## The CV
 
-- `ResourceConstant.CV_DATA_FILE` names the data file. The site imports it
-  statically and the LaTeX generator reads it from disk; a test asserts both
-  resolve to the same content, because otherwise the page and the downloadable
-  PDF drift apart.
+- The site imports every CV statically and the LaTeX generator reads them from
+  disk; a test asserts each version resolves to the same content both ways,
+  because otherwise the page and the downloadable PDF drift apart.
+- **Every version downloads under the same filename**, name and build date. The
+  version is the sender's business, not something a recruiter reads off a
+  filename — do not "fix" this by putting the label in it.
 - Every font size lives in the `\cv*` macros in `cv/template/main.tex`. The
   renderer marks up meaning, never size — a test fails if the generated LaTeX
   contains `\fontsize`.

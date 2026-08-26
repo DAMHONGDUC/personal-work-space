@@ -1,23 +1,31 @@
 # CV
 
-The CV is generated, not hand-written. **Edit `src/data/cv/cv_2.json`** — never
-the LaTeX.
+The CV is generated, not hand-written. **Edit the JSON in `src/data/cv/`** —
+never the LaTeX.
 
 ```
-src/data/cv/            the content
-└── cv_2.json           the live CV (the only file you edit)
-cv/template/main.tex    the layout: preamble + %%PLACEHOLDER%% per section
-cv/assets/avt.jpg       the photo
-cv/build/               generated, git-ignored
-public/cv.pdf           compiled in CI — the download, git-ignored
-public/cv/page-N.png    rasterised pages — what the site renders, git-ignored
+src/data/cv/                    one file per version, the filename is the slug
+├── cv_full.json                the whole history
+└── cv_no_freelancer.json       the same, without the freelance work
+cv/template/main.tex            the layout: preamble + %%PLACEHOLDER%% per section
+cv/assets/avt.jpg               the photo
+cv/build/<slug>/                generated, git-ignored
+public/cv/<slug>/cv.pdf         the download, git-ignored
+public/cv/<slug>/page-N.png     rasterised pages — what the site renders
+public/cv.pdf                   a copy of the default, for links already in the wild
 ```
 
-**Which file is live is decided in one place**, `ResourceConstant.CV_DATA_FILE`
-in `src/lib/resource-constant.mts`. Any file you add beside it is a valid CV
-too, so editing the wrong one fails silently — check that constant before you
-start. Switching between them means changing it *and* the static import in
-`src/lib/cv.ts`; a test fails if only one of the two moves.
+**Every file here is built and offered**: the CV page has a dropdown, and each
+file's `label` is what it is called in it. Adding a version is adding a file —
+and then naming it in `src/lib/cv.ts`, which is the one content directory that
+cannot read itself, because a static export needs a literal import path. A test
+compares that list against this directory, so a file left out fails the suite.
+
+`ResourceConstant.CV_DATA_FILE` picks which version a visitor lands on and which
+one answers the legacy `/cv.pdf`. Changing it means changing nothing else — the
+imports in `src/lib/cv.ts` already cover every file.
+
+Every version downloads under the same name, `CV_<NAME>_<DD_MM_YYYY>.pdf`.
 
 The photo prints at 3.2cm, so ~800px is already more than any printer resolves.
 It was a 1.26MB PNG once; as an 800px JPEG the whole PDF is 150KB rather than
@@ -27,8 +35,8 @@ It was a 1.26MB PNG once; as an 800px JPEG the whole PDF is 150KB rather than
 
 ```bash
 npm run dev        # regenerates the CV, then starts the site — the usual loop
-npm run cv:tex     # cv_2.json -> cv/build/main.tex (+ the photo), on its own
-npm run cv:pdf     # the above, then compile to public/cv.pdf (needs LaTeX)
+npm run cv:tex     # each JSON -> cv/build/<slug>/main.tex (+ the photo)
+npm run cv:pdf     # the above, then compile every one of them (needs LaTeX)
 npm test           # checks the data and the generated LaTeX
 ```
 
@@ -103,7 +111,7 @@ placeholder with no matching section fails the build rather than printing
 Only CI compiles the PDF, via `xu-cheng/latex-action`:
 
 - **Pull request** — the CV is typeset and uploaded as the `cv-pdf` artifact, so
-  a broken `cv_2.json` fails before merge and you can download the result to check
+  a broken CV fails before merge and you can download the results to check
   it.
 - **Push to `main`** — the same compile, then the PDF is copied to
   `public/cv.pdf` and deployed with the site at `/personal/cv/`.
