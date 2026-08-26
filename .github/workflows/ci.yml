@@ -44,15 +44,18 @@ jobs:
         # rather than at deploy time.
         uses: xu-cheng/latex-action@v3
         with:
-          working_directory: cv/build
-          root_file: main.tex
+          # One folder per CV under cv/build, so every version in the switcher
+          # is typeset — and broken data in any of them fails here.
+          root_file: cv/build/*/main.tex
+          work_in_root_file_dir: true
+          glob_root_file: true
 
       - name: Publish the CV
         # Mirrors the deploy exactly, so the build below sees the same public/
         # it will see on main and a failure is caught before merge.
         run: |
           sudo apt-get update -qq && sudo apt-get install -y -qq poppler-utils
-          cp cv/build/main.pdf public/cv.pdf
+          node scripts/publish-cv-pdf.mts
           node scripts/build-cv-images.mts
 
       - name: Upload the CV for review
@@ -63,7 +66,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: cv-pdf
-          path: cv/build/main.pdf
+          path: cv/build/*/main.pdf
           if-no-files-found: ignore
 
       - name: Build

@@ -51,8 +51,11 @@ jobs:
       - name: Compile the CV
         uses: xu-cheng/latex-action@v3
         with:
-          working_directory: cv/build
-          root_file: main.tex
+          # One folder per CV under cv/build, so every version in the switcher
+          # is typeset — and broken data in any of them fails here.
+          root_file: cv/build/*/main.tex
+          work_in_root_file_dir: true
+          glob_root_file: true
 
       - name: Publish the CV
         # public/ is copied into the export, so the PDF and the page images have
@@ -60,7 +63,7 @@ jobs:
         # renders inline; the PDF is the download.
         run: |
           sudo apt-get update -qq && sudo apt-get install -y -qq poppler-utils
-          cp cv/build/main.pdf public/cv.pdf
+          node scripts/publish-cv-pdf.mts
           node scripts/build-cv-images.mts
 
       - name: Build static export
