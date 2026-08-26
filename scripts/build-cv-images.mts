@@ -1,5 +1,5 @@
 /**
- * Rasterises cv/build/main.pdf into public/cv/page-N.png.
+ * Rasterises every published PDF into public/cv/<slug>/page-N.png.
  *
  * The CV page stacks these images in the document flow so the whole CV renders
  * at once and the ordinary page scroll carries it. An <object>/<embed> cannot
@@ -18,10 +18,6 @@ const DPI = 160;
 
 const optional = process.argv.includes("--optional");
 
-const root = path.join(import.meta.dirname, "..");
-const pdf = path.join(root, ResourceConstant.CV_BUILD_DIR, "main.pdf");
-const outDir = path.join(root, ResourceConstant.CV_PAGES_DIR);
-
 function has(command: string): boolean {
   try {
     execFileSync("command", ["-v", command], { shell: "/bin/sh", stdio: "ignore" });
@@ -31,11 +27,23 @@ function has(command: string): boolean {
   }
 }
 
-if (!fs.existsSync(pdf)) {
+const root = path.join(import.meta.dirname, "..");
+const publicDir = path.join(root, ResourceConstant.CV_PAGES_DIR);
+
+const slugs = fs.existsSync(publicDir)
+  ? fs
+      .readdirSync(publicDir, { withFileTypes: true })
+      .filter((entry) => entry.isDirectory())
+      .map((entry) => entry.name)
+      .filter((slug) => fs.existsSync(path.join(root, ResourceConstant.cvPdfFile(slug))))
+      .sort()
+  : [];
+
+if (slugs.length === 0) {
   // Without a PDF there is nothing to rasterise. Under --optional the LaTeX
   // step has already explained why, so stay quiet rather than repeat it.
   if (optional) process.exit(0);
-  throw new Error("cv/build/main.pdf is missing — run `npm run cv:pdf` first.");
+  throw new Error(`No published PDF under ${ResourceConstant.CV_PAGES_DIR} — run \`npm run cv:pdf\` first.`);
 }
 
 if (!has("pdftoppm")) {
@@ -50,16 +58,30 @@ if (!has("pdftoppm")) {
   process.exit(optional ? 0 : 1);
 }
 
-// Rebuilt from scratch so pages dropped from a shorter CV cannot linger.
-fs.rmSync(outDir, { recursive: true, force: true });
-fs.mkdirSync(outDir, { recursive: true });
+for (const slug of slugs) {
+  const outDir = path.join(root, ResourceConstant.cvPublicDir(slug));
 
-execFileSync("pdftoppm", ["-png", "-r", String(DPI), pdf, path.join(outDir, "page")]);
+  // Only the images are cleared: the PDF published beside them is the download,
+  // and it was written by the step before this one.
+  for (const file of fs.readdirSync(outDir)) {
+    if (file.endsWith(".png")) fs.rmSync(path.join(outDir, file));
+  }
 
-const pages = fs.readdirSync(outDir).filter((file) => file.endsWith(".png"));
+  execFileSync("pdftoppm", [
+    "-png",
+    "-r",
+    String(DPI),
+    path.join(root, ResourceConstant.cvPdfFile(slug)),
+    path.join(outDir, "page"),
+  ]);
 
-if (pages.length === 0) {
-  throw new Error("pdftoppm produced no images from cv/build/main.pdf.");
+  const pages = fs.readdirSync(outDir).filter((file) => file.endsWith(".png"));
+
+  if (pages.length === 0) {
+    throw new Error(`pdftoppm produced no images from ${ResourceConstant.cvPdfFile(slug)}.`);
+  }
+
+  console.log(
+    `${ResourceConstant.cvPublicDir(slug)}/ written with ${pages.length} page image(s) at ${DPI}dpi`,
+  );
 }
-
-console.log(`public/cv/ written with ${pages.length} page image(s) at ${DPI}dpi`);

@@ -1,10 +1,13 @@
 /**
- * Compiles cv/build/main.tex to public/cv.pdf, so `/personal/cv/` shows the
- * real document during local development.
+ * Compiles every cv/build/<slug>/main.tex, so `/personal/cv/` shows the real
+ * documents during local development.
  *
  * Needs a LaTeX installation. CI does the same compile in a container, so this
- * is a convenience rather than the source of the deployed PDF — skipping it
+ * is a convenience rather than the source of the deployed PDFs — skipping it
  * only means the CV page keeps saying the PDF has not been built.
+ *
+ * Publishing the results into public/ is `publish-cv-pdf.mts`, because CI
+ * compiles with its own action and then runs that step alone.
  *
  * With --optional, a missing LaTeX is a note rather than a failure, so the step
  * can sit in front of `next dev` without blocking it. A LaTeX that is present
@@ -19,8 +22,6 @@ const optional = process.argv.includes("--optional");
 
 const root = path.join(import.meta.dirname, "..");
 const buildDir = path.join(root, ResourceConstant.CV_BUILD_DIR);
-const pdf = path.join(buildDir, "main.pdf");
-const published = path.join(root, ResourceConstant.CV_PDF_FILE);
 
 function has(command: string): boolean {
   try {
@@ -31,8 +32,19 @@ function has(command: string): boolean {
   }
 }
 
-if (!fs.existsSync(path.join(buildDir, "main.tex"))) {
-  throw new Error("cv/build/main.tex is missing — run `npm run cv:tex` first.");
+if (!fs.existsSync(buildDir)) {
+  throw new Error(`${ResourceConstant.CV_BUILD_DIR} is missing — run \`npm run cv:tex\` first.`);
+}
+
+const slugs = fs
+  .readdirSync(buildDir, { withFileTypes: true })
+  .filter((entry) => entry.isDirectory())
+  .map((entry) => entry.name)
+  .filter((slug) => fs.existsSync(path.join(buildDir, slug, "main.tex")))
+  .sort();
+
+if (slugs.length === 0) {
+  throw new Error(`No main.tex under ${ResourceConstant.CV_BUILD_DIR} — run \`npm run cv:tex\` first.`);
 }
 
 // Ordered by fidelity to what CI ships. CI compiles with pdflatex, which is
@@ -45,10 +57,10 @@ const engine = ["latexmk", "pdflatex", "tectonic"].find(has);
 if (!engine) {
   console.error(
     [
-      "No LaTeX installation found, so the CV PDF was not built.",
+      "No LaTeX installation found, so the CV PDFs were not built.",
       "",
       "Three ways to see the CV:",
-      "  1. Overleaf  — drag cv/build/ into a new project (nothing to install)",
+      "  1. Overleaf  — drag a cv/build/<version>/ folder into a new project",
       "  2. CI        — open a PR and download the `cv-pdf` artifact",
       "  3. Locally   — brew install tectonic (no sudo), then re-run this",
       "",
@@ -68,11 +80,12 @@ const ARGS: Record<string, string[]> = {
 // themselves as needed.
 const passes = engine === "pdflatex" ? 2 : 1;
 
-for (let pass = 0; pass < passes; pass += 1) {
-  execFileSync(engine, ARGS[engine], { cwd: buildDir, stdio: "inherit" });
+for (const slug of slugs) {
+  const cwd = path.join(root, ResourceConstant.cvBuildDir(slug));
+
+  for (let pass = 0; pass < passes; pass += 1) {
+    execFileSync(engine, ARGS[engine], { cwd, stdio: "inherit" });
+  }
+
+  console.log(`${ResourceConstant.cvBuildDir(slug)}/main.pdf compiled with ${engine}`);
 }
-
-fs.mkdirSync(path.dirname(published), { recursive: true });
-fs.copyFileSync(pdf, published);
-
-console.log(`public/cv.pdf written with ${engine}`);

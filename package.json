@@ -8,7 +8,7 @@
   },
   "scripts": {
     "clean": "rm -rf .next out cv/build public/cv.pdf public/cv",
-    "setup": "npm run clean && npm install && npm run cv:tex && node scripts/build-cv-pdf.mts --optional && node scripts/build-cv-images.mts --optional",
+    "setup": "npm run clean && npm install && npm run cv:tex && node scripts/build-cv-pdf.mts --optional && node scripts/publish-cv-pdf.mts --optional && node scripts/build-cv-images.mts --optional",
     "predev": "npm run setup",
     "dev": "next dev",
     "predev:open": "npm run setup",
@@ -17,7 +17,7 @@
     "preview": "npm run build && npx --yes serve@latest out",
     "lint": "eslint",
     "cv:tex": "node scripts/build-cv-tex.mts",
-    "cv:pdf": "npm run cv:tex && node scripts/build-cv-pdf.mts && node scripts/build-cv-images.mts",
+    "cv:pdf": "npm run cv:tex && node scripts/build-cv-pdf.mts && node scripts/publish-cv-pdf.mts && node scripts/build-cv-images.mts",
     "typecheck": "next typegen && tsc --noEmit",
     "test": "vitest run"
   },
