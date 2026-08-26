@@ -60,6 +60,13 @@ export type Project = {
 };
 
 export type Cv = {
+  /**
+   * What the CV switcher calls this version — "Full profile", "Flutter focus".
+   * Several CVs live side by side in the data directory, each cut for a
+   * different reader, and this is the only thing telling them apart on the
+   * page, so it names the angle rather than the file.
+   */
+  label: string;
   /** ISO date shown on the site as the CV's "last updated". */
   lastUpdated: string;
   header: {
@@ -77,4 +84,37 @@ export type Cv = {
   skills: Skill[];
   experience: Experience[];
   projects: Project[];
+};
+
+/** One CV's compiled PDF, as the page links to it. A build artifact. */
+export type CvPdf = {
+  /** Site-relative URL, without the base path. */
+  url: string;
+  /** What the browser saves the file as, rather than the `cv.pdf` it is served as. */
+  fileName: string;
+  sizeKb: number;
+};
+
+/** One rasterised page of a CV, as written by `npm run cv:pdf`. */
+export type CvPage = {
+  url: string;
+  width: number;
+  height: number;
+};
+
+/**
+ * One CV as the page needs it: the content, plus the artefacts the build
+ * produced for it. Both may be missing — a CV whose PDF has not been compiled
+ * still appears in the switcher, and says so.
+ *
+ * These three live here rather than beside the loader in cv.ts because the
+ * switcher is a client component: cv.ts reads the filesystem, and importing it
+ * even for a type drags node:fs into the browser bundle.
+ */
+export type CvVersion = {
+  slug: string;
+  label: string;
+  data: Cv;
+  pdf: CvPdf | null;
+  pages: CvPage[];
 };

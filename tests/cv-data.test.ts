@@ -3,7 +3,7 @@ import path from "node:path";
 import { describe, expect, it } from "vitest";
 import { renderCvLatex } from "@/lib/cv-latex.mts";
 import { ResourceConstant } from "@/lib/resource-constant.mts";
-import { cv } from "@/lib/cv";
+import { cv, getCvVersions } from "@/lib/cv";
 
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
 
@@ -12,13 +12,50 @@ const template = fs.readFileSync(
   "utf8",
 );
 
-describe("the CV data file", () => {
+/** The slugs actually sitting in the data directory. */
+const onDisk = fs
+  .readdirSync(path.join(process.cwd(), ResourceConstant.CV_DATA_DIR))
+  .filter((file) => file.endsWith(".json"))
+  .map((file) => ResourceConstant.cvSlug(file))
+  .sort();
+
+const versions = getCvVersions();
+
+describe("the set of CVs", () => {
+  it("offers every file in the data directory", () => {
+    // Bundling a static export needs a literal import path, so cv.ts names the
+    // files rather than reading the folder. This is what stops a new CV being
+    // added and then never appearing in the switcher.
+    expect([...versions.map((version) => version.slug)].sort()).toEqual(onDisk);
+  });
+
+  it("shows the CV named by CV_DATA_FILE first", () => {
+    expect(versions[0].slug).toBe(ResourceConstant.DEFAULT_CV_SLUG);
+    expect(versions[0].data).toEqual(cv);
+  });
+
+  it("gives each version a label of its own for the dropdown", () => {
+    const labels = versions.map((version) => version.label);
+
+    for (const label of labels) {
+      expect(label.trim()).not.toBe("");
+    }
+
+    // Two versions under one name is a dropdown a reader cannot use.
+    expect(new Set(labels).size).toBe(labels.length);
+  });
+});
+
+describe.each(versions)("the CV data file $slug", ({ slug, data: cv }) => {
   it("is the same file the PDF is generated from", () => {
     // The site imports the JSON statically and the generator reads it from
     // disk. If those ever name different files, the page and the downloadable
     // PDF quietly show different CVs.
     const fromGenerator = JSON.parse(
-      fs.readFileSync(path.join(process.cwd(), ResourceConstant.CV_DATA_FILE), "utf8"),
+      fs.readFileSync(
+        path.join(process.cwd(), ResourceConstant.CV_DATA_DIR, `${slug}.json`),
+        "utf8",
+      ),
     );
 
     expect(fromGenerator).toEqual(cv);
@@ -83,8 +120,8 @@ describe("the CV data file", () => {
   });
 });
 
-describe("the generated LaTeX", () => {
-  const latex = renderCvLatex(cv, template);
+describe.each(versions)("the LaTeX generated for $slug", ({ data }) => {
+  const latex = renderCvLatex(data, template);
 
   it("resolves every placeholder in the real template", () => {
     expect(latex).not.toMatch(/%%[A-Z_]+%%/);

@@ -28,11 +28,30 @@ export class ResourceConstant {
   static readonly SITE_FILE = "src/data/site.json";
 
   /**
-   * The live CV. Other files may sit beside it and are equally valid CVs —
-   * this constant is what decides which one the site and the PDF are built
-   * from.
+   * Every CV, one JSON file per version, each cut for a different reader. The
+   * build compiles all of them and the CV page offers them in a switcher, so
+   * adding a file here adds an entry to the dropdown.
+   *
+   * A filename is the version's slug, and so is its URL under public/cv.
    */
-  static readonly CV_DATA_FILE = "src/data/cv/cv_2.json";
+  static readonly CV_DATA_DIR = "src/data/cv";
+
+  /**
+   * The CV shown first, and the one served at the legacy /cv.pdf. Other files
+   * beside it are equally valid CVs — this constant only decides which one a
+   * visitor lands on and which one an old link resolves to.
+   */
+  static readonly CV_DATA_FILE = "src/data/cv/cv_full.json";
+
+  /** `cv_full.json` -> `cv_full`, the slug a version is addressed by everywhere. */
+  static cvSlug(file: string): string {
+    return file.replace(/^.*\//, "").replace(/\.json$/, "");
+  }
+
+  /** The default version's slug, for picking it out of the built set. */
+  static readonly DEFAULT_CV_SLUG = ResourceConstant.cvSlug(
+    ResourceConstant.CV_DATA_FILE,
+  );
 
   /** The LaTeX the CV is rendered into. Hand-edited; never generated. */
   static readonly CV_TEMPLATE_DIR = "cv/template";
@@ -40,17 +59,36 @@ export class ResourceConstant {
   /** Images the CV embeds, such as the photo named in the CV data. */
   static readonly CV_ASSETS_DIR = "cv/assets";
 
-  /** Generated LaTeX and the PDF LaTeX produces. Not in git. */
+  /** Generated LaTeX and the PDF LaTeX produces, one folder per CV. Not in git. */
   static readonly CV_BUILD_DIR = "cv/build";
+
+  /** Where one CV's generated main.tex and main.pdf live. */
+  static cvBuildDir(slug: string): string {
+    return `${ResourceConstant.CV_BUILD_DIR}/${slug}`;
+  }
 
   /** Served at the site root, so a URL is a path here minus this prefix. */
   static readonly PUBLIC_DIR = "public";
 
-  /** The published PDF the CV page links to. A build artifact. */
+  /**
+   * The default CV, at the address the app store listings and any existing
+   * link already point at. A copy of that version's file below, kept so those
+   * links keep resolving. A build artifact.
+   */
   static readonly CV_PDF_FILE = "public/cv.pdf";
 
-  /** Page images of the PDF, which the CV page renders inline. */
+  /** One folder per CV, holding its PDF and its page images. */
   static readonly CV_PAGES_DIR = "public/cv";
+
+  /** Where one CV's published PDF and page images live. */
+  static cvPublicDir(slug: string): string {
+    return `${ResourceConstant.CV_PAGES_DIR}/${slug}`;
+  }
+
+  /** One CV's downloadable PDF. */
+  static cvPdfFile(slug: string): string {
+    return `${ResourceConstant.cvPublicDir(slug)}/cv.pdf`;
+  }
 
   // Static members only: the class is a namespace for the constants, and there
   // is nothing to construct.

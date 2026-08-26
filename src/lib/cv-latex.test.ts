@@ -5,6 +5,7 @@ import type { Cv } from "./cv-types";
 /** A complete CV that tests can shallow-override, so cases stay readable. */
 function makeCv(overrides: Partial<Cv> = {}): Cv {
   return {
+    label: "Test version",
     lastUpdated: "2026-01-01",
     header: {
       name: "Test Person",

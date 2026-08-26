@@ -1,45 +1,67 @@
 import fs from "node:fs";
 import path from "node:path";
-import data from "@/data/cv/cv_2.json";
-import type { Cv } from "@/lib/cv-types";
+import full from "@/data/cv/cv_full.json";
+import noFreelancer from "@/data/cv/cv_no_freelancer.json";
+import type { Cv, CvPage, CvPdf, CvVersion } from "@/lib/cv-types";
 import { ResourceConstant } from "@/lib/resource-constant.mts";
 
-export type { Cv } from "@/lib/cv-types";
+export type { Cv, CvPage, CvPdf, CvVersion } from "@/lib/cv-types";
 
 /**
- * The CV content. Edit the file named by CV_DATA_FILE — never the generated
- * LaTeX. This import must stay a literal path for bundling, which is why the
- * two are kept honest by a test rather than by sharing the constant.
- */
-export const cv = data as Cv;
-
-/**
- * Site-relative URLs of the compiled CV. `npm run cv:pdf` (or CI) writes the
- * files; they are build artifacts, so they are not in git.
+ * Every CV, keyed by the slug its filename gives it.
  *
- * Anything under public/ is served from the site root, so the URL is the path
- * with that prefix taken off — derived here rather than written out twice.
+ * This is the one content directory in the project that does not read itself.
+ * Bundling a static export needs a literal import path, so each file has to be
+ * named here — `tests/cv-data.test.ts` compares this map against the directory
+ * so a new CV cannot be added and then silently left out of the switcher.
  */
-const PDF_URL = `/${path.relative(
-  ResourceConstant.PUBLIC_DIR,
-  ResourceConstant.CV_PDF_FILE,
-)}`;
-
-export type CvPdf = {
-  /** Site-relative URL, without the base path. */
-  url: string;
-  /** What the browser saves the file as, rather than the `cv.pdf` it is served as. */
-  fileName: string;
-  sizeKb: number;
+const VERSIONS: Record<string, Cv> = {
+  cv_full: full as Cv,
+  cv_no_freelancer: noFreelancer as Cv,
 };
+
+/**
+ * The CV shown first, and the one the page's metadata is written from. Edit
+ * the file named by CV_DATA_FILE — never the generated LaTeX.
+ */
+export const cv = VERSIONS[ResourceConstant.DEFAULT_CV_SLUG];
+
+/**
+ * Every CV, default first and the rest in slug order, with its built PDF and
+ * page images attached.
+ *
+ * Read at build time: every route is prerendered and the export has no server,
+ * so artefacts produced later are picked up by the next build.
+ */
+export function getCvVersions(): CvVersion[] {
+  return Object.keys(VERSIONS)
+    .sort((a, b) => {
+      // The default leads, whatever it is called; the rest sort by name so the
+      // order does not depend on the order the imports happen to be written in.
+      if (a === ResourceConstant.DEFAULT_CV_SLUG) return -1;
+      if (b === ResourceConstant.DEFAULT_CV_SLUG) return 1;
+      return a.localeCompare(b);
+    })
+    .map((slug) => ({
+      slug,
+      label: VERSIONS[slug].label,
+      data: VERSIONS[slug],
+      pdf: getCvPdf(slug),
+      pages: getCvPages(slug),
+    }));
+}
 
 /**
  * `CV_DAM_HONG_DUC_25_08_2026.pdf` — the name the download is saved under.
  *
- * The file stays `cv.pdf` on the server: one stable URL, which is what the app
- * stores and any existing link points at. The readable name is the anchor's
- * `download` attribute instead, so only the copy on the visitor's disk carries
- * it.
+ * The file stays `cv.pdf` on the server: one stable URL per version, which is
+ * what the app stores and any existing link points at. The readable name is
+ * the anchor's `download` attribute instead, so only the copy on the visitor's
+ * disk carries it.
+ *
+ * The same name for every version, deliberately: this is what the CV has
+ * always been sent as, and the version is the sender's business rather than
+ * something a recruiter should have to read off a filename.
  *
  * The date is the day the site was built. Every route is prerendered and the
  * export has no server, so this is fixed when `next build` runs — a CV rebuilt
@@ -68,36 +90,25 @@ export function cvPdfFileName(builtAt = new Date(), from = cv.header.name): stri
 }
 
 /**
- * The compiled PDF, or null when it has not been built yet.
- *
- * Read at build time — every route is prerendered and the export has no server,
- * so a PDF produced later is picked up by the next build.
+ * One CV's compiled PDF, or null when it has not been built yet.
  */
-export function getCvPdf(): CvPdf | null {
-  const file = path.join(process.cwd(), ResourceConstant.CV_PDF_FILE);
+export function getCvPdf(slug = ResourceConstant.DEFAULT_CV_SLUG): CvPdf | null {
+  const published = ResourceConstant.cvPdfFile(slug);
+  const file = path.join(process.cwd(), published);
 
   if (!fs.existsSync(file)) {
     return null;
   }
 
   return {
-    url: PDF_URL,
-    fileName: cvPdfFileName(),
+    // Anything under public/ is served from the site root, so the URL is the
+    // path with that prefix taken off — derived rather than written out twice.
+    url: `/${path.relative(ResourceConstant.PUBLIC_DIR, published)}`,
+    fileName: cvPdfFileName(new Date(), VERSIONS[slug]?.header.name),
     sizeKb: Math.max(1, Math.round(fs.statSync(file).size / 1024)),
   };
 }
 
-/** One rasterised page of the CV, as written by `npm run cv:pdf`. */
-export type CvPage = {
-  url: string;
-  width: number;
-  height: number;
-};
-
-const PAGES_URL = `/${path.relative(
-  ResourceConstant.PUBLIC_DIR,
-  ResourceConstant.CV_PAGES_DIR,
-)}`;
 const PAGE_FILE = /^page-(\d+)\.png$/;
 
 /**
@@ -119,15 +130,18 @@ function pngSize(file: string): { width: number; height: number } {
 }
 
 /**
- * Every page of the CV in order, or an empty list when the images have not been
- * built. Read at build time, like the rest of the content.
+ * Every page of one CV in order, or an empty list when the images have not
+ * been built. Read at build time, like the rest of the content.
  */
-export function getCvPages(): CvPage[] {
-  const dir = path.join(process.cwd(), ResourceConstant.CV_PAGES_DIR);
+export function getCvPages(slug = ResourceConstant.DEFAULT_CV_SLUG): CvPage[] {
+  const published = ResourceConstant.cvPublicDir(slug);
+  const dir = path.join(process.cwd(), published);
 
   if (!fs.existsSync(dir)) {
     return [];
   }
+
+  const url = `/${path.relative(ResourceConstant.PUBLIC_DIR, published)}`;
 
   return fs
     .readdirSync(dir)
@@ -138,7 +152,7 @@ export function getCvPages(): CvPage[] {
     // Numeric, not lexicographic: page-10 must not sort between page-1 and 2.
     .sort((a, b) => Number(a.match[1]) - Number(b.match[1]))
     .map(({ file }) => ({
-      url: `${PAGES_URL}/${file}`,
+      url: `${url}/${file}`,
       ...pngSize(path.join(dir, file)),
     }));
 }

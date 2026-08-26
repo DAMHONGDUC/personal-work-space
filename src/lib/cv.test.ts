@@ -22,6 +22,15 @@ describe("the downloaded CV's filename", () => {
     expect(cvPdfFileName()).toContain(`CV_${name}_`);
   });
 
+  it("is the same for every version of the CV", () => {
+    // The switcher offers several CVs from one page and they all download
+    // under this one name — the version is not something a recruiter should
+    // have to read off a filename.
+    expect(cvPdfFileName(new Date(2026, 7, 25), "Dam Hong Duc")).toBe(
+      "CV_DAM_HONG_DUC_25_08_2026.pdf",
+    );
+  });
+
   it("keeps diacritics and punctuation out of the filename", () => {
     // Not the live name, but the CV data is one edit away from being written
     // this way — and a filename is not the place to find out.
