@@ -88,6 +88,21 @@ describe.each(apps.map((app) => [app.slug, app] as const))("%s", (slug, app) => 
     expect(app.icon.trim()).not.toBe("");
   });
 
+  it("ships the file behind an icon path", () => {
+    // An icon is either an emoji or a path under public/. A path that resolves
+    // to nothing is a broken image on the card and the policy hero at once, and
+    // a static export has no server to notice it.
+    if (!app.icon.startsWith("/")) return;
+
+    const file = path.join(
+      process.cwd(),
+      ResourceConstant.PUBLIC_DIR,
+      app.icon,
+    );
+
+    expect(fs.existsSync(file), `${app.icon} is not in public/`).toBe(true);
+  });
+
   it("has a hex accent colour", () => {
     expect(app.accent).toMatch(HEX_COLOR);
   });

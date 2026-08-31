@@ -18,6 +18,10 @@
 
 - **Apps**: one file per app in `src/data/apps/`. The filename is the URL slug.
   The loader reads the directory, so there is no index to register an app in.
+  `icon` is either an emoji or a path under `public/` — `/app_icons/<slug>.png`
+  — and the leading slash is what tells the two apart. A path is drawn as an
+  image filling the icon box, and `tests/app-data.test.ts` fails if the file is
+  not there, because a static export has no server to notice a 404.
 - **Guides**: two files per guide — `src/data/docs/en/<slug>_en.json` and
   `src/data/docs/vi/<slug>_vi.json`. The folder is the language and so is the
   suffix: the repetition is deliberate, because an editor tab shows the

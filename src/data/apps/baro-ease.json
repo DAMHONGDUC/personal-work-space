@@ -1,7 +1,7 @@
 {
   "name": "BaroEase",
   "tagline": "Migraine tracker with barometric pressure alerts. Your health data lives on your device; an account is optional.",
-  "icon": "🌧️",
+  "icon": "/app-icons/baro-ease.png",
   "accent": "#A594F9",
   "platforms": [
     "iOS"

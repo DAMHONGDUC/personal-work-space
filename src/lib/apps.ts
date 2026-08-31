@@ -37,6 +37,7 @@ export type ThirdParty = {
 export type AppData = {
   name: string;
   tagline: string;
+  /** An emoji, or a path under public/ such as `/app_icons/<slug>.png`. */
   icon: string;
   accent: string;
   platforms: string[];
