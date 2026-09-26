@@ -1,0 +1,607 @@
+{
+  "name": "Still Textures",
+  "category": "textures-overlays",
+  "folderId": "1VUHuTsTES8EKmUOIG-Zxv00d3LliZ6Og",
+  "items": [
+    {
+      "id": "1VZp-sphXtS7W1R1frfKQbhrw44VOKZQD",
+      "file": "1.jpg",
+      "kind": "image",
+      "group": "Black Paper"
+    },
+    {
+      "id": "1XoZVRgST-maAftAdp9kLhzrPcbSEKrAg",
+      "file": "2.jpg",
+      "kind": "image",
+      "group": "Black Paper"
+    },
+    {
+      "id": "1p9vAcvsVsM-896gL48fKRrrX_LQZs7iZ",
+      "file": "3.jpg",
+      "kind": "image",
+      "group": "Black Paper"
+    },
+    {
+      "id": "1J-LDa-af58mCWDd9qeFJa2Q-bniaAel-",
+      "file": "4.jfif",
+      "kind": "image",
+      "group": "Black Paper"
+    },
+    {
+      "id": "1GO4yt0qhhr61xRF_DP9TJU7HbiMMevZM",
+      "file": "5.jpg",
+      "kind": "image",
+      "group": "Black Paper"
+    },
+    {
+      "id": "18znlZl2I-MMOjQC6C1c6iIlk3NqhUqzH",
+      "file": "img020.jpg",
+      "kind": "image",
+      "group": "Brown paper bag"
+    },
+    {
+      "id": "1bSucusGtgq-V5_fJ6X9unPREslYKsNcD",
+      "file": "img021.jpg",
+      "kind": "image",
+      "group": "Brown Paper Bag Crumped"
+    },
+    {
+      "id": "1ojV58pJMY5TT6wOouaNpI9sNo2qcKuh2",
+      "file": "img022.jpg",
+      "kind": "image",
+      "group": "Cellophane Wrap"
+    },
+    {
+      "id": "1YsHfVTFSPNZSCpTtX56nZrqtuwiJayLT",
+      "file": "img023.jpg",
+      "kind": "image",
+      "group": "Cellophane Wrap"
+    },
+    {
+      "id": "1JszgssW4dz4OiG2gsddEwH9t9BjHqZ7D",
+      "file": "img034.jpg",
+      "kind": "image",
+      "group": "Chalk Board"
+    },
+    {
+      "id": "10jhQHGRtzp8NIkH3zwCS9F4mR8EZumlB",
+      "file": "img035.jpg",
+      "kind": "image",
+      "group": "Chalk Board"
+    },
+    {
+      "id": "1ked_yhAfqq-YxAXvT18A_CcvnVzcZEhw",
+      "file": "img032.jpg",
+      "kind": "image",
+      "group": "Clean Felt"
+    },
+    {
+      "id": "1nkOLcDcrP-h25Bg9ZRsnLoPzkrQrg9E7",
+      "file": "img024.jpg",
+      "kind": "image",
+      "group": "construction paper"
+    },
+    {
+      "id": "1zshzO9W6-qkuZkjcGxy56Y0CeJVgPII8",
+      "file": "img029 - Copy.jpg",
+      "kind": "image",
+      "group": "Dirty Fabric"
+    },
+    {
+      "id": "1pDrRJWvFx4NkULd8hhnZ_0tqrjaXptjE",
+      "file": "img029.jpg",
+      "kind": "image",
+      "group": "Dirty Fabric"
+    },
+    {
+      "id": "13UGZBLm9rgcwE2Tuy9nvzD-F0JaWPFt-",
+      "file": "img030.jpg",
+      "kind": "image",
+      "group": "Dirty Fabric"
+    },
+    {
+      "id": "19dKRNQp7k3JOjOR57wxTSxGM4nUg31wZ",
+      "file": "img031.jpg",
+      "kind": "image",
+      "group": "Hairy Felt"
+    },
+    {
+      "id": "1BLtP07IEoji2KegEb4i87o7QWgfle7Hs",
+      "file": "Paper_1.jpg",
+      "kind": "image",
+      "group": "Normal Papers"
+    },
+    {
+      "id": "1g2AxvHv_hAZKTdTzBHZCyIkXD5ojDe4N",
+      "file": "Paper_2.jpg",
+      "kind": "image",
+      "group": "Normal Papers"
+    },
+    {
+      "id": "1PNgXw7EWiBBgYZPfXZyvX6TMc7tXxMw1",
+      "file": "Paper_3.jpg",
+      "kind": "image",
+      "group": "Normal Papers"
+    },
+    {
+      "id": "1sSIVrfnfYmRbn6Bi2Ot7lEDJXATFleEE",
+      "file": "Paper_4.jpg",
+      "kind": "image",
+      "group": "Normal Papers"
+    },
+    {
+      "id": "1urMHN10FVGJmvCvvwxXv4KxjIXSE3HZy",
+      "file": "img027.jpg",
+      "kind": "image",
+      "group": "Notebook Paper"
+    },
+    {
+      "id": "1osFXwpXUhIBY80N-Nt5YAJG-aEQtO1Yi",
+      "file": "img028.jpg",
+      "kind": "image",
+      "group": "Notebook Paper"
+    },
+    {
+      "id": "1_e4fg_Qn0Fyfe_EZ314vYaZcvzImOnef",
+      "file": "Circular Stamp Cancelled.mov",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "1zGhnZ6iFj5UIYW6NuI9w7yWHc00QRY6V",
+      "file": "Drippy Transition - Wash.mov",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "1jWTfALp7aVedoNr5t8KAbVVu_m2U14Fk",
+      "file": "Emoji Anime Happy 2.mov",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "1l6Xir5IRwh2VRfYcSA2xkL_Q3TTiDD64",
+      "file": "Emoji Cool Dude.mov",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "1k-x0j8MR5Z6J0LZjEs9b9atCeVdAXFYP",
+      "file": "FootageCrate-4K_Anime_Clouds_Parting.mov",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "1QnZGjszWd1ExqmGD6N9EnNWEhCrRIxqX",
+      "file": "FootageCrate-4k_Anime_Lightning_Bolt_With_Charge_2.mov",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "1UznftTMoJG7fSk8wpdz_f-JIiMLPcYcS",
+      "file": "FootageCrate-4K_Continuous_Shockwave_Ground_4_Front.mov",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "1sC2ggarcDr0d6600y-RKU3OSs0XCCBXD",
+      "file": "FootageCrate-4K_Hand_Drawn_Anime_Speedlines_Overlay_3.mov",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "1REQ6m30l-uZH1WunX40zUTjzv4xuFOOF",
+      "file": "FootageCrate-4K_Loopable_Door_Fire_3.mov",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "1_V6Cg1W2zBhQVpAoPYQUh7-BLWiqw_ya",
+      "file": "FootageCrate-4K_Looping_Blue_Flames_Energy_Ball.mov",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "1-Hm_tjYx_XyrPcH0XUgGg1rgara23kgi",
+      "file": "FootageCrate-4K_Looping_Blue_Magic_Aura_2.mov",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "1ZVQnw-1uE8N5iobozHQ92XRxQqzr-_s2",
+      "file": "FootageCrate-4K_Thor_Lightning_Overlay_2.mov",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "12G_AXWYBqExboBUNFNibglStme2cMfwn",
+      "file": "FootageCrate-4K_Thor_Lightning_Overlay_7.mov",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "1z5zNRb6Ruwf182iXokPOhG2YHEGdFp2L",
+      "file": "footagecrate-4k-animated-hand-gesture-swipe-left.mov",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "1-lbKF9aI4iQUZqRJ0G9yGZFIlsvGO8l-",
+      "file": "Footagecrate-4k-Anime_Landing_Smoke.mov",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "1Kdsj4Y3P5vlCQyVzLZ3UnnG3WG3PRI47",
+      "file": "footagecrate-4k-anime-spark-sketchy.mov",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "1rfZL1ihIp0xVhKxfuQel6epquALnmqD_",
+      "file": "footagecrate-4k-infinity-portal-greenscreen.mp4",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "1bpP7KYlLZWAraKh5wmR8GSPU7LNTKoIp",
+      "file": "footagecrate-4k-loopablefog.mov",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "1GNLE8JbQ9HE7bkHKDDsnaydy3u-4e5e_",
+      "file": "footagecrate-4k-outward-speedlines-overlay-colorful-1.mov",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "1M_Mq2SaUpI6kmvbOi0WabPWcIWV_uc6T",
+      "file": "footagecrate-blue-auraa.mov",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "1mij0Prz0dxD6CzuaTk0y77cj5lzQAp_H",
+      "file": "footagecrate-feather-transition-3.mov",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "1HdZniAyvGK17AcIePq_RSB_evolHcfas",
+      "file": "footagecrate-fireburst2-matte.mp4",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "1iP20eDefP4ZG2NKtoFqLRpY_FkiXFVJC",
+      "file": "footagecrate-glitched-transition-static-matte.mp4",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "1eQYWvs1FDWqyUfzELqdr_sjcS-eUR7Uf",
+      "file": "footagecrate-goldcomicspeedlines.mov",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "1jpMjRsWVMU0726xJMm2n5kkC_X2_kWVY",
+      "file": "footagecrate-green-auraa.mov",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "1wDs3pewPI_9qAZfeyuMqe_iiZvpChTVY",
+      "file": "FootageCrate-Jail_Door_Slam_5.mov",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "1kyl_pjEpKkGZJb9ezo3vXTBBKAm_qxip",
+      "file": "footagecrate-lasersword-damaged-purple.mov",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "1cAU8LFQH0A5x7beZiHF5tKle070wpAGT",
+      "file": "FootageCrate-Looping_Galaxy_Energy_Ball-matte.mp4",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "1GiGZw7eq-IE2PwpKyUkbtIR0tNpG6gm7",
+      "file": "FootageCrate-Looping_Magic_Ball_Fireheart_1.mov",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "1q9w44gJPVftqC2ORnQpJvuc18g952Fhz",
+      "file": "FootageCrate-Looping_Magic_Ball_Powercore.mov",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "1AGQY80PvZYorGs8WfjBYmZFtBnLkj21p",
+      "file": "FootageCrate-Looping_Red_Witch_Energy_Ball_1.mov",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "1htw9NhTafuOPgqgJZe1gu-vTkZrp2YFX",
+      "file": "footagecrate-magic-circle-electric.mov",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "1rbSR7vF3-NJO58TYMa_mlpGkgnqz84K6",
+      "file": "Footagecrate-Old_film_Overlay_1.mov",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "1Q8pyzeilbY4H9Y8bR47dQWmxYBCLmksD",
+      "file": "footagecrate-static-close.mov",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "1sJhZ_mRJdU-jYa-XvOfAzNsLfptn8Ztg",
+      "file": "footagecrate-typekit-ransom-question-mark.mov",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "1lRMfTTFNHfqV3KWCEMRd7i772tiDCFdm",
+      "file": "Footagecrate-VHS_Overlay_2-matte.mp4",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "1wDD-1m59Emq03ZpaU19UYNYqtF1mCXok",
+      "file": "footagecrate-violet-auraa.mov",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "1hDJi1BYibfycPqRywdBUK1VSCA72EVQM",
+      "file": "footagecrate-vs-style1-matte.mp4",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "1J2yKOJQfXcwgQlXZTi--bkVN4VZlJ7CQ",
+      "file": "footagecrate-vs-style1.mov",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "1b01_96gVwotrlE2Z085Nb7V3CSNrkNjO",
+      "file": "Generic Social Media Counter 4.mov",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "1tf4YFu38IIodV1yzQiAxdIWch6OS2w7_",
+      "file": "Glitch Transition Classic Static.mov",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "1GydIv_ALx7YCjycipbmG_7I4LQECAt2O",
+      "file": "Grainy Retro TV Overlay.mov",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "1_O49EkKSAO0Z1S8Gi6Q0dkzRepKSjs_E",
+      "file": "Hand Drawn Anime Speedlines Overlay 1.mov",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "1yX7XC0ktrdahphq5iar6izQfMMhQO5Dm",
+      "file": "Hand Drawn Anime Speedlines Overlay 3.mov",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "1Cv0xYYvP175BFsBbDiHBuWo3kndyUhQ8",
+      "file": "Hand Drawn Anime Speedlines Overlay 4.mov",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "1FBIyY0QLP_eEs4VTtKIcWL9oqJteW--7",
+      "file": "Hand Drawn Arrow 46.mov",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "13qNcOy3j49sTOsAJgU9qt9oFEp3e7Vwt",
+      "file": "Like Subscribe Notify 1.mov",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "1sHYb5c9GHHc-aosXAc6SgkmQAY2turZy",
+      "file": "Loopable Structure Fire 11.mov",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "1LlrYVTWiCaK9IJ5sfk0GuXXxs2D4nWvS",
+      "file": "Looping Blowing Dust 5.mov",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "1FrSPhNcCBwkqkeWTMAwomc4qeK1b4FAB",
+      "file": "Looping Dust Particles Floating 1.mp4",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "1MX9VzcxEXYvvbsVzGhuTSEH4dCs90O3b",
+      "file": "Looping Fire With Embers 17 Beam.mov",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "1mF2IqVg4UyS-DYs2-R9T8yHIGSP_F9FN",
+      "file": "Looping Low Poly Red Leak Scratched Surace.mp4",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "1uQkWGwKXEUDsoQubPkJuGHEh0Z_XjWLy",
+      "file": "Looping Network Tech Background Red 2.mp4",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "13dUXImtoPds-MhzikIYBXnKO9kY43irj",
+      "file": "Looping Network Tech Background White 2.mp4",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "1CKcKZofWCdMPlYGunFYGU6T8Bm4BKBbz",
+      "file": "Looping Rain On Window 3.mov",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "1fNpFDhi1EHxNQEeD_X5WGM5SIHPVhT0N",
+      "file": "Modern Glitch 1.mov",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "1iD9hml95oqNz8FkCapmHaiFoJm8m96Bc",
+      "file": "Mograph Circle Logo Accent 1.mov",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "17tLP6iTrrE0x8t0ZIgDmXNIszCqj2dFn",
+      "file": "Mograph Circle Logo Accent 2.mov",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "1Wgqk-geWbV5Eta3UajpXXVBkEzK8HFyD",
+      "file": "Mograph Circle Logo Accent 5.mov",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "1Rax1g-I0bkGc9tz6VNREIg89dJrqgtXE",
+      "file": "Mograph Crisscross.mov",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "1qeoNT7XTrrWdlyZLJiiKs_flNSHzcSt7",
+      "file": "Mograph Square Logo Accent 1.mov",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "11UVCa_iCzfMIa2LXIuxd14t5xdtkCxNl",
+      "file": "Mograph Square Logo Accent 2.mov",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "1lT4kD9Stt8UWlyK-4QvMIzXewusGnVPQ",
+      "file": "Mograph Square Logo Accent 5.mov",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "1eG_BTJCnyfPmbh0O6Oh4_1C6BUsxeXjF",
+      "file": "Mograph Stroke Fireworks.mov",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "1NiT0dqdMgRLFy05K6nqyZ0Lghg8pk-dY",
+      "file": "Mograph Stroke Wave.mov",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "1njYdWbMGbWyK4n57fryeRr7RU7DZ2hTE",
+      "file": "Old Film Strip Overlay.mov",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "14kfZ8Wr30f6vLrPCPom0Dxfy3HQzAx82",
+      "file": "Question & Exclamation Marks Hand Drawn Text.mov",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "11MAAV2spKfIyP3WC5AiDtaobL733nH20",
+      "file": "Question Marksi Hand Drawn Text.mov",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "1GvC5O3_0TZ8VCM5jXGwxfjfDhGA2QL9Z",
+      "file": "Recording Overlay Bold Loopable.mov",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "1TFOHNcW2rCrBCYO3H8ux72NQydYXBG9H",
+      "file": "Rectangular Stamp Approved.mov",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "1w-QufgnSmAv48a5Auh53tYBoCChMe8lJ",
+      "file": "Rectangular Stamp Cancelled.mov",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "1vx-kjPxnDyktgDODDZiD3VXhE-cMS3qq",
+      "file": "Super Lightning Ground With Sparks 7.mov",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "1EUILaE__CGgps0haNacUU4JT51cfYwQF",
+      "file": "Super Lightning Ground With Sparks 12.mov",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "1_LW1OljYrROuEQcaktj5GGG8BRApXp4H",
+      "file": "Super Lightning Ground With Sparks 22.mov",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "1_E6xpyNTh1z6l2MjpY9_aAjwnMz2FXF-",
+      "file": "Transition Matte Wavy Path.mov",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "1vA4nh-rEJWY9C1z4h6BnJ_712N2V583E",
+      "file": "Transition Matte X Grid Small.mov",
+      "kind": "video",
+      "group": "Production Crate"
+    },
+    {
+      "id": "16eTJiH2vsBKkF-PonFeq24F6VNl6VaxP",
+      "file": "Youtube Social Media Counter 5.mov",
+      "kind": "video",
+      "group": "Production Crate"
+    }
+  ]
+}

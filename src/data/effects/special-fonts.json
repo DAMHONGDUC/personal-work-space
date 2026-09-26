@@ -1,0 +1,619 @@
+{
+  "name": "Special Fonts",
+  "category": "logos-text",
+  "folderId": "1HvCiFzYnRCoDEKn9IPoeO8tFMskaOTHO",
+  "items": [
+    {
+      "id": "1qxSeWxxbbxrF2hXbQWWKgKrqMQ1pgHZ2",
+      "file": "bueno-regular.ttf",
+      "kind": "font",
+      "group": "Free Fonts"
+    },
+    {
+      "id": "1M7_bgbla_606ytJ5ljQctP0_9Gn94f2-",
+      "file": "Korataki Regular.ttf",
+      "kind": "font",
+      "group": "Free Fonts"
+    },
+    {
+      "id": "10Qd9N9-z11ODZJX29Q_idxSLAgdypdCC",
+      "file": "Moniqa-Display.ttf",
+      "kind": "font",
+      "group": "Free Fonts"
+    },
+    {
+      "id": "198JpoSr36WvoaeRESdNuKMHpr4FeQ0NY",
+      "file": "NexaRustSans-Trial-Black2.ttf",
+      "kind": "font",
+      "group": "Free Fonts"
+    },
+    {
+      "id": "1rkJ73L_XafqDNUqi_OkK9wABEoILYrfU",
+      "file": "Thunder-BlackLC.ttf",
+      "kind": "font",
+      "group": "Free Fonts"
+    },
+    {
+      "id": "1_OldxcRTz2OcLN4Vzg4t45vl5yCpuEx6",
+      "file": "Obviously-Black.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1rhb2hJXPvfifkKZBuQT3JwlaJYDBHqd_",
+      "file": "Obviously-BlackItalic.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1xZVJ2syIn_aOgqJKeJhr_N8Nu5EA8Jh2",
+      "file": "Obviously-Bold.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1lXFtdEJQlfUwLjHCXPhEhmpldDjod8M5",
+      "file": "Obviously-BoldItalic.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1UDFJKCOo2W2na6XI8dziZxCYB8cKhFYc",
+      "file": "Obviously-Light.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1WG39X_eIuBwIgYzhxPDhxFhKo4nSkn6R",
+      "file": "Obviously-LightItalic.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1kniwwAJySvOe43lhUoh5o5hzcfZAuo5w",
+      "file": "Obviously-Medium.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1Jb5I4R-jtq55GBSDrKdFFlbuJ7wpnMw0",
+      "file": "Obviously-MediumItalic.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1totsormih8HGnAy9Et4H0YEBW--6LQOE",
+      "file": "Obviously-Regular.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1rLXyDcApdh5V-Ql3K3bsvO4kq28CHps4",
+      "file": "Obviously-RegularItalic.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1HoXdo8ybOZK-BaDX4Vyjjt1FmugInZdG",
+      "file": "Obviously-Semibold.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1heogmQ5hnPoqERihlc-vFKDsng7LbZvu",
+      "file": "Obviously-SemiboldIt.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "11JRBYn_X7RyRuhDakOT0ytRaQW-qBrRi",
+      "file": "Obviously-Super.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1E-nd0wcd2m4RSG2_SrLaeiKZk18LPsh0",
+      "file": "Obviously-SuperItalic.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "16AgZOuLjitwlfS3ucreN3ztjcCsuVgkZ",
+      "file": "Obviously-Thin.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1NMoepssOsXpNPAHOpYtlU5Sdp6S7r_EN",
+      "file": "Obviously-ThinItalic.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1SYeFTQLaaCgkeXi2N5Xlbgm0WPt0dh_C",
+      "file": "ObviouslyComp-Black.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1M5Mh7n3ArG4506ZEzmlJNQZqYLq3lwuN",
+      "file": "ObviouslyComp-BlackItalic.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "11GszJ7WQxrdSuAOr8nU-MLHTnJMFOroB",
+      "file": "ObviouslyComp-Bold.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1TJFtiCqnkXralu4J_bxm0pUURImrJ9G7",
+      "file": "ObviouslyComp-BoldItalic.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "17eVJsrz0pqGodqjHvexqdz_oZuNRtm9W",
+      "file": "ObviouslyComp-Italic.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1d9tu2UiT72HKrG7F3CH8JMYHRJlgwvnN",
+      "file": "ObviouslyComp-ItalicSuper.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1Wt8XemY8TRuKkbI8HdGjB_AbWKjzbZHs",
+      "file": "ObviouslyComp-Light.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1dk7XyswlE7s0CWc_Z5tNm_FKs9ibrDYj",
+      "file": "ObviouslyComp-LightItalic.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1ofUgBjcPk41-dz7_p_9y4Kj0OMzzur2n",
+      "file": "ObviouslyComp-Medium.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "12T8iDAHTBK1ASQcvtLQmvDJ4Uf3iNENi",
+      "file": "ObviouslyComp-MediumItalic.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "14yyCZq6pE7E61Dq5f_RdpuVa6KwHpUOh",
+      "file": "ObviouslyComp-Regular.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1dxj0Crd-0ikRKQyj6jO_8Q21DLYDx7wJ",
+      "file": "ObviouslyComp-SemiBold.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1AFaOFGGDN8sBzZr4IVsbp2KNZ3wJ55fY",
+      "file": "ObviouslyComp-SemiBoldItalic.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "12q6no682jSqkInRJtJKq-Wf57D7sY1CJ",
+      "file": "ObviouslyComp-Super.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1Z7CklppGRY-l4rJTal2wweybXfcwezB0",
+      "file": "ObviouslyComp-Thin.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1-zaJOvRZhsZp1e2eqtp5Z28j4lOEqm5j",
+      "file": "ObviouslyComp-ThinItalic.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1T_WMmiZulpUQ5biMKy2YBOJH602Q-uf1",
+      "file": "ObviouslyCond-Black.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1i79FWDDgqjdMLeH0bGTej4NQ8kr-yy5d",
+      "file": "ObviouslyCond-BlackItalic.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1LHbOAlcPbC33jwI8lmNzxaUqxFwbFvTW",
+      "file": "ObviouslyCond-Bold.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1WUK65sOA4SDJg3UTv0Hvthl5185vokGK",
+      "file": "ObviouslyCond-BoldItalic.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1L8DEkNivGk3YA3VqmUg_HF5pFCcc1-hs",
+      "file": "ObviouslyCond-Italic.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1jiqotgoVRFWdyvB866giJTJlrbeT7uM4",
+      "file": "ObviouslyCond-Light.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1ecCqLe-IqDzcoYsE77KNW39TrVM9dhPX",
+      "file": "ObviouslyCond-LightItalic.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "110tPMHHWBDK5u2xdOKm_zdNZRux8DyGq",
+      "file": "ObviouslyCond-Medium.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1zs9bHkfIomAe0OXPw5YqB8w9ZayG7Kl2",
+      "file": "ObviouslyCond-MediumItalic.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1Qw8TXNkHcXyj7J678pf9CzbiQoO8brSu",
+      "file": "ObviouslyCond-Regular.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1Yqu2X_eSZTh2dQajz_NO8lcLsxQAQK0C",
+      "file": "ObviouslyCond-SemiBold.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1OGoxErkd2b6gt0NNJBiJvS8ewwjpXYG-",
+      "file": "ObviouslyCond-SemiBoldItalic.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1yb5Nbl1dJq8f6xHWhrBwcrqazu-G0SlI",
+      "file": "ObviouslyCond-Super.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1pG1uwcUtzph10C9UrpeQHnqiYdLR1fOM",
+      "file": "ObviouslyCond-SuperItalic.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "15M9SiU8JI6uKYXhw6VpXSDa7QkxleGBg",
+      "file": "ObviouslyCond-Thin.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "14ZZWzcpaOMVEexj23liOjnAmfq8cM_32",
+      "file": "ObviouslyCond-ThinItalic.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1Mvhu0fJSX5-ULbEyrXdTobERkk4k2UsL",
+      "file": "ObviouslyExtd-Black.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "10G0zoD8WacQOwCn7SvKvTDg23vRV0gvj",
+      "file": "ObviouslyExtd-BlackItalic.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1R7rJYuqMmkBnZuwFdXFmi3fEm1Il5WNQ",
+      "file": "ObviouslyExtd-Bold.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "19AStzuQpp2W-2aym3Wk8KUUSwY4YvsAd",
+      "file": "ObviouslyExtd-BoldItalic.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "17jr9bKk3ZWxUGiO9nO173KNw7srr4rQO",
+      "file": "ObviouslyExtd-Italic.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1mGYX6aB8n91WLaeb_RXelsVoiiL0Lh5h",
+      "file": "ObviouslyExtd-Light.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "164yiHuA7cyGE7la4PNu_iQvfcnH2Ed5D",
+      "file": "ObviouslyExtd-LightItalic.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1jqh8KOcqSYm2sVsj5B87nmDl-7LSM4Vo",
+      "file": "ObviouslyExtd-Medium.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1hqyElLHo7HZY09vmZhCXIN0gJq53Xsii",
+      "file": "ObviouslyExtd-MediumItalic.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1luihQ_SZ2P6lGk8GyAdUOepsCFMANcA_",
+      "file": "ObviouslyExtd-Regular.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1YfbpuWvyGaEkxDjRskplYIkgEqo7AcZA",
+      "file": "ObviouslyExtd-SemiBold.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "19AitBO8px1rjozSiq3CmLUHt60oFhQRa",
+      "file": "ObviouslyExtd-SemiBoldItalic.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1e8xrCAo_3Ousnkwczvb-H4hLzLXBxVNf",
+      "file": "ObviouslyExtd-Super.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1LQE5SrcX_vSjP9pSUpFnY7rgZFxT1Sd8",
+      "file": "ObviouslyExtd-SuperItalic.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1RTn3QvXNulDAkw4fviIxsVhC6rSDPwTV",
+      "file": "ObviouslyExtd-Thin.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1hW-1-CAtWjboRoxRf37tWCnLoacYrkHi",
+      "file": "ObviouslyExtd-ThinItalic.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1WRZbsewyO5gjYLpwkor6slmW_DqNo1RZ",
+      "file": "ObviouslyNarrow-Black.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1DWb848NJrUZXj1thagzm4n0JJzDb8Jvf",
+      "file": "ObviouslyNarrow-BlackItalic.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1HLqOx3pQojVOUEQSmUtabwkLOPkaSS6w",
+      "file": "ObviouslyNarrow-Bold.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1oYV3csOeucmmjNvjUrv3CfadEgVyvPs6",
+      "file": "ObviouslyNarrow-BoldItalic.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1k7CJ5UFIWuBwD5LWhrq5YfcknLAmzY-c",
+      "file": "ObviouslyNarrow-Italic.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "16pGo3mcHcPP6inRf_gnAFkcEgjD8wRn6",
+      "file": "ObviouslyNarrow-Light.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "13bslCTO7z5_qCt7jKjQpXLnU0aVgxnJi",
+      "file": "ObviouslyNarrow-LightItalic.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1kPl9aNlij6CRSbnNoh6KuFG2s9kCbObj",
+      "file": "ObviouslyNarrow-Medium.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1TJQxEG6UgLm2m3ZfLYT9_aDTlFKfTWde",
+      "file": "ObviouslyNarrow-MediumItalic.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "16_z70Wm5XAXoYoHa5Ig7RIB55OM4W_BR",
+      "file": "ObviouslyNarrow-Regular.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1qExDKno1KoDcX7QuNY7h_zezoyNGiJlA",
+      "file": "ObviouslyNarrow-SemBdIta.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1DhtXxMnniNGDXqA2UjxPVNuoMqnwU72B",
+      "file": "ObviouslyNarrow-SemiBold.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1u08PcEhdc2D5XQh1rDwS5XIT5jgChVQ3",
+      "file": "ObviouslyNarrow-Super.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1x5ht2QuoWlmpqr-mBM8NoOVIkSaigr11",
+      "file": "ObviouslyNarrow-SuperItalic.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1gkyxIV7_nSJFpxhz9CVU_rfmz67TeXHw",
+      "file": "ObviouslyNarrow-Thin.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1yy4B7O4xO_JDCLLC3c-mdk2bsIUEG3zl",
+      "file": "ObviouslyNarrow-ThinItalic.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1zUaeYwkQteQLXGR7C8FXWROPsyycExql",
+      "file": "ObviouslyVariable.ttf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1CYC_aPPpLemErXEIjguu6TUKuij0Hj4G",
+      "file": "ObviouslyWide-Black.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1hnwXBZbkUGK_-CXbxlWfPvTxjZTrOI6c",
+      "file": "ObviouslyWide-BlackItalic.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1bBSkz8uVQtrST8rK-VIhDiShViWsc6Bk",
+      "file": "ObviouslyWide-Bold.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1VzK516OzO1OjfKJy8RPM3JnhSNOg8e3f",
+      "file": "ObviouslyWide-BoldItalic.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "19QFC7khU3VedG_porjoUyIG4oWISfnVU",
+      "file": "ObviouslyWide-Italic.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1EhFeEn6k0bo5PckewPL6sS5Q3VpB-Oyw",
+      "file": "ObviouslyWide-ItalicSuper.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1o_jpFFXWuneK8kW4Y3M8S6LtTSqIaP4_",
+      "file": "ObviouslyWide-Light.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1BehmaN-0JNbLMH4CwRSJ3QuJAUKffe9T",
+      "file": "ObviouslyWide-LightItalic.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1yeRU1q4fX3eiIIdnxMMgxaR1_uAkNlhU",
+      "file": "ObviouslyWide-Medium.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1ywBtxsO_db4-TNDuL3dEmcZqwnY0rbj5",
+      "file": "ObviouslyWide-MediumItalic.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1B5Bries4MyvtDAu-iNq4A7WxAoXTgYNs",
+      "file": "ObviouslyWide-Regular.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1WALRkx7Ly1TOhAegyY6UbyCyFGHX5TNA",
+      "file": "ObviouslyWide-SemiBold.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1WC4gy3N0iqHT9Kv_KUCYSxlgO835n_rC",
+      "file": "ObviouslyWide-SemiBoldItalic.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1nW4wWcdUlgIcGJWFTr7gcxdqsYJuhWmH",
+      "file": "ObviouslyWide-Super.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1VwEi-c5uB1waCQ3C6SRutLqP9sIdeTW1",
+      "file": "ObviouslyWide-Thin.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    },
+    {
+      "id": "1hFR9mNUuIsvSCbbx8vtDkZXdRgzuGTzQ",
+      "file": "ObviouslyWide-ThinItalic.otf",
+      "kind": "font",
+      "group": "Paid Fonts"
+    }
+  ]
+}

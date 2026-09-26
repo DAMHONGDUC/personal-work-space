@@ -18,6 +18,7 @@
     "lint": "eslint",
     "cv:tex": "node scripts/build-cv-tex.mts",
     "cv:pdf": "npm run cv:tex && node scripts/build-cv-pdf.mts && node scripts/publish-cv-pdf.mts && node scripts/build-cv-images.mts",
+    "effects:sync": "node scripts/sync-effects.mts",
     "typecheck": "next typegen && tsc --noEmit",
     "test": "vitest run"
   },

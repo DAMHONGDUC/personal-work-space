@@ -1,0 +1,37 @@
+{
+  "name": "Scribble FX (Sample)",
+  "category": "textures-overlays",
+  "folderId": "1ftwN0KCcVHUGt2V4VI3-yapGL70QBLci",
+  "items": [
+    {
+      "id": "1L1X01As5pz2l46JLL_2HT7pVzr6FBcCq",
+      "file": "Arrow03.mov",
+      "kind": "video"
+    },
+    {
+      "id": "1ia9qLbSKTgGEGuQrqb_AwjjID-tQcF_N",
+      "file": "Circle07.mov",
+      "kind": "video"
+    },
+    {
+      "id": "1FsKqUpHsH90FQLBspi41TQXBep7TOvc-",
+      "file": "Skull.mov",
+      "kind": "video"
+    },
+    {
+      "id": "1KlEbCG3eV5rMeFqeqVOIyye6_hC2_3_g",
+      "file": "Square04.mov",
+      "kind": "video"
+    },
+    {
+      "id": "1fzehSbQewYF7nd4qRVE-LEpyzm7-75zi",
+      "file": "WrapAccent03.mov",
+      "kind": "video"
+    },
+    {
+      "id": "118ukgna_Xn_-q12yM6nkFRugsv_1yh8r",
+      "file": "X07.mov",
+      "kind": "video"
+    }
+  ]
+}

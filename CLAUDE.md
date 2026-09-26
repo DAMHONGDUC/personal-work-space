@@ -65,6 +65,19 @@
     in place, so a differing id would drop the reader out of their section.
   - Commands in a `code` block stay the same in both languages. Anything that
     needs explaining goes in the localized `caption`, not a comment in the code.
+- **Effects library**: one file per pack in `src/data/effects/` — a pack is a
+  top-level folder of the public Drive named in `src/data/effect-library.json`,
+  which also holds the categories. The `items` are **generated** by
+  `npm run effects:sync`; never hand-edit them. `name`, `category` and
+  `exclude` are hand-edited and survive a sync. Nothing is hosted: every
+  thumbnail, player and download is a Drive URL built in `effect-model.ts`.
+  The section has one colour, `EFFECTS_ACCENT`, like the guides.
+- **Effect uploads** are the one runtime exception: files uploaded from the
+  site are listed in a manifest JSON on Drive (`effect-uploads.ts`), read when
+  a page opens and rewritten after each upload. They are never synced into
+  `src/data/effects/`. Drive calls live in `google-drive.ts`, configured by
+  `NEXT_PUBLIC_GOOGLE_CLIENT_ID` / `NEXT_PUBLIC_GOOGLE_API_KEY`; without them
+  the feature is off.
 - **CV**: one file per version in `src/data/cv/`, each a whole CV cut for a
   different reader, and the filename is its slug. Every one of them is built and
   offered in the dropdown on the CV page, under the `label` it gives itself, so
@@ -117,9 +130,10 @@
 
 ## Search never asks a server
 
-- The site is a static export, so both search boxes filter what the page has
+- The site is a static export, so every search box filters what the page has
   already shipped: `useAppSearch` over the app cards, `src/lib/doc-search.ts`
-  over the guides. There is no endpoint and no build-time index.
+  over the guides, `src/lib/effect-search.ts` over the effects library. There
+  is no endpoint and no build-time index.
 - The guide search reads the whole text of a guide, including the points behind
   a diagram box — that is usually where a term is defined — and normalises both
   sides by stripping Vietnamese diacritics, so `ma hoa` finds `mã hoá`.
@@ -143,7 +157,8 @@
 
 - Every URL is defined in `src/lib/routes.ts`. Use `routes.*`; never hand-write
   a path in a component, a test or the sitemap.
-- The site has three top-level sections: `/apps`, `/docs` and `/personal`.
+- The site has four top-level sections: `/apps`, `/docs`, `/effects` and
+  `/personal`.
 - `/<slug>/` and `/<slug>/privacy_policy/` are **legacy addresses submitted to
   the app stores**. They must keep resolving — they render a `noindex` meta
   refresh to the current path. Do not delete them.
@@ -174,5 +189,8 @@
 - Every font size lives in the `\cv*` macros in `cv/template/main.tex`. The
   renderer marks up meaning, never size — a test fails if the generated LaTeX
   contains `\fontsize`.
+- The CV page sits behind a password (`CvGate`). Only its SHA-256 is in the
+  code, never the password. It is a curtain, not access control: a static
+  export has no server, so the PDFs and page images stay reachable by URL.
 - Only CI typesets the PDF. Locally `npm run cv:pdf` needs a LaTeX engine and
   poppler; without them the CV page degrades to a message and nothing breaks.

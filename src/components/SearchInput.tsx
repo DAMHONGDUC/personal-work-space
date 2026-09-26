@@ -2,6 +2,7 @@
 
 import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
 
 /**
  * The search box, shared by the app directory and the guide index so both
@@ -14,14 +15,17 @@ export function SearchInput({
   onChange,
   label,
   placeholder,
+  className,
 }: {
   value: string;
   onChange: (value: string) => void;
   label: string;
   placeholder: string;
+  /** Width overrides, for a box placed somewhere narrower than a toolbar. */
+  className?: string;
 }) {
   return (
-    <label className="relative w-full sm:max-w-xs">
+    <label className={cn("relative w-full sm:max-w-xs", className)}>
       <span className="sr-only">{label}</span>
       <Search
         aria-hidden

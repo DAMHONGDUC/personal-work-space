@@ -12,7 +12,7 @@ function render() {
   document.body.appendChild(container);
   act(() => {
     root = createRoot(container);
-    root.render(<SiteHeader publisher="Acme" contactEmail="hi@acme.dev" />);
+    root.render(<SiteHeader publisher="Acme" />);
   });
   const header = container.querySelector("header");
   if (!header) throw new Error("header did not render");
@@ -55,12 +55,12 @@ describe("SiteHeader", () => {
     expect(header.className).toContain("top-0");
   });
 
-  it("renders the publisher name and a mailto contact link", () => {
+  it("renders the publisher name and a Home link, and no other navigation", () => {
     const header = render();
+    const navLinks = [...header.querySelectorAll("nav a")];
 
     expect(header.textContent).toContain("Acme");
-    expect(
-      header.querySelector('a[href^="mailto:"]')?.getAttribute("href"),
-    ).toBe("mailto:hi@acme.dev");
+    expect(navLinks.map((link) => link.textContent)).toEqual(["Home"]);
+    expect(navLinks[0].getAttribute("href")).toBe("/");
   });
 });

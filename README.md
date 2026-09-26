@@ -1,11 +1,13 @@
 # Personal work space
 
-Static site with two top-level sections:
+Static site with these sections:
 
 | Path                             | What it is                       |
 | -------------------------------- | -------------------------------- |
 | `/apps/`                         | Directory of every published app |
 | `/apps/<slug>/privacy_policy/`   | One app's privacy policy         |
+| `/effects/`                      | Video-editing effects library    |
+| `/effects/<category>/`           | One category, previews per file  |
 | `/personal/cv/`                  | CV, served from `public/cv.pdf`  |
 
 All content lives in JSON — neither adding an app nor updating the CV touches UI
@@ -63,6 +65,57 @@ version of the CV, cut for a different reader, and the CV page offers them all i
 a dropdown. The deployed PDFs are compiled from LaTeX in CI; `npm run cv:pdf`
 builds them locally if you have LaTeX. See [cv/README.md](cv/README.md) for how
 to preview one without installing anything.
+
+## Updating the effects library
+
+The files live on a public Google Drive folder, named in
+`src/data/effect-library.json`. Nothing is hosted here: thumbnails, players and
+downloads all come from Drive. To pick up files added on Drive:
+
+```bash
+npm run effects:sync
+```
+
+It rewrites the file lists in `src/data/effects/`, one JSON per top-level Drive
+folder. Each pack's `name`, `category` and `exclude` are hand-edited and kept
+across syncs. A new Drive folder arrives with an empty `category`, and
+`npm test` fails until you file it under a category from
+`effect-library.json`.
+
+Folders in the Drive may be shortcuts to someone else's Drive; the sync follows
+them to the real folder. A shortcut is not a copy — if the owner deletes or
+unshares the original, the files go with it.
+
+### Uploading from the site
+
+The Upload button on `/effects` sends files to your Drive, under
+`My uploads/<category>` in the library folder, and lists them in
+`effects-uploads.json` beside it. Every page reads that file when it opens, so
+an upload shows up at once — no sync, no rebuild. The sync skips `My uploads`.
+
+It needs two values from a Google Cloud project, both public by design:
+
+1. [console.cloud.google.com](https://console.cloud.google.com) → new project →
+   **APIs & Services → Library** → enable **Google Drive API**.
+2. **OAuth consent screen** → External, status **Testing**, add your own Google
+   account as a test user. Only test users can sign in, so only you can upload.
+3. **Credentials → Create credentials → OAuth client ID** → Web application.
+   Authorised JavaScript origins: `https://damhongduc.github.io` and
+   `http://localhost:3000`.
+4. **Credentials → Create credentials → API key** → restrict it to the Google
+   Drive API and to the HTTP referrers `https://damhongduc.github.io/*` and
+   `http://localhost:3000/*`.
+
+Then, for the deployed site: GitHub repo → **Settings → Secrets and variables →
+Actions → Variables** → add `GOOGLE_CLIENT_ID` and `GOOGLE_API_KEY`. Locally,
+put them in `.env.local` (git ignores it):
+
+```bash
+NEXT_PUBLIC_GOOGLE_CLIENT_ID=…apps.googleusercontent.com
+NEXT_PUBLIC_GOOGLE_API_KEY=…
+```
+
+Without them the Upload button is not shown and the site reads no uploads.
 
 ## Adding an app
 

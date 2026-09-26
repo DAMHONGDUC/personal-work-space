@@ -48,7 +48,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         {/* Renders nothing: it puts you back where you were on Back. */}
         <ScrollMemory />
 
-        <SiteHeader publisher={site.publisher} contactEmail={site.contactEmail} />
+        <SiteHeader publisher={site.publisher} />
 
         <div className="flex-1">{children}</div>
 

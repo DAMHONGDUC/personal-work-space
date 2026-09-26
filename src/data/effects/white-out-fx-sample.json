@@ -1,0 +1,47 @@
+{
+  "name": "White Out FX (Sample)",
+  "category": "transitions",
+  "folderId": "1lGUi0O8GQRHgPSjn3ajN37Yp_N3DYBtW",
+  "items": [
+    {
+      "id": "1MvLQPrVGDCcK_g6TdudeQ47Fwjul7ygT",
+      "file": "Eye 001.mov",
+      "kind": "video"
+    },
+    {
+      "id": "1g_n6LbcZ3t51TNIUtV8U2tEpHtWtLcit",
+      "file": "Mark Up 007.mov",
+      "kind": "video"
+    },
+    {
+      "id": "1d2ErE3n7LkFvq-ZJ6uohiySB9Z1FQxnq",
+      "file": "Mouth 001.mov",
+      "kind": "video"
+    },
+    {
+      "id": "1l1oQCcPoQQs34Uxjw0vWGkbB-YMsQiD5",
+      "file": "Paint Line 001.mov",
+      "kind": "video"
+    },
+    {
+      "id": "1_nU3k_uz5fzx9Q9EmWnguN4ihzIBasu6",
+      "file": "Paper Texture_03.png",
+      "kind": "image"
+    },
+    {
+      "id": "1g5TvA-P-XiU1Sq69ZiQxVrsF9Db4LLsT",
+      "file": "Scary Face_03.mov",
+      "kind": "video"
+    },
+    {
+      "id": "1ipeHV-XB6Mlx7Ilg6pzCPffA5CdnUTmi",
+      "file": "Scratch_01.mov",
+      "kind": "video"
+    },
+    {
+      "id": "1HOfRjuG4AlCzSOULOCufcxOjYFNf3iaf",
+      "file": "Transition 003.mov",
+      "kind": "video"
+    }
+  ]
+}

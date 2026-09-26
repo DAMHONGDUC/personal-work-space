@@ -7,7 +7,7 @@ import { routes } from "@/lib/routes";
 
 export const metadata: Metadata = {
   title: "Apps",
-  description: site.description,
+  description: `Privacy policies for every app published by ${site.publisher}.`,
   alternates: { canonical: `${routes.apps}/` },
 };
 

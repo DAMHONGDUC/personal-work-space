@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { CvGate } from "@/components/CvGate";
 import { CvSwitcher } from "@/components/CvSwitcher";
 import { cv, getCvVersions } from "@/lib/cv";
 import { routes } from "@/lib/routes";
@@ -26,7 +27,9 @@ export default function CvPage() {
         </p>
       </div>
 
-      <CvSwitcher versions={versions} />
+      <CvGate>
+        <CvSwitcher versions={versions} />
+      </CvGate>
     </main>
   );
 }

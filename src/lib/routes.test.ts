@@ -19,13 +19,19 @@ describe("routes", () => {
     expect(routes.doc("xcode-setup")).toBe(`${routes.docs}/xcode-setup`);
   });
 
+  it("nests an effects category under the effects section", () => {
+    expect(routes.effectCategory("transitions")).toBe(`${routes.effects}/transitions`);
+  });
+
   it("carries no trailing slash, so appending one never doubles it", () => {
     for (const path of [
       routes.apps,
       routes.docs,
+      routes.effects,
       routes.cv,
       routes.privacyPolicy("focus-timer"),
       routes.doc("xcode-setup"),
+      routes.effectCategory("transitions"),
     ]) {
       expect(path).not.toMatch(/\/$/);
       expect(path).toMatch(/^\//);
@@ -34,7 +40,7 @@ describe("routes", () => {
 
   it("reserves the first segment of every section", () => {
     // An app slug matching one of these would be shadowed by the static route.
-    const sections = [routes.apps, routes.docs, routes.cv].map(
+    const sections = [routes.apps, routes.docs, routes.effects, routes.cv].map(
       (path) => path.split("/")[1],
     );
 
