@@ -71,6 +71,11 @@ jobs:
         # A custom domain serves from the root, so leave it empty there.
         env:
           NEXT_PUBLIC_BASE_PATH: ${{ steps.pages.outputs.base_path }}
+          # Uploading to the effects library. Public by design — they ship in
+          # the page — so repository variables, not secrets. Left unset, the
+          # Upload button simply is not shown.
+          NEXT_PUBLIC_GOOGLE_CLIENT_ID: ${{ vars.GOOGLE_CLIENT_ID }}
+          NEXT_PUBLIC_GOOGLE_API_KEY: ${{ vars.GOOGLE_API_KEY }}
         run: npm run build
 
       - name: Disable Jekyll processing
