@@ -24,6 +24,16 @@ export class ResourceConstant {
    */
   static readonly DOCS_DIR = "src/data/docs";
 
+  /**
+   * One JSON file per pack — a top-level folder of the shared Drive — listing
+   * its files. Written by `npm run effects:sync`; the name and category in each
+   * are hand-edited and survive a sync.
+   */
+  static readonly EFFECTS_DIR = "src/data/effects";
+
+  /** The Drive folder the packs are read from, and the categories they sort into. */
+  static readonly EFFECT_LIBRARY_FILE = "src/data/effect-library.json";
+
   /** Publisher details and the privacy-policy sections every app shares. */
   static readonly SITE_FILE = "src/data/site.json";
 

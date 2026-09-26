@@ -1,0 +1,788 @@
+{
+  "name": "Film Burn",
+  "category": "transitions",
+  "folderId": "1phbeezW3qA1GdbUctBtAkWVJMALZMhsP",
+  "exclude": [
+    "2/Help",
+    "2/Premiere Pro/(footage)/assets",
+    "2/Premiere Pro/(footage)/picture",
+    "3/Film Transitions for Premiere Pro/1_MYFX Extension",
+    "3/Film Transitions for Premiere Pro/2_Film Transitions/(footage)"
+  ],
+  "items": [
+    {
+      "id": "1HOwXpEJ557JC-KUIDypE0hwQA73DlOLz",
+      "file": "_MLT1.mov",
+      "kind": "video",
+      "group": "1"
+    },
+    {
+      "id": "1t3kDF4hqvKBxWK5agzM1skS_fezlaQfI",
+      "file": "_MLT2.mov",
+      "kind": "video",
+      "group": "1"
+    },
+    {
+      "id": "1FVcXYkzUbV3jYWlCklO8xYWgMrTtmOXu",
+      "file": "_MLT3.mov",
+      "kind": "video",
+      "group": "1"
+    },
+    {
+      "id": "17C0VSocn7EAIuZ31Ti8mzNj6_7a0Epyo",
+      "file": "_MLT4.mov",
+      "kind": "video",
+      "group": "1"
+    },
+    {
+      "id": "1G8qfpONCFGpGWNyibTyGrYBETiVkq8cv",
+      "file": "_MLT5.mov",
+      "kind": "video",
+      "group": "1"
+    },
+    {
+      "id": "1LQvs1_JqUO3LqPodWXkDO8VbJABxAcC2",
+      "file": "_MLT6.mov",
+      "kind": "video",
+      "group": "1"
+    },
+    {
+      "id": "1FUqvHPDWUnRaIgdwlrMFLGiJfQjpKJXc",
+      "file": "_MLT7.mov",
+      "kind": "video",
+      "group": "1"
+    },
+    {
+      "id": "1lC6AXyFp90wOe2OUEyBgwXZgi3eVHN6_",
+      "file": "_MLT8.mov",
+      "kind": "video",
+      "group": "1"
+    },
+    {
+      "id": "14uNmmvveFKk3Bk12meaOkAxaXAHq7pH9",
+      "file": "_MLT9.mov",
+      "kind": "video",
+      "group": "1"
+    },
+    {
+      "id": "17W3fhoIuWLqMqE00XK3Rrr7QC1rJLj8_",
+      "file": "_MLT10.mov",
+      "kind": "video",
+      "group": "1"
+    },
+    {
+      "id": "1bL0nmqt-OT0BoJspX3hikTC4mWKr0CZH",
+      "file": "_MLT11.mov",
+      "kind": "video",
+      "group": "1"
+    },
+    {
+      "id": "1aG-XQWXJEJbiWqVV7UnCiAXzgmN_nAIq",
+      "file": "_MLT12.mov",
+      "kind": "video",
+      "group": "1"
+    },
+    {
+      "id": "1wXi3VizuQQPFObNswcH5G44utVdarE2T",
+      "file": "_MLT13.mov",
+      "kind": "video",
+      "group": "1"
+    },
+    {
+      "id": "1Yt-Ey5mulNUYguz_hA1ukSu2DUp3kMpX",
+      "file": "_MLT14.mov",
+      "kind": "video",
+      "group": "1"
+    },
+    {
+      "id": "1gHwpOoFSKc0nlDo4A1CtJth_0sQILs7f",
+      "file": "_MLT15.mov",
+      "kind": "video",
+      "group": "1"
+    },
+    {
+      "id": "1CrHmdvtleTa0gd6ycYHLUe26noqB8fND",
+      "file": "_MLT16.mov",
+      "kind": "video",
+      "group": "1"
+    },
+    {
+      "id": "1SfKZNbJsKjSvAwIUbULCU_3pUKh3QntS",
+      "file": "_MLT17.mov",
+      "kind": "video",
+      "group": "1"
+    },
+    {
+      "id": "14RggZNWcP9fzf6_s-Sp5-4Cbv4kJKtRU",
+      "file": "_MLT18.mov",
+      "kind": "video",
+      "group": "1"
+    },
+    {
+      "id": "1lTwABbtoh5DZcHJcON-xG_lWkvfCh_52",
+      "file": "cover.jpg",
+      "kind": "image",
+      "group": "1"
+    },
+    {
+      "id": "1kORQrb_j5830C00-5NGOYZrzfNB6HIn4",
+      "file": "kodak_8mm_film.mp4",
+      "kind": "video",
+      "group": "1"
+    },
+    {
+      "id": "14SOau98qA2bHC81wSjY3bYaxpCYrDJyS",
+      "file": "tmp_filmburntransitions_vol2.mp4",
+      "kind": "video",
+      "group": "1"
+    },
+    {
+      "id": "10rUBQlZRPeSrtVnMkDdOuT7kzCZ4ie4o",
+      "file": "light_tr_01.mp4",
+      "kind": "video",
+      "group": "2 / Premiere Pro / (footage) / light"
+    },
+    {
+      "id": "1z0or0xn6WGakPKI-bDNyAUX6FxnTHjiD",
+      "file": "light_tr_02.mp4",
+      "kind": "video",
+      "group": "2 / Premiere Pro / (footage) / light"
+    },
+    {
+      "id": "1aHHL6olUY2JDkbclDczOGxjw3-CROcqQ",
+      "file": "light_tr_03.mp4",
+      "kind": "video",
+      "group": "2 / Premiere Pro / (footage) / light"
+    },
+    {
+      "id": "10z7lfJrBj32Nj_ssUc48gzKVJuoNR6Lf",
+      "file": "light_tr_04.mp4",
+      "kind": "video",
+      "group": "2 / Premiere Pro / (footage) / light"
+    },
+    {
+      "id": "1G2eAF8EWcr9ZjYvS3HCtrdqsn1pTxunq",
+      "file": "light_tr_05.mp4",
+      "kind": "video",
+      "group": "2 / Premiere Pro / (footage) / light"
+    },
+    {
+      "id": "1h911DhfwzsnlfSwn3AHb5GuY3zXNA-qe",
+      "file": "light_tr_06.mp4",
+      "kind": "video",
+      "group": "2 / Premiere Pro / (footage) / light"
+    },
+    {
+      "id": "16hcWqQI813aVxTsuVXzCsfe7n2nCpTRm",
+      "file": "light_tr_07.mp4",
+      "kind": "video",
+      "group": "2 / Premiere Pro / (footage) / light"
+    },
+    {
+      "id": "1u_vAGgW-eNvoYxkkY4nA-tG3d4J0Hod_",
+      "file": "light_tr_08.mp4",
+      "kind": "video",
+      "group": "2 / Premiere Pro / (footage) / light"
+    },
+    {
+      "id": "1pQ5aMfWDllnEKzpEZAizx_Ru8sL5FL8l",
+      "file": "light_tr_09.mp4",
+      "kind": "video",
+      "group": "2 / Premiere Pro / (footage) / light"
+    },
+    {
+      "id": "1flDQZ5k0_L2YZ5pvgSenx3T4RF0Bro8x",
+      "file": "light_tr_10.mp4",
+      "kind": "video",
+      "group": "2 / Premiere Pro / (footage) / light"
+    },
+    {
+      "id": "1weaVGM98vPePBPFk39Cd63-rJnXZA-X1",
+      "file": "light_tr_11.mp4",
+      "kind": "video",
+      "group": "2 / Premiere Pro / (footage) / light"
+    },
+    {
+      "id": "1oW-LAwpd5c7RVyywmmd2CoVKIod7tRB0",
+      "file": "light_tr_12.mp4",
+      "kind": "video",
+      "group": "2 / Premiere Pro / (footage) / light"
+    },
+    {
+      "id": "1T6gys1Odg6DVQH_1SeNbn0NUFjqbS2_v",
+      "file": "particles.mov",
+      "kind": "video",
+      "group": "2 / Premiere Pro / (footage) / light"
+    },
+    {
+      "id": "18ld3cPMp1lOH2si3OlPkDSmWW1aMpG_v",
+      "file": "Video Tutorial.mp4",
+      "kind": "video",
+      "group": "3 / Film Transitions for Premiere Pro"
+    },
+    {
+      "id": "1Mj5tAeSthFO1lcYhlB0w5rP-O6NSsDGh",
+      "file": "tmp_strobe_burn_01.mp4",
+      "kind": "video",
+      "group": "BURN"
+    },
+    {
+      "id": "1OIGH3hVByh3bLU8AkHWod4o4-BfJzsD8",
+      "file": "tmp_strobe_burn_02.mp4",
+      "kind": "video",
+      "group": "BURN"
+    },
+    {
+      "id": "1r1P-VW1pNy2evBcbRWc1Ww1PsHMLyfII",
+      "file": "tmp_strobe_burn_03.mp4",
+      "kind": "video",
+      "group": "BURN"
+    },
+    {
+      "id": "1P8z8p2pWj8MNe5fBvOdpm4J2MquZiHOa",
+      "file": "tmp_strobe_burn_04.mp4",
+      "kind": "video",
+      "group": "BURN"
+    },
+    {
+      "id": "1tMmlEOrIuCDOM8YY1YdJyWPeL24U_jGG",
+      "file": "tmp_strobe_burn_05.mp4",
+      "kind": "video",
+      "group": "BURN"
+    },
+    {
+      "id": "1fE6sqG47c9EEAj18ZmNEMJ82Jh2YBrG7",
+      "file": "tmp_strobe_burn_06.mp4",
+      "kind": "video",
+      "group": "BURN"
+    },
+    {
+      "id": "1r_KIxMuUmRs81kIvI19KCPzMTQONPXop",
+      "file": "tmp_strobe_burn_07.mp4",
+      "kind": "video",
+      "group": "BURN"
+    },
+    {
+      "id": "1w2grc741uKUzA9UO_y9cjQh9cF3kVhFh",
+      "file": "tmp_strobe_burn_08.mp4",
+      "kind": "video",
+      "group": "BURN"
+    },
+    {
+      "id": "1Ih4vRw499dexz5WcjrqdYnToTxgIWGrU",
+      "file": "tmp_strobe_burn_09.mp4",
+      "kind": "video",
+      "group": "BURN"
+    },
+    {
+      "id": "1J3R42ztcYv7f5JuF56ZJy7fjAkdmyiyp",
+      "file": "tmp_strobe_burn_10.mp4",
+      "kind": "video",
+      "group": "BURN"
+    },
+    {
+      "id": "1fcGDgaDsW2d9DMdl-TUHGk5DpoJuJ6bA",
+      "file": "tmp_strobe_burn_11.mp4",
+      "kind": "video",
+      "group": "BURN"
+    },
+    {
+      "id": "16rjXTkOUB1F7f5uLPy2fNcx-Up_HVgio",
+      "file": "tmp_strobe_burn_12.mp4",
+      "kind": "video",
+      "group": "BURN"
+    },
+    {
+      "id": "1kzYqrwQxr9B_q9x5BaKIj5NajyLHrNVO",
+      "file": "tmp_strobe_burn_13.mp4",
+      "kind": "video",
+      "group": "BURN"
+    },
+    {
+      "id": "158H6Ccpvt8rNyd6lsEpK3hJFIZC17IJv",
+      "file": "tmp_strobe_burn_14.mp4",
+      "kind": "video",
+      "group": "BURN"
+    },
+    {
+      "id": "15f38X0KDSpbTrjDkNOSrPM4KFVyXbByF",
+      "file": "tmp_strobe_burn_15.mp4",
+      "kind": "video",
+      "group": "BURN"
+    },
+    {
+      "id": "1nYc_1SFaV_cpEhO5xwYEolloJZ-xbizy",
+      "file": "tmp_strobe_burn_16.mp4",
+      "kind": "video",
+      "group": "BURN"
+    },
+    {
+      "id": "1w4IJUnLKWT5enEqMUU-mzdyjOyD3QxGE",
+      "file": "tmp_strobe_burn_17.mp4",
+      "kind": "video",
+      "group": "BURN"
+    },
+    {
+      "id": "1-JnLMTQlytYSO3k4qgtOnV_5ilMyVqkl",
+      "file": "tmp_strobe_burn_18.mp4",
+      "kind": "video",
+      "group": "BURN"
+    },
+    {
+      "id": "1QzYbLdrN3I66tF3feQu94f7YkbwdLlfk",
+      "file": "tmp_strobe_burn_19.mp4",
+      "kind": "video",
+      "group": "BURN"
+    },
+    {
+      "id": "1raSo6H6bLI90P4b9T7MKN5ckLQW_UgnG",
+      "file": "tmp_strobe_burn_20.mp4",
+      "kind": "video",
+      "group": "BURN"
+    },
+    {
+      "id": "1NsmeDp5dHNz7T4caLqGg0JXH8xpyNHFE",
+      "file": "tmp_strobe_burn_21.mp4",
+      "kind": "video",
+      "group": "BURN"
+    },
+    {
+      "id": "15zVykLRAPyAtXQhKakl-7AATFHAj9C-O",
+      "file": "tmp_strobe_burn_22.mp4",
+      "kind": "video",
+      "group": "BURN"
+    },
+    {
+      "id": "1_zw7vjDKnwL4_S_Yvdvg0cNfGI2gStCa",
+      "file": "tmp_strobe_burn_23.mp4",
+      "kind": "video",
+      "group": "BURN"
+    },
+    {
+      "id": "1kcxUQLDs7ZUvjHSFIeBWr0I2G07rg30o",
+      "file": "tmp_strobe_burn_24.mp4",
+      "kind": "video",
+      "group": "BURN"
+    },
+    {
+      "id": "1L4n0Qctku8tRKkNsqFofmxD4DIvGLuQk",
+      "file": "tmp_strobe_burn_25.mp4",
+      "kind": "video",
+      "group": "BURN"
+    },
+    {
+      "id": "1oHw-j7YWwN4LwYYj-IVSRjTmkeyoe6xX",
+      "file": "tmp_strobe_burn_26.mp4",
+      "kind": "video",
+      "group": "BURN"
+    },
+    {
+      "id": "1kojzjw_gvJpHsnOQyxT0YbXd8oKTPH-D",
+      "file": "tmp_strobe_burn_27.mp4",
+      "kind": "video",
+      "group": "BURN"
+    },
+    {
+      "id": "1e5C7ToYv5aTPcbHpOExAENN771M5OKSX",
+      "file": "tmp_strobe_burn_28.mp4",
+      "kind": "video",
+      "group": "BURN"
+    },
+    {
+      "id": "1tLCSscGRI16buqBOgXaj8F8DuSoNWxE-",
+      "file": "tmp_strobe_burn_29.mp4",
+      "kind": "video",
+      "group": "BURN"
+    },
+    {
+      "id": "1kucw3C-y047Okg9x44IAqv3i5IjYFOLU",
+      "file": "tmp_strobe_burn_30.mp4",
+      "kind": "video",
+      "group": "BURN"
+    },
+    {
+      "id": "1ZxvvHnDOLgLpI0HsOE8nyBN0DS7mtFq1",
+      "file": "cover.jpg",
+      "kind": "image",
+      "group": "FILM BURN TRANSITIONS"
+    },
+    {
+      "id": "1J97oHiRVZdFRzM_7Ine1C5xtGJoTZrki",
+      "file": "tmp_filmburntransitions_vintage_01.mp4",
+      "kind": "video",
+      "group": "FILM BURN TRANSITIONS"
+    },
+    {
+      "id": "1RL_7cWGiypfHh4WpZpi-hjsO_UimFshG",
+      "file": "tmp_filmburntransitions_vintage_02.mp4",
+      "kind": "video",
+      "group": "FILM BURN TRANSITIONS"
+    },
+    {
+      "id": "1pSedcWYLaxCjU_fuzjXycVCtnuNjve67",
+      "file": "tmp_filmburntransitions_vintage_03.mp4",
+      "kind": "video",
+      "group": "FILM BURN TRANSITIONS"
+    },
+    {
+      "id": "13wwWx3_L5rf_djNcUtHc7YtBRKiSfQta",
+      "file": "tmp_filmburntransitions_vintage_04.mp4",
+      "kind": "video",
+      "group": "FILM BURN TRANSITIONS"
+    },
+    {
+      "id": "165yCeeujS2-aQ1AtA4qNZnnksp2Rjvcg",
+      "file": "tmp_filmburntransitions_vintage_05.mp4",
+      "kind": "video",
+      "group": "FILM BURN TRANSITIONS"
+    },
+    {
+      "id": "1YNhKhKMGEUsnkj9cnP_rG46DZHk8kjCl",
+      "file": "tmp_filmburntransitions_vintage_06.mp4",
+      "kind": "video",
+      "group": "FILM BURN TRANSITIONS"
+    },
+    {
+      "id": "1zcCk2PUS8iZ3zKjZ4Ghk5ewLEjTO3ttI",
+      "file": "tmp_filmburntransitions_vintage_07.mp4",
+      "kind": "video",
+      "group": "FILM BURN TRANSITIONS"
+    },
+    {
+      "id": "19QAqlkVrsdexru-esJ-qvpLa_smqA1RW",
+      "file": "tmp_filmburntransitions_vintage_08.mp4",
+      "kind": "video",
+      "group": "FILM BURN TRANSITIONS"
+    },
+    {
+      "id": "1y6Y0nBoVUQ2c6nuM55XpqRXkrRUYMqkC",
+      "file": "tmp_filmburntransitions_vintage_09.mp4",
+      "kind": "video",
+      "group": "FILM BURN TRANSITIONS"
+    },
+    {
+      "id": "1uAIYALrDtMGjAnzone-1p48I8EErZ0mM",
+      "file": "tmp_filmburntransitions_vintage_10.mp4",
+      "kind": "video",
+      "group": "FILM BURN TRANSITIONS"
+    },
+    {
+      "id": "1KGMrUk_075Qw2IPBqIQDW_jGNQKdjwg9",
+      "file": "tmp_filmburntransitions_vintage_11.mp4",
+      "kind": "video",
+      "group": "FILM BURN TRANSITIONS"
+    },
+    {
+      "id": "1BctXNKaxyP4pDsXwj4la4mt7-_jwTGYQ",
+      "file": "tmp_filmburntransitions_vintage_12.mp4",
+      "kind": "video",
+      "group": "FILM BURN TRANSITIONS"
+    },
+    {
+      "id": "196H_1PIQndH3jIFAZAhReyB53zRS9QJ9",
+      "file": "tmp_filmburntransitions_vintage_13.mp4",
+      "kind": "video",
+      "group": "FILM BURN TRANSITIONS"
+    },
+    {
+      "id": "1uJMguNP1gOXNrADsu8Qi9SmqIlfLnhQy",
+      "file": "tmp_filmburntransitions_vintage_14.mp4",
+      "kind": "video",
+      "group": "FILM BURN TRANSITIONS"
+    },
+    {
+      "id": "1O8X86eEkVSiyXmm3gzzCZJIP1OhIdqY0",
+      "file": "tmp_filmburntransitions_vintage_15.mp4",
+      "kind": "video",
+      "group": "FILM BURN TRANSITIONS"
+    },
+    {
+      "id": "1AsY_v1HWmSGhmZ4bjDSoHQvRMde0hf6P",
+      "file": "tmp_filmburntransitions_vintage_16.mp4",
+      "kind": "video",
+      "group": "FILM BURN TRANSITIONS"
+    },
+    {
+      "id": "1p_j-32EvzoG5hD6V1fkC0uhxvdnu5gjK",
+      "file": "tmp_filmburntransitions_vintage_17.mp4",
+      "kind": "video",
+      "group": "FILM BURN TRANSITIONS"
+    },
+    {
+      "id": "12HCmrZJrHOAHYf7NvfL0GXRrB4NRjAEG",
+      "file": "tmp_filmburntransitions_vintage_18.mp4",
+      "kind": "video",
+      "group": "FILM BURN TRANSITIONS"
+    },
+    {
+      "id": "1OSad6wSt9irqramIFz0SOsUNBXHovuoe",
+      "file": "tmp_filmburntransitions_vintage_19.mp4",
+      "kind": "video",
+      "group": "FILM BURN TRANSITIONS"
+    },
+    {
+      "id": "1P0b0NiF0qOScF8GJVe8Tn3zqX1FgvWAi",
+      "file": "tmp_filmburntransitions_vintage_20.mp4",
+      "kind": "video",
+      "group": "FILM BURN TRANSITIONS"
+    },
+    {
+      "id": "1Ooc9Gl7w2ZOKorid4rpxLBBWmR6_ssk0",
+      "file": "tmp_filmburntransitions_vintage_21.mp4",
+      "kind": "video",
+      "group": "FILM BURN TRANSITIONS"
+    },
+    {
+      "id": "1BitHa6EPDVYQ-_1CO7IMrVQKA8NrAPYz",
+      "file": "tmp_filmburntransitions_vintage_22.mp4",
+      "kind": "video",
+      "group": "FILM BURN TRANSITIONS"
+    },
+    {
+      "id": "1VYFKv5xNLUpQNTEfiWE-z0UzUtQrjCuu",
+      "file": "tmp_filmburntransitions_vol2.mp4",
+      "kind": "video",
+      "group": "FILM BURN TRANSITIONS"
+    },
+    {
+      "id": "1jIor1nYMQ5aFDB1AswwEdNnbJVcOQ7S9",
+      "file": "tmp_glitch_01.mp4",
+      "kind": "video",
+      "group": "GLITCH"
+    },
+    {
+      "id": "1vX-2yfNEblk6JGlIT0-IP-Ic3wWrRvaw",
+      "file": "tmp_glitch_02.mp4",
+      "kind": "video",
+      "group": "GLITCH"
+    },
+    {
+      "id": "1vHXU3UP4WVdUBlYJZUBPNL_fB3d4QpHf",
+      "file": "tmp_glitch_03.mp4",
+      "kind": "video",
+      "group": "GLITCH"
+    },
+    {
+      "id": "14r1to2-y019m58W7gbcfJC_PiC-zMWAi",
+      "file": "tmp_glitch_04.mp4",
+      "kind": "video",
+      "group": "GLITCH"
+    },
+    {
+      "id": "1TCP7nCbzPNrHLlrMoQ9UdDFCkHZ9L9ns",
+      "file": "tmp_glitch_05.mp4",
+      "kind": "video",
+      "group": "GLITCH"
+    },
+    {
+      "id": "1bnens5MR2_JawM2Euwe-6Eh6XiY0AWGh",
+      "file": "tmp_glitch_06.mp4",
+      "kind": "video",
+      "group": "GLITCH"
+    },
+    {
+      "id": "1xW6QOPu8qKflMh6ElWVJ7Apro-z1F8E2",
+      "file": "tmp_glitch_07.mp4",
+      "kind": "video",
+      "group": "GLITCH"
+    },
+    {
+      "id": "1eu_KFLBl8gZD5EMZi4RWhxrJ5K4IA0SQ",
+      "file": "tmp_glitch_08.mp4",
+      "kind": "video",
+      "group": "GLITCH"
+    },
+    {
+      "id": "1R_x0Wb8YiQQCUyApXJ5kA_goiZqjPVEr",
+      "file": "tmp_glitch_09.mp4",
+      "kind": "video",
+      "group": "GLITCH"
+    },
+    {
+      "id": "1FSEJi5M1_b4IiYeNT1o7Euw8kd1oT0mM",
+      "file": "tmp_glitch_10.mp4",
+      "kind": "video",
+      "group": "GLITCH"
+    },
+    {
+      "id": "18zsoqbl54tVrAlwjbKuPlXYNhSHG-9gv",
+      "file": "tmp_glitch_alpha_01.mov",
+      "kind": "video",
+      "group": "GLITCH"
+    },
+    {
+      "id": "1H_6RdjrtSAL4BWn4zWZ-dS6r-ZdJg00Y",
+      "file": "tmp_glitch_alpha_02.mov",
+      "kind": "video",
+      "group": "GLITCH"
+    },
+    {
+      "id": "1nGn0gvIEZLZcGlBi40V9qu9DVYSo54Rg",
+      "file": "tmp_glitch_alpha_03.mov",
+      "kind": "video",
+      "group": "GLITCH"
+    },
+    {
+      "id": "1S1RWJSHtyGiX0BSnBBoiZLVOb_q6U7_v",
+      "file": "tmp_glitch_alpha_04.mov",
+      "kind": "video",
+      "group": "GLITCH"
+    },
+    {
+      "id": "1lk94cpbP343czwR7uf9hROPclQP3iBsO",
+      "file": "tmp_glitch_alpha_05.mov",
+      "kind": "video",
+      "group": "GLITCH"
+    },
+    {
+      "id": "1ucF5rM9ybLC-uhiBztHSFOlJ--AwvQ6h",
+      "file": "tmp_glitch_alpha_06.mov",
+      "kind": "video",
+      "group": "GLITCH"
+    },
+    {
+      "id": "12OA-SV8r70XODgLr4LMmOorrBhucfjG8",
+      "file": "tmp_glitch_alpha_07.mov",
+      "kind": "video",
+      "group": "GLITCH"
+    },
+    {
+      "id": "1cg-0EhhhAsnc3ddFzFx9z7-OrzfXYHIt",
+      "file": "tmp_glitch_alpha_08.mov",
+      "kind": "video",
+      "group": "GLITCH"
+    },
+    {
+      "id": "1vkv5acLVNqzM5hbWZgOpbOsnBIgAlLFg",
+      "file": "tmp_glitch_alpha_09.mov",
+      "kind": "video",
+      "group": "GLITCH"
+    },
+    {
+      "id": "1AR5PQaLbVElEaEof5suDzDRVzRk8sAb1",
+      "file": "tmp_glitch_alpha_10.mov",
+      "kind": "video",
+      "group": "GLITCH"
+    },
+    {
+      "id": "10SkXCXyaYtfgxXBKWa5vuDqJnyw8HE_V",
+      "file": "Film Transition Overlay 01.mp4",
+      "kind": "video",
+      "group": "numbers transitions / Transitions"
+    },
+    {
+      "id": "1ZnDSzBA7s8URS__CksBaLkk6rJt9tfbu",
+      "file": "Film Transition Overlay 02.mp4",
+      "kind": "video",
+      "group": "numbers transitions / Transitions"
+    },
+    {
+      "id": "1fIZI2VN8FEprIUgxxXtPSzeZyQdUH1kv",
+      "file": "Film Transition Overlay 03.mp4",
+      "kind": "video",
+      "group": "numbers transitions / Transitions"
+    },
+    {
+      "id": "15wEPHO0h7WSYUvMZ0oOl6GOpyL_VA9Ds",
+      "file": "Film Transition Overlay 04.mp4",
+      "kind": "video",
+      "group": "numbers transitions / Transitions"
+    },
+    {
+      "id": "1Mqde5ZNogaf2FmRBPAVOXVs5KBqtVDaH",
+      "file": "Film Transition Overlay 05.mp4",
+      "kind": "video",
+      "group": "numbers transitions / Transitions"
+    },
+    {
+      "id": "1X9dhRFE_jtA1LIaCTQSOJfois9MdX2MT",
+      "file": "Film Transition Overlay 06.mp4",
+      "kind": "video",
+      "group": "numbers transitions / Transitions"
+    },
+    {
+      "id": "1HIsjB7OR-k8w4Ypcl5VxT1nEDSl6-1ck",
+      "file": "Film Transition Overlay 07.mp4",
+      "kind": "video",
+      "group": "numbers transitions / Transitions"
+    },
+    {
+      "id": "1Jgc_SIW10IY_lVQi70khO_2VUgchc9M-",
+      "file": "Film Transition Overlay 08.mp4",
+      "kind": "video",
+      "group": "numbers transitions / Transitions"
+    },
+    {
+      "id": "1E8hYjTZdbRTlyjn9NDUN9I1jOc_ICOl2",
+      "file": "Film Transition Overlay 09.mp4",
+      "kind": "video",
+      "group": "numbers transitions / Transitions"
+    },
+    {
+      "id": "1_cihECihlmcYZi81AVahx7DSVOtU4G9V",
+      "file": "Film Transition Overlay 10.mp4",
+      "kind": "video",
+      "group": "numbers transitions / Transitions"
+    },
+    {
+      "id": "1mHZ825zb60-6YskBsm1DjxYwPOOnAsNy",
+      "file": "Film Transition Overlay 11.mp4",
+      "kind": "video",
+      "group": "numbers transitions / Transitions"
+    },
+    {
+      "id": "1SrlgU3DfWxrxzeprrJolHUbSqiNPNUQU",
+      "file": "Film Transition Overlay 12.mp4",
+      "kind": "video",
+      "group": "numbers transitions / Transitions"
+    },
+    {
+      "id": "1fsDfYwivJHtliu88V3nFNph508mv82YW",
+      "file": "Film Transition Overlay 13.mp4",
+      "kind": "video",
+      "group": "numbers transitions / Transitions"
+    },
+    {
+      "id": "1gEDvw7gOBpslEld8B8JvOJ1imWLV-0fT",
+      "file": "Transition 01.mov",
+      "kind": "video",
+      "group": "numbers transitions / Transitions"
+    },
+    {
+      "id": "15y_caQ0kd5WE-LwRyAmtHPR-1FroWE0U",
+      "file": "Transition 02.mov",
+      "kind": "video",
+      "group": "numbers transitions / Transitions"
+    },
+    {
+      "id": "1C2AcQYjNB_rzPKiJWWa1S1nF6ATaZmdY",
+      "file": "Transition 03.mov",
+      "kind": "video",
+      "group": "numbers transitions / Transitions"
+    },
+    {
+      "id": "1FD9oRiietJ2V-TO7lwZT70xmoYNXRVze",
+      "file": "Transition 04.mov",
+      "kind": "video",
+      "group": "numbers transitions / Transitions"
+    },
+    {
+      "id": "1kOHkbiiq-d1qIrybeKpeLigPmu5Vhjyr",
+      "file": "Transition 05.mov",
+      "kind": "video",
+      "group": "numbers transitions / Transitions"
+    },
+    {
+      "id": "17mGSe6V15fdfiB62GT2Ub6G__58mT9RE",
+      "file": "Transition 06.mov",
+      "kind": "video",
+      "group": "numbers transitions / Transitions"
+    },
+    {
+      "id": "1CEprnFG10sdVGXV-Iuhft81jpI_fYkCb",
+      "file": "Transition 07.mov",
+      "kind": "video",
+      "group": "numbers transitions / Transitions"
+    }
+  ]
+}

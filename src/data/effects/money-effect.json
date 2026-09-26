@@ -1,0 +1,66 @@
+{
+  "name": "Money FX",
+  "category": "transitions",
+  "folderId": "1qg1nFw7QZx9ejEuJpFWDR1YZSadmUIZq",
+  "items": [
+    {
+      "id": "1wqtwdrLASvzTkRNRAaaHnjMmuRrgL6ce",
+      "file": "paper-flutter-5933.mp3",
+      "kind": "audio"
+    },
+    {
+      "id": "1MOYpD5a2cvK1s5zIi2BL_2D5MiWHjHV7",
+      "file": "$1_Rip_01.mov",
+      "kind": "video",
+      "group": "CinePacks Money FX SAMPLE / Money FX Sample Transitions"
+    },
+    {
+      "id": "1TthMYK7HdAHo9MMY7rA6MN7Q8ppCxfmp",
+      "file": "$1_Wipe_03.mov",
+      "kind": "video",
+      "group": "CinePacks Money FX SAMPLE / Money FX Sample Transitions"
+    },
+    {
+      "id": "13gv0aW3eK3bX-Ns6-AyKsjtWulktABoK",
+      "file": "$100 Rip 07.mov",
+      "kind": "video",
+      "group": "CinePacks Money FX SAMPLE / Money FX Sample Transitions"
+    },
+    {
+      "id": "1Bj5mfj_1LesI_0gRNpTzMt723qflGx14",
+      "file": "Animated Frame 1.mov",
+      "kind": "video",
+      "group": "CinePacks Money FX SAMPLE / Money FX Sample Transitions"
+    },
+    {
+      "id": "150RH5Gl7BmTeJ0DBlzOTORklE05OXy2W",
+      "file": "Money_Rain_3.mov",
+      "kind": "video",
+      "group": "CinePacks Money FX SAMPLE / Money FX Sample Transitions"
+    },
+    {
+      "id": "1WgYb3gX2_LPi17GGMjaffjGi7RkB9tMH",
+      "file": "$1 Rip 01 COLOR KEY.mp4",
+      "kind": "video",
+      "group": "CinePacks Money FX SAMPLE / SONY VEGAS Money FX Sample Transitions"
+    },
+    {
+      "id": "1DXj7I7K1bRis0if2pkKyrQBsiaWSJxtr",
+      "file": "$1 Wipe 03 COLOR KEY.mp4",
+      "kind": "video",
+      "group": "CinePacks Money FX SAMPLE / SONY VEGAS Money FX Sample Transitions"
+    },
+    {
+      "id": "1d_gA3oY29lhacouFglzlZ7hJQiWcBwpT",
+      "file": "$100 Rip 07 COLOR KEY.mp4",
+      "kind": "video",
+      "group": "CinePacks Money FX SAMPLE / SONY VEGAS Money FX Sample Transitions"
+    },
+    {
+      "id": "1gVtFVyri1-DYj-OSqrFOnIVAIp3-VGHV",
+      "file": "Animated Frame 1 COLOR KEY.mp4",
+      "kind": "video",
+      "group": "CinePacks Money FX SAMPLE / SONY VEGAS Money FX Sample Transitions"
+    }
+  ]
+}

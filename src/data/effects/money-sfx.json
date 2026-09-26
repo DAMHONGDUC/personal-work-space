@@ -1,0 +1,22 @@
+{
+  "name": "Money SFX",
+  "category": "sound",
+  "folderId": "1w_tNJ3JaaOuLlB2E2WJLqQQaUujC0ayM",
+  "items": [
+    {
+      "id": "1ULy6_juOFLUhXBdHX99AhtQL3VA7a6lD",
+      "file": "MA_Tuttkile_ChaChingCashRegister_1.wav",
+      "kind": "audio"
+    },
+    {
+      "id": "1Go99UOXmYhNMbg3L1Cpy9lBnqF4-SdUI",
+      "file": "MA_Tuttkile_ChaChingCashRegister_2.wav",
+      "kind": "audio"
+    },
+    {
+      "id": "1V9bAlGG7JKhHiljYJROT6NTSqbFtOidm",
+      "file": "MA_Tuttkile_ChaChingCashRegister_3.wav",
+      "kind": "audio"
+    }
+  ]
+}

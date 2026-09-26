@@ -1,0 +1,53 @@
+{
+  "driveFolderId": "1q2uICwxu4zAx2P_yn4DhT_0VB1tgd2vg",
+  "categories": [
+    {
+      "id": "transitions",
+      "label": "Transitions",
+      "icon": "✨",
+      "description": "Film burns, light leaks, glitches, water splashes and white-outs to cut from one shot to the next."
+    },
+    {
+      "id": "sound",
+      "label": "Sound effects & music",
+      "icon": "🔊",
+      "description": "Whooshes, clicks, impacts, cash registers, reactions and short background tracks for reels."
+    },
+    {
+      "id": "icons-emojis",
+      "label": "Icons & emojis",
+      "icon": "😀",
+      "description": "Animated and glowing icons, arrows and emojis to point at, react to or decorate a shot."
+    },
+    {
+      "id": "logos-text",
+      "label": "Logos, titles & fonts",
+      "icon": "🔤",
+      "description": "Animated brand logos, letters, title cards and display fonts for on-screen text."
+    },
+    {
+      "id": "elements",
+      "label": "Animated elements",
+      "icon": "🧩",
+      "description": "Paper cut-outs, clouds, fire, plants, memes and other pieces to drop on top of footage."
+    },
+    {
+      "id": "characters",
+      "label": "Characters & hands",
+      "icon": "🧍",
+      "description": "2D animated characters, hand gestures and cut-out people to narrate or react on screen."
+    },
+    {
+      "id": "backgrounds",
+      "label": "Backgrounds",
+      "icon": "🌌",
+      "description": "Looping motion backgrounds and grid overlays to sit behind text, products or a talking head."
+    },
+    {
+      "id": "textures-overlays",
+      "label": "Textures & overlays",
+      "icon": "🎞️",
+      "description": "Paper, fabric and chalk textures, scribbles, sketches and green-screen effects to layer over a shot."
+    }
+  ]
+}

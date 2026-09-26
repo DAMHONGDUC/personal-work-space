@@ -1,0 +1,102 @@
+{
+  "name": "Assets",
+  "category": "elements",
+  "folderId": "1VR5fULo-UeGUeVRc22bo_CbU5UKN-EP1",
+  "items": [
+    {
+      "id": "18XdEc5iM71vk8YUaDBWcwOi-uIH0CsPh",
+      "file": "1920x1080.png",
+      "kind": "image"
+    },
+    {
+      "id": "1_erxPiDoM9nzdNLthX1Eu90UbqbkhzES",
+      "file": "1.mp4",
+      "kind": "video",
+      "group": "Video"
+    },
+    {
+      "id": "13baPoYe0UZJ-J847aOEOKFd-1o_4AzjV",
+      "file": "2.mp4",
+      "kind": "video",
+      "group": "Video"
+    },
+    {
+      "id": "1crtO35AgrHL3zdTo4AupGJJMwXfAr8I-",
+      "file": "3.mp4",
+      "kind": "video",
+      "group": "Video"
+    },
+    {
+      "id": "1-5pRAk6Mxmm8GmWRdqMBhFzWSem8o2tz",
+      "file": "4.mp4",
+      "kind": "video",
+      "group": "Video"
+    },
+    {
+      "id": "1bSSe3Hea-Atf1PgENxpDD40bnNHLprPX",
+      "file": "5.mp4",
+      "kind": "video",
+      "group": "Video"
+    },
+    {
+      "id": "1EAsRWqfhE0LrgxJxkwI5Wd5ACqbW3P2L",
+      "file": "6.mp4",
+      "kind": "video",
+      "group": "Video"
+    },
+    {
+      "id": "1W9B8WBwCdbApRDvPbxgZRXqFPe3wruK9",
+      "file": "7.mp4",
+      "kind": "video",
+      "group": "Video"
+    },
+    {
+      "id": "1yPLt0bY7sSZBVNyQVDytT5ArNt8VgjmK",
+      "file": "8.mp4",
+      "kind": "video",
+      "group": "Video"
+    },
+    {
+      "id": "1LLACCbgFuJ1z-pNQO1C9QxmXfLt_KIyd",
+      "file": "9.mp4",
+      "kind": "video",
+      "group": "Video"
+    },
+    {
+      "id": "1OXGMd5gZrpZdJOnPF4ftoj7Ny56K7iwj",
+      "file": "10.mp4",
+      "kind": "video",
+      "group": "Video"
+    },
+    {
+      "id": "1SlCrgYnp7E9NLejs2vuIpyCJutaAoWqG",
+      "file": "11.mp4",
+      "kind": "video",
+      "group": "Video"
+    },
+    {
+      "id": "1tOnF2xqcavaQNaOTHgJMP_QlPw-Q_YJp",
+      "file": "12.mp4",
+      "kind": "video",
+      "group": "Video"
+    },
+    {
+      "id": "1yWFlPSm8kJ2OdzMZ9n7HjjAHjURRMUWr",
+      "file": "13.mp4",
+      "kind": "video",
+      "group": "Video"
+    },
+    {
+      "id": "1avTO5liaQn3Lu8O6hvmA-d_0zHdO9XTq",
+      "file": "14.mp4",
+      "kind": "video",
+      "group": "Video"
+    },
+    {
+      "id": "12rL8FrS4QnzbhG2AWTNxa_yCLmZ45AX1",
+      "file": "15.mp4",
+      "kind": "video",
+      "group": "Video"
+    }
+  ]
+}
