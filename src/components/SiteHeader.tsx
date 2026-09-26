@@ -1,15 +1,9 @@
 import Link from "next/link";
 import { routes } from "@/lib/routes";
 
-const NAV = [
-  { href: routes.apps, label: "Privacy policies" },
-  { href: routes.docs, label: "Guides" },
-  { href: routes.cv, label: "CV" },
-];
-
 /**
- * Sticky top bar with the publisher name, the top-level sections and a
- * contact link.
+ * Sticky top bar with the publisher name and a way home. The sections are
+ * reached from the home page, so the bar carries nothing else.
  *
  * The background is driven entirely by CSS (see `.site-header` in globals.css):
  * solid by default, and transparent only at the very top of the page where a
@@ -17,13 +11,7 @@ const NAV = [
  * as one unbroken block. No client JavaScript is involved, so it cannot end up
  * stuck transparent if hydration or an animation stalls.
  */
-export function SiteHeader({
-  publisher,
-  contactEmail,
-}: {
-  publisher: string;
-  contactEmail: string;
-}) {
+export function SiteHeader({ publisher }: { publisher: string }) {
   return (
     <header className="site-header sticky top-0 z-20 border-b">
       <div className="mx-auto flex h-16 w-full max-w-5xl items-center justify-between gap-6 px-6">
@@ -40,22 +28,10 @@ export function SiteHeader({
           {publisher}
         </Link>
 
-        <nav className="flex items-center gap-5 text-sm text-muted">
-          {NAV.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="transition-colors hover:text-foreground"
-            >
-              {item.label}
-            </Link>
-          ))}
-          <a
-            href={`mailto:${contactEmail}`}
-            className="hidden transition-colors hover:text-foreground sm:inline"
-          >
-            Contact
-          </a>
+        <nav className="text-sm text-muted">
+          <Link href={routes.home} className="transition-colors hover:text-foreground">
+            Home
+          </Link>
         </nav>
       </div>
     </header>
