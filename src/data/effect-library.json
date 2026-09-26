@@ -1,5 +1,9 @@
 {
   "driveFolderId": "1q2uICwxu4zAx2P_yn4DhT_0VB1tgd2vg",
+  "uploads": {
+    "folderName": "My uploads",
+    "manifestName": "effects-uploads.json"
+  },
   "categories": [
     {
       "id": "transitions",

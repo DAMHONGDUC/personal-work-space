@@ -7,6 +7,7 @@ import { EffectGrid } from "@/components/effects/EffectGrid";
 import { EffectPreview } from "@/components/effects/EffectPreview";
 import { EffectTree } from "@/components/effects/EffectTree";
 import { FilterPanel } from "@/components/effects/FilterPanel";
+import { useEffectUploads } from "@/hooks/useEffectUploads";
 import {
   EFFECT_KINDS,
   driveFolderUrl,
@@ -17,6 +18,12 @@ import {
   type EffectTreeCategory,
 } from "@/lib/effect-model";
 import { searchEffects } from "@/lib/effect-search";
+import {
+  UPLOADS_PACK_NAME,
+  UPLOADS_PACK_SLUG,
+  treeWithUploads,
+  uploadedEntries,
+} from "@/lib/effect-uploads";
 import { routes } from "@/lib/routes";
 
 /** Consecutive entries sharing a sub-folder, in the order the pack lists them. */
@@ -48,7 +55,18 @@ export function CategoryBrowser({
   packs: EffectPack[];
   tree: EffectTreeCategory[];
 }) {
-  const entries = useMemo(() => entriesOf(packs), [packs]);
+  // Uploads arrive from Drive after the page has rendered, as a pack of their
+  // own above the synced ones.
+  const { manifest } = useEffectUploads();
+  const uploads = useMemo(() => uploadedEntries(manifest, category), [manifest, category]);
+  const entries = useMemo(() => [...uploads, ...entriesOf(packs)], [uploads, packs]);
+  const shelves: { slug: string; name: string; folderId?: string }[] = useMemo(
+    () => [
+      ...(uploads.length > 0 ? [{ slug: UPLOADS_PACK_SLUG, name: UPLOADS_PACK_NAME }] : []),
+      ...packs,
+    ],
+    [uploads, packs],
+  );
   const counts = useMemo(() => {
     const totals = Object.fromEntries(EFFECT_KINDS.map((k) => [k, 0])) as Record<EffectKind, number>;
     for (const entry of entries) totals[entry.kind] += 1;
@@ -62,7 +80,7 @@ export function CategoryBrowser({
   const position = useMemo(() => new Map(visible.map((entry, i) => [entry.id, i])), [visible]);
   const filtered = visible.length !== entries.length;
 
-  const sections = packs
+  const sections = shelves
     .map((pack) => ({ pack, entries: visible.filter((entry) => entry.packSlug === pack.slug) }))
     .filter((section) => section.entries.length > 0);
   const visibleCounts = new Map(sections.map(({ pack, entries: shown }) => [pack.slug, shown.length]));
@@ -89,7 +107,7 @@ export function CategoryBrowser({
           // Keyed so moving to another category opens that one afresh.
           <EffectTree
             key={category}
-            categories={tree}
+            categories={treeWithUploads(tree, manifest)}
             current={category}
             visibleCounts={visibleCounts}
           />

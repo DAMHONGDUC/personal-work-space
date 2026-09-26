@@ -38,7 +38,7 @@ const root = path.join(import.meta.dirname, "..");
 const packsDir = path.join(root, ResourceConstant.EFFECTS_DIR);
 const library = JSON.parse(
   fs.readFileSync(path.join(root, ResourceConstant.EFFECT_LIBRARY_FILE), "utf8"),
-) as { driveFolderId: string };
+) as { driveFolderId: string; uploads: { folderName: string } };
 
 const SKIPPED_FOLDERS = new Set(["__MACOSX"]);
 const PARALLEL_REQUESTS = 6;
@@ -197,7 +197,11 @@ const bySlug = new Map(existing.map((known) => [known.slug, known]));
 function knownPack(folder: Entry): Known | undefined {
   return byFolderId.get(folder.id) ?? bySlug.get(slugify(folder.name));
 }
-const folders = (await listFolder(library.driveFolderId)).filter((entry) => entry.folder);
+// Uploads from the site are listed by their own JSON on Drive and read at
+// runtime, so their folder is not a pack.
+const folders = (await listFolder(library.driveFolderId)).filter(
+  (entry) => entry.folder && entry.name !== library.uploads.folderName,
+);
 
 if (folders.length === 0) {
   // Every pack would count as gone. Far more likely the folder is not shared.

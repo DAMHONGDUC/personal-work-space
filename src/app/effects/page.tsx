@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import type { CategorySummary } from "@/components/effects/CategoryCard";
 import { EffectIndex } from "@/components/effects/EffectIndex";
+import { EffectUploadButton } from "@/components/effects/EffectUploadButton";
 import { entriesOf, treeOf, type EffectCategoryBundle, type EffectEntry } from "@/lib/effect-model";
 import { getEffectCategories } from "@/lib/effects";
 import { routes } from "@/lib/routes";
@@ -55,6 +56,7 @@ export default function EffectsPage() {
             Video-editing effects by category. Previews play from Google Drive.
           </p>
         </div>
+        <EffectUploadButton />
       </div>
 
       <EffectIndex categories={summaries} entries={entries} tree={treeOf(categories)} />

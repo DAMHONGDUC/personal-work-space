@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
 import { EFFECT_KINDS } from "@/lib/effect-model";
+import { UPLOADS_PACK_SLUG } from "@/lib/effect-uploads";
 import { effectLibrary, getEffectCategories, getEffectPacks } from "@/lib/effects";
 import { ResourceConstant } from "@/lib/resource-constant.mts";
 
@@ -51,6 +52,12 @@ describe("effect packs", () => {
     // A file id is the key of a tile and of the preview's position.
     const ids = packs.flatMap((pack) => pack.items.map((item) => item.id));
     expect(new Set(ids).size).toBe(ids.length);
+  });
+
+  it("leaves the uploads pack's slug to the uploads", () => {
+    // Uploads are shown as a pack of this slug in every category; a synced
+    // pack of the same slug would share its anchor.
+    expect(packs.map((pack) => pack.slug)).not.toContain(UPLOADS_PACK_SLUG);
   });
 
   it("never syncs the same Drive folder into two packs", () => {

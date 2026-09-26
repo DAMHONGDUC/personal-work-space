@@ -7,6 +7,7 @@ import { EffectGrid } from "@/components/effects/EffectGrid";
 import { EffectPreview } from "@/components/effects/EffectPreview";
 import { EffectTree } from "@/components/effects/EffectTree";
 import { FilterPanel } from "@/components/effects/FilterPanel";
+import { useEffectUploads } from "@/hooks/useEffectUploads";
 import {
   EFFECT_KINDS,
   type EffectEntry,
@@ -14,6 +15,7 @@ import {
   type EffectTreeCategory,
 } from "@/lib/effect-model";
 import { searchEffects } from "@/lib/effect-search";
+import { treeWithUploads, uploadedEntries } from "@/lib/effect-uploads";
 
 /**
  * Past this many hits the grid is too long to scan, and each tile is an image
@@ -27,13 +29,15 @@ const RESULT_LIMIT = 120;
  */
 export function EffectIndex({
   categories,
-  entries,
+  entries: synced,
   tree,
 }: {
   categories: CategorySummary[];
   entries: EffectEntry[];
   tree: EffectTreeCategory[];
 }) {
+  const { manifest } = useEffectUploads();
+  const entries = useMemo(() => [...uploadedEntries(manifest), ...synced], [manifest, synced]);
   const [query, setQuery] = useState("");
   const [kind, setKind] = useState<EffectKind | null>(null);
   const [open, setOpen] = useState<number | null>(null);
@@ -71,7 +75,7 @@ export function EffectIndex({
             placeholder="Search every effect…"
           />
         )}
-        nav={<EffectTree categories={tree} />}
+        nav={<EffectTree categories={treeWithUploads(tree, manifest)} />}
       >
         {!searching ? (
           <ul className="grid gap-3 sm:grid-cols-2">

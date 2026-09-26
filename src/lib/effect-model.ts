@@ -78,6 +78,12 @@ export type EffectCategory = {
 
 export type EffectLibrary = {
   driveFolderId: string;
+  /**
+   * Where files uploaded from the site go, inside `driveFolderId`, and the
+   * JSON beside them that lists them. The sync leaves both alone: uploads are
+   * read from that JSON at runtime, not baked into the build.
+   */
+  uploads: { folderName: string; manifestName: string };
   categories: EffectCategory[];
 };
 
