@@ -16,7 +16,7 @@ export default function Home() {
           {site.publisher}
         </span>
         <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">
-          Apps and CV
+          Home
         </h1>
         <p className="text-lg leading-8 text-muted">
           {site.description}
