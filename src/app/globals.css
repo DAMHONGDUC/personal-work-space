@@ -140,3 +140,19 @@ html {
     animation-range: 0 4rem;
   }
 }
+
+/*
+ * The backdrop behind an effect's preview. Many are PNGs or GIFs with a
+ * transparent background, and a checkerboard is how an editor shows that.
+ * Built from the palette, so it follows dark mode like everything else.
+ */
+.checkerboard {
+  background-color: var(--muted-surface);
+  background-image: conic-gradient(
+    var(--border) 25%,
+    transparent 0 50%,
+    var(--border) 0 75%,
+    transparent 0
+  );
+  background-size: 16px 16px;
+}

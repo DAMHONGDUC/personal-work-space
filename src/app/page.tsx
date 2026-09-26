@@ -3,11 +3,15 @@ import { formatDate, getApps, site } from "@/lib/apps";
 import { cv } from "@/lib/cv";
 import { DOCS_ACCENT } from "@/lib/doc-model";
 import { getDocBundles } from "@/lib/docs";
+import { EFFECTS_ACCENT } from "@/lib/effect-model";
+import { getEffectCategories } from "@/lib/effects";
 import { routes } from "@/lib/routes";
 
 export default function Home() {
   const apps = getApps();
   const docs = getDocBundles();
+  const effectCategories = getEffectCategories();
+  const effectCount = effectCategories.reduce((sum, category) => sum + category.total, 0);
 
   return (
     <main className="mx-auto w-full max-w-5xl px-6 py-20">
@@ -23,7 +27,7 @@ export default function Home() {
         </p>
       </div>
 
-      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-3 sm:grid-cols-2">
         <HubCard
           href={routes.apps}
           icon="🛡️"
@@ -39,6 +43,14 @@ export default function Home() {
           title="Guides"
           description="Setup notes written down once, with every section linked so you can start where you are stuck."
           meta={`${docs.length} ${docs.length === 1 ? "guide" : "guides"}`}
+        />
+        <HubCard
+          href={routes.effects}
+          icon="🎬"
+          accent={EFFECTS_ACCENT}
+          title="Effects library"
+          description="Transitions, sound effects, overlays and animated elements for video editing, sorted by category with a preview for each."
+          meta={`${effectCount} files in ${effectCategories.length} categories`}
         />
         <HubCard
           href={routes.cv}
