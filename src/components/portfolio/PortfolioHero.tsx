@@ -22,7 +22,7 @@ export function PortfolioHero({ portfolio, stats }: { portfolio: Portfolio; stat
     <header className="relative">
       <HeroBackdrop />
 
-      <div className={`relative mx-auto flex w-full max-w-5xl flex-col gap-12 px-6 ${AppSpacings.PORTFOLIO_HERO_BOTTOM} ${AppSpacings.PAGE_TOP}`}>
+      <div className={`relative mx-auto flex w-full max-w-5xl flex-col gap-12 px-6 ${AppSpacings.PAGE_TOP}`}>
         <div className="flex flex-col-reverse items-center gap-12 md:flex-row md:justify-between">
           <div className="flex max-w-2xl flex-col gap-6">
             {portfolio.status && (

@@ -211,9 +211,9 @@
   the first thing under the sticky header — `PageContainer`, a hero,
   `LegacyRedirect` — takes `AppSpacings.PAGE_TOP`; the gap after a hero, before the
   footer and inside a hero's foot are `AFTER_HERO`, `PAGE_BOTTOM` and
-  `HERO_BOTTOM`; the portfolio's sections and the foot of its hero take
-  `PORTFOLIO_SECTION` / `PORTFOLIO_HERO_BOTTOM`, so the hero-to-About gap
-  matches the gap between sections. Never write a page-level `pt-*`/`pb-*` by hand; change the
+  `HERO_BOTTOM`. The portfolio has one gap, `PORTFOLIO_GAP`: its sections
+  carry no padding, and `PortfolioTheme` (hero to body) and
+  `PortfolioSections` (section to section) stack with that one value. Never write a page-level `pt-*`/`pb-*` by hand; change the
   constant and every page moves together.
 - Page-level layout is in `src/components/layout/`: `PageContainer` (the
   `<main>`, spacing picked by name), `PageIntro`, `CompactPageHeader`,

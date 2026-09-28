@@ -20,12 +20,11 @@ export class AppSpacings {
   static readonly HERO_BOTTOM = "pb-12";
 
   /**
-   * Above and below each portfolio section, so two sections sit twice this
-   * apart. The portfolio's hero ends on the same half-gap, so the hero and
-   * the first section are spaced like any two sections.
+   * The one gap on the portfolio: between the hero and the first section, and
+   * between every two sections. Sections carry no padding of their own — the
+   * page stacks its blocks with this gap — so the two can never differ.
    */
-  static readonly PORTFOLIO_SECTION = "py-8";
-  static readonly PORTFOLIO_HERO_BOTTOM = "pb-8";
+  static readonly PORTFOLIO_GAP = "gap-16";
 
   // Static members only: the class is a namespace, and there is nothing to construct.
   private constructor() {}
