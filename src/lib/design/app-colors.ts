@@ -32,6 +32,20 @@ export class AppColors {
   /** The CV card on the home page. */
   static readonly CV = "#0ea5e9";
 
+  /**
+   * The published brand colour of each tool whose mark the site draws, taken
+   * from the maker's own logo — never picked to match the page. A tool whose
+   * mark is monochrome (Next.js) has no entry and is drawn in the text colour.
+   */
+  static readonly BRAND = {
+    android: "#3DDC84",
+    flutter: "#54C5F8",
+    react: "#61DAFB",
+    firebase: "#FFCA28",
+    claude: "#D97757",
+    githubActions: "#2088FF",
+  } as const;
+
   /** A guide's `note` block, by tone. */
   static readonly NOTE_INFO = "#0ea5e9";
   static readonly NOTE_WARNING = "#f59e0b";

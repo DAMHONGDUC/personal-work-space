@@ -9,7 +9,7 @@ import {
   titleCase,
   yearsSince,
 } from "@/lib/portfolio/portfolio";
-import { PORTFOLIO_SECTIONS, SKILL_ICON_IDS } from "@/lib/portfolio/portfolio-model";
+import { PORTFOLIO_SECTIONS, SKILL_ICON_IDS, SKILL_ICON_TOOLS } from "@/lib/portfolio/portfolio-model";
 import { ResourceConstant } from "@/lib/resource-constant.mts";
 
 const HTTPS = /^https:\/\//;
@@ -46,6 +46,19 @@ describe("portfolio.json", () => {
     for (const id of Object.values(page.skillIcons)) {
       expect([...SKILL_ICON_IDS] as string[]).toContain(id);
     }
+  });
+
+  it("marks each skill area with a tool that area actually lists", () => {
+    // A logo stands for one tool, in that tool's colour; it has to be one the
+    // area names, not a loose picture of the topic.
+    const wrong = cv.skills
+      .filter((skill) => {
+        const tool = SKILL_ICON_TOOLS[page.skillIcons[skill.name] as keyof typeof SKILL_ICON_TOOLS];
+        return !`${skill.name}, ${skill.items}`.includes(tool);
+      })
+      .map((skill) => skill.name);
+
+    expect(wrong).toEqual([]);
   });
 
   it("names something being learnt", () => {

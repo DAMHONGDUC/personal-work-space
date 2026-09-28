@@ -21,12 +21,36 @@ import type { Education, Experience, Project, Skill } from "@/lib/cv/cv-types";
 export type PublicPath = string;
 
 /**
- * The icon a skill area is drawn with. The ids are the page's own; which mark
- * each one is lives in `SkillIcon`, so the JSON never names an icon library.
+ * The mark a skill area is drawn with: always a real tool the area lists,
+ * drawn in that tool's own brand colour. The ids are the page's own; which
+ * mark and colour each one is lives in `SkillIcon`, so the JSON never names an
+ * icon library or a colour.
  */
-export const SKILL_ICON_IDS = ["android", "flutter", "react", "backend", "web", "ai", "release"] as const;
+export const SKILL_ICON_IDS = [
+  "android",
+  "flutter",
+  "react",
+  "firebase",
+  "nextjs",
+  "claude",
+  "github-actions",
+] as const;
 
 export type SkillIconId = (typeof SKILL_ICON_IDS)[number];
+
+/**
+ * The tool each mark stands for, as the CV spells it. A skill area may only
+ * take a mark whose tool it names, which a test checks against the CV.
+ */
+export const SKILL_ICON_TOOLS: Record<SkillIconId, string> = {
+  android: "Android",
+  flutter: "Flutter",
+  react: "React Native",
+  firebase: "Firebase",
+  nextjs: "Next.js",
+  claude: "Claude Code",
+  "github-actions": "GitHub Actions",
+};
 
 /** The shape of `src/data/portfolio.json`: presentation, never a fact. */
 export type PortfolioPage = {

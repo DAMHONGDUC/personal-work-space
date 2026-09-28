@@ -9,10 +9,10 @@
     "Native Android": "android",
     "Flutter": "flutter",
     "React Native": "react",
-    "Backend & Integration": "backend",
-    "Web": "web",
-    "AI-Assisted Development": "ai",
-    "CI/CD & Release": "release"
+    "Backend & Integration": "firebase",
+    "Web": "nextjs",
+    "AI-Assisted Development": "claude",
+    "CI/CD & Release": "github-actions"
   },
   "timezone": "GMT+7",
   "contact": {
