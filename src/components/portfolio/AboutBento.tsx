@@ -1,12 +1,13 @@
 import { Clock, GraduationCap, MapPin, Sparkles } from "lucide-react";
-import { ExternalLink } from "@/components/portfolio/ExternalLink";
 import { GlassCard } from "@/components/portfolio/GlassCard";
+import { ExternalLink } from "@/components/portfolio/ExternalLink";
 import { StatusPill } from "@/components/portfolio/StatusPill";
 import type { Portfolio } from "@/lib/portfolio/portfolio-model";
 import { AppTextStyles } from "@/lib/design/app-text-styles";
 
 /**
- * About, as a bento grid: the CV's About me and education take the big tile,
+ * About, as a bento grid: the portfolio's own introduction and the CV's
+ * education take the big tile,
  * and the small facts — where, what is being learnt, availability — stack
  * beside it a tile each. No photo here: the page shows the CV's one photo, in
  * the hero.
@@ -18,7 +19,7 @@ export function AboutBento({ portfolio }: { portfolio: Portfolio }) {
     <div className="grid gap-4 md:grid-cols-3">
       <GlassCard className="flex flex-col justify-between gap-8 md:col-span-2 md:row-span-3">
         <div className="flex flex-col gap-4">
-          {portfolio.aboutMe.map((paragraph) => (
+          {portfolio.story.map((paragraph) => (
             <p key={paragraph} className={`${AppTextStyles.BODY} first:text-lg first:text-foreground`}>
               {paragraph}
             </p>

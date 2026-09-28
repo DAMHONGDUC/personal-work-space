@@ -84,7 +84,14 @@ export type Cv = {
     photo: string;
     contacts: Contact[];
   };
+  /** The short introduction printed on the CV. */
   aboutMe: string[];
+  /**
+   * The longer introduction the portfolio shows, in paragraphs. Never printed
+   * on the PDF, which keeps the short `aboutMe`; it lives here so every fact
+   * about the publisher stays in one file. Required on the default CV.
+   */
+  portfolioAbout?: string[];
   education: Education[];
   skills: Skill[];
   experience: Experience[];

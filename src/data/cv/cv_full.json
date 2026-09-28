@@ -30,6 +30,10 @@
     "Mobile engineer with 4+ years in native Android, Flutter and React Native, on team products and on apps built from scratch.",
     "Based in Ho Chi Minh City."
   ],
+  "portfolioAbout": [
+    "I'm a mobile engineer based in Ho Chi Minh City, building apps in native Android, Flutter and React Native since 2022. I started on a trading app at Flynk, spent two years at TGL Solutions shipping warehouse, booking and e-learning apps, and alongside that took a virtual pet game for P&A Inc. in Japan from an empty repository to release. Today I work at Oivan on a real estate product for a Saudi Arabian government client, inside a twenty-developer mobile team.",
+    "I care about apps that stay fast and easy to change. On Oivan's performance team I cut the app from 200MB to 90MB and brought key screens from 30–40 FPS to a steady 60; elsewhere I have embedded Unity into Flutter, built offline-first sync for handheld barcode scanners, and integrated payments, push notifications and SSL pinning. I work with Clean Architecture and BLoC every day, lead small teams when a project needs it, and use AI-assisted tools such as Claude Code to move faster."
+  ],
   "education": [
     {
       "institution": "University of Science - VNUHCM",

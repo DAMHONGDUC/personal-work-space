@@ -59,13 +59,17 @@ export function buildPortfolio(source: Cv, extras: PortfolioPage): Portfolio {
 
   if (!newest || !oldest) throw new Error("The CV has no experience to show on the portfolio");
   if (!email) throw new Error("The CV has no email contact for the portfolio");
+  if (!source.portfolioAbout?.length) {
+    throw new Error("The CV has no portfolioAbout, the portfolio's own introduction");
+  }
 
   return {
     ...extras,
     name: titleCase(source.header.name),
     photo: `/${ResourceConstant.CV_ASSETS_DIR.replace(/^public\//, "")}/${source.header.photo}`,
     role: newest.role,
-    aboutMe: source.aboutMe,
+    headline: source.aboutMe[0],
+    story: source.portfolioAbout,
     location: newest.location,
     education: source.education,
     skills: source.skills,

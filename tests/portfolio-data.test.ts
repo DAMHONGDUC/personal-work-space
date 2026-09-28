@@ -69,7 +69,8 @@ describe("portfolio.json", () => {
 describe("portfolio and CV", () => {
   it("show the same facts", () => {
     // The point of building one from the other: they cannot disagree.
-    expect(portfolio.aboutMe).toBe(cv.aboutMe);
+    expect(portfolio.headline).toBe(cv.aboutMe[0]);
+    expect(portfolio.story).toBe(cv.portfolioAbout);
     expect(portfolio.education).toBe(cv.education);
     expect(portfolio.skills).toBe(cv.skills);
     expect(portfolio.experience).toBe(cv.experience);
@@ -86,6 +87,16 @@ describe("portfolio and CV", () => {
     expect(portfolio.photo.endsWith(`/${cv.header.photo}`)).toBe(true);
     expect(fs.existsSync(file)).toBe(true);
     expect(fs.existsSync(path.join(process.cwd(), ResourceConstant.PUBLIC_DIR, "portfolio"))).toBe(false);
+  });
+
+  it("tells a longer story than the CV's short introduction", () => {
+    // Two introductions, one file: the CV prints aboutMe, the portfolio shows
+    // portfolioAbout — two full paragraphs, and not the CV's lines again.
+    expect(cv.portfolioAbout).toHaveLength(2);
+    expect(cv.portfolioAbout?.join(" ").length).toBeGreaterThan(cv.aboutMe.join(" ").length * 2);
+    for (const paragraph of cv.portfolioAbout ?? []) {
+      expect(cv.aboutMe).not.toContain(paragraph);
+    }
   });
 
   it("takes the email and profiles from the CV's contacts", () => {
@@ -120,7 +131,7 @@ describe("portfolio and CV", () => {
       "projects",
       "contact",
     ]);
-    expect(portfolio.aboutMe.length).toBeGreaterThan(0);
+    expect(portfolio.story.length).toBeGreaterThan(0);
     expect(portfolio.skills.length).toBeGreaterThan(0);
     expect(portfolio.experience.length).toBeGreaterThan(0);
     expect(portfolio.projects.length).toBeGreaterThan(0);

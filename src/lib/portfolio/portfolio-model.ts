@@ -93,8 +93,10 @@ export type Portfolio = PortfolioPage & {
   photo: PublicPath;
   /** The current role: the newest job's title. */
   role: string;
-  /** The CV's About me, first paragraph first — it doubles as the hero's lead. */
-  aboutMe: string[];
+  /** The CV's short About me, first line: the hero's lead. */
+  headline: string;
+  /** The portfolio's own, longer introduction: the CV's `portfolioAbout`. */
+  story: string[];
   /** Where the newest job is. */
   location: string;
   education: Education[];
