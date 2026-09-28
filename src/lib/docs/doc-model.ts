@@ -31,6 +31,39 @@ export const LANGUAGE_LABELS: Record<Lang, string> = {
   vi: "Tiếng Việt",
 };
 
+/**
+ * The shelves the guide index is sorted onto, in the order they are shown.
+ *
+ * A guide sits on exactly one. The id is data and the same in both language
+ * files — the test compares it with the rest of the skeleton — and the label is
+ * looked up here, so a topic is renamed once rather than in every guide.
+ */
+export const DOC_TOPICS = [
+  "architecture",
+  "react-native",
+  "flutter",
+  "ios",
+  "android",
+  "web",
+  "security",
+  "tooling",
+  "interview",
+] as const;
+
+export type DocTopic = (typeof DOC_TOPICS)[number];
+
+export const TOPIC_LABELS: Record<DocTopic, Record<Lang, string>> = {
+  architecture: { en: "Architecture", vi: "Kiến trúc" },
+  "react-native": { en: "React & React Native", vi: "React & React Native" },
+  flutter: { en: "Flutter", vi: "Flutter" },
+  ios: { en: "iOS & Swift", vi: "iOS & Swift" },
+  android: { en: "Android", vi: "Android" },
+  web: { en: "Web", vi: "Web" },
+  security: { en: "Security", vi: "Bảo mật" },
+  tooling: { en: "Git & tooling", vi: "Git & công cụ" },
+  interview: { en: "Interview prep", vi: "Ôn phỏng vấn" },
+};
+
 /** The block types a guide is built from. */
 export type Block =
   /** A sub-heading inside a section, for the "one way / the other way" splits. */
@@ -105,6 +138,8 @@ export type DocData = {
   title: string;
   tagline: string;
   icon: string;
+  /** The shelf the index puts it on. Language-independent, like a section id. */
+  topic: DocTopic;
   /** Product names, left untranslated. */
   tags: string[];
   readingTime: string;

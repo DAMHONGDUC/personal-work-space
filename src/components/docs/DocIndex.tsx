@@ -5,7 +5,13 @@ import { DocCard } from "@/components/docs/DocCard";
 import { LanguageSwitch } from "@/components/docs/LanguageSwitch";
 import { useDocLanguage } from "@/hooks/docs/useDocLanguage";
 import { useDocSearch } from "@/hooks/docs/useDocSearch";
-import { DOCS_ACCENT, type Lang, type Doc } from "@/lib/docs/doc-model";
+import {
+  DOC_TOPICS,
+  DOCS_ACCENT,
+  TOPIC_LABELS,
+  type Doc,
+  type Lang,
+} from "@/lib/docs/doc-model";
 
 /**
  * The guide list, in the reader's language. The choice is shared with the guide
@@ -14,6 +20,9 @@ import { DOCS_ACCENT, type Lang, type Doc } from "@/lib/docs/doc-model";
  * Search runs over the language on screen and over the whole text of a guide,
  * diagram dialogs included: the page already ships every guide it lists, so
  * there is nothing to fetch and nothing to index at build time.
+ *
+ * The cards are shelved by topic, in `DOC_TOPICS` order, and a shelf that the
+ * search has emptied is left out rather than drawn as a heading over nothing.
  */
 export function DocIndex({ versions }: { versions: Record<Lang, Doc[]> }) {
   const [lang, setLang] = useDocLanguage();
@@ -46,10 +55,29 @@ export function DocIndex({ versions }: { versions: Record<Lang, Doc[]> }) {
           reads the guides as they are written, not translations of them.
         </p>
       ) : (
-        <div className="flex flex-col gap-4">
-          {results.map(({ doc, sections }) => (
-            <DocCard key={doc.slug} doc={doc} lang={lang} sections={sections} />
-          ))}
+        <div className="flex flex-col gap-12">
+          {DOC_TOPICS.map((topic) => {
+            const shelf = results.filter(({ doc }) => doc.topic === topic);
+            if (shelf.length === 0) return null;
+
+            return (
+              <section key={topic} aria-labelledby={`topic-${topic}`} className="flex flex-col gap-4">
+                <h2
+                  id={`topic-${topic}`}
+                  lang={lang}
+                  className="flex items-baseline gap-3 text-sm font-medium uppercase tracking-wider text-muted"
+                >
+                  {TOPIC_LABELS[topic][lang]}
+                  <span className="text-xs font-normal normal-case tracking-normal">
+                    {shelf.length}
+                  </span>
+                </h2>
+                {shelf.map(({ doc, sections }) => (
+                  <DocCard key={doc.slug} doc={doc} lang={lang} sections={sections} />
+                ))}
+              </section>
+            );
+          })}
         </div>
       )}
     </>

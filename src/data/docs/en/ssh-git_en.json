@@ -2,6 +2,7 @@
   "title": "Set up SSH for git",
   "tagline": "Keys, agent and config, so pushing stops asking who you are.",
   "icon": "🔑",
+  "topic": "tooling",
   "tags": [
     "Git",
     "SSH",

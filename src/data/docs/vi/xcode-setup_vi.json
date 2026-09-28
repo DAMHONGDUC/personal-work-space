@@ -2,6 +2,7 @@
   "title": "Set up Xcode trên máy Mac mới",
   "tagline": "Từ máy trắng đến build nằm trên TestFlight, cho người đã đóng tiền Apple Developer Program.",
   "icon": "🛠️",
+  "topic": "ios",
   "tags": [
     "Xcode",
     "iOS",

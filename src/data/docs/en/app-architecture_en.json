@@ -2,6 +2,7 @@
   "title": "Flutter, React Native and React inside",
   "tagline": "What actually draws the pixels in each of them, and where clean architecture fits.",
   "icon": "🏗️",
+  "topic": "architecture",
   "tags": [
     "Flutter",
     "React Native",

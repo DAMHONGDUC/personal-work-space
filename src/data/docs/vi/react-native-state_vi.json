@@ -2,6 +2,7 @@
   "title": "State trong React Native, phân cho rõ",
   "tagline": "Cục bộ, server, toàn cục, điều hướng — và công cụ mà mỗi loại đòi hỏi.",
   "icon": "⚛️",
+  "topic": "react-native",
   "tags": [
     "React Native",
     "Redux",

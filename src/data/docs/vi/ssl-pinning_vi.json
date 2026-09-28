@@ -2,6 +2,7 @@
   "title": "SSL pinning trong app mobile",
   "tagline": "Ghim key của server, để một proxy có certificate được tin vẫn không đọc được gì.",
   "icon": "📌",
+  "topic": "security",
   "tags": [
     "Security",
     "TLS",

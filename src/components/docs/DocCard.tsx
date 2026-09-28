@@ -46,14 +46,15 @@ export function DocCard({
                 </Badge>
               ))}
             </div>
-            <h2 className="text-xl font-semibold tracking-tight">
+            {/* h3: the index shelves cards under a topic heading. */}
+            <h3 className="text-xl font-semibold tracking-tight">
               <Link href={routes.doc(doc.slug)} className="transition-opacity hover:opacity-70">
                 {/* Stretches over the whole card so the title is the click target
                     everywhere the section links are not. */}
                 <span aria-hidden className="absolute inset-0" />
                 <span lang={lang}>{doc.title}</span>
               </Link>
-            </h2>
+            </h3>
             <p lang={lang} className="text-sm leading-6 text-muted">
               {doc.tagline}
             </p>

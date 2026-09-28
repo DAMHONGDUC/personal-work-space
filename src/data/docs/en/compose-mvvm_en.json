@@ -2,6 +2,7 @@
   "title": "Jetpack Compose and MVVM",
   "tagline": "State down, events up, and a ViewModel that owns the screen's decisions.",
   "icon": "🤖",
+  "topic": "android",
   "tags": [
     "Android",
     "Compose",

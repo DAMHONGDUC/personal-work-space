@@ -2,6 +2,7 @@
   "title": "State trong Flutter: Provider và Bloc",
   "tagline": "Ai giữ giá trị, và ai phải dựng lại khi nó đổi.",
   "icon": "🧊",
+  "topic": "flutter",
   "tags": [
     "Flutter",
     "Provider",

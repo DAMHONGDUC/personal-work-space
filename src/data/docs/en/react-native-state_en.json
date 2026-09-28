@@ -2,6 +2,7 @@
   "title": "React Native state, sorted",
   "tagline": "Local, server, global, navigation — and the tool each one asks for.",
   "icon": "⚛️",
+  "topic": "react-native",
   "tags": [
     "React Native",
     "Redux",

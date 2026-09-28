@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
 import {
+  DOC_TOPICS,
   LANGUAGES,
   type Block,
   type CodeBlock,
@@ -17,6 +18,7 @@ const ALLOWED_KEYS = new Set([
   "title",
   "tagline",
   "icon",
+  "topic",
   "tags",
   "readingTime",
   "effectiveDate",
@@ -76,6 +78,7 @@ const MIN_EXPLAIN_LENGTH = 60;
 function skeleton(doc: Doc) {
   return {
     icon: doc.icon,
+    topic: doc.topic,
     tags: doc.tags,
     effectiveDate: doc.effectiveDate,
     lastUpdated: doc.lastUpdated,
@@ -272,6 +275,10 @@ describe.each(bundles.map((bundle) => [bundle.slug, bundle] as const))(
         expect(
           blocks.filter((block) => block.type === "flow").length,
         ).toBeGreaterThan(0);
+      });
+
+      it("sits on a shelf the index knows", () => {
+        expect([...DOC_TOPICS] as string[]).toContain(doc.topic);
       });
 
       it("has tags and an intro", () => {

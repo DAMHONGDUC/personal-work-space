@@ -2,6 +2,7 @@
   "title": "Flutter state: Provider and Bloc",
   "tagline": "Who holds the value, and who rebuilds when it changes.",
   "icon": "🧊",
+  "topic": "flutter",
   "tags": [
     "Flutter",
     "Provider",

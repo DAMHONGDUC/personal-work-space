@@ -2,6 +2,7 @@
   "title": "Set up SSH cho git",
   "tagline": "Key, agent và config, để push thôi hỏi bạn là ai.",
   "icon": "🔑",
+  "topic": "tooling",
   "tags": [
     "Git",
     "SSH",

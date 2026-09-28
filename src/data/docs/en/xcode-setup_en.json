@@ -2,6 +2,7 @@
   "title": "Set up Xcode on a new Mac",
   "tagline": "From a blank machine to a build on TestFlight, for anyone already paying for the Apple Developer Program.",
   "icon": "🛠️",
+  "topic": "ios",
   "tags": [
     "Xcode",
     "iOS",
