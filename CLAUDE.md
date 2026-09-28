@@ -78,19 +78,25 @@
     in place, so a differing id would drop the reader out of their section.
   - Commands in a `code` block stay the same in both languages. Anything that
     needs explaining goes in the localized `caption`, not a comment in the code.
-- **Portfolio**: `src/data/portfolio.json`, one file, English only, rendered at
-  `/personal/portfolio` by the components in `src/components/portfolio/`. Its
-  images live under `public/portfolio/`, and `tests/portfolio-data.test.ts`
-  fails on a path that is missing *and* on a file there that nothing draws.
-  A logo is optional: an employer without one gets its initials, which beats a
-  wrong logo. The figures under the hero (years, technologies, companies,
-  projects) are computed by `portfolioStats` — years from `careerStart` at build
-  time — so never type a number of years into the copy. Its look is the
-  `.pf-*` block in `globals.css` plus one accent handed down as `--pf-a` by
-  `PortfolioTheme`. Keep it quiet: the accent marks a rule, a dot, a full stop —
-  no gradients on text, buttons or borders, nothing spinning or drifting. Every
-  animation sits behind `prefers-reduced-motion: no-preference`. It is its own document, not a view of the CV — the CV sits behind
-  the password curtain and the portfolio does not.
+- **Portfolio**: rendered at `/personal/portfolio` by the components in
+  `src/components/portfolio/`. **Every fact comes from the default CV**
+  (`cv_full.json`) — name, role, About me, education, skills, jobs, projects,
+  email, GitHub and LinkedIn — through `buildPortfolio` in
+  `src/lib/portfolio/portfolio.ts`, so the portfolio and the CV cannot drift.
+  To change what the portfolio says, edit the CV. `src/data/portfolio.json`
+  holds presentation only (greeting, status, photos, what is being learnt,
+  time zone, the contact line), and a test fails if a fact is added there.
+  Images live under `public/portfolio/`; the test fails on a missing file and
+  on one nothing draws. The figures under the hero are computed by
+  `portfolioStats` — years from the oldest job's start — so never type a number
+  of years into any copy. Profile links use the real brand marks from
+  `react-icons` (`react-icons/fa6`), never a lookalike glyph. The page's
+  sections are pinned in the site header by `HeaderNav`, from
+  `PORTFOLIO_SECTIONS`. Its look is the `.pf-*` block in `globals.css` plus one
+  accent handed down as `--pf-a` by `PortfolioTheme`. Keep it quiet: the accent
+  marks a rule, a dot, a full stop — no gradients on text, buttons or borders,
+  nothing spinning or drifting. Every animation sits behind
+  `prefers-reduced-motion: no-preference`.
 - **Effects library**: one file per pack in `src/data/effects/` — a pack is a
   top-level folder of the public Drive named in `src/data/effect-library.json`,
   which also holds the categories. The `items` are **generated** by
