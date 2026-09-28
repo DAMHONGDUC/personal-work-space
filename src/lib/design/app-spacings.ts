@@ -19,6 +19,14 @@ export class AppSpacings {
   /** Between a hero's own content and its bottom border. */
   static readonly HERO_BOTTOM = "pb-12";
 
+  /**
+   * Above and below each portfolio section, so two sections sit twice this
+   * apart. The portfolio's hero ends on the same half-gap, so the hero and
+   * the first section are spaced like any two sections.
+   */
+  static readonly PORTFOLIO_SECTION = "py-8";
+  static readonly PORTFOLIO_HERO_BOTTOM = "pb-8";
+
   // Static members only: the class is a namespace, and there is nothing to construct.
   private constructor() {}
 }
