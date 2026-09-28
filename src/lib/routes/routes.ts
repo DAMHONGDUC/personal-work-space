@@ -28,7 +28,7 @@ export const routes = {
   effectCategory: (id: string) => `/effects/${id}`,
   /** The publisher's introduction: skills, experience, projects. Public. */
   portfolio: "/personal/portfolio",
-  /** The CV, behind the password curtain. */
+  /** The CV: every version, readable online and downloadable. */
   cv: "/personal/cv",
 } as const;
 

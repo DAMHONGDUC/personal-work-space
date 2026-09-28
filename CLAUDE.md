@@ -223,7 +223,7 @@
   a path in a component, a test or the sitemap.
 - The site has four top-level sections: `/apps`, `/docs`, `/effects` and
   `/personal`. `/personal` holds the portfolio and the CV, and its root forwards
-  to the portfolio — the public page, not the one behind a password.
+  to the portfolio.
 - `/<slug>/` and `/<slug>/privacy_policy/` are **legacy addresses submitted to
   the app stores**. They must keep resolving — they render a `noindex` meta
   refresh to the current path. Do not delete them.
@@ -254,8 +254,8 @@
 - Every font size lives in the `\cv*` macros in `cv/template/main.tex`. The
   renderer marks up meaning, never size — a test fails if the generated LaTeX
   contains `\fontsize`.
-- The CV page sits behind a password (`CvGate`). Only its SHA-256 is in the
-  code, never the password. It is a curtain, not access control: a static
-  export has no server, so the PDFs and page images stay reachable by URL.
+- The CV page is public: no password, no gate. Do not add one back — a static
+  export has no server, so it could only ever be a curtain over files that stay
+  reachable by URL.
 - Only CI typesets the PDF. Locally `npm run cv:pdf` needs a LaTeX engine and
   poppler; without them the CV page degrades to a message and nothing breaks.

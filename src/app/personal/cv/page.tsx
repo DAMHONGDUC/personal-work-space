@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { CvGate } from "@/components/cv/CvGate";
 import { CvSwitcher } from "@/components/cv/CvSwitcher";
 import { PageContainer } from "@/components/layout/PageContainer";
 import { PageIntro } from "@/components/layout/PageIntro";
@@ -26,9 +25,7 @@ export default function CvPage() {
         you are hiring for, read it below, or take a copy with you.
       </PageIntro>
 
-      <CvGate>
-        <CvSwitcher versions={versions} />
-      </CvGate>
+      <CvSwitcher versions={versions} />
     </PageContainer>
   );
 }
