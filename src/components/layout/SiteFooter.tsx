@@ -1,5 +1,3 @@
-import Link from "next/link";
-import { routes } from "@/lib/routes/routes";
 import { AppTextStyles } from "@/lib/design/app-text-styles";
 
 export function SiteFooter({ publisher }: { publisher: string }) {
@@ -9,17 +7,6 @@ export function SiteFooter({ publisher }: { publisher: string }) {
         <p>
           © {new Date().getFullYear()} {publisher}. All rights reserved.
         </p>
-        <nav className="flex items-center gap-5">
-          <Link
-            href={routes.apps}
-            className="transition-colors hover:text-foreground"
-          >
-            Privacy policies
-          </Link>
-          <Link href={routes.cv} className="transition-colors hover:text-foreground">
-            CV
-          </Link>
-        </nav>
       </div>
     </footer>
   );
