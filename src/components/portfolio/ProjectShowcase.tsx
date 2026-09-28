@@ -1,11 +1,12 @@
-import { ArrowUpRight, Code, Globe } from "lucide-react";
+import { ArrowUpRight, Globe } from "lucide-react";
+import { FaGithub } from "react-icons/fa6";
 import { SpotlightCard } from "@/components/portfolio/SpotlightCard";
 import type { Project } from "@/lib/cv/cv-types";
 import { AppTextStyles } from "@/lib/design/app-text-styles";
 
-/** A GitHub link gets a code glyph; anything else a globe. */
+/** A GitHub link gets GitHub's mark; anything else a globe. */
 function linkIcon(href: string) {
-  return new URL(href).hostname.replace(/^www\./, "") === "github.com" ? Code : Globe;
+  return new URL(href).hostname.replace(/^www\./, "") === "github.com" ? FaGithub : Globe;
 }
 
 function ProjectCard({ project, index }: { project: Project; index: number }) {

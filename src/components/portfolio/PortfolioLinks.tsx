@@ -1,13 +1,16 @@
-import { Briefcase, GitBranch, Globe, type LucideIcon } from "lucide-react";
+import { Globe } from "lucide-react";
+import type { IconType } from "react-icons";
+import { FaGithub, FaLinkedin } from "react-icons/fa6";
 import type { PortfolioLink } from "@/lib/portfolio/portfolio-model";
 
 /**
- * lucide has no brand logos, so each kind gets the closest generic glyph;
- * the label is what actually names the site.
+ * The real marks for the two profiles, from react-icons' Font Awesome brands
+ * set — lucide has no brand logos, and a stand-in glyph reads as a mistake.
+ * Anything else the CV links to gets a plain globe.
  */
-const ICONS: Record<PortfolioLink["kind"], LucideIcon> = {
-  github: GitBranch,
-  linkedin: Briefcase,
+const ICONS: Record<PortfolioLink["kind"], IconType> = {
+  github: FaGithub,
+  linkedin: FaLinkedin,
   website: Globe,
 };
 
