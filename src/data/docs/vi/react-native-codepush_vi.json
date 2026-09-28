@@ -1,0 +1,219 @@
+{
+  "title": "Cập nhật app React Native bằng CodePush",
+  "tagline": "Đẩy bundle JavaScript mới tới app đã cài mà không cần qua review của store.",
+  "icon": "🚀",
+  "topic": "react-native",
+  "tags": [
+    "React Native",
+    "CodePush",
+    "App Center"
+  ],
+  "readingTime": "7 phút",
+  "effectiveDate": "2026-09-28",
+  "lastUpdated": "2026-09-28",
+  "intro": [
+    "CodePush thay bundle JavaScript bên trong app đã cài. Code native vẫn phải phát hành qua store; phần viết bằng JS thì không."
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Tổng quan",
+      "summary": "Cài một lần, sau đó mỗi bản phát hành chỉ là một lệnh.",
+      "blocks": [
+        {
+          "type": "flow",
+          "caption": "Từ terminal của bạn tới chiếc điện thoại đã cài app.",
+          "stages": [
+            {
+              "items": [
+                {
+                  "label": "Cài CLI",
+                  "detail": "appcenter-cli đăng nhập cho bạn và là công cụ mọi bước sau đều chạy qua",
+                  "explain": [
+                    "npm install -g appcenter-cli cài nó toàn cục. code-push-cli cũ đã bị ngừng hỗ trợ, nên đừng bắt đầu dự án mới với nó.",
+                    "appcenter login mở trình duyệt và trả về một token; dán nó vào terminal là CLI được gắn với tài khoản của bạn."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Tạo app",
+                  "detail": "Mỗi nền tảng một app trên App Center: iOS và Android có deployment key riêng",
+                  "explain": [
+                    "appcenter apps create -d demo -o iOS -p React-Native tạo nửa iOS; chạy lại với -o Android cho nửa còn lại.",
+                    "-d là tên hiển thị, -o là hệ điều hành và -p là platform. Sau đó app sẽ hiện trên trang chủ App Center."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Gắn SDK",
+                  "detail": "react-native-code-push khiến bản release đọc bundle từ CodePush",
+                  "explain": [
+                    "Trên iOS, sourceURLForBridge trả về [CodePush bundleURL] ở release và giữ URL Metro ở debug, nên lúc phát triển không bị ảnh hưởng.",
+                    "Deployment key được thêm vào Info.plist với tên CodePushDeploymentKey. Staging và Production mỗi bên một key, và key quyết định build nghe kênh nào.",
+                    "Bọc root component bằng codePush() là thứ khiến app kiểm tra bản cập nhật mỗi khi khởi động."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Phát hành",
+                  "detail": "release-react đóng gói JS và tải lên một deployment, Staging hoặc Production",
+                  "explain": [
+                    "appcenter codepush release-react -a damhongduc/demo -d Staging: -a là owner/app và -d là deployment sẽ nhận bản phát hành.",
+                    "Mỗi lần phát hành có một nhãn như v3 trên trang CodePush, đó là cách biết thiết bị đang chạy bundle nào."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Thiết bị cập nhật",
+                  "detail": "Bản release kiểm tra khi mở, tải bundle về và áp dụng ở lần khởi động kế tiếp",
+                  "explain": [
+                    "Thử bằng npx react-native run-ios --configuration Release — bản debug đọc từ Metro và không bao giờ hỏi CodePush.",
+                    "Mặc định bản cập nhật được cài ở lần khởi động lại, nên hãy tắt hẳn rồi mở lại app sau khi phát hành để thấy thay đổi."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "warning",
+          "body": [
+            "Microsoft đã ngừng App Center từ ngày 31/03/2025. Các dự án CodePush hiện có cần chuyển sang CodePush server tự host mà Microsoft đã mở mã nguồn, hoặc một dịch vụ OTA khác.",
+            "Các bước phía app bên dưới vẫn giữ nguyên; chỉ server mà CLI kết nối là thay đổi."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cli",
+      "title": "Cài CLI và đăng nhập",
+      "blocks": [
+        {
+          "type": "code",
+          "language": "bash",
+          "caption": "Lệnh login hiện token trên trình duyệt; dán nó lại vào terminal",
+          "code": [
+            "npm install -g appcenter-cli",
+            "appcenter login"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "caption": "Mỗi nền tảng một app",
+          "code": [
+            "appcenter apps create -d demo -o iOS -p React-Native",
+            "appcenter apps create -d demo -o Android -p React-Native"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "install-sdk",
+      "title": "Cài SDK cho iOS",
+      "summary": "Bốn chỗ sửa, đều trong project native.",
+      "blocks": [
+        {
+          "type": "code",
+          "language": "bash",
+          "code": [
+            "npm install --save react-native-code-push",
+            "cd ios && pod install && cd .."
+          ]
+        },
+        {
+          "type": "steps",
+          "items": [
+            "Mở AppDelegate.m và thêm #import <CodePush/CodePush.h> ở đầu file.",
+            "Thay nhánh release của sourceURLForBridge bằng [CodePush bundleURL].",
+            "Trên App Center, mở Distribute → CodePush → Create standard deployment, rồi lấy key ở biểu tượng cài đặt.",
+            "Thêm CodePushDeploymentKey vào Info.plist với key Staging hoặc Production.",
+            "Bọc root component: export default codePush(App)."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "objectivec",
+          "caption": "Debug vẫn đọc Metro; chỉ release mới hỏi CodePush",
+          "code": [
+            "- (NSURL *)sourceURLForBridge:(RCTBridge *)bridge",
+            "{",
+            "  #if DEBUG",
+            "    return [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@\"index\" fallbackResource:nil];",
+            "  #else",
+            "    return [CodePush bundleURL];",
+            "  #endif",
+            "}"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "release",
+      "title": "Phát hành bản cập nhật",
+      "blocks": [
+        {
+          "type": "code",
+          "language": "bash",
+          "caption": "-a là owner/app, -d là Staging hoặc Production",
+          "code": [
+            "appcenter codepush release-react -a damhongduc/demo -d Staging"
+          ]
+        },
+        {
+          "type": "table",
+          "columns": [
+            "Cờ",
+            "Ý nghĩa"
+          ],
+          "rows": [
+            [
+              "-a",
+              "Chủ sở hữu và tên app, dạng owner/app"
+            ],
+            [
+              "-d",
+              "Deployment: Staging hoặc Production"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "verify",
+      "title": "Kiểm tra kết quả",
+      "summary": "Một bản release, một thay đổi, một lần khởi động lại.",
+      "blocks": [
+        {
+          "type": "checklist",
+          "items": [
+            "Chạy app ở chế độ release: npx react-native run-ios --configuration Release",
+            "Sửa một thứ dễ thấy, như màu nền hoặc một dòng chữ",
+            "Phát hành vào deployment có key đang nằm trong Info.plist",
+            "Đợi vài phút, rồi tắt hẳn và mở lại app"
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "info",
+          "body": [
+            "Chỉ JavaScript và asset đi qua CodePush. Thêm native module hay đổi Podfile vẫn cần một bản build lên store."
+          ]
+        }
+      ]
+    }
+  ]
+}

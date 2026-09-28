@@ -1,0 +1,391 @@
+{
+  "title": "Câu hỏi phỏng vấn Flutter",
+  "tagline": "Ba cây, lifecycle, key, bất đồng bộ, và Flutter so với React Native.",
+  "icon": "🎯",
+  "topic": "interview",
+  "tags": [
+    "Flutter",
+    "Dart",
+    "Interview"
+  ],
+  "readingTime": "11 phút",
+  "effectiveDate": "2026-09-28",
+  "lastUpdated": "2026-09-28",
+  "intro": [
+    "Phỏng vấn Flutter luôn quay về một ý: UI = f(state). Phần lớn câu hỏi là ý đó nhìn từ một phía khác."
+  ],
+  "sections": [
+    {
+      "id": "trees",
+      "title": "Cây Widget, Element và Render",
+      "summary": "Vì sao dựng lại widget lại rẻ.",
+      "blocks": [
+        {
+          "type": "flow",
+          "caption": "Chuyện gì xảy ra với từng cây khi setState chạy.",
+          "stages": [
+            {
+              "items": [
+                {
+                  "label": "Cây Widget",
+                  "detail": "Bản thiết kế bất biến từ build(), bị bỏ đi và tạo lại ở mỗi lần rebuild",
+                  "explain": [
+                    "Widget là một object Dart thuần mô tả cấu hình: Text('Hi') chỉ có vài trường, vì thế tạo hàng nghìn cái mỗi frame vẫn rẻ.",
+                    "Nó không giữ state và không làm layout. Thứ tương đương bên React là phần tử JSX trong virtual DOM."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Cây Element",
+                  "detail": "Các instance sống lâu, so sánh widget mới với cũ và giữ State tồn tại",
+                  "explain": [
+                    "Khi build() trả về widget cùng kiểu và cùng key ở cùng vị trí, element giữ nguyên bản thân và chỉ nhận cấu hình mới.",
+                    "Object State của StatefulWidget nằm ở đây, đó là lý do bộ đếm sống sót qua một lần rebuild. BuildContext chính là tay nắm tới element này.",
+                    "Nó đóng vai trò giống reconciler và các Fiber node của React: tầng quyết định cái gì thực sự đã thay đổi."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Cây Render",
+                  "detail": "Các RenderObject đo đạc, định vị và vẽ; tốn kém, nên được tái sử dụng tối đa",
+                  "explain": [
+                    "RenderBox, RenderFlex và RenderParagraph làm layout và vẽ. Chúng chỉ cập nhật khi dữ liệu layout hay vẽ thực sự thay đổi.",
+                    "Flutter tự vẽ chúng qua Skia hoặc Impeller, thay vì nhờ nền tảng tạo view native. Thứ tương đương bên React là DOM thật."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "table",
+          "columns": [
+            "Khía cạnh",
+            "Widget",
+            "Element",
+            "Render"
+          ],
+          "rows": [
+            [
+              "Vòng đời",
+              "Một lần build",
+              "Qua nhiều lần rebuild",
+              "Qua nhiều lần rebuild"
+            ],
+            [
+              "Thay đổi được",
+              "Không",
+              "Có",
+              "Có"
+            ],
+            [
+              "Giữ state",
+              "Không",
+              "Có",
+              "Không"
+            ],
+            [
+              "Layout và vẽ",
+              "Không",
+              "Không",
+              "Có"
+            ],
+            [
+              "Khi setState",
+              "Dựng lại",
+              "So sánh và cập nhật",
+              "Cập nhật nếu cần"
+            ],
+            [
+              "Chi phí",
+              "Rất rẻ",
+              "Vừa phải",
+              "Đắt"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "declarative",
+      "title": "Imperative hay declarative",
+      "summary": "Mô tả kết quả, không mô tả các bước.",
+      "blocks": [
+        {
+          "type": "table",
+          "columns": [
+            "Khía cạnh",
+            "Imperative",
+            "Declarative (Flutter)"
+          ],
+          "rows": [
+            [
+              "Tư duy",
+              "Làm thế nào, từng bước",
+              "Trông thế nào ứng với state hiện tại"
+            ],
+            [
+              "Công thức",
+              "object.doThis() → object.doThat()",
+              "UI = f(state)"
+            ],
+            [
+              "Ai cập nhật UI",
+              "Lập trình viên, từng lời gọi",
+              "Framework, khi state đổi"
+            ],
+            [
+              "Rủi ro",
+              "UI và dữ liệu lệch nhau",
+              "Rebuild thừa nếu đặt state sai chỗ"
+            ]
+          ]
+        },
+        {
+          "type": "code",
+          "language": "dart",
+          "caption": "Đổi state; build() mô tả kết quả",
+          "code": [
+            "setState(() {",
+            "  _isVisible = true;",
+            "  _label = 'Hello';",
+            "});",
+            "",
+            "// in build()",
+            "if (_isVisible) Text(_label, style: const TextStyle(color: Colors.red))"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "basics",
+      "title": "Trả lời nhanh",
+      "blocks": [
+        {
+          "type": "table",
+          "columns": [
+            "Câu hỏi",
+            "Trả lời"
+          ],
+          "rows": [
+            [
+              "Flutter là gì, và vì sao dùng Dart?",
+              "UI SDK của Google cho mobile, web và desktop từ một codebase, ra mắt năm 2017. Dart biên dịch AOT ra mã ARM native để chạy nhanh và JIT lúc phát triển để có hot reload."
+            ],
+            [
+              "BuildContext là gì?",
+              "Tay nắm tới vị trí của widget trong cây. Nó tìm tổ tiên, ví dụ Theme.of(context) hay Navigator.of(context), và là đường dữ liệu InheritedWidget chảy xuống."
+            ],
+            [
+              "Stateless hay Stateful?",
+              "Stateless chỉ có trường final và một build(). Stateful có một object State riêng mà setState dựng lại, kèm initState và dispose xung quanh."
+            ],
+            [
+              "Hot reload hay hot restart?",
+              "Hot reload chèn code vào VM đang chạy và giữ nguyên state, chưa tới một giây. Hot restart chạy lại main() và xoá state; cần khi đổi main hoặc initState."
+            ],
+            [
+              "pubspec.yaml dùng để làm gì?",
+              "Cấu hình của project: dependency và plugin, asset cần đóng gói như ảnh và font, và metadata như tên và version."
+            ],
+            [
+              "Future hay Stream?",
+              "Future trả về một giá trị rồi kết thúc, ví dụ GET /user/1, vẽ bằng FutureBuilder. Stream trả về nhiều giá trị theo thời gian, ví dụ WebSocket, vẽ bằng StreamBuilder."
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lifecycle",
+      "title": "Lifecycle của StatefulWidget",
+      "summary": "Theo thứ tự Flutter gọi.",
+      "blocks": [
+        {
+          "type": "steps",
+          "items": [
+            "createState() tạo object State sẽ sống trong element.",
+            "initState() chạy một lần: khởi tạo controller, listener và lần fetch đầu tiên. Chưa được gọi setState.",
+            "didChangeDependencies() chạy ngay sau đó, và chạy lại khi một InheritedWidget nó đọc bị thay đổi.",
+            "build() chạy sau mỗi bước trên và sau mỗi setState, và trả về cây widget.",
+            "didUpdateWidget(oldWidget) chạy khi cha rebuild với cấu hình mới; so sánh widget với oldWidget.",
+            "dispose() chạy khi State rời đi hẳn: huỷ timer, dispose controller, đóng stream."
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "warning",
+          "body": [
+            "TextEditingController hay AnimationController không được dispose trong dispose() là rò rỉ bộ nhớ, và là lỗi hay gặp nhất khi review code Flutter."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "keys",
+      "title": "Key",
+      "summary": "Cách Flutter phân biệt hai widget cùng kiểu.",
+      "blocks": [
+        {
+          "type": "table",
+          "columns": [
+            "Key",
+            "Định danh",
+            "Dùng khi"
+          ],
+          "rows": [
+            [
+              "LocalKey",
+              "Một widget giữa các anh em của nó",
+              "Các phần tử trong danh sách"
+            ],
+            [
+              "ValueKey<T>",
+              "Một phần tử danh sách theo dữ liệu của nó",
+              "Phần tử bị thêm, xoá hoặc đổi thứ tự mà vẫn giữ state riêng"
+            ],
+            [
+              "GlobalKey",
+              "Một widget trên toàn app",
+              "Truy cập State từ bên ngoài, ví dụ formKey.currentState.validate()"
+            ]
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "info",
+          "body": [
+            "Không có key, đổi chỗ hai dòng có state sẽ chuyển dữ liệu nhưng không chuyển state, nên ô checkbox đã tick vẫn nằm ở vị trí cũ."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "vs-react-native",
+      "title": "Flutter hay React Native",
+      "blocks": [
+        {
+          "type": "table",
+          "columns": [
+            "Khía cạnh",
+            "Flutter",
+            "React Native"
+          ],
+          "rows": [
+            [
+              "Ngôn ngữ",
+              "Dart, biên dịch AOT",
+              "JavaScript hoặc TypeScript"
+            ],
+            [
+              "Render",
+              "Tự vẽ mọi pixel bằng Skia hoặc Impeller",
+              "View native thật qua Bridge hoặc JSI"
+            ],
+            [
+              "Giao diện",
+              "Giống hệt trên mọi nền tảng",
+              "Cảm giác native theo từng nền tảng"
+            ],
+            [
+              "Hiệu năng",
+              "Mạnh với UI và animation phức tạp",
+              "Gần native; phụ thuộc lớp JS–native"
+            ],
+            [
+              "Hệ sinh thái",
+              "Nhỏ hơn, phát triển nhanh",
+              "Lớn và trưởng thành, cả thế giới npm"
+            ],
+            [
+              "Dung lượng app",
+              "Lớn hơn: phải kèm engine",
+              "Mức nền nhỏ hơn"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "clean-architecture",
+      "title": "Clean Architecture",
+      "summary": "Phụ thuộc hướng vào trong, về phía quy tắc nghiệp vụ.",
+      "blocks": [
+        {
+          "type": "table",
+          "columns": [
+            "Tầng",
+            "Chứa",
+            "Ví dụ"
+          ],
+          "rows": [
+            [
+              "Presentation",
+              "UI và state của UI",
+              "Widget, Bloc, Cubit, ViewModel"
+            ],
+            [
+              "Domain",
+              "Quy tắc nghiệp vụ bằng Dart thuần",
+              "Entity, UseCase, Repository trừu tượng"
+            ],
+            [
+              "Data",
+              "Dữ liệu đến từ đâu",
+              "RepositoryImpl, RemoteDataSource, LocalDataSource, Model"
+            ]
+          ]
+        },
+        {
+          "type": "code",
+          "language": "text",
+          "caption": "Một lần đăng nhập, đi qua mọi tầng rồi quay lại",
+          "code": [
+            "LoginPage → LoginBloc → LoginUseCase → AuthRepository (abstract)",
+            "  → AuthRepositoryImpl → AuthRemoteDataSource → API",
+            "  ← UserModel ← mapped to User entity",
+            "← Bloc emits Authenticated ← Widget rebuilds"
+          ]
+        },
+        {
+          "type": "table",
+          "columns": [
+            "Sai lầm",
+            "Cách sửa"
+          ],
+          "rows": [
+            [
+              "Logic nghiệp vụ trong widget",
+              "Chuyển nó vào một use case"
+            ],
+            [
+              "Import dio hay http trong domain",
+              "Domain chỉ chứa interface và Dart thuần"
+            ],
+            [
+              "Bỏ qua use case cho tính năng đơn giản",
+              "Giữ một use case mỏng, cho nhất quán"
+            ],
+            [
+              "Một repository cho mọi thứ",
+              "Tách theo tính năng: AuthRepository, UserRepository"
+            ]
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "info",
+          "body": [
+            "Guide Kiến trúc trên site này đi qua cùng các tầng đó kèm sơ đồ; phần này là phiên bản vừa cỡ một câu trả lời phỏng vấn."
+          ]
+        }
+      ]
+    }
+  ]
+}

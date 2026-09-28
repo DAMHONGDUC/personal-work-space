@@ -1,0 +1,127 @@
+{
+  "title": "Name release tags so the history explains itself",
+  "tagline": "branch-A.B.C: which environment, which phase, which release, which fix.",
+  "icon": "🔖",
+  "topic": "tooling",
+  "tags": [
+    "Git",
+    "Release",
+    "Versioning"
+  ],
+  "readingTime": "3 min",
+  "effectiveDate": "2026-09-28",
+  "lastUpdated": "2026-09-28",
+  "intro": [
+    "A tag marks the exact commit that was shipped. With one naming rule, anyone can read off where and what was released without opening a ticket."
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Overview",
+      "summary": "Four parts, each answering one question.",
+      "blocks": [
+        {
+          "type": "flow",
+          "caption": "Reading dev-2.3.1 from left to right.",
+          "stages": [
+            {
+              "items": [
+                {
+                  "label": "branch",
+                  "detail": "The branch the build came from, which is also the environment it went to",
+                  "explain": [
+                    "dev-… went to the dev environment, prod-… to production. Two tags on one commit are fine: a build promoted to prod keeps its dev tag.",
+                    "git tag --list 'prod-*' is then the full release history of production, in one command."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "A — phase",
+                  "detail": "The project phase; it goes up when a new contract phase or major scope starts",
+                  "explain": [
+                    "Phase 2 of a project starts at dev-2.0.0, whatever the last tag of phase 1 was.",
+                    "Raising A resets both B and C, because the earlier releases belong to the previous phase."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "B — release",
+                  "detail": "A planned release within the phase: a new batch of features",
+                  "explain": [
+                    "dev-2.3.0 is the third planned release of phase 2 after 2.0, 2.1 and 2.2.",
+                    "Raising B resets C to 0, since the fixes counted so far were fixes to the previous release."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "C — fix",
+                  "detail": "Counts rebuilds of the same release; resets to 0 whenever A or B goes up",
+                  "explain": [
+                    "dev-2.3.1 is the first fix build of release 2.3. Another fix makes it dev-2.3.2.",
+                    "So C = 0 if A or B increased, otherwise C = C + 1. That single rule keeps the numbers unambiguous."
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "examples",
+      "title": "Examples",
+      "blocks": [
+        {
+          "type": "table",
+          "columns": [
+            "Previous",
+            "What changed",
+            "Next"
+          ],
+          "rows": [
+            [
+              "dev-2.3.0",
+              "A bug fix",
+              "dev-2.3.1"
+            ],
+            [
+              "dev-2.3.1",
+              "A new planned release",
+              "dev-2.4.0"
+            ],
+            [
+              "dev-2.4.0",
+              "Phase 3 begins",
+              "dev-3.0.0"
+            ]
+          ]
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "caption": "An annotated tag records who tagged it and when",
+          "code": [
+            "git tag -a dev-2.3.1 -m \"Fix login crash\"",
+            "git push origin dev-2.3.1"
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "info",
+          "body": [
+            "The store build number is separate: bump it on every Android or iOS release, but leave it out of the tag."
+          ]
+        }
+      ]
+    }
+  ]
+}

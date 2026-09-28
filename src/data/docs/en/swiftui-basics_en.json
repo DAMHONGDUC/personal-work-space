@@ -1,0 +1,262 @@
+{
+  "title": "SwiftUI basics: views and containers",
+  "tagline": "Declarative UI, the stacks, and the controls you reach for first.",
+  "icon": "🧱",
+  "topic": "ios",
+  "tags": [
+    "SwiftUI",
+    "Swift",
+    "iOS"
+  ],
+  "readingTime": "8 min",
+  "effectiveDate": "2026-09-28",
+  "lastUpdated": "2026-09-28",
+  "intro": [
+    "SwiftUI builds apps for iPhone, iPad, Mac and Watch from one declarative description of the screen. You say what it should look like; SwiftUI works out how."
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Overview",
+      "summary": "Imperative UIKit versus declarative SwiftUI.",
+      "blocks": [
+        {
+          "type": "text",
+          "body": [
+            "UIKit is imperative: you create a label, set its text and frame, and add it to a view, step by step. SwiftUI is declarative: Text(\"Hello\") is the whole description."
+          ]
+        },
+        {
+          "type": "flow",
+          "caption": "How a SwiftUI screen is put together.",
+          "stages": [
+            {
+              "items": [
+                {
+                  "label": "State",
+                  "detail": "@State holds the data; changing it is the only way to change the screen",
+                  "explain": [
+                    "@State var isOn = false declares a value SwiftUI stores for you. Writing isOn = true schedules a new body.",
+                    "A control gets a binding with $: Toggle(isOn: $isOn) both reads and writes the same value."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Containers",
+                  "detail": "VStack, HStack and ZStack arrange children down, across or on top of each other",
+                  "explain": [
+                    "VStack centres its children horizontally by default; VStack(alignment: .leading, spacing: 8) moves them left and spaces them.",
+                    "HStack centres vertically, with .top, .center or .bottom to change it. ZStack layers children, the last one on top."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Views and modifiers",
+                  "detail": "Text, Image and Button are views; .padding() and .frame() return new, modified views",
+                  "explain": [
+                    "Modifiers wrap rather than mutate, so order matters: .padding().background(.red) colours the padding, the reverse does not.",
+                    "body is recomputed often and must be cheap: describe the view, do not load data inside it."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "code",
+          "language": "swift",
+          "code": [
+            "// UIKit: every step spelled out",
+            "let label = UILabel()",
+            "label.text = \"Hello, Imperative World!\"",
+            "label.frame = CGRect(x: 100, y: 100, width: 200, height: 20)",
+            "view.addSubview(label)",
+            "",
+            "// SwiftUI: the result, described",
+            "Text(\"Hello, Declarative World!\")"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "containers",
+      "title": "Containers",
+      "summary": "Views that arrange other views.",
+      "blocks": [
+        {
+          "type": "table",
+          "columns": [
+            "Container",
+            "What it does"
+          ],
+          "rows": [
+            [
+              "VStack",
+              "Children in a vertical line"
+            ],
+            [
+              "HStack",
+              "Children in a horizontal line"
+            ],
+            [
+              "ZStack",
+              "Children layered on top of each other"
+            ],
+            [
+              "Group",
+              "Groups views to share modifiers, with no layout of its own"
+            ],
+            [
+              "List",
+              "Rows of data in one scrolling column"
+            ],
+            [
+              "Form",
+              "A scrolling list styled for settings and input"
+            ],
+            [
+              "ScrollView",
+              "Scrolls its content, vertically or horizontally"
+            ],
+            [
+              "LazyVStack / LazyHStack",
+              "Like the stacks, but only builds rows as they scroll into view"
+            ],
+            [
+              "GeometryReader",
+              "Gives its content the parent's size and position"
+            ],
+            [
+              "Spacer",
+              "Flexible space that pushes siblings apart along the stack"
+            ]
+          ]
+        },
+        {
+          "type": "code",
+          "language": "swift",
+          "caption": "Six squares fanned out, the last colour on top",
+          "code": [
+            "ZStack {",
+            "    ForEach(0..<colors.count, id: \\.self) { index in",
+            "        Rectangle()",
+            "            .fill(colors[index])",
+            "            .frame(width: 100, height: 100)",
+            "            .offset(x: CGFloat(index) * 10, y: CGFloat(index) * 10)",
+            "    }",
+            "}"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "swift",
+          "caption": "Inside a ScrollView, only the visible rows are built",
+          "code": [
+            "LazyVStack {",
+            "    ForEach(0..<1000, id: \\.self) { index in",
+            "        Text(\"Lazy item \\(index)\")",
+            "    }",
+            "}"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "views",
+      "title": "Views and controls",
+      "summary": "The building blocks inside the containers.",
+      "blocks": [
+        {
+          "type": "table",
+          "columns": [
+            "View",
+            "Use"
+          ],
+          "rows": [
+            [
+              "Text",
+              "Read-only text, one or more lines"
+            ],
+            [
+              "Image",
+              "An image, e.g. Image(systemName: \"star\") for an SF Symbol"
+            ],
+            [
+              "Button",
+              "Runs an action when tapped"
+            ],
+            [
+              "TextField",
+              "Editable text, bound to a String"
+            ],
+            [
+              "Toggle",
+              "On and off, bound to a Bool"
+            ],
+            [
+              "Slider",
+              "A value from a range, e.g. 0...100"
+            ],
+            [
+              "Stepper",
+              "Increments or decrements a value"
+            ],
+            [
+              "Picker",
+              "One choice from a set, each option tagged"
+            ],
+            [
+              "DatePicker",
+              "A date, a time, or both"
+            ],
+            [
+              "ProgressView",
+              "Progress towards a task's completion"
+            ],
+            [
+              "Divider",
+              "A line separating content"
+            ],
+            [
+              "Color",
+              "A view that fills its frame with a colour"
+            ],
+            [
+              "Shape",
+              "Rectangle, Circle or a custom path"
+            ]
+          ]
+        },
+        {
+          "type": "code",
+          "language": "swift",
+          "caption": "Controls bind to state with $",
+          "code": [
+            "@State private var isOn = false",
+            "@State private var value = 50.0",
+            "",
+            "var body: some View {",
+            "    VStack(alignment: .leading, spacing: 12) {",
+            "        Toggle(\"Enable feature\", isOn: $isOn)",
+            "        Slider(value: $value, in: 0...100)",
+            "        HStack {",
+            "            Text(\"Left\")",
+            "            Spacer()",
+            "            Text(\"Right\")",
+            "        }",
+            "        Button(\"Tap me!\") { print(\"Button tapped!\") }",
+            "    }",
+            "    .padding()",
+            "}"
+          ]
+        }
+      ]
+    }
+  ]
+}

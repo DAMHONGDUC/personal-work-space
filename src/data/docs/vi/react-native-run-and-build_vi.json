@@ -1,0 +1,155 @@
+{
+  "title": "Chạy, build và gửi app React Native cho tester",
+  "tagline": "Chọn thiết bị, build file release, gửi cho tester.",
+  "icon": "▶️",
+  "topic": "react-native",
+  "tags": [
+    "React Native",
+    "adb",
+    "Firebase"
+  ],
+  "readingTime": "5 phút",
+  "effectiveDate": "2026-09-28",
+  "lastUpdated": "2026-09-28",
+  "intro": [
+    "Những lệnh gõ hằng ngày: chọn emulator hay điện thoại nào nhận app, build APK, và đưa nó tới tester qua Firebase."
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Tổng quan",
+      "summary": "Thiết bị, build, phân phối.",
+      "blocks": [
+        {
+          "type": "flow",
+          "caption": "Một vòng từ thiết bị đang cắm tới điện thoại của tester.",
+          "stages": [
+            {
+              "items": [
+                {
+                  "label": "Tìm thiết bị",
+                  "detail": "adb devices và danh sách simulator cho ra id mà lệnh chạy cần",
+                  "explain": [
+                    "adb devices in mỗi thiết bị Android một dòng, emulator có dạng emulator-5556 còn điện thoại là serial như e18316bd0601.",
+                    "Trên iOS, simulator được chọn theo tên, ví dụ \"iPhone 8\", còn máy thật cắm cáp thì theo tên đặt trên điện thoại."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Chạy lên đó",
+                  "detail": "--deviceId, --simulator hoặc --device gửi build tới đúng thiết bị đó thay vì cái đầu tiên tìm thấy",
+                  "explain": [
+                    "Không có cờ thì CLI lấy thiết bị nào trả lời trước, và hiếm khi đó là máy bạn muốn khi đang cắm hai máy.",
+                    "yarn android --deviceId=\"emulator-5556\" cố định máy Android; yarn ios --simulator=\"iPhone 8\" làm tương tự cho iOS."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Build APK",
+                  "detail": "gradlew assembleRelease tạo APK release trong android/app/build/outputs/apk/release",
+                  "explain": [
+                    "Hãy clean trước: thư mục build cũ là lý do thường gặp khiến bản release vẫn hiện JavaScript của hôm qua.",
+                    "Để nó thành một script trong package.json, như vậy không ai phải nhớ cd vào android rồi quay ra."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Gửi cho tester",
+                  "detail": "Firebase App Distribution tải APK lên và gửi email link tải cho tester",
+                  "explain": [
+                    "firebase appdistribution:distribute nhận đường dẫn tuyệt đối tới APK và --app là Firebase app id, ví dụ 1:362500748669:android:f6fd….",
+                    "App id nằm ở Project settings → Your apps, hoặc được in ra bởi firebase apps:list khi đã đăng nhập."
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "android",
+      "title": "Android",
+      "blocks": [
+        {
+          "type": "code",
+          "language": "bash",
+          "caption": "Liệt kê thiết bị, rồi chạy lên một cái",
+          "code": [
+            "adb devices",
+            "yarn android --deviceId=\"emulator-5556\"",
+            "yarn android --deviceId=\"e18316bd0601\""
+          ]
+        },
+        {
+          "type": "code",
+          "language": "json",
+          "caption": "Một script trong package.json, để build release chỉ là yarn build-apk",
+          "code": [
+            "\"scripts\": {",
+            "  \"build-apk\": \"cd android && ./gradlew clean && ./gradlew assembleRelease\"",
+            "}"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ios",
+      "title": "iOS",
+      "blocks": [
+        {
+          "type": "code",
+          "language": "bash",
+          "caption": "Simulator theo tên model, máy thật theo tên của nó",
+          "code": [
+            "yarn ios --simulator=\"iPhone 8\"",
+            "yarn ios --device=\"iPad\""
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "info",
+          "body": [
+            "xcrun simctl list devices hiện mọi tên simulator mà cờ --simulator chấp nhận."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "distribute",
+      "title": "Phân phối qua Firebase",
+      "summary": "Tester nhận email thay vì một file gửi qua chat.",
+      "blocks": [
+        {
+          "type": "steps",
+          "items": [
+            "Cài Firebase CLI bằng script bên dưới.",
+            "firebase login, rồi firebase projects:list để chắc mình đang ở đúng tài khoản.",
+            "Thêm tester hoặc nhóm tester trong tab App Distribution của console.",
+            "Chạy distribute với đường dẫn APK và app id."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "code": [
+            "curl -sL https://firebase.tools | bash",
+            "firebase login",
+            "firebase projects:list",
+            "firebase appdistribution:distribute \"<absolute path to apk>\" \\",
+            "  --app \"<firebase app id>\""
+          ]
+        }
+      ]
+    }
+  ]
+}

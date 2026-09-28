@@ -1,0 +1,149 @@
+{
+  "title": "Cần chuẩn bị gì trước khi đưa app lên App Store",
+  "tagline": "Danh sách gửi khách hàng ngay ngày đầu, để tuần phát hành không phải ngồi chờ.",
+  "icon": "📝",
+  "topic": "ios",
+  "tags": [
+    "App Store",
+    "App Store Connect",
+    "iOS"
+  ],
+  "readingTime": "5 phút",
+  "effectiveDate": "2026-09-28",
+  "lastUpdated": "2026-09-28",
+  "intro": [
+    "App Store Connect hỏi cả chục thứ mà chỉ khách hàng mới quyết định được. Hãy thu thập sớm; hiếm khi bản build là thứ làm chậm việc phát hành."
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Tổng quan",
+      "summary": "Ai quyết định cái gì, và khi nào cần.",
+      "blocks": [
+        {
+          "type": "flow",
+          "caption": "Từ buổi họp đầu tiên tới lúc Submit for Review.",
+          "stages": [
+            {
+              "items": [
+                {
+                  "label": "Danh tính",
+                  "detail": "Bundle id, tên và version cần chốt sớm; bundle id không bao giờ đổi được sau khi phát hành",
+                  "explain": [
+                    "Bundle id, ví dụ com.client.shop, được gắn cứng vào bản build và hồ sơ trên store. Hỏi khách có muốn tự chọn không; nếu không thì bên mình quyết.",
+                    "Tên app phải là duy nhất trên store, nên hãy chuẩn bị sẵn phương án thứ hai trước khi tạo hồ sơ."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Trang giới thiệu",
+                  "detail": "Subtitle, description, keywords và promotional text là phần chữ mà store hiển thị",
+                  "explain": [
+                    "Subtitle nằm dưới tên trong kết quả tìm kiếm. Keywords không bao giờ hiện ra, chỉ dùng để tìm kiếm, và giới hạn 100 ký tự.",
+                    "Promotional text đổi được bất cứ lúc nào mà không cần build mới; description thì không."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Link và pháp lý",
+                  "detail": "Support URL và privacy policy URL là bắt buộc; marketing URL là tuỳ chọn",
+                  "explain": [
+                    "Privacy policy phải là một trang công khai đang hoạt động. Mỗi app một trang tĩnh, như các policy trên site này, là đủ.",
+                    "Copyright là một dòng như '2026 Client Co., Ltd.', còn contact là tên, số điện thoại và email của một người thật để reviewer của Apple liên hệ."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Ảnh chụp và độ tuổi",
+                  "detail": "Tối đa 10 ảnh chụp cho mỗi kích thước màn hình, cùng bảng câu hỏi phân loại độ tuổi",
+                  "explain": [
+                    "Hỏi khách muốn chụp những màn hình nào, hoặc chụp hết rồi để họ chọn. Ảnh chụp cần dữ liệu thử trông như thật.",
+                    "Độ tuổi được suy ra từ bảng câu hỏi về nội dung như bạo lực hay cờ bạc, không phải một con số bạn tự gõ vào."
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "checklist",
+      "title": "Danh sách cần gửi",
+      "summary": "Mọi thứ App Store Connect sẽ hỏi.",
+      "blocks": [
+        {
+          "type": "checklist",
+          "items": [
+            "Tên app",
+            "Bundle id — khách chọn, hoặc bên mình chọn",
+            "Số version — khách chọn, hoặc bên mình chọn",
+            "Subtitle, hiện dưới tên app",
+            "Mô tả",
+            "Keywords để tìm kiếm",
+            "Promotional text để quảng bá",
+            "Support URL",
+            "Marketing URL — web của sản phẩm hoặc của khách",
+            "Privacy policy URL",
+            "Dòng copyright",
+            "Người liên hệ: tên, số điện thoại và email",
+            "Danh mục app",
+            "Giá, hoặc miễn phí",
+            "Ảnh chụp — những màn hình nào, tối đa 10",
+            "Độ tuổi"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "who",
+      "title": "Ai chịu trách nhiệm từng mục",
+      "blocks": [
+        {
+          "type": "table",
+          "columns": [
+            "Mục",
+            "Ai quyết định",
+            "Đổi được sau này"
+          ],
+          "rows": [
+            [
+              "Bundle id",
+              "Khách hoặc bên mình",
+              "Không bao giờ"
+            ],
+            [
+              "Tên, subtitle",
+              "Khách hàng",
+              "Khi có version mới"
+            ],
+            [
+              "Promotional text",
+              "Khách hàng",
+              "Bất cứ lúc nào"
+            ],
+            [
+              "Ảnh chụp",
+              "Khách chọn, bên mình chụp",
+              "Khi có version mới"
+            ],
+            [
+              "Giá",
+              "Khách hàng",
+              "Bất cứ lúc nào"
+            ]
+          ]
+        }
+      ]
+    }
+  ]
+}

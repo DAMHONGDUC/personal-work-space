@@ -1,0 +1,170 @@
+{
+  "title": "Câu hỏi phỏng vấn React Native",
+  "tagline": "Câu trả lời ngắn cho những câu hỏi gần như buổi phỏng vấn React Native nào cũng có.",
+  "icon": "🎤",
+  "topic": "interview",
+  "tags": [
+    "React Native",
+    "JavaScript",
+    "Interview"
+  ],
+  "readingTime": "8 phút",
+  "effectiveDate": "2026-09-28",
+  "lastUpdated": "2026-09-28",
+  "intro": [
+    "Mỗi câu trả lời là phiên bản nói được trong chưa tới một phút, kèm một chi tiết cho thấy bạn đã thực sự dùng nó."
+  ],
+  "sections": [
+    {
+      "id": "architecture",
+      "title": "Kiến trúc: Bridge và New Architecture",
+      "summary": "Câu hỏi dễ bị hỏi sâu nhất.",
+      "blocks": [
+        {
+          "type": "flow",
+          "caption": "JavaScript chạm tới phía native thế nào, trước và sau.",
+          "stages": [
+            {
+              "items": [
+                {
+                  "label": "Bridge",
+                  "detail": "Cũ: JS và native trao đổi message JSON một cách bất đồng bộ qua hàng đợi",
+                  "explain": [
+                    "Luồng JavaScript chạy logic của app; luồng native vẽ UI. Mọi lời gọi giữa hai bên đều được tuần tự hoá thành chuỗi JSON và gom thành lô.",
+                    "Ví dụ: sự kiện cuộn đi native → JSON → JS, và cập nhật style sinh ra lại đi ngược lại theo đường đó, trễ một frame hoặc hơn.",
+                    "Việc tuần tự hoá và bước nhảy bất đồng bộ đó chính là nút thắt: lưu lượng lớn đồng nghĩa với rớt frame."
+                  ]
+                },
+                {
+                  "label": "JSI",
+                  "detail": "Mới: một giao diện C++ cho phép JS giữ đối tượng native và gọi chúng trực tiếp",
+                  "explain": [
+                    "JSI (JavaScript Interface) đưa host object C++ vào engine JS. Một lời gọi chỉ là lời gọi hàm, không có JSON ở giữa.",
+                    "Lời gọi có thể đồng bộ khi cần, chẳng hạn đọc số đo layout trong lúc thực hiện cử chỉ."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Fabric",
+                  "detail": "Bộ render mới, xây trên JSI, có thể cập nhật layout một cách đồng bộ",
+                  "explain": [
+                    "Fabric giữ cây UI trong C++, dùng chung cho mọi nền tảng, và commit thay đổi mà không phải chờ hàng đợi của bridge.",
+                    "Lợi ích là độ phản hồi: ít rớt frame hơn và hỗ trợ các tính năng concurrent của React."
+                  ]
+                },
+                {
+                  "label": "TurboModules",
+                  "detail": "Native module xây trên JSI và được nạp lười, khi dùng lần đầu thay vì lúc khởi động",
+                  "explain": [
+                    "Với bridge, mọi native module đều được khởi tạo lúc mở app, dù có dùng hay không. TurboModules chỉ nạp module camera khi camera được mở.",
+                    "Khởi động nhanh hơn là lợi ích chính, và spec có kiểu do Codegen sinh ra bắt lỗi lệch kiểu ngay lúc build."
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "basics",
+      "title": "Kiến thức nền",
+      "blocks": [
+        {
+          "type": "table",
+          "columns": [
+            "Câu hỏi",
+            "Trả lời"
+          ],
+          "rows": [
+            [
+              "React Native là gì?",
+              "Framework mã nguồn mở của Meta để làm app iOS và Android bằng JavaScript và React. Nó render view native thật, không phải web view, nên code dùng chung mà UI vẫn cảm giác native."
+            ],
+            [
+              "ES6 là gì?",
+              "ECMAScript 2015, phiên bản thứ sáu của JavaScript: let và const, arrow function, class, promise và module import/export."
+            ],
+            [
+              "JavaScript hay TypeScript?",
+              "JS có kiểu động, được kiểm tra lúc chạy. TS là tập cha thêm kiểu tĩnh được kiểm tra lúc biên dịch, rồi biên dịch ra JS; nó bắt lỗi kiểu trước khi phát hành."
+            ],
+            [
+              "ESLint hay Prettier?",
+              "Cả hai. ESLint áp các quy tắc chất lượng code để tránh lỗi, như biến không dùng. Prettier chỉ định dạng. ESLint nói viết thế nào; Prettier nói trông thế nào."
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "hooks",
+      "title": "Hook",
+      "blocks": [
+        {
+          "type": "table",
+          "columns": [
+            "Câu hỏi",
+            "Trả lời"
+          ],
+          "rows": [
+            [
+              "Hook là gì?",
+              "Các hàm cho phép function component dùng state và lifecycle, ví dụ useState và useEffect. Chỉ gọi ở cấp cao nhất, từ component hoặc custom hook."
+            ],
+            [
+              "Custom hook là gì?",
+              "Một hàm có tên bắt đầu bằng use, ví dụ useFetchData, bọc các hook có sẵn để logic có state được dùng chung giữa các component thay vì sao chép."
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "state",
+      "title": "Redux, Context hay Zustand",
+      "summary": "Với state toàn cục, chọn theo quy mô và tần suất cập nhật.",
+      "blocks": [
+        {
+          "type": "table",
+          "columns": [
+            "Công cụ",
+            "Mô hình",
+            "Phù hợp",
+            "Chi phí"
+          ],
+          "rows": [
+            [
+              "Redux",
+              "Action và reducer chặt chẽ",
+              "App lớn cần thay đổi dễ đoán và debug time-travel",
+              "Nhiều boilerplate"
+            ],
+            [
+              "Context API",
+              "Có sẵn trong React",
+              "Giá trị ít đổi: theme, trạng thái đăng nhập",
+              "Mọi nơi dùng đều render lại"
+            ],
+            [
+              "Zustand",
+              "Store nhỏ dựa trên hook",
+              "State hay đổi mà không cần nghi thức rườm rà",
+              "Rất thấp"
+            ]
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "info",
+          "body": [
+            "Một câu để chốt: Context cho state đơn giản, ít đổi; Zustand cho state đơn giản, hay đổi; Redux cho state lớn, cần quy củ."
+          ]
+        }
+      ]
+    }
+  ]
+}

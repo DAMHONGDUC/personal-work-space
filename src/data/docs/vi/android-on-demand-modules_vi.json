@@ -1,0 +1,204 @@
+{
+  "title": "Tải Unity theo yêu cầu trong app Flutter",
+  "tagline": "Phát hành app không kèm thư viện Unity, và tải nó từ Google Play khi cần.",
+  "icon": "📦",
+  "topic": "flutter",
+  "tags": [
+    "Flutter",
+    "Android",
+    "Play Feature Delivery"
+  ],
+  "readingTime": "7 phút",
+  "effectiveDate": "2026-09-28",
+  "lastUpdated": "2026-09-28",
+  "intro": [
+    "Một scene Unity nhúng vào có thể làm dung lượng tải app tăng gấp đôi cho một tính năng ít người mở. Play Feature Delivery chuyển nó vào một module chỉ được cài khi có yêu cầu.",
+    "Đây là một báo cáo nghiên cứu: cách làm chạy được khi thử riêng, và các câu hỏi còn bỏ ngỏ khi áp vào app thật được liệt kê ở cuối."
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Tổng quan",
+      "summary": "Thứ gì được tải lên, và người dùng tải gì vào lúc nào.",
+      "blocks": [
+        {
+          "type": "flow",
+          "caption": "Từ một bundle trên Google Play tới Unity trên thiết bị.",
+          "stages": [
+            {
+              "items": [
+                {
+                  "label": "Tải lên một .aab",
+                  "detail": "Bundle chứa app gốc và một dynamic feature module có unityLibrary bên trong",
+                  "explain": [
+                    "Google Play tách bundle thành base APK và một feature APK tên unityFeature, mỗi phần được phân phối riêng.",
+                    "unityLibrary chuyển từ một module Gradle thông thường vào dynamic feature module; bên phía build chỉ thay đổi đúng điều đó."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Cài đặt: chỉ phần gốc",
+                  "detail": "Lần cài mới chỉ tải base APK, nên dung lượng trên store không tính Unity",
+                  "explain": [
+                    "App Flutter chạy bình thường; chỉ màn hình nhúng Unity là chưa dùng được cho tới khi module về máy.",
+                    "Đây là lợi ích: người không bao giờ mở tính năng Unity không bao giờ phải trả giá cho dung lượng của nó."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Yêu cầu module",
+                  "detail": "Bấm 'View Unity' gọi code native qua MethodChannel để bắt đầu tải",
+                  "explain": [
+                    "Dart gọi loadUnity trên MethodChannel unity_channel; MainActivity xử lý bằng cách tạo SplitInstallRequest cho unityFeature.",
+                    "SplitInstallManager.startInstall tải và cài nó qua Play Core API; thành công hay thất bại được trả về Dart qua kết quả của channel."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Mở Unity",
+                  "detail": "Khi đã cài xong, Unity widget mới được nạp — phần chưa được kiểm chứng trong app thật",
+                  "explain": [
+                    "Plugin nhúng yêu cầu MainActivity implement IFakeUnityPlayerActivity, một interface nằm trong thư viện Unity.",
+                    "Khi unityLibrary nằm trong dynamic module, app gốc không thể tham chiếu tới interface đó lúc biên dịch. Mâu thuẫn đó là vấn đề còn bỏ ngỏ."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "list",
+          "items": [
+            "Codelab Android: developer.android.com/codelabs/on-demand-dynamic-delivery",
+            "Cách của Flutter: trang Deferred Components trên Flutter wiki"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "embed",
+      "title": "Unity đang được nhúng thế nào",
+      "blocks": [
+        {
+          "type": "code",
+          "language": "kotlin",
+          "caption": "MainActivity implement một interface từ thư viện Unity",
+          "code": [
+            "import com.learntoflutter.flutter_embed_unity_android.unity.IFakeUnityPlayerActivity",
+            "import io.flutter.embedding.android.FlutterFragmentActivity",
+            "",
+            "class MainActivity : FlutterFragmentActivity(), IFakeUnityPlayerActivity {",
+            "    var mUnityPlayer: Any? = null",
+            "",
+            "    override fun setmUnityPlayer(mUnityPlayer: Any?) {",
+            "        this.mUnityPlayer = mUnityPlayer",
+            "    }",
+            "}"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "download",
+      "title": "Tải module",
+      "blocks": [
+        {
+          "type": "code",
+          "language": "java",
+          "caption": "Phía native: xử lý loadUnity bằng cách cài unityFeature",
+          "code": [
+            "public class MainActivity extends FlutterActivity {",
+            "    private SplitInstallManager splitInstallManager;",
+            "",
+            "    @Override",
+            "    protected void onCreate(Bundle savedInstanceState) {",
+            "        super.onCreate(savedInstanceState);",
+            "        splitInstallManager = SplitInstallManagerFactory.create(this);",
+            "",
+            "        new MethodChannel(getFlutterEngine().getDartExecutor().getBinaryMessenger(), \"unity_channel\")",
+            "            .setMethodCallHandler((call, result) -> {",
+            "                if (call.method.equals(\"loadUnity\")) {",
+            "                    loadUnityFeature(result);",
+            "                } else {",
+            "                    result.notImplemented();",
+            "                }",
+            "            });",
+            "    }",
+            "",
+            "    private void loadUnityFeature(MethodChannel.Result result) {",
+            "        SplitInstallRequest request = SplitInstallRequest.newBuilder()",
+            "            .addModule(\"unityFeature\")",
+            "            .build();",
+            "",
+            "        splitInstallManager.startInstall(request)",
+            "            .addOnSuccessListener(sessionId -> result.success(\"Unity Feature Loading\"))",
+            "            .addOnFailureListener(e -> result.error(\"ERROR\", e.getMessage(), null));",
+            "    }",
+            "}"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "dart",
+          "caption": "Phía Dart: một lời gọi phía sau nút bấm",
+          "code": [
+            "class UnityManager {",
+            "  static const MethodChannel _channel = MethodChannel('unity_channel');",
+            "",
+            "  static Future<void> loadUnity() async {",
+            "    try {",
+            "      final result = await _channel.invokeMethod('loadUnity');",
+            "      debugPrint('$result');",
+            "    } catch (e) {",
+            "      debugPrint('Error: $e');",
+            "    }",
+            "  }",
+            "}"
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "info",
+          "body": [
+            "onSuccess nghĩa là việc cài đã bắt đầu, chưa phải đã xong. Hãy lắng nghe bằng registerListener tới trạng thái SplitInstallSessionStatus.INSTALLED rồi mới mở Unity."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "open-questions",
+      "title": "Câu hỏi còn bỏ ngỏ",
+      "summary": "Những gì cần trả lời trước khi đưa vào app thật.",
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            "MainActivity phải implement IFakeUnityPlayerActivity, nhưng kiểu đó chuyển vào một module mà app gốc không thấy. App gốc lấy nó bằng cách nào?",
+            "Việc kết hợp nhúng và tải về chưa được thử, và chưa biết tác dụng phụ.",
+            "Flutter nên gọi code native để mở Unity, hay đợi module cài xong rồi mở widget từ Dart?"
+          ]
+        },
+        {
+          "type": "heading",
+          "text": "Kiểm thử"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Phân phối theo yêu cầu chỉ xảy ra qua Google Play: tải lên Internal Testing, hoặc một track open hay early access.",
+            "Việc đó cần tài khoản Play Console, và kiểm thử nghĩa là tải lên một .aab rồi cài lại APK sinh ra từ store."
+          ]
+        }
+      ]
+    }
+  ]
+}

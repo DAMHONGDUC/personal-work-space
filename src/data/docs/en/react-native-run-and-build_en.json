@@ -1,0 +1,155 @@
+{
+  "title": "Run, build and hand out a React Native app",
+  "tagline": "Pick the device, build the release file, send it to testers.",
+  "icon": "▶️",
+  "topic": "react-native",
+  "tags": [
+    "React Native",
+    "adb",
+    "Firebase"
+  ],
+  "readingTime": "5 min",
+  "effectiveDate": "2026-09-28",
+  "lastUpdated": "2026-09-28",
+  "intro": [
+    "The commands you type every day: choose which emulator or phone the app lands on, build an APK, and put it in front of testers with Firebase."
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Overview",
+      "summary": "Device, build, distribute.",
+      "blocks": [
+        {
+          "type": "flow",
+          "caption": "One pass from a connected device to a tester's phone.",
+          "stages": [
+            {
+              "items": [
+                {
+                  "label": "Find the device",
+                  "detail": "adb devices and the simulator list give the id each run command needs",
+                  "explain": [
+                    "adb devices prints one line per Android target, emulators as emulator-5556 and phones as a serial such as e18316bd0601.",
+                    "On iOS the simulator is picked by name, e.g. \"iPhone 8\", and a cable-connected device by the name set on the phone."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Run on it",
+                  "detail": "--deviceId, --simulator or --device sends the build to that target instead of the first found",
+                  "explain": [
+                    "Without a flag the CLI takes whichever device answers first, which is rarely the one you meant when two are attached.",
+                    "yarn android --deviceId=\"emulator-5556\" pins the Android run; yarn ios --simulator=\"iPhone 8\" does the same for iOS."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Build the APK",
+                  "detail": "gradlew assembleRelease writes the release APK under android/app/build/outputs/apk/release",
+                  "explain": [
+                    "clean first: a stale build folder is the usual cause of a release that still shows yesterday's JavaScript.",
+                    "Keep it as a package.json script so nobody has to remember the cd into android and back."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Send to testers",
+                  "detail": "Firebase App Distribution uploads the APK and emails the testers a download link",
+                  "explain": [
+                    "firebase appdistribution:distribute takes the absolute path to the APK and --app with the Firebase app id, e.g. 1:362500748669:android:f6fd….",
+                    "The app id is in Project settings → Your apps, or printed by firebase apps:list once you are logged in."
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "android",
+      "title": "Android",
+      "blocks": [
+        {
+          "type": "code",
+          "language": "bash",
+          "caption": "List the targets, then run on one of them",
+          "code": [
+            "adb devices",
+            "yarn android --deviceId=\"emulator-5556\"",
+            "yarn android --deviceId=\"e18316bd0601\""
+          ]
+        },
+        {
+          "type": "code",
+          "language": "json",
+          "caption": "A script in package.json, so a release build is yarn build-apk",
+          "code": [
+            "\"scripts\": {",
+            "  \"build-apk\": \"cd android && ./gradlew clean && ./gradlew assembleRelease\"",
+            "}"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ios",
+      "title": "iOS",
+      "blocks": [
+        {
+          "type": "code",
+          "language": "bash",
+          "caption": "A simulator by model, a real device by its name",
+          "code": [
+            "yarn ios --simulator=\"iPhone 8\"",
+            "yarn ios --device=\"iPad\""
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "info",
+          "body": [
+            "xcrun simctl list devices shows every simulator name the --simulator flag accepts."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "distribute",
+      "title": "Distribute with Firebase",
+      "summary": "Testers get an email instead of a file in a chat.",
+      "blocks": [
+        {
+          "type": "steps",
+          "items": [
+            "Install the Firebase CLI with the script below.",
+            "firebase login, then firebase projects:list to check you are in the right account.",
+            "Add testers or a tester group in the console's App Distribution tab.",
+            "Run distribute with the APK path and the app id."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "code": [
+            "curl -sL https://firebase.tools | bash",
+            "firebase login",
+            "firebase projects:list",
+            "firebase appdistribution:distribute \"<absolute path to apk>\" \\",
+            "  --app \"<firebase app id>\""
+          ]
+        }
+      ]
+    }
+  ]
+}

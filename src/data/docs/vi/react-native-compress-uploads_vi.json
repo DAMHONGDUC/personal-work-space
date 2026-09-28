@@ -1,0 +1,400 @@
+{
+  "title": "Nén ảnh và video trước khi upload",
+  "tagline": "Ảnh 10 MB còn 200 KB; video 30 MB còn khoảng một phần ba.",
+  "icon": "🗜️",
+  "topic": "react-native",
+  "tags": [
+    "React Native",
+    "Android",
+    "iOS"
+  ],
+  "readingTime": "9 phút",
+  "effectiveDate": "2026-09-28",
+  "lastUpdated": "2026-09-28",
+  "intro": [
+    "Điện thoại chụp ra file lớn hơn nhiều so với nhu cầu của server. Nén ngay trên máy trước giúp upload nhanh hơn, tốn ít dữ liệu di động hơn và đỡ tải cho backend."
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Tổng quan",
+      "summary": "Mọi file đi cùng một đường; chỉ bộ nén là khác.",
+      "blocks": [
+        {
+          "type": "flow",
+          "caption": "Chọn, sao chép, nén, upload, dọn dẹp.",
+          "stages": [
+            {
+              "items": [
+                {
+                  "label": "Chọn file",
+                  "detail": "Document picker trả về uri; trên iOS phải bỏ tiền tố file:// trước",
+                  "explain": [
+                    "react-native-document-picker trả về một DocumentPickerResponse gồm uri, name, type và size.",
+                    "Android trả uri dạng content:// và phải giữ nguyên; iOS trả file:///…, còn các API file cần đường dẫn trơn không có scheme."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Chép vào cache",
+                  "detail": "rn-fetch-blob chép file vào cache của app, nơi app được tự do đọc ghi",
+                  "explain": [
+                    "File vừa chọn thường nằm trong vùng của app khác; bản sao trong CacheDir là của bạn, nên bộ nén mở được mà không lỗi quyền truy cập.",
+                    "CacheDir cũng là nơi hệ điều hành có thể tự dọn, rất hợp với file chỉ cần tới khi upload xong."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Ảnh",
+                  "detail": "react-native-compressor thu nhỏ và mã hoá lại trên cả hai nền tảng chỉ với một lệnh",
+                  "explain": [
+                    "Image.compress(path, { maxWidth: 1000, maxHeight: 1000, quality: 0.5 }) giới hạn cạnh dài 1000 px và giảm chất lượng JPEG còn một nửa.",
+                    "Đã thử với jpg, jpeg và png. Ảnh 9.388.730 byte còn 222.208 byte trên iOS; ảnh 10.506.316 byte còn 140.231 byte trên Android."
+                  ]
+                },
+                {
+                  "label": "Video",
+                  "detail": "iOS nén ngay lúc chọn; Android cần một native module nhỏ bọc Mp4Composer",
+                  "explain": [
+                    "Trên iOS, react-native-image-crop-picker nhận compressVideoPreset và trả về file đã được nén sẵn.",
+                    "Picker không nén được video trên Android, nên một module Java mã hoá lại bằng Mp4Composer với kích thước và bitrate tự chọn.",
+                    "Bitrate là kích thước file ÷ thời lượng × 8, nhân với quality: clip 30 MB dài 60 giây với quality 0.5 được mã hoá lại ở khoảng 2 Mbit/s."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Upload, rồi xoá",
+                  "detail": "Upload bản đã nén, rồi xoá nó để cache không phình ra sau mỗi file",
+                  "explain": [
+                    "Kiểm tra exists trước khi unlink: một lần thử lại hay một cú chạm thứ hai có thể xoá file đã không còn.",
+                    "Xoá trong khối finally, để upload thất bại không bỏ lại một video 20 MB trong cache."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "table",
+          "columns": [
+            "Thư viện",
+            "Dùng cho"
+          ],
+          "rows": [
+            [
+              "react-native-document-picker 8.1.0",
+              "Chọn file"
+            ],
+            [
+              "rn-fetch-blob",
+              "Chép vào và xoá khỏi cache"
+            ],
+            [
+              "react-native-compressor 1.6.1",
+              "Ảnh, cả hai nền tảng"
+            ],
+            [
+              "react-native-image-crop-picker 0.37.3",
+              "Video trên iOS"
+            ],
+            [
+              "Mp4Composer-android v0.4.1",
+              "Video trên Android"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "images",
+      "title": "Ảnh",
+      "summary": "Một thư viện, cả hai nền tảng.",
+      "blocks": [
+        {
+          "type": "code",
+          "language": "typescript",
+          "caption": "Chọn và chép vào cache",
+          "code": [
+            "const uri = Platform.OS === 'ios'",
+            "  ? file.uri.replace('file://', '')",
+            "  : file.uri;",
+            "",
+            "const destPath = `${RNFetchBlob.fs.dirs.CacheDir}/${file.name}`;",
+            "await RNFetchBlob.fs.cp(uri, destPath);"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "typescript",
+          "caption": "Nén, rồi upload result",
+          "code": [
+            "const result = await Image.compress(destPath, {",
+            "  maxWidth: 1000,",
+            "  maxHeight: 1000,",
+            "  quality: 0.5,",
+            "});"
+          ]
+        },
+        {
+          "type": "table",
+          "columns": [
+            "Nền tảng",
+            "Trước (byte)",
+            "Sau (byte)"
+          ],
+          "rows": [
+            [
+              "iOS",
+              "9,388,730",
+              "222,208"
+            ],
+            [
+              "Android",
+              "10,506,316",
+              "140,231"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "video-ios",
+      "title": "Video trên iOS",
+      "summary": "Chỉ một preset trên picker.",
+      "blocks": [
+        {
+          "type": "code",
+          "language": "typescript",
+          "code": [
+            "ImagePicker.openPicker({",
+            "  mediaType: 'video',",
+            "  compressVideoPreset: 'MediumQuality',",
+            "});"
+          ]
+        },
+        {
+          "type": "table",
+          "columns": [
+            "Preset",
+            "Kết quả",
+            "Dung lượng (byte)",
+            "Thời gian (s)"
+          ],
+          "rows": [
+            [
+              "HighestQuality",
+              "1920×1080",
+              "31,958,066",
+              "3.3"
+            ],
+            [
+              "Passthrough",
+              "1920×1080",
+              "31,958,066",
+              "3.4"
+            ],
+            [
+              "1280x720",
+              "1280×720",
+              "25,591,209",
+              "3.7"
+            ],
+            [
+              "960x540",
+              "960×540",
+              "12,780,985",
+              "9.9"
+            ],
+            [
+              "640x480",
+              "640×360",
+              "6,479,070",
+              "11.6"
+            ],
+            [
+              "MediumQuality",
+              "568×320",
+              "1,680,612",
+              "7.5"
+            ],
+            [
+              "LowQuality",
+              "224×128",
+              "303,920",
+              "6.4"
+            ]
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "info",
+          "body": [
+            "Đo trên một clip 1920×1080 nặng 31.957.901 byte. HighestQuality và Passthrough không giảm gì cả; 960x540 là preset đầu tiên giảm được một nửa."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "video-android",
+      "title": "Video trên Android",
+      "summary": "Một native module, gọi từ JavaScript.",
+      "blocks": [
+        {
+          "type": "steps",
+          "items": [
+            "Thêm implementation 'com.github.MasayukiSuda:Mp4Composer-android:v0.4.1' vào android/app/build.gradle.",
+            "Thêm module bên dưới và đăng ký nó trong một ReactPackage.",
+            "Truyền input dạng content:// và output path nằm trong CacheDir.",
+            "Đợi promise xong rồi mới upload file output."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "java",
+          "caption": "Module, đặt trong package của app bạn",
+          "code": [
+            "public class CompressVideoModule extends ReactContextBaseJavaModule {",
+            "    private final Context appContext;",
+            "",
+            "    CompressVideoModule(ReactApplicationContext context) {",
+            "        super(context);",
+            "        this.appContext = context;",
+            "    }",
+            "",
+            "    @Override",
+            "    public String getName() {",
+            "        return \"CompressVideoModule\";",
+            "    }",
+            "",
+            "    private long getDurationUs(String inputPath) {",
+            "        MediaExtractor extractor = new MediaExtractor();",
+            "        try {",
+            "            extractor.setDataSource(appContext, Uri.parse(inputPath), null);",
+            "            for (int i = 0; i < extractor.getTrackCount(); ++i) {",
+            "                MediaFormat format = extractor.getTrackFormat(i);",
+            "                if (format.getString(MediaFormat.KEY_MIME).startsWith(\"video/\")",
+            "                        && format.containsKey(MediaFormat.KEY_DURATION)) {",
+            "                    return format.getLong(MediaFormat.KEY_DURATION);",
+            "                }",
+            "            }",
+            "        } catch (IOException e) {",
+            "            Log.w(\"CompressVideo\", \"could not read duration\", e);",
+            "        } finally {",
+            "            extractor.release();",
+            "        }",
+            "        return 0;",
+            "    }",
+            "",
+            "    @ReactMethod",
+            "    public void compress(String inputPath, String outputPath, int width, int height,",
+            "                         float quality, Promise promise) {",
+            "        try {",
+            "            AssetFileDescriptor fd = appContext.getContentResolver()",
+            "                    .openAssetFileDescriptor(Uri.parse(inputPath), \"r\");",
+            "            long fileSize = fd.getLength();",
+            "            long durationUs = getDurationUs(inputPath);",
+            "",
+            "            // Fall back to a rule-of-thumb bitrate when size or duration is unknown.",
+            "            float bitrate = 0.25f * 30 * width * height;",
+            "            if (fileSize != 0 && durationUs != 0) {",
+            "                bitrate = ((float) fileSize / durationUs) * 8 * 1_000_000;",
+            "            }",
+            "",
+            "            new Mp4Composer(Uri.parse(inputPath), outputPath, appContext)",
+            "                    .size(width, height)",
+            "                    .videoBitrate((int) (bitrate * quality))",
+            "                    .listener(new Mp4Composer.Listener() {",
+            "                        @Override public void onProgress(double progress) {}",
+            "                        @Override public void onCurrentWrittenVideoTime(long timeUs) {}",
+            "                        @Override public void onCompleted() { promise.resolve(outputPath); }",
+            "                        @Override public void onCanceled() { promise.reject(\"CANCELED\", \"compression canceled\"); }",
+            "                        @Override public void onFailed(Exception e) { promise.reject(\"FAILED\", e); }",
+            "                    })",
+            "                    .start();",
+            "        } catch (Exception e) {",
+            "            promise.reject(\"FAILED\", e);",
+            "        }",
+            "    }",
+            "}"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "typescript",
+          "caption": "width, height, rồi quality từ 0 đến 1",
+          "code": [
+            "const { CompressVideoModule } = NativeModules;",
+            "",
+            "await CompressVideoModule.compress(inputPath, destPath, 540, 960, 0.5);"
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "warning",
+          "body": [
+            "Mp4Composer chạy nền. Bản đầu của module này trả về ngay lập tức, nên việc upload bắt đầu trên một file mới ghi được một nửa; hãy resolve Promise trong onCompleted."
+          ]
+        },
+        {
+          "type": "table",
+          "columns": [
+            "Rộng",
+            "Cao",
+            "Quality",
+            "Dung lượng (byte)",
+            "Thời gian (s)"
+          ],
+          "rows": [
+            [
+              "1280",
+              "720",
+              "0.6",
+              "21,043,205",
+              "40.2"
+            ],
+            [
+              "960",
+              "540",
+              "0.5",
+              "17,807,424",
+              "31.6"
+            ],
+            [
+              "640",
+              "360",
+              "0.4",
+              "13,840,978",
+              "31.0"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cleanup",
+      "title": "Dọn cache",
+      "blocks": [
+        {
+          "type": "code",
+          "language": "typescript",
+          "caption": "Chạy sau khi upload, dù thành công hay không",
+          "code": [
+            "const destPath = `${RNFetchBlob.fs.dirs.CacheDir}/${fileName}`;",
+            "if (await RNFetchBlob.fs.exists(destPath)) {",
+            "  await RNFetchBlob.fs.unlink(destPath);",
+            "}"
+          ]
+        }
+      ]
+    }
+  ]
+}

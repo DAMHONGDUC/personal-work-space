@@ -10,7 +10,7 @@
   ],
   "readingTime": "6 phút",
   "effectiveDate": "2026-08-21",
-  "lastUpdated": "2026-08-21",
+  "lastUpdated": "2026-09-28",
   "intro": [
     "Mỗi máy một key, thêm vào agent một lần, dán lên GitHub một lần. Sau đó git không hỏi mật khẩu nữa."
   ],
@@ -358,7 +358,22 @@
             [
               "Push nhầm tài khoản",
               "Remote đang dùng github.com thay vì host alias công việc. Sửa bằng git remote set-url."
+            ],
+            [
+              "ssh: connect to host github.com port 22: Connection timed out",
+              "Mạng đang chặn cổng 22. Cho SSH tới GitHub đi qua cổng 443 bằng config bên dưới."
             ]
+          ]
+        },
+        {
+          "type": "code",
+          "language": "ssh_config",
+          "caption": "~/.ssh/config — GitHub cũng nhận SSH ở ssh.github.com:443",
+          "code": [
+            "Host github.com",
+            "  Hostname ssh.github.com",
+            "  Port 443",
+            "  User git"
           ]
         }
       ]

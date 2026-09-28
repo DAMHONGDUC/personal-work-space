@@ -1,0 +1,335 @@
+{
+  "title": "React components, patterns and hooks",
+  "tagline": "Lifecycle, lifting state, context, HOCs, render props, and the hooks that replaced most of them.",
+  "icon": "⚛️",
+  "topic": "react-native",
+  "tags": [
+    "React",
+    "Hooks",
+    "React Native"
+  ],
+  "readingTime": "11 min",
+  "effectiveDate": "2026-09-28",
+  "lastUpdated": "2026-09-28",
+  "intro": [
+    "Class components are rare in new code but everywhere in old code, and every hook is easier to understand once you know which class feature it replaced."
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Overview",
+      "summary": "A component's life, and the hook for each part of it.",
+      "blocks": [
+        {
+          "type": "flow",
+          "caption": "Mount once, update many times, unmount once.",
+          "stages": [
+            {
+              "items": [
+                {
+                  "label": "Mounting",
+                  "detail": "The view is created and added to the tree; runs exactly once per instance",
+                  "explain": [
+                    "In a class: constructor, render, then componentDidMount. The constructor must call super(props) before it may touch this.",
+                    "With hooks: the function body renders, then useEffect(fn, []) runs once after the first paint — the same moment as componentDidMount.",
+                    "That is the place for a fetch or a subscription. A timer started here is the one you must stop at unmount."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Updating",
+                  "detail": "New props or state re-render the view; runs as many times as they change",
+                  "explain": [
+                    "In a class, componentDidUpdate(prevProps, prevState) runs after each update, and you compare old with new yourself.",
+                    "useEffect(fn, [a, b]) does the comparison for you: it reruns only when a or b changed since the last render."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Unmounting",
+                  "detail": "The view leaves the tree; the last chance to cancel timers and subscriptions",
+                  "explain": [
+                    "In a class this is componentWillUnmount. With hooks, it is the function returned from useEffect.",
+                    "Forget it and a setInterval keeps calling setState on a component that no longer exists, which leaks and warns."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "table",
+          "columns": [
+            "Class",
+            "Hook",
+            "Runs"
+          ],
+          "rows": [
+            [
+              "componentDidMount",
+              "useEffect(fn, [])",
+              "Once"
+            ],
+            [
+              "componentDidUpdate",
+              "useEffect(fn, [deps])",
+              "When deps change"
+            ],
+            [
+              "componentWillUnmount",
+              "useEffect(() => cleanup, [])",
+              "Once"
+            ],
+            [
+              "this.state / setState",
+              "useState",
+              "Every render"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lifting-state",
+      "title": "Lifting state",
+      "summary": "The parent owns the state; the child asks it to change.",
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            "The parent passes a function down as a prop.",
+            "The child calls it on a click or a toggle.",
+            "The function sets the parent's state, and both re-render."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "javascript",
+          "caption": "In a class, the method loses this unless it is bound or wrapped",
+          "code": [
+            "// Bind once in the constructor…",
+            "this.onClick = this.onClick.bind(this);",
+            "<Child onClick={this.onClick} />",
+            "",
+            "// …or wrap in an arrow function where it is passed",
+            "<Child onClick={() => this.onClick()} />"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "context",
+      "title": "Context",
+      "summary": "Data for a whole subtree, without passing props level by level.",
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            "A Provider wraps the subtree and holds the value.",
+            "Class components read it with a Consumer; function components with useContext.",
+            "Providers nest, so a theme context and a user context can sit one inside the other."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "caption": "useContext: no Consumer, no render function",
+          "code": [
+            "const ThemeContext = React.createContext(themes.light);",
+            "",
+            "function App() {",
+            "  return (",
+            "    <ThemeContext.Provider value={themes.dark}>",
+            "      <Toolbar />",
+            "    </ThemeContext.Provider>",
+            "  );",
+            "}",
+            "",
+            "function ThemedButton() {",
+            "  const theme = useContext(ThemeContext);",
+            "  return <button style={{ background: theme.background, color: theme.foreground }}>Themed</button>;",
+            "}"
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "info",
+          "body": [
+            "Every consumer re-renders when the value changes. Keep fast-changing data out of a context that half the app reads."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reuse",
+      "title": "HOCs and render props",
+      "summary": "The two class-era ways to share logic.",
+      "blocks": [
+        {
+          "type": "table",
+          "columns": [
+            "Pattern",
+            "What it is",
+            "Today"
+          ],
+          "rows": [
+            [
+              "HOC",
+              "A function that takes a component and returns a new one with extra behaviour",
+              "A custom hook"
+            ],
+            [
+              "Render props",
+              "A prop that is a function, telling the component what to render",
+              "A custom hook"
+            ]
+          ]
+        },
+        {
+          "type": "code",
+          "language": "javascript",
+          "caption": "A HOC; the wrapped component's name must start with a capital letter",
+          "code": [
+            "function withHoverOpacity(WrappedComponent, opacity) {",
+            "  return function WithHoverOpacity(props) {",
+            "    const [hovered, setHovered] = useState(false);",
+            "    return (",
+            "      <div",
+            "        style={{ opacity: hovered ? opacity : 1 }}",
+            "        onMouseEnter={() => setHovered(true)}",
+            "        onMouseLeave={() => setHovered(false)}",
+            "      >",
+            "        <WrappedComponent {...props} />",
+            "      </div>",
+            "    );",
+            "  };",
+            "}",
+            "",
+            "const FadedImage = withHoverOpacity(MyImage, 0.3);"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "javascript",
+          "caption": "Render props: the parent decides the markup, Counter owns the state",
+          "code": [
+            "<Counter render={(state) => <div>{state.count}</div>} />",
+            "",
+            "// inside Counter",
+            "return <div>{this.props.render(this.state)}</div>;"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "hook-rules",
+      "title": "Rules of hooks",
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            "Call hooks at the top level only — never inside a loop, a condition or a nested function.",
+            "Call them only from function components or from custom hooks.",
+            "React matches hooks to state by call order, which is why the order must be the same on every render."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "memo",
+      "title": "useMemo and useCallback",
+      "summary": "Skip work that the last render already did.",
+      "blocks": [
+        {
+          "type": "flow",
+          "caption": "Why an unrelated click was slow, and the fix.",
+          "stages": [
+            {
+              "items": [
+                {
+                  "label": "Any state changes",
+                  "detail": "Clicking 'change key' updates key, and the whole component function runs again",
+                  "explain": [
+                    "A re-render calls every line of the function body. An expensive call written there runs again, even if its input did not change.",
+                    "In the example, a loop building a 5,000,000-item array logs 'called with input: 3' on every click of an unrelated button."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "useMemo",
+                  "detail": "Keeps the last result and recomputes only when a dependency changes",
+                  "explain": [
+                    "useMemo(() => expensive(num), [num]) runs once on mount and again only when num changes; clicking 'change key' no longer logs.",
+                    "It returns a value. Use it for derived data that is costly to build, not for every calculation — the bookkeeping has a cost too."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "useCallback",
+                  "detail": "Keeps the same function object between renders until a dependency changes",
+                  "explain": [
+                    "useCallback(fn, deps) is useMemo(() => fn, deps). It returns a function, not the result of calling one.",
+                    "It matters when the function is passed to a memoised child or used as an effect dependency, where a new identity would re-render or re-run it."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "code",
+          "language": "javascript",
+          "code": [
+            "const expensive = useMemo(() => uselessExpensiveOperation(num), [num]);",
+            "",
+            "const memoizedCallback = useCallback(() => {",
+            "  doSomething(a, b);",
+            "}, [a, b]);"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "use-ref",
+      "title": "useRef",
+      "summary": "A box that survives re-renders without causing one.",
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            "useRef(initial) returns { current: initial }, and the same object for the component's whole life.",
+            "Attach it to an element with ref={…} to reach the mounted node, e.g. to focus an input.",
+            "Writing to ref.current does not re-render — use it for values the screen does not show, such as a timer id."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": [
+            "function TextInputWithFocusButton() {",
+            "  const inputEl = useRef(null);",
+            "  return (",
+            "    <>",
+            "      <input ref={inputEl} type=\"text\" />",
+            "      <button onClick={() => inputEl.current.focus()}>Focus the input</button>",
+            "    </>",
+            "  );",
+            "}"
+          ]
+        }
+      ]
+    }
+  ]
+}

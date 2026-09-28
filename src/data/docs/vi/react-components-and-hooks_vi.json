@@ -1,0 +1,335 @@
+{
+  "title": "Component, pattern và hook trong React",
+  "tagline": "Lifecycle, lifting state, context, HOC, render props, và các hook đã thay thế phần lớn chúng.",
+  "icon": "⚛️",
+  "topic": "react-native",
+  "tags": [
+    "React",
+    "Hooks",
+    "React Native"
+  ],
+  "readingTime": "11 phút",
+  "effectiveDate": "2026-09-28",
+  "lastUpdated": "2026-09-28",
+  "intro": [
+    "Class component hiếm gặp trong code mới nhưng có mặt khắp nơi trong code cũ, và mỗi hook đều dễ hiểu hơn khi biết nó thay thế tính năng nào của class."
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Tổng quan",
+      "summary": "Vòng đời của một component, và hook tương ứng với từng phần.",
+      "blocks": [
+        {
+          "type": "flow",
+          "caption": "Mount một lần, update nhiều lần, unmount một lần.",
+          "stages": [
+            {
+              "items": [
+                {
+                  "label": "Mounting",
+                  "detail": "View được tạo và thêm vào cây; chạy đúng một lần cho mỗi instance",
+                  "explain": [
+                    "Trong class: constructor, render, rồi componentDidMount. Constructor phải gọi super(props) trước khi được dùng this.",
+                    "Với hook: thân hàm render, rồi useEffect(fn, []) chạy một lần sau lần vẽ đầu tiên — cùng thời điểm với componentDidMount.",
+                    "Đó là chỗ để fetch hoặc subscribe. Timer khởi động ở đây chính là cái bạn phải dừng khi unmount."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Updating",
+                  "detail": "Props hoặc state mới khiến view render lại; chạy bao nhiêu lần tuỳ số lần chúng đổi",
+                  "explain": [
+                    "Trong class, componentDidUpdate(prevProps, prevState) chạy sau mỗi lần update, và bạn tự so sánh cũ với mới.",
+                    "useEffect(fn, [a, b]) so sánh thay bạn: nó chỉ chạy lại khi a hoặc b đổi so với lần render trước."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Unmounting",
+                  "detail": "View rời khỏi cây; cơ hội cuối để huỷ timer và subscription",
+                  "explain": [
+                    "Trong class đây là componentWillUnmount. Với hook, nó là hàm được trả về từ useEffect.",
+                    "Quên nó thì setInterval vẫn gọi setState lên một component không còn tồn tại, gây rò rỉ và cảnh báo."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "table",
+          "columns": [
+            "Class",
+            "Hook",
+            "Chạy"
+          ],
+          "rows": [
+            [
+              "componentDidMount",
+              "useEffect(fn, [])",
+              "Một lần"
+            ],
+            [
+              "componentDidUpdate",
+              "useEffect(fn, [deps])",
+              "Khi deps đổi"
+            ],
+            [
+              "componentWillUnmount",
+              "useEffect(() => cleanup, [])",
+              "Một lần"
+            ],
+            [
+              "this.state / setState",
+              "useState",
+              "Mỗi lần render"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lifting-state",
+      "title": "Lifting state",
+      "summary": "Component cha giữ state; component con nhờ cha thay đổi nó.",
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            "Component cha truyền một hàm xuống dưới dạng prop.",
+            "Component con gọi hàm đó khi click hoặc toggle.",
+            "Hàm đó set state của cha, và cả hai cùng render lại."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "javascript",
+          "caption": "Trong class, method mất this nếu không bind hoặc bọc lại",
+          "code": [
+            "// Bind once in the constructor…",
+            "this.onClick = this.onClick.bind(this);",
+            "<Child onClick={this.onClick} />",
+            "",
+            "// …or wrap in an arrow function where it is passed",
+            "<Child onClick={() => this.onClick()} />"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "context",
+      "title": "Context",
+      "summary": "Dữ liệu cho cả một nhánh cây, không cần truyền props qua từng tầng.",
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            "Provider bọc nhánh cây và giữ giá trị.",
+            "Class component đọc bằng Consumer; function component đọc bằng useContext.",
+            "Provider lồng được, nên context theme và context user có thể nằm trong nhau."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "caption": "useContext: không cần Consumer, không cần render function",
+          "code": [
+            "const ThemeContext = React.createContext(themes.light);",
+            "",
+            "function App() {",
+            "  return (",
+            "    <ThemeContext.Provider value={themes.dark}>",
+            "      <Toolbar />",
+            "    </ThemeContext.Provider>",
+            "  );",
+            "}",
+            "",
+            "function ThemedButton() {",
+            "  const theme = useContext(ThemeContext);",
+            "  return <button style={{ background: theme.background, color: theme.foreground }}>Themed</button>;",
+            "}"
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "info",
+          "body": [
+            "Mọi nơi dùng context đều render lại khi giá trị đổi. Đừng đặt dữ liệu thay đổi liên tục vào context mà nửa app đang đọc."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reuse",
+      "title": "HOC và render props",
+      "summary": "Hai cách chia sẻ logic từ thời class.",
+      "blocks": [
+        {
+          "type": "table",
+          "columns": [
+            "Pattern",
+            "Nó là gì",
+            "Ngày nay"
+          ],
+          "rows": [
+            [
+              "HOC",
+              "Một hàm nhận component và trả về component mới có thêm hành vi",
+              "Một custom hook"
+            ],
+            [
+              "Render props",
+              "Một prop là hàm, cho component biết cần render gì",
+              "Một custom hook"
+            ]
+          ]
+        },
+        {
+          "type": "code",
+          "language": "javascript",
+          "caption": "Một HOC; tên component được bọc phải viết hoa chữ cái đầu",
+          "code": [
+            "function withHoverOpacity(WrappedComponent, opacity) {",
+            "  return function WithHoverOpacity(props) {",
+            "    const [hovered, setHovered] = useState(false);",
+            "    return (",
+            "      <div",
+            "        style={{ opacity: hovered ? opacity : 1 }}",
+            "        onMouseEnter={() => setHovered(true)}",
+            "        onMouseLeave={() => setHovered(false)}",
+            "      >",
+            "        <WrappedComponent {...props} />",
+            "      </div>",
+            "    );",
+            "  };",
+            "}",
+            "",
+            "const FadedImage = withHoverOpacity(MyImage, 0.3);"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "javascript",
+          "caption": "Render props: cha quyết định markup, Counter giữ state",
+          "code": [
+            "<Counter render={(state) => <div>{state.count}</div>} />",
+            "",
+            "// inside Counter",
+            "return <div>{this.props.render(this.state)}</div>;"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "hook-rules",
+      "title": "Quy tắc của hook",
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            "Chỉ gọi hook ở cấp cao nhất — không bao giờ trong vòng lặp, điều kiện hay hàm lồng.",
+            "Chỉ gọi chúng từ function component hoặc custom hook.",
+            "React ghép hook với state theo thứ tự gọi, vì vậy thứ tự đó phải giống nhau ở mọi lần render."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "memo",
+      "title": "useMemo và useCallback",
+      "summary": "Bỏ qua việc mà lần render trước đã làm.",
+      "blocks": [
+        {
+          "type": "flow",
+          "caption": "Vì sao một click chẳng liên quan lại chậm, và cách sửa.",
+          "stages": [
+            {
+              "items": [
+                {
+                  "label": "Một state bất kỳ đổi",
+                  "detail": "Bấm 'change key' cập nhật key, và toàn bộ hàm component chạy lại",
+                  "explain": [
+                    "Một lần render lại gọi mọi dòng trong thân hàm. Lời gọi tốn kém viết ở đó sẽ chạy lại, dù đầu vào của nó không đổi.",
+                    "Trong ví dụ, một vòng lặp tạo mảng 5.000.000 phần tử in ra 'called with input: 3' mỗi lần bấm một nút không liên quan."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "useMemo",
+                  "detail": "Giữ kết quả lần trước và chỉ tính lại khi một dependency thay đổi",
+                  "explain": [
+                    "useMemo(() => expensive(num), [num]) chạy một lần khi mount và chỉ chạy lại khi num đổi; bấm 'change key' không còn in log nữa.",
+                    "Nó trả về một giá trị. Dùng cho dữ liệu dẫn xuất tốn kém, không phải mọi phép tính — việc ghi nhớ cũng có chi phí."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "useCallback",
+                  "detail": "Giữ nguyên cùng một hàm giữa các lần render cho tới khi dependency đổi",
+                  "explain": [
+                    "useCallback(fn, deps) chính là useMemo(() => fn, deps). Nó trả về một hàm, không phải kết quả của việc gọi hàm.",
+                    "Nó có ý nghĩa khi hàm được truyền cho component con đã memo hoặc làm dependency của effect, nơi một hàm mới sẽ gây render hoặc chạy lại."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "code",
+          "language": "javascript",
+          "code": [
+            "const expensive = useMemo(() => uselessExpensiveOperation(num), [num]);",
+            "",
+            "const memoizedCallback = useCallback(() => {",
+            "  doSomething(a, b);",
+            "}, [a, b]);"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "use-ref",
+      "title": "useRef",
+      "summary": "Một chiếc hộp tồn tại qua các lần render mà không gây render.",
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            "useRef(initial) trả về { current: initial }, và là cùng một object trong suốt vòng đời component.",
+            "Gắn nó vào element bằng ref={…} để truy cập node đã mount, ví dụ để focus một input.",
+            "Ghi vào ref.current không gây render lại — dùng cho giá trị không hiển thị, như id của timer."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": [
+            "function TextInputWithFocusButton() {",
+            "  const inputEl = useRef(null);",
+            "  return (",
+            "    <>",
+            "      <input ref={inputEl} type=\"text\" />",
+            "      <button onClick={() => inputEl.current.focus()}>Focus the input</button>",
+            "    </>",
+            "  );",
+            "}"
+          ]
+        }
+      ]
+    }
+  ]
+}
