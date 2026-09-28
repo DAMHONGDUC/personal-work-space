@@ -6,6 +6,7 @@ import { formatDate, getApps, site } from "@/lib/apps/apps";
 import { cv } from "@/lib/cv/cv";
 import { getDocBundles } from "@/lib/docs/docs";
 import { getEffectCategories } from "@/lib/effects/effects";
+import { portfolio } from "@/lib/portfolio/portfolio";
 import { routes } from "@/lib/routes/routes";
 import { AppColors } from "@/lib/design/app-colors";
 
@@ -45,6 +46,14 @@ export default function Home() {
           title="Effects library"
           description="Transitions, sound effects, overlays and animated elements for video editing, sorted by category with a preview for each."
           meta={`${effectCount} files in ${effectCategories.length} categories`}
+        />
+        <HubCard
+          href={routes.portfolio}
+          icon="👋"
+          accent={AppColors.PORTFOLIO}
+          title="Portfolio"
+          description="Who I am, the technologies I work with, where I have worked and what I have built."
+          meta={`${portfolio.projects.length} ${portfolio.projects.length === 1 ? "project" : "projects"} · ${portfolio.experience.length} roles`}
         />
         <HubCard
           href={routes.cv}

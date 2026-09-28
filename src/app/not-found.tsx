@@ -12,7 +12,7 @@ export default function NotFound() {
       </MessageBlock>
       <ButtonRow>
         <TextLinkButton href={routes.apps}>Browse all privacy policies</TextLinkButton>
-        <TextLinkButton href={routes.cv}>Read the CV</TextLinkButton>
+        <TextLinkButton href={routes.portfolio}>See the portfolio</TextLinkButton>
       </ButtonRow>
     </PageContainer>
   );

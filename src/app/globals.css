@@ -156,3 +156,47 @@ html {
   );
   background-size: 16px 16px;
 }
+
+/*
+ * Portfolio effects, kept deliberately quiet: one accent (--pf-a, handed down by
+ * PortfolioTheme), no gradients on text or buttons, nothing spinning. All CSS,
+ * so the first paint is the finished page, and every movement stops for a
+ * reader who asked the OS to reduce motion.
+ */
+.pf-grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
+}
+
+.pf-dots {
+  background-image: radial-gradient(color-mix(in oklab, var(--foreground) 12%, transparent) 1px, transparent 1px);
+  background-size: 22px 22px;
+  mask-image: radial-gradient(ellipse at 50% 30%, black 15%, transparent 70%);
+}
+
+.pf-marquee-mask {
+  mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes pf-marquee {
+    to { transform: translateX(-50%); }
+  }
+
+  .pf-marquee { animation: pf-marquee 45s linear infinite; }
+  .pf-marquee:hover { animation-play-state: paused; }
+
+  /* Sections rise in as they scroll into view, where the browser can tie an
+     animation to scroll; elsewhere they are simply there. */
+  @supports (animation-timeline: view()) {
+    @keyframes pf-reveal {
+      from { opacity: 0; translate: 0 1.5rem; }
+      to { opacity: 1; translate: 0 0; }
+    }
+
+    .pf-reveal {
+      animation: pf-reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 50%;
+    }
+  }
+}

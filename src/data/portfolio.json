@@ -1,0 +1,119 @@
+{
+  "name": "Dam Hong Duc",
+  "greeting": "Hi, I'm Duc",
+  "role": "Mobile Developer",
+  "headline": "I'm a mobile developer specialising in JavaScript and TypeScript, with a passion for building UI for web and mobile apps. I work with React Native, Flutter and Next.js, and keep learning newer tools such as SwiftUI and Jetpack Compose.",
+  "location": "Ho Chi Minh City, Viet Nam",
+  "status": "Available for new projects",
+  "careerStart": "2022-07",
+  "avatar": "/portfolio/avatar.jpg",
+  "links": [
+    {
+      "kind": "github",
+      "label": "GitHub",
+      "href": "https://github.com/DAMHONGDUC"
+    },
+    {
+      "kind": "linkedin",
+      "label": "LinkedIn",
+      "href": "https://www.linkedin.com/in/dam-hong-duc/"
+    },
+    {
+      "kind": "figma",
+      "label": "Figma",
+      "href": "https://www.figma.com/@hongdduc"
+    }
+  ],
+  "about": {
+    "title": "Curious about me? Here you have it:",
+    "image": "/portfolio/about.jpg",
+    "body": [
+      "I studied Information Systems at the University of Science – VNUHCM, 2019 – 2023.",
+      "I have a passion for developing UI for web and mobile apps, and I started my career as a mobile developer in July 2022.",
+      "For mobile apps I have used React Native, Xamarin Forms and Flutter, and I can build native Android apps with Java and XML or with Jetpack Compose.",
+      "For the web I have used Next.js and React."
+    ],
+    "learning": [
+      "SwiftUI",
+      "Jetpack Compose"
+    ]
+  },
+  "skills": [
+    {
+      "label": "JavaScript",
+      "logo": "/portfolio/skills/javascript.svg",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
+    },
+    {
+      "label": "TypeScript",
+      "logo": "/portfolio/skills/typescript.svg",
+      "url": "https://www.typescriptlang.org/"
+    },
+    {
+      "label": "Next.js",
+      "logo": "/portfolio/skills/nextjs.svg",
+      "url": "https://nextjs.org/"
+    },
+    {
+      "label": "React Native",
+      "logo": "/portfolio/skills/react-native.svg",
+      "url": "https://reactnative.dev/"
+    },
+    {
+      "label": "Flutter",
+      "logo": "/portfolio/skills/flutter.svg",
+      "url": "https://flutter.dev/"
+    },
+    {
+      "label": "Figma",
+      "logo": "/portfolio/skills/figma.svg",
+      "url": "https://www.figma.com/"
+    },
+    {
+      "label": "Git",
+      "logo": "/portfolio/skills/git.svg",
+      "url": "https://git-scm.com/"
+    }
+  ],
+  "experience": [
+    {
+      "company": "TGL Solutions",
+      "role": "Junior Mobile Developer",
+      "period": "Jan 2023 – now",
+      "points": [
+        "Full-time",
+        "Front-end developer across mobile apps and the web",
+        "Tech stack: Next.js, GraphQL, React Native, Redux"
+      ]
+    },
+    {
+      "company": "Flynk",
+      "role": "Fresher Mobile Developer",
+      "period": "Jul 2022 – Nov 2022",
+      "points": [
+        "Full-time",
+        "Mobile developer",
+        "Tech stack: Xamarin Forms, React Native, Redux"
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "name": "dSound",
+      "description": "Stream and listen to music online for free.",
+      "image": "/portfolio/projects/dsound.png",
+      "technologies": [
+        "JavaScript",
+        "Redux",
+        "Firebase",
+        "Zing MP3 API"
+      ],
+      "source": "https://github.com/DAMHONGDUC/dSound",
+      "demo": "https://www.youtube.com/watch?v=72bvRZppxw8&t=107s"
+    }
+  ],
+  "contact": {
+    "title": "What's next? Feel free to reach out if you are looking for a developer, have a question, or simply want to connect.",
+    "email": "hongduc001h@gmail.com"
+  }
+}

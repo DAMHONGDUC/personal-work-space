@@ -26,6 +26,9 @@ export const routes = {
   effects: "/effects",
   /** One category, its packs listed in turn with a preview for every file. */
   effectCategory: (id: string) => `/effects/${id}`,
+  /** The publisher's introduction: skills, experience, projects. Public. */
+  portfolio: "/personal/portfolio",
+  /** The CV, behind the password curtain. */
   cv: "/personal/cv",
 } as const;
 

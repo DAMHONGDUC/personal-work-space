@@ -8,6 +8,10 @@ describe("routes", () => {
     expect(routes.cv).toBe("/personal/cv");
   });
 
+  it("keeps the portfolio beside the CV, in the personal section", () => {
+    expect(routes.portfolio).toBe("/personal/portfolio");
+    expect(routes.portfolio.split("/")[1]).toBe(routes.cv.split("/")[1]);
+  });
 
   it("nests an app policy under that app's own path", () => {
     expect(routes.app("focus-timer")).toBe(`${routes.apps}/focus-timer`);
@@ -30,6 +34,7 @@ describe("routes", () => {
       routes.docs,
       routes.effects,
       routes.cv,
+      routes.portfolio,
       routes.privacyPolicy("focus-timer"),
       routes.doc("xcode-setup"),
       routes.effectCategory("transitions"),
@@ -41,7 +46,7 @@ describe("routes", () => {
 
   it("reserves the first segment of every section", () => {
     // An app slug matching one of these would be shadowed by the static route.
-    const sections = [routes.apps, routes.docs, routes.effects, routes.cv].map(
+    const sections = [routes.apps, routes.docs, routes.effects, routes.portfolio, routes.cv].map(
       (path) => path.split("/")[1],
     );
 

@@ -1,0 +1,48 @@
+import type { Metadata } from "next";
+import { PageContainer } from "@/components/layout/PageContainer";
+import { AboutBento } from "@/components/portfolio/AboutBento";
+import { ContactCta } from "@/components/portfolio/ContactCta";
+import { ExperienceTimeline } from "@/components/portfolio/ExperienceTimeline";
+import { PortfolioHero } from "@/components/portfolio/PortfolioHero";
+import { PortfolioSection } from "@/components/portfolio/PortfolioSection";
+import { PortfolioTheme } from "@/components/portfolio/PortfolioTheme";
+import { ProjectShowcase } from "@/components/portfolio/ProjectShowcase";
+import { SkillMarquee } from "@/components/portfolio/SkillMarquee";
+import { portfolio, portfolioStats } from "@/lib/portfolio/portfolio";
+import { routes } from "@/lib/routes/routes";
+
+export const metadata: Metadata = {
+  title: "Portfolio",
+  description: `${portfolio.name} — ${portfolio.role}. Skills, experience and projects.`,
+  alternates: { canonical: `${routes.portfolio}/` },
+};
+
+export default function PortfolioPage() {
+  return (
+    <PortfolioTheme>
+      <PortfolioHero portfolio={portfolio} stats={portfolioStats()} />
+
+      <PageContainer spacing="flush">
+        <PortfolioSection id="about" eyebrow="About me" title={portfolio.about.title}>
+          <AboutBento portfolio={portfolio} />
+        </PortfolioSection>
+
+        <PortfolioSection id="skills" eyebrow="Skills" title="The technologies I work with">
+          <SkillMarquee skills={portfolio.skills} />
+        </PortfolioSection>
+
+        <PortfolioSection id="experience" eyebrow="Experience" title="Where I have worked">
+          <ExperienceTimeline jobs={portfolio.experience} />
+        </PortfolioSection>
+
+        <PortfolioSection id="projects" eyebrow="Projects" title="Things I have built">
+          <ProjectShowcase projects={portfolio.projects} />
+        </PortfolioSection>
+
+        <PortfolioSection id="contact" eyebrow="Contact" title="Get in touch">
+          <ContactCta portfolio={portfolio} />
+        </PortfolioSection>
+      </PageContainer>
+    </PortfolioTheme>
+  );
+}

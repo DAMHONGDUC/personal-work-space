@@ -13,10 +13,14 @@
 export class AppTextStyles {
   // Headings, largest first.
 
+  /** The portfolio's name: the one display-size line on the site. */
+  static readonly DISPLAY = "text-5xl font-semibold leading-[1.05] tracking-tight sm:text-7xl";
   /** The h1 of a page that opens with a PageIntro. */
   static readonly PAGE_TITLE = "text-4xl font-semibold tracking-tight sm:text-5xl";
   /** The h1 inside a hero: a guide or a privacy policy. */
   static readonly HERO_TITLE = "text-3xl font-semibold tracking-tight sm:text-[2.5rem] sm:leading-[1.15]";
+  /** A portfolio section heading. */
+  static readonly SECTION_TITLE = "text-3xl font-semibold tracking-tight sm:text-4xl";
   /** The h1 of a reference tool's one-line header. */
   static readonly COMPACT_TITLE = "text-2xl font-semibold tracking-tight";
   /** A large card's title, e.g. a guide in the index. */

@@ -23,6 +23,12 @@ export class AppColors {
   /** The effects library. */
   static readonly EFFECTS = "#f43f5e";
 
+  /**
+   * The portfolio. Used sparingly — a rule, a dot, a hover — and never as a
+   * gradient: the page should read as designed, not generated.
+   */
+  static readonly PORTFOLIO = "#10b981";
+
   /** The CV card on the home page. */
   static readonly CV = "#0ea5e9";
 

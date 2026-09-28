@@ -38,6 +38,12 @@ export class ResourceConstant {
   static readonly SITE_FILE = "src/data/site.json";
 
   /**
+   * The portfolio page: introduction, skills, experience, projects. One file,
+   * imported statically by `src/lib/portfolio/portfolio.ts`.
+   */
+  static readonly PORTFOLIO_FILE = "src/data/portfolio.json";
+
+  /**
    * Every CV, one JSON file per version, each cut for a different reader. The
    * build compiles all of them and the CV page offers them in a switcher, so
    * adding a file here adds an entry to the dropdown.
@@ -79,6 +85,9 @@ export class ResourceConstant {
 
   /** Served at the site root, so a URL is a path here minus this prefix. */
   static readonly PUBLIC_DIR = "public";
+
+  /** Every image the portfolio draws: avatar, skill and employer logos, project shots. */
+  static readonly PORTFOLIO_ASSETS_DIR = "public/portfolio";
 
   /**
    * The default CV, at the address the app store listings and any existing

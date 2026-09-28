@@ -2,7 +2,7 @@
  * The page-level gaps, in one place.
  *
  * Every page starts under the sticky header, and each one used to pick its own
- * top padding — 80px on one page, 40px on the next — so the site
+ * top padding — 80px here, 40px there, 96px on the portfolio — so the site
  * never lined up. Anything that is the first thing under the header takes
  * PAGE_TOP; change it here and every page moves together.
  *

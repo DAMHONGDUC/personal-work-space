@@ -46,6 +46,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly" as const,
     })),
     {
+      url: `${site.url}${routes.portfolio}/`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+    },
+    {
       url: `${site.url}${routes.cv}/`,
       lastModified: new Date(`${cv.lastUpdated}T00:00:00Z`),
       changeFrequency: "monthly",

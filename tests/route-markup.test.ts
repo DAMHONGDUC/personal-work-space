@@ -15,7 +15,7 @@ function routeFiles(dir: string = appDir): string[] {
 
 describe("route files", () => {
   it("compose components and never style markup themselves", () => {
-    // A page says what is on it — <PageIntro>, <PageContainer> — and the
+    // A page says what is on it — <PortfolioHero />, <PageContainer> — and the
     // look lives in the component. A className or an inline style in a route
     // file is layout that no other page can reuse and no test can see.
     const styled = routeFiles()
