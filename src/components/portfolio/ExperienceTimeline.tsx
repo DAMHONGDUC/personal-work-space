@@ -1,5 +1,5 @@
-import { ExternalLink } from "@/components/portfolio/ExternalLink";
 import { GlassCard } from "@/components/portfolio/GlassCard";
+import { WebsiteButton } from "@/components/portfolio/WebsiteButton";
 import type { Experience } from "@/lib/cv/cv-types";
 import { AppTextStyles } from "@/lib/design/app-text-styles";
 
@@ -56,12 +56,14 @@ export function ExperienceTimeline({ jobs }: { jobs: Experience[] }) {
 
             <div className="flex min-w-0 flex-1 flex-col gap-4">
               <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4">
-                <div>
-                  <h3 className={AppTextStyles.CARD_TITLE_SM}>{job.role}</h3>
-                  <p className={AppTextStyles.SMALL}>
-                    <ExternalLink href={job.url}>{job.company}</ExternalLink> · {job.arrangement} ·{" "}
-                    {job.location}
-                  </p>
+                <div className="flex flex-col gap-2">
+                  <div>
+                    <h3 className={AppTextStyles.CARD_TITLE_SM}>{job.role}</h3>
+                    <p className={AppTextStyles.SMALL}>
+                      {job.company} · {job.arrangement} · {job.location}
+                    </p>
+                  </div>
+                  <WebsiteButton href={job.url} name={job.company} />
                 </div>
                 <span className={`${AppTextStyles.CAPTION} w-fit shrink-0 rounded-full border border-border-soft px-3 py-1`}>
                   {job.period}

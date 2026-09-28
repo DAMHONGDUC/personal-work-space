@@ -1,7 +1,7 @@
 import { Clock, GraduationCap, MapPin, Sparkles } from "lucide-react";
 import { GlassCard } from "@/components/portfolio/GlassCard";
-import { ExternalLink } from "@/components/portfolio/ExternalLink";
 import { StatusPill } from "@/components/portfolio/StatusPill";
+import { WebsiteButton } from "@/components/portfolio/WebsiteButton";
 import type { Portfolio } from "@/lib/portfolio/portfolio-model";
 import { AppTextStyles } from "@/lib/design/app-text-styles";
 
@@ -31,11 +31,14 @@ export function AboutBento({ portfolio }: { portfolio: Portfolio }) {
           {portfolio.education.map((school) => (
             <div key={school.institution} className="flex items-start gap-3">
               <GraduationCap aria-hidden className="mt-0.5 size-5 shrink-0 text-muted" />
-              <div>
-                <p className="font-medium">{school.degree}</p>
-                <p className={AppTextStyles.SMALL}>
-                  <ExternalLink href={school.url}>{school.institution}</ExternalLink> · {school.period}
-                </p>
+              <div className="flex flex-col gap-2">
+                <div>
+                  <p className="font-medium">{school.degree}</p>
+                  <p className={AppTextStyles.SMALL}>
+                    {school.institution} · {school.period}
+                  </p>
+                </div>
+                <WebsiteButton href={school.url} name={school.institution} />
               </div>
             </div>
           ))}
