@@ -1,3 +1,4 @@
+import { ExternalLink } from "@/components/portfolio/ExternalLink";
 import { GlassCard } from "@/components/portfolio/GlassCard";
 import type { Experience } from "@/lib/cv/cv-types";
 import { AppTextStyles } from "@/lib/design/app-text-styles";
@@ -58,7 +59,8 @@ export function ExperienceTimeline({ jobs }: { jobs: Experience[] }) {
                 <div>
                   <h3 className={AppTextStyles.CARD_TITLE_SM}>{job.role}</h3>
                   <p className={AppTextStyles.SMALL}>
-                    {job.company} · {job.arrangement} · {job.location}
+                    <ExternalLink href={job.url}>{job.company}</ExternalLink> · {job.arrangement} ·{" "}
+                    {job.location}
                   </p>
                 </div>
                 <span className={`${AppTextStyles.CAPTION} w-fit shrink-0 rounded-full border border-border-soft px-3 py-1`}>

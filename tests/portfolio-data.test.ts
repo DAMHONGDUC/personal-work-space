@@ -89,6 +89,8 @@ describe("portfolio and CV", () => {
   it("links out over https only", () => {
     const urls = [
       ...portfolio.links.map((link) => link.href),
+      ...portfolio.education.flatMap((school) => (school.url ? [school.url] : [])),
+      ...portfolio.experience.flatMap((job) => (job.url ? [job.url] : [])),
       ...portfolio.projects.flatMap((project) => project.links.map((link) => link.href)),
     ];
 

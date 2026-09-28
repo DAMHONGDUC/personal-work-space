@@ -1,4 +1,5 @@
 import { Clock, GraduationCap, MapPin, Sparkles } from "lucide-react";
+import { ExternalLink } from "@/components/portfolio/ExternalLink";
 import { GlassCard } from "@/components/portfolio/GlassCard";
 import { StatusPill } from "@/components/portfolio/StatusPill";
 import type { Portfolio } from "@/lib/portfolio/portfolio-model";
@@ -32,7 +33,7 @@ export function AboutBento({ portfolio }: { portfolio: Portfolio }) {
               <div>
                 <p className="font-medium">{school.degree}</p>
                 <p className={AppTextStyles.SMALL}>
-                  {school.institution} · {school.period}
+                  <ExternalLink href={school.url}>{school.institution}</ExternalLink> · {school.period}
                 </p>
               </div>
             </div>
