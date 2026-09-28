@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { LegacyRedirect } from "@/components/LegacyRedirect";
-import { routes } from "@/lib/routes";
+import { LegacyRedirect } from "@/components/layout/LegacyRedirect";
+import { routes } from "@/lib/routes/routes";
 
 // The section holds one page today, so its root forwards instead of 404ing.
 export const metadata: Metadata = { robots: { index: false } };

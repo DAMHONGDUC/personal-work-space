@@ -1,9 +1,9 @@
 import fs from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import { EFFECT_KINDS } from "@/lib/effect-model";
-import { UPLOADS_PACK_SLUG } from "@/lib/effect-uploads";
-import { effectLibrary, getEffectCategories, getEffectPacks } from "@/lib/effects";
+import { EFFECT_KINDS } from "@/lib/effects/effect-model";
+import { UPLOADS_PACK_SLUG } from "@/lib/effects/effect-uploads";
+import { effectLibrary, getEffectCategories, getEffectPacks } from "@/lib/effects/effects";
 import { ResourceConstant } from "@/lib/resource-constant.mts";
 
 const packsDir = path.join(process.cwd(), ResourceConstant.EFFECTS_DIR);

@@ -19,7 +19,7 @@ import {
   previewUrl,
   thumbnailUrl,
   type EffectEntry,
-} from "@/lib/effect-model";
+} from "@/lib/effects/effect-model";
 
 /** What plays in the dialog. Everything is served by Drive, nothing by this site. */
 function Stage({ entry }: { entry: EffectEntry }) {

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import type { Doc } from "@/lib/doc-model";
-import { normalize, searchDocs } from "@/lib/doc-search";
+import type { Doc } from "@/lib/docs/doc-model";
+import { normalize, searchDocs } from "@/lib/docs/doc-search";
 
 function doc(overrides: Partial<Doc> & Pick<Doc, "slug">): Doc {
   return {

@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useSyncExternalStore } from "react";
-import type { UploadsManifest } from "@/lib/effect-uploads";
-import { canReadUploads, readUploads } from "@/lib/google-drive";
+import type { UploadsManifest } from "@/lib/effects/effect-uploads";
+import { canReadUploads, readUploads } from "@/lib/effects/google-drive";
 
 export type UploadsState = {
   /** Null until Drive has answered, and for good when uploads are not set up. */

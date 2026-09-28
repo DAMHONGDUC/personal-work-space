@@ -3,8 +3,8 @@
  * shipped — the same approach as the guide search, and the same normalising,
  * so a query typed without Vietnamese diacritics still matches.
  */
-import { displayName, type EffectEntry, type EffectKind } from "@/lib/effect-model";
-import { normalize } from "@/lib/doc-search";
+import { displayName, type EffectEntry, type EffectKind } from "@/lib/effects/effect-model";
+import { normalize } from "@/lib/docs/doc-search";
 
 const textCache = new WeakMap<EffectEntry, string>();
 

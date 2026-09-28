@@ -1,11 +1,11 @@
 import { HubCard } from "@/components/home/HubCard";
-import { formatDate, getApps, site } from "@/lib/apps";
-import { cv } from "@/lib/cv";
-import { DOCS_ACCENT } from "@/lib/doc-model";
-import { getDocBundles } from "@/lib/docs";
-import { EFFECTS_ACCENT } from "@/lib/effect-model";
-import { getEffectCategories } from "@/lib/effects";
-import { routes } from "@/lib/routes";
+import { formatDate, getApps, site } from "@/lib/apps/apps";
+import { cv } from "@/lib/cv/cv";
+import { DOCS_ACCENT } from "@/lib/docs/doc-model";
+import { getDocBundles } from "@/lib/docs/docs";
+import { EFFECTS_ACCENT } from "@/lib/effects/effect-model";
+import { getEffectCategories } from "@/lib/effects/effects";
+import { routes } from "@/lib/routes/routes";
 
 export default function Home() {
   const apps = getApps();

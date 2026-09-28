@@ -7,7 +7,7 @@ import { EffectGrid } from "@/components/effects/EffectGrid";
 import { EffectPreview } from "@/components/effects/EffectPreview";
 import { EffectTree } from "@/components/effects/EffectTree";
 import { FilterPanel } from "@/components/effects/FilterPanel";
-import { useEffectUploads } from "@/hooks/useEffectUploads";
+import { useEffectUploads } from "@/hooks/effects/useEffectUploads";
 import {
   EFFECT_KINDS,
   driveFolderUrl,
@@ -16,15 +16,15 @@ import {
   type EffectKind,
   type EffectPack,
   type EffectTreeCategory,
-} from "@/lib/effect-model";
-import { searchEffects } from "@/lib/effect-search";
+} from "@/lib/effects/effect-model";
+import { searchEffects } from "@/lib/effects/effect-search";
 import {
   UPLOADS_PACK_NAME,
   UPLOADS_PACK_SLUG,
   treeWithUploads,
   uploadedEntries,
-} from "@/lib/effect-uploads";
-import { routes } from "@/lib/routes";
+} from "@/lib/effects/effect-uploads";
+import { routes } from "@/lib/routes/routes";
 
 /** Consecutive entries sharing a sub-folder, in the order the pack lists them. */
 function groupsOf(entries: EffectEntry[]): { group: string; entries: EffectEntry[] }[] {

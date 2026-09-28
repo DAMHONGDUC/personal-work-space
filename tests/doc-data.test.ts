@@ -6,10 +6,10 @@ import {
   type Block,
   type CodeBlock,
   type Doc,
-} from "@/lib/doc-model";
-import { getDocBundles } from "@/lib/docs";
+} from "@/lib/docs/doc-model";
+import { getDocBundles } from "@/lib/docs/docs";
 import { ResourceConstant } from "@/lib/resource-constant.mts";
-import { RESERVED_SLUGS } from "@/lib/routes";
+import { RESERVED_SLUGS } from "@/lib/routes/routes";
 
 const docsDir = path.join(process.cwd(), ResourceConstant.DOCS_DIR);
 

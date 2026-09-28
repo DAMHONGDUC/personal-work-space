@@ -14,7 +14,7 @@ import {
   type EffectKind,
   type EffectLibrary,
   type EffectTreeCategory,
-} from "@/lib/effect-model";
+} from "@/lib/effects/effect-model";
 
 const { driveFolderId, uploads, categories } = library as EffectLibrary;
 

@@ -83,7 +83,7 @@
   offered in the dropdown on the CV page, under the `label` it gives itself, so
   editing any of them changes something. `ResourceConstant.CV_DATA_FILE` only
   picks which one a visitor lands on and which one answers the legacy
-  `/cv.pdf`. Adding a file means naming it in `src/lib/cv.ts` as well — that is
+  `/cv.pdf`. Adding a file means naming it in `src/lib/cv/cv.ts` as well — that is
   the one content directory that cannot read itself, because a static export
   needs a literal import path, and a test compares the list against the folder.
   The LaTeX in `cv/build/` is **generated** — never edit it, and never edit
@@ -131,8 +131,8 @@
 ## Search never asks a server
 
 - The site is a static export, so every search box filters what the page has
-  already shipped: `useAppSearch` over the app cards, `src/lib/doc-search.ts`
-  over the guides, `src/lib/effect-search.ts` over the effects library. There
+  already shipped: `useAppSearch` over the app cards, `src/lib/docs/doc-search.ts`
+  over the guides, `src/lib/effects/effect-search.ts` over the effects library. There
   is no endpoint and no build-time index.
 - The guide search reads the whole text of a guide, including the points behind
   a diagram box — that is usually where a term is defined — and normalises both
@@ -150,12 +150,12 @@
   alias, and a `node:path` import here would stop the file being usable from
   anything bundled for the browser. Callers join with `process.cwd()`.
 - The one path that cannot come from it is the static `import` of the CV JSON in
-  `src/lib/cv.ts` — bundling needs a literal — which is why a test asserts the
+  `src/lib/cv/cv.ts` — bundling needs a literal — which is why a test asserts the
   two agree.
 
 ## Routes
 
-- Every URL is defined in `src/lib/routes.ts`. Use `routes.*`; never hand-write
+- Every URL is defined in `src/lib/routes/routes.ts`. Use `routes.*`; never hand-write
   a path in a component, a test or the sitemap.
 - The site has four top-level sections: `/apps`, `/docs`, `/effects` and
   `/personal`.

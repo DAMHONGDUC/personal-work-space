@@ -26,7 +26,7 @@ cv/
 └── assets/avt.png         CV photo
 ```
 
-Every URL is defined in `src/lib/routes.ts`; use `routes.*` rather than writing
+Every URL is defined in `src/lib/routes/routes.ts`; use `routes.*` rather than writing
 paths by hand.
 
 The old addresses `/<slug>/` and `/<slug>/privacy_policy/` still resolve — they

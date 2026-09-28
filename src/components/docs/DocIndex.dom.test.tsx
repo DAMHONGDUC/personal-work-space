@@ -3,7 +3,7 @@ import { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { DocIndex } from "./DocIndex";
-import type { Lang, Doc } from "@/lib/doc-model";
+import type { Lang, Doc } from "@/lib/docs/doc-model";
 
 function guide(lang: Lang): Doc[] {
   const vi = lang === "vi";

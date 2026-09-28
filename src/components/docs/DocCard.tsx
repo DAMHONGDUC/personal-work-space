@@ -1,9 +1,9 @@
 import Link from "next/link";
-import { AppIcon } from "@/components/AppIcon";
+import { AppIcon } from "@/components/shared/AppIcon";
 import { Badge } from "@/components/ui/badge";
-import { DOCS_ACCENT, type Lang, type Doc, type DocSection } from "@/lib/doc-model";
+import { DOCS_ACCENT, type Lang, type Doc, type DocSection } from "@/lib/docs/doc-model";
 import { formatDate } from "@/lib/format";
-import { routes } from "@/lib/routes";
+import { routes } from "@/lib/routes/routes";
 
 /**
  * One guide in the index. The sections are listed as their own links, so the

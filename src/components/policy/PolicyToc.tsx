@@ -1,4 +1,4 @@
-import { PolicyNav, type NavItem } from "@/components/PolicyNav";
+import { PolicyNav, type NavItem } from "@/components/policy/PolicyNav";
 
 /** Collapsed table of contents, shown instead of the sidebar on small screens. */
 export function MobileToc({ items, accent }: { items: NavItem[]; accent: string }) {

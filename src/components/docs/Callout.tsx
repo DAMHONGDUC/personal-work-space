@@ -1,6 +1,6 @@
 import { Info, TriangleAlert } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import type { NoteBlock } from "@/lib/doc-model";
+import type { NoteBlock } from "@/lib/docs/doc-model";
 
 const TONES = {
   info: { Icon: Info, color: "#0ea5e9", label: "Note" },

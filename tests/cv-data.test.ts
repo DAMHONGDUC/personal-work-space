@@ -1,9 +1,9 @@
 import fs from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import { renderCvLatex } from "@/lib/cv-latex.mts";
+import { renderCvLatex } from "@/lib/cv/cv-latex.mts";
 import { ResourceConstant } from "@/lib/resource-constant.mts";
-import { cv, getCvVersions } from "@/lib/cv";
+import { cv, getCvVersions } from "@/lib/cv/cv";
 
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
 

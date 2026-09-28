@@ -9,7 +9,7 @@ import {
   thumbnailUrl,
   type EffectEntry,
   type EffectKind,
-} from "@/lib/effect-model";
+} from "@/lib/effects/effect-model";
 
 const KIND_ICONS: Record<EffectKind, typeof Play> = {
   video: Play,

@@ -2,10 +2,10 @@ import fs from "node:fs";
 import path from "node:path";
 import full from "@/data/cv/cv_full.json";
 import noFreelancer from "@/data/cv/cv_no_freelancer.json";
-import type { Cv, CvPage, CvPdf, CvVersion } from "@/lib/cv-types";
+import type { Cv, CvPage, CvPdf, CvVersion } from "@/lib/cv/cv-types";
 import { ResourceConstant } from "@/lib/resource-constant.mts";
 
-export type { Cv, CvPage, CvPdf, CvVersion } from "@/lib/cv-types";
+export type { Cv, CvPage, CvPdf, CvVersion } from "@/lib/cv/cv-types";
 
 /**
  * Every CV, keyed by the slug its filename gives it.

@@ -4,7 +4,7 @@ import { Callout } from "@/components/docs/Callout";
 import { CodeSample } from "@/components/docs/CodeSample";
 import { DocTable } from "@/components/docs/DocTable";
 import { FlowDiagram } from "@/components/docs/FlowDiagram";
-import type { Block, Lang } from "@/lib/doc-model";
+import type { Block, Lang } from "@/lib/docs/doc-model";
 
 /**
  * Renders one section's blocks in order. Every block type in `Block` is handled

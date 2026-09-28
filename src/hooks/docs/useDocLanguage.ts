@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useSyncExternalStore } from "react";
-import { LANGUAGES, type Lang } from "@/lib/doc-model";
+import { LANGUAGES, type Lang } from "@/lib/docs/doc-model";
 
 const STORAGE_KEY = "docs-language";
 

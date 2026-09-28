@@ -18,7 +18,7 @@ import {
   emptyManifest,
   parseManifest,
   type UploadsManifest,
-} from "@/lib/effect-uploads";
+} from "@/lib/effects/effect-uploads";
 
 const CLIENT_ID = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ?? "";
 const API_KEY = process.env.NEXT_PUBLIC_GOOGLE_API_KEY ?? "";

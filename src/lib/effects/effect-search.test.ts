@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { EffectEntry } from "@/lib/effect-model";
+import type { EffectEntry } from "@/lib/effects/effect-model";
 import { searchEffects } from "./effect-search";
 
 function entry(file: string, overrides: Partial<EffectEntry> = {}): EffectEntry {

@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import type { CategorySummary } from "@/components/effects/CategoryCard";
 import { EffectIndex } from "@/components/effects/EffectIndex";
 import { EffectUploadButton } from "@/components/effects/EffectUploadButton";
-import { entriesOf, treeOf, type EffectCategoryBundle, type EffectEntry } from "@/lib/effect-model";
-import { getEffectCategories } from "@/lib/effects";
-import { routes } from "@/lib/routes";
+import { entriesOf, treeOf, type EffectCategoryBundle, type EffectEntry } from "@/lib/effects/effect-model";
+import { getEffectCategories } from "@/lib/effects/effects";
+import { routes } from "@/lib/routes/routes";
 
 export const metadata: Metadata = {
   title: "Effects library",

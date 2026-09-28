@@ -1,6 +1,6 @@
 "use client";
 
-import { useReadingProgress } from "@/hooks/useReadingProgress";
+import { useReadingProgress } from "@/hooks/scroll/useReadingProgress";
 
 /** Thin accent bar across the top showing how far through the policy you are. */
 export function ReadingProgress({ accent }: { accent: string }) {

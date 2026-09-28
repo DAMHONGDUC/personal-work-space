@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { CvGate } from "@/components/CvGate";
-import { CvSwitcher } from "@/components/CvSwitcher";
-import { cv, getCvVersions } from "@/lib/cv";
-import { routes } from "@/lib/routes";
+import { CvGate } from "@/components/cv/CvGate";
+import { CvSwitcher } from "@/components/cv/CvSwitcher";
+import { cv, getCvVersions } from "@/lib/cv/cv";
+import { routes } from "@/lib/routes/routes";
 
 export const metadata: Metadata = {
   title: "CV",

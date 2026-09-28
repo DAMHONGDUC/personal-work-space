@@ -6,7 +6,7 @@ import {
   EFFECT_KIND_LABELS,
   EFFECTS_ACCENT,
   type EffectKind,
-} from "@/lib/effect-model";
+} from "@/lib/effects/effect-model";
 
 const ALL = "all";
 

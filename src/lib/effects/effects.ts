@@ -12,7 +12,7 @@ import {
   type EffectLibrary,
   type EffectPack,
   type EffectPackData,
-} from "@/lib/effect-model";
+} from "@/lib/effects/effect-model";
 import { ResourceConstant } from "@/lib/resource-constant.mts";
 
 export const effectLibrary = library as EffectLibrary;

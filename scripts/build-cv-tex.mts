@@ -10,9 +10,9 @@
  */
 import fs from "node:fs";
 import path from "node:path";
-import { renderCvLatex } from "../src/lib/cv-latex.mts";
+import { renderCvLatex } from "../src/lib/cv/cv-latex.mts";
 import { ResourceConstant } from "../src/lib/resource-constant.mts";
-import type { Cv } from "../src/lib/cv-types";
+import type { Cv } from "../src/lib/cv/cv-types";
 
 const root = path.join(import.meta.dirname, "..");
 const dataDir = path.join(root, ResourceConstant.CV_DATA_DIR);

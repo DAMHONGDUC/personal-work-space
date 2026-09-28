@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import type { NavItem } from "@/components/PolicyNav";
-import { ReadingProgress } from "@/components/ReadingProgress";
+import type { NavItem } from "@/components/policy/PolicyNav";
+import { ReadingProgress } from "@/components/shared/ReadingProgress";
 import { Bullets } from "@/components/policy/Bullets";
 import { PolicyHero } from "@/components/policy/PolicyHero";
 import { MobileToc, SidebarToc } from "@/components/policy/PolicyToc";
@@ -20,8 +20,8 @@ import {
   getApps,
   getOverview,
   getSections,
-} from "@/lib/apps";
-import { routes } from "@/lib/routes";
+} from "@/lib/apps/apps";
+import { routes } from "@/lib/routes/routes";
 
 export function generateStaticParams() {
   return getApps().map((app) => ({ slug: app.slug }));

@@ -7,7 +7,7 @@
  * strings, and it means the search covers the whole text — including the points
  * behind a diagram box, which is usually where a term like SNI is defined.
  */
-import type { Doc, DocSection } from "@/lib/doc-model";
+import type { Doc, DocSection } from "@/lib/docs/doc-model";
 
 /** One guide that matched, carrying the sections that matched inside it. */
 export type DocMatch = {

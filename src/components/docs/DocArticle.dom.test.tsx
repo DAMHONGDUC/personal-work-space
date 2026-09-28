@@ -3,7 +3,7 @@ import { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { DocArticle } from "./DocArticle";
-import type { Lang, Doc } from "@/lib/doc-model";
+import type { Lang, Doc } from "@/lib/docs/doc-model";
 
 function version(lang: Lang): Doc {
   const word = lang === "en" ? "English" : "Vietnamese";

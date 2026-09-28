@@ -1,4 +1,4 @@
-import { withBasePath } from "@/lib/routes";
+import { withBasePath } from "@/lib/routes/routes";
 
 type Props = {
   /**

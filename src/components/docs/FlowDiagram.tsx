@@ -9,7 +9,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import type { FlowBlock, FlowItem, Lang } from "@/lib/doc-model";
+import type { FlowBlock, FlowItem, Lang } from "@/lib/docs/doc-model";
 
 /**
  * A diagram drawn from the data in a `flow` block: each stage is a row of boxes,

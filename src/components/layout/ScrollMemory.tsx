@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { useScrollMemory } from "@/hooks/useScrollMemory";
+import { useScrollMemory } from "@/hooks/scroll/useScrollMemory";
 
 /**
  * Remembers the scroll position of each page and restores it on Back.

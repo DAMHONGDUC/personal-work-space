@@ -1,6 +1,6 @@
 "use client";
 
-import { useActiveSection } from "@/hooks/useActiveSection";
+import { useActiveSection } from "@/hooks/scroll/useActiveSection";
 
 export type NavItem = { id: string; title: string };
 

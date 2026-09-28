@@ -7,8 +7,8 @@ import {
   type EffectCategory,
   type EffectEntry,
   type EffectKind,
-} from "@/lib/effect-model";
-import { routes } from "@/lib/routes";
+} from "@/lib/effects/effect-model";
+import { routes } from "@/lib/routes/routes";
 
 /** What the index needs to know about a category, without shipping its files. */
 export type CategorySummary = EffectCategory & {

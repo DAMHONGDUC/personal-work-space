@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { routes } from "@/lib/routes";
+import { routes } from "@/lib/routes/routes";
 
 export function SiteFooter({ publisher }: { publisher: string }) {
   return (

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { routes } from "@/lib/routes";
+import { routes } from "@/lib/routes/routes";
 
 /**
  * Sticky top bar with the publisher name and a way home. The sections are

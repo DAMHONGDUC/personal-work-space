@@ -4,8 +4,8 @@ import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import type { FilterPlacement } from "@/components/effects/FilterPanel";
 import { KindFilter } from "@/components/effects/KindFilter";
-import { SearchInput } from "@/components/SearchInput";
-import type { EffectKind } from "@/lib/effect-model";
+import { SearchInput } from "@/components/shared/SearchInput";
+import type { EffectKind } from "@/lib/effects/effect-model";
 
 /** The search box, the kind filter and the count, laid out for one placement. */
 export function EffectFilters({

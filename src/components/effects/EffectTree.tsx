@@ -3,9 +3,9 @@
 import { ChevronRight, Library } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
-import { useActiveSection } from "@/hooks/useActiveSection";
-import { EFFECTS_ACCENT, type EffectTreeCategory } from "@/lib/effect-model";
-import { routes } from "@/lib/routes";
+import { useActiveSection } from "@/hooks/scroll/useActiveSection";
+import { EFFECTS_ACCENT, type EffectTreeCategory } from "@/lib/effects/effect-model";
+import { routes } from "@/lib/routes/routes";
 
 const ROW =
   "flex min-w-0 flex-1 items-baseline justify-between gap-2 rounded-md py-1 pr-1 text-sm leading-6 transition-colors";

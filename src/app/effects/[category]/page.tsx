@@ -3,9 +3,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CategoryBrowser } from "@/components/effects/CategoryBrowser";
 import { EffectUploadButton } from "@/components/effects/EffectUploadButton";
-import { EFFECTS_ACCENT, treeOf } from "@/lib/effect-model";
-import { getEffectCategories, getEffectCategory } from "@/lib/effects";
-import { routes } from "@/lib/routes";
+import { EFFECTS_ACCENT, treeOf } from "@/lib/effects/effect-model";
+import { getEffectCategories, getEffectCategory } from "@/lib/effects/effects";
+import { routes } from "@/lib/routes/routes";
 
 export function generateStaticParams() {
   return getEffectCategories().map((category) => ({ category: category.id }));

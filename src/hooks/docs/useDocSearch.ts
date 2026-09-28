@@ -1,8 +1,8 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import type { Doc } from "@/lib/doc-model";
-import { searchDocs, type DocMatch } from "@/lib/doc-search";
+import type { Doc } from "@/lib/docs/doc-model";
+import { searchDocs, type DocMatch } from "@/lib/docs/doc-search";
 
 /**
  * The query box on the guide index. The matching itself lives in

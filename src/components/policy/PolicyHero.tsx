@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { AppIcon } from "@/components/AppIcon";
+import { AppIcon } from "@/components/shared/AppIcon";
 import { Badge } from "@/components/ui/badge";
-import { formatDate, site, type App } from "@/lib/apps";
-import { routes } from "@/lib/routes";
+import { formatDate, site, type App } from "@/lib/apps/apps";
+import { routes } from "@/lib/routes/routes";
 
 export function PolicyHero({ app }: { app: App }) {
   const links = [

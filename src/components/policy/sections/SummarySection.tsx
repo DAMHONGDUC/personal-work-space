@@ -1,5 +1,5 @@
 import { Section } from "@/components/policy/Section";
-import type { App } from "@/lib/apps";
+import type { App } from "@/lib/apps/apps";
 
 export function SummarySection({ app, number }: { app: App; number: number }) {
   return (

@@ -1,8 +1,8 @@
 "use client";
 
 import { AppCard, type DirectoryEntry } from "@/components/directory/AppCard";
-import { SearchInput } from "@/components/SearchInput";
-import { useAppSearch } from "@/hooks/useAppSearch";
+import { SearchInput } from "@/components/shared/SearchInput";
+import { useAppSearch } from "@/hooks/apps/useAppSearch";
 
 export type { DirectoryEntry };
 

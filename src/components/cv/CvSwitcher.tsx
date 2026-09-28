@@ -9,9 +9,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import type { CvVersion } from "@/lib/cv-types";
+import type { CvVersion } from "@/lib/cv/cv-types";
 import { formatDate } from "@/lib/format";
-import { withBasePath } from "@/lib/routes";
+import { withBasePath } from "@/lib/routes/routes";
 
 /**
  * The CV, with a dropdown for choosing which version of it to read.

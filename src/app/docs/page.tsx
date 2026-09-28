@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { DocIndex } from "@/components/docs/DocIndex";
-import { site } from "@/lib/apps";
-import { LANGUAGES, type Doc, type Lang } from "@/lib/doc-model";
-import { getDocBundles } from "@/lib/docs";
-import { routes } from "@/lib/routes";
+import { site } from "@/lib/apps/apps";
+import { LANGUAGES, type Doc, type Lang } from "@/lib/docs/doc-model";
+import { getDocBundles } from "@/lib/docs/docs";
+import { routes } from "@/lib/routes/routes";
 
 export const metadata: Metadata = {
   title: "Guides",

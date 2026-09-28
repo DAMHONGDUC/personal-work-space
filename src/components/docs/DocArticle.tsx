@@ -1,15 +1,15 @@
 "use client";
 
-import type { NavItem } from "@/components/PolicyNav";
-import { ReadingProgress } from "@/components/ReadingProgress";
+import type { NavItem } from "@/components/policy/PolicyNav";
+import { ReadingProgress } from "@/components/shared/ReadingProgress";
 import { DocBlocks } from "@/components/docs/DocBlocks";
 import { DocHero } from "@/components/docs/DocHero";
 import { LanguageSwitch } from "@/components/docs/LanguageSwitch";
 import { MobileToc, SidebarToc } from "@/components/policy/PolicyToc";
 import { Prose } from "@/components/policy/Prose";
 import { Section } from "@/components/policy/Section";
-import { useDocLanguage } from "@/hooks/useDocLanguage";
-import { DOCS_ACCENT, type Lang, type Doc } from "@/lib/doc-model";
+import { useDocLanguage } from "@/hooks/docs/useDocLanguage";
+import { DOCS_ACCENT, type Lang, type Doc } from "@/lib/docs/doc-model";
 
 /**
  * One guide, in whichever language the reader picked.

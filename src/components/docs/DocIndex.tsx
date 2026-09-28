@@ -1,11 +1,11 @@
 "use client";
 
-import { SearchInput } from "@/components/SearchInput";
+import { SearchInput } from "@/components/shared/SearchInput";
 import { DocCard } from "@/components/docs/DocCard";
 import { LanguageSwitch } from "@/components/docs/LanguageSwitch";
-import { useDocLanguage } from "@/hooks/useDocLanguage";
-import { useDocSearch } from "@/hooks/useDocSearch";
-import { DOCS_ACCENT, type Lang, type Doc } from "@/lib/doc-model";
+import { useDocLanguage } from "@/hooks/docs/useDocLanguage";
+import { useDocSearch } from "@/hooks/docs/useDocSearch";
+import { DOCS_ACCENT, type Lang, type Doc } from "@/lib/docs/doc-model";
 
 /**
  * The guide list, in the reader's language. The choice is shared with the guide

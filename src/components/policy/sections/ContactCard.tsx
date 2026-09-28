@@ -1,4 +1,4 @@
-import type { App } from "@/lib/apps";
+import type { App } from "@/lib/apps/apps";
 
 export function ContactCard({ app, email }: { app: App; email: string }) {
   return (

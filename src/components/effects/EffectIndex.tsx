@@ -7,15 +7,15 @@ import { EffectGrid } from "@/components/effects/EffectGrid";
 import { EffectPreview } from "@/components/effects/EffectPreview";
 import { EffectTree } from "@/components/effects/EffectTree";
 import { FilterPanel } from "@/components/effects/FilterPanel";
-import { useEffectUploads } from "@/hooks/useEffectUploads";
+import { useEffectUploads } from "@/hooks/effects/useEffectUploads";
 import {
   EFFECT_KINDS,
   type EffectEntry,
   type EffectKind,
   type EffectTreeCategory,
-} from "@/lib/effect-model";
-import { searchEffects } from "@/lib/effect-search";
-import { treeWithUploads, uploadedEntries } from "@/lib/effect-uploads";
+} from "@/lib/effects/effect-model";
+import { searchEffects } from "@/lib/effects/effect-search";
+import { treeWithUploads, uploadedEntries } from "@/lib/effects/effect-uploads";
 
 /**
  * Past this many hits the grid is too long to scan, and each tile is an image

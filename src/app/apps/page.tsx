@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { AppDirectory } from "@/components/directory/AppDirectory";
 import type { DirectoryEntry } from "@/components/directory/AppCard";
 import { DirectoryHero } from "@/components/directory/DirectoryHero";
-import { formatDate, getApps, site } from "@/lib/apps";
-import { routes } from "@/lib/routes";
+import { formatDate, getApps, site } from "@/lib/apps/apps";
+import { routes } from "@/lib/routes/routes";
 
 export const metadata: Metadata = {
   title: "Apps",

@@ -17,15 +17,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { commitUploads } from "@/hooks/useEffectUploads";
-import { EFFECT_KIND_LABELS, EFFECTS_ACCENT, type EffectKind } from "@/lib/effect-model";
+import { commitUploads } from "@/hooks/effects/useEffectUploads";
+import { EFFECT_KIND_LABELS, EFFECTS_ACCENT, type EffectKind } from "@/lib/effects/effect-model";
 import {
   UPLOAD_CATEGORIES,
   UPLOADS_FOLDER_NAME,
   addToManifest,
   kindOfFile,
   type UploadedItem,
-} from "@/lib/effect-uploads";
+} from "@/lib/effects/effect-uploads";
 import {
   canUpload,
   prepareSignIn,
@@ -34,7 +34,7 @@ import {
   uploadFile,
   uploadFolderFor,
   writeUploads,
-} from "@/lib/google-drive";
+} from "@/lib/effects/google-drive";
 
 type Picked = { file: File; kind: EffectKind | null; progress: number };
 type Phase = "picking" | "uploading" | "done";

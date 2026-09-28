@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { withBasePath } from "@/lib/routes";
+import { withBasePath } from "@/lib/routes/routes";
 
 /**
  * Stand-in for a 301 on paths that have moved.

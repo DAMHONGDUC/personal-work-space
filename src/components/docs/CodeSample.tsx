@@ -1,4 +1,4 @@
-import type { CodeBlock } from "@/lib/doc-model";
+import type { CodeBlock } from "@/lib/docs/doc-model";
 
 /**
  * A shell sample. The lines are stored one per array entry in the JSON so the

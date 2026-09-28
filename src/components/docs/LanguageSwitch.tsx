@@ -1,7 +1,7 @@
 "use client";
 
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { LANGUAGES, LANGUAGE_LABELS, type Lang } from "@/lib/doc-model";
+import { LANGUAGES, LANGUAGE_LABELS, type Lang } from "@/lib/docs/doc-model";
 
 /**
  * Segmented control for the language a guide is read in. Both versions are

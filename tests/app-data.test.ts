@@ -1,8 +1,8 @@
 import fs from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import { getApps, site } from "@/lib/apps";
-import { RESERVED_SLUGS } from "@/lib/routes";
+import { getApps, site } from "@/lib/apps/apps";
+import { RESERVED_SLUGS } from "@/lib/routes/routes";
 import { ResourceConstant } from "@/lib/resource-constant.mts";
 
 const appsDir = path.join(process.cwd(), ResourceConstant.APPS_DIR);

@@ -11,7 +11,7 @@ import {
   type DocBundle,
   type DocData,
   type Lang,
-} from "@/lib/doc-model";
+} from "@/lib/docs/doc-model";
 import { ResourceConstant } from "@/lib/resource-constant.mts";
 
 const docsDir = path.join(process.cwd(), ResourceConstant.DOCS_DIR);

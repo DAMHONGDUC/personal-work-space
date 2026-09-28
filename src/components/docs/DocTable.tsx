@@ -6,7 +6,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import type { TableBlock } from "@/lib/doc-model";
+import type { TableBlock } from "@/lib/docs/doc-model";
 
 /**
  * A table in a guide. The shadcn table already scrolls inside its own container,

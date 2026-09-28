@@ -1,9 +1,9 @@
 import type { MetadataRoute } from "next";
-import { getApps, site } from "@/lib/apps";
-import { cv } from "@/lib/cv";
-import { getDocBundles } from "@/lib/docs";
-import { getEffectCategories } from "@/lib/effects";
-import { routes } from "@/lib/routes";
+import { getApps, site } from "@/lib/apps/apps";
+import { cv } from "@/lib/cv/cv";
+import { getDocBundles } from "@/lib/docs/docs";
+import { getEffectCategories } from "@/lib/effects/effects";
+import { routes } from "@/lib/routes/routes";
 
 // Required so the sitemap is emitted as a file by `output: "export"`.
 export const dynamic = "force-static";

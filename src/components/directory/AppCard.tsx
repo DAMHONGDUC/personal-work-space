@@ -1,7 +1,7 @@
 import Link from "next/link";
-import { AppIcon } from "@/components/AppIcon";
+import { AppIcon } from "@/components/shared/AppIcon";
 import { Badge } from "@/components/ui/badge";
-import { routes } from "@/lib/routes";
+import { routes } from "@/lib/routes/routes";
 
 export type DirectoryEntry = {
   slug: string;
