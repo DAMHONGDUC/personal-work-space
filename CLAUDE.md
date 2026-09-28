@@ -112,8 +112,17 @@
   its header leads out to the rest of the site. Its look is the `.pf-*` block in `globals.css` plus one
   accent handed down as `--pf-a` by `PortfolioTheme`. Keep it quiet: the accent
   marks a rule, a dot, a full stop — no gradients on text, buttons or borders,
-  nothing spinning or drifting. Every animation sits behind
-  `prefers-reduced-motion: no-preference`.
+  nothing spinning or drifting. The motion there is: the hero plays in once on
+  load (`pf-enter` / `pf-pop`, timed by `enterStyle`), each card rises in as
+  it scrolls into view and lifts on hover (with `transform`, since the rise-in
+  holds `translate`), a section's rule draws itself, the current job's dot
+  pulses and the greeting waves twice. All CSS, and every animation sits
+  behind `prefers-reduced-motion: no-preference`.
+  A project leads with its app icon from `projectIcons` in `portfolio.json`,
+  keyed by the CV's project name; reuse an icon the site already ships under
+  `/app-icons`, otherwise put it in `public/personal/projects/`. A project
+  without one shows a dashed placeholder with its initials — never a stock or
+  template icon.
 - **Effects library**: one file per pack in `src/data/effects/` — a pack is a
   top-level folder of the public Drive named in `src/data/effect-library.json`,
   which also holds the categories. The `items` are **generated** by
