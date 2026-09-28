@@ -6,8 +6,11 @@ Static site with these sections:
 | -------------------------------- | -------------------------------- |
 | `/apps/`                         | Directory of every published app |
 | `/apps/<slug>/privacy_policy/`   | One app's privacy policy         |
+| `/docs/`                         | Guides, shelved by topic         |
+| `/docs/<slug>/`                  | One guide, in English and Vietnamese |
 | `/effects/`                      | Video-editing effects library    |
 | `/effects/<category>/`           | One category, previews per file  |
+| `/personal/portfolio/`           | Portfolio: skills, work, projects |
 | `/personal/cv/`                  | CV, served from `public/cv.pdf`  |
 
 All content lives in JSON — neither adding an app nor updating the CV touches UI
@@ -16,6 +19,10 @@ code.
 ```
 src/data/
 ├── site.json              publisher, url, email + shared legal sections
+├── portfolio.json         the portfolio page; images in public/portfolio/
+├── docs/
+│   ├── en/<slug>_en.json  one guide per file, per language
+│   └── vi/<slug>_vi.json
 ├── cv/
 │   ├── cv_full.json       one file per version of the CV
 │   └── cv_no_freelancer.json

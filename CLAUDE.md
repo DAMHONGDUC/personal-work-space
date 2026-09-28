@@ -58,20 +58,37 @@
     waiting behind it. `FlowDiagram` owns one dialog for the whole
     diagram, and the counts are compared across languages, so a point added to
     the English side only fails the suite.
-  - **One colour.** The whole section uses `DOCS_ACCENT`; a guide has no colour
+  - **One colour.** The whole section uses `AppColors.DOCS`; a guide has no colour
     of its own, so the set reads as one body of work. (App policies are the
     other way round — there the colour belongs to the app.)
+  - **One topic.** `topic` puts the guide on one shelf of the index, from
+    `DOC_TOPICS` in `doc-model.ts`, which also holds the labels in both
+    languages. The id is data and identical in both files; add a topic there,
+    never a label in the JSON.
   - Section `id`s are language-independent slugs. Switching language re-renders
     in place, so a differing id would drop the reader out of their section.
   - Commands in a `code` block stay the same in both languages. Anything that
     needs explaining goes in the localized `caption`, not a comment in the code.
+- **Portfolio**: `src/data/portfolio.json`, one file, English only, rendered at
+  `/personal/portfolio` by the components in `src/components/portfolio/`. Its
+  images live under `public/portfolio/`, and `tests/portfolio-data.test.ts`
+  fails on a path that is missing *and* on a file there that nothing draws.
+  A logo is optional: an employer without one gets its initials, which beats a
+  wrong logo. The figures under the hero (years, technologies, companies,
+  projects) are computed by `portfolioStats` — years from `careerStart` at build
+  time — so never type a number of years into the copy. Its look is the
+  `.pf-*` block in `globals.css` plus one accent handed down as `--pf-a` by
+  `PortfolioTheme`. Keep it quiet: the accent marks a rule, a dot, a full stop —
+  no gradients on text, buttons or borders, nothing spinning or drifting. Every
+  animation sits behind `prefers-reduced-motion: no-preference`. It is its own document, not a view of the CV — the CV sits behind
+  the password curtain and the portfolio does not.
 - **Effects library**: one file per pack in `src/data/effects/` — a pack is a
   top-level folder of the public Drive named in `src/data/effect-library.json`,
   which also holds the categories. The `items` are **generated** by
   `npm run effects:sync`; never hand-edit them. `name`, `category` and
   `exclude` are hand-edited and survive a sync. Nothing is hosted: every
   thumbnail, player and download is a Drive URL built in `effect-model.ts`.
-  The section has one colour, `EFFECTS_ACCENT`, like the guides.
+  The section has one colour, `AppColors.EFFECTS`, like the guides.
 - **Effect uploads** are the one runtime exception: files uploaded from the
   site are listed in a manifest JSON on Drive (`effect-uploads.ts`), read when
   a page opens and rewritten after each upload. They are never synced into
@@ -101,9 +118,56 @@
 - The number is a prop on `Section`, never a CSS counter, and it is derived from
   the same list the contents is built from — on a policy page some sections only
   render for some apps, so counting them twice would drift.
+- **The portfolio is not numbered either** — it is an introduction read top to
+  bottom, and its sections come from `PORTFOLIO_SECTIONS`, which also builds its
+  in-page nav.
 - **The CV is never numbered.** No numbered sections, and the jobs under
   Experience keep their own count, which runs from the oldest role so the
   numbers descend the page. Do not "make it consistent" with the guides.
+
+## Files are grouped by scope
+
+- `src/lib`, `src/hooks` and `src/components` each hold one folder per
+  scope — `apps`, `cv`, `docs`, `effects`, `portfolio`, `routes`, `scroll`,
+  `layout`, `policy`, `shared` … — and a file's test sits beside it in the same
+  folder (`src/lib/apps/apps.ts` and `apps.test.ts`).
+- Only what every scope uses stays at the root: `src/lib/resource-constant.mts`,
+  `format.ts`, and `utils.ts` (shadcn's `@/lib/utils` alias). Design tokens are
+  their own scope, `src/lib/design`.
+- A new file goes into the folder of the scope it serves; a new scope gets a
+  new folder. Nothing new at a root.
+
+## Route files compose, components style
+
+- **No `className` and no `style` in anything under `src/app`** — pages,
+  layouts, `not-found`. A route file says what is on the page
+  (`<PageContainer>`, `<PageIntro>`, `<PortfolioHero portfolio={portfolio} />`)
+  and every class lives in a component. `tests/route-markup.test.ts` fails on
+  either attribute.
+- **Design tokens live in `src/lib/design/`**, as static classes like
+  `ResourceConstant`, importing nothing:
+  - `AppColors` — every colour the code picks: each section's accent and the
+    note tones, plus `AppColors.tint(color, percent)`, the one way a tint or
+    tinted border is made. The theme palette stays in `globals.css` (dark mode
+    swaps it by media query); an app's own accent stays in its JSON.
+  - `AppTextStyles` — the type scale by role (`PAGE_TITLE`, `LEAD`, `BODY`,
+    `CAPTION`, `EYEBROW` …). Combine a role with layout classes
+    (`` `${AppTextStyles.CAPTION} mt-6` ``); never restate its size or colour.
+  - `AppSpacings` — the page-level gaps, below.
+  `tests/design-tokens.test.ts` fails on a hex colour or a hand-written
+  `color-mix` outside `src/lib/design`, and on a class list that spells out a
+  whole `AppTextStyles` role. shadcn's `components/ui` is exempt.
+- **Page gaps live in `AppSpacings` (`src/lib/design/app-spacings.ts`).** Anything that is
+  the first thing under the sticky header — `PageContainer`, a hero,
+  `LegacyRedirect` — takes `AppSpacings.PAGE_TOP`; the gap after a hero, before the
+  footer and inside a hero's foot are `AFTER_HERO`, `PAGE_BOTTOM` and
+  `HERO_BOTTOM`. Never write a page-level `pt-*`/`pb-*` by hand; change the
+  constant and every page moves together.
+- Page-level layout is in `src/components/layout/`: `PageContainer` (the
+  `<main>`, spacing picked by name), `PageIntro`, `CompactPageHeader`,
+  `CardGrid`, `WithSidebar`, `MessageBlock`, and `SiteDocument`/`SiteShell`
+  for `<html>` and `<body>`. Reach for one of these before writing a new one,
+  and add a named spacing to `PageContainer` rather than a one-off class.
 
 ## shadcn/ui
 
@@ -158,7 +222,8 @@
 - Every URL is defined in `src/lib/routes/routes.ts`. Use `routes.*`; never hand-write
   a path in a component, a test or the sitemap.
 - The site has four top-level sections: `/apps`, `/docs`, `/effects` and
-  `/personal`.
+  `/personal`. `/personal` holds the portfolio and the CV, and its root forwards
+  to the portfolio — the public page, not the one behind a password.
 - `/<slug>/` and `/<slug>/privacy_policy/` are **legacy addresses submitted to
   the app stores**. They must keep resolving — they render a `noindex` meta
   refresh to the current path. Do not delete them.
