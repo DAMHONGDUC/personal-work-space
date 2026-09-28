@@ -72,7 +72,7 @@ flowchart LR
 | Task | Location |
 |---|---|
 | App privacy policy | `src/data/apps/<slug>.json` — [guide](guides/apps.md) |
-| Guide | `src/data/docs/{en,vi}/<slug>_{en,vi}.json` — rules in `CLAUDE.md` |
+| Guide | `src/data/docs/{en,vi}/<slug>_{en,vi}.json` — [rules](claude/content.md) |
 | CV version | `src/data/cv/<slug>.json` + `src/lib/cv/cv.ts` — [guide](guides/cv.md) |
 | Portfolio fact | The CV JSON; presentation in `src/data/portfolio.json` |
 | New URL | `src/lib/routes/routes.ts` + folder under `src/app/` |
