@@ -22,6 +22,8 @@ export type Contact = {
 
 export type Education = {
   institution: string;
+  /** The institution's website. Links its name in the PDF and on the portfolio. */
+  url?: string;
   location: string;
   period: string;
   degree: string;
@@ -43,6 +45,8 @@ export type ExperienceGroup = {
 
 export type Experience = {
   company: string;
+  /** The company's website. Links its name in the PDF and on the portfolio. */
+  url?: string;
   role: string;
   /** Hybrid / Onsite / Remote. */
   arrangement: string;

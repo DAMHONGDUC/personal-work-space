@@ -33,6 +33,7 @@
   "education": [
     {
       "institution": "University of Science - VNUHCM",
+      "url": "https://en.hcmus.edu.vn/",
       "location": "HCM City, VietNam",
       "period": "Sept 2019 – Aug 2023",
       "degree": "Bachelor of Science in Information Systems"
@@ -71,6 +72,7 @@
   "experience": [
     {
       "company": "Oivan",
+      "url": "https://oivan.com/",
       "role": "Mobile Developer",
       "arrangement": "Hybrid",
       "location": "HCM City, Vietnam",
@@ -97,6 +99,7 @@
     },
     {
       "company": "TGL Solutions",
+      "url": "https://www.tgl-sol.com/",
       "role": "Mobile Developer",
       "arrangement": "Onsite",
       "location": "HCM City, Vietnam",
@@ -129,6 +132,7 @@
     },
     {
       "company": "Flynk",
+      "url": "https://flynk.com/",
       "role": "Fresher Mobile Developer",
       "arrangement": "Onsite",
       "location": "HCM City, Vietnam",

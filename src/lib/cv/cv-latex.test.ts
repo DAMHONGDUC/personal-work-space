@@ -137,6 +137,24 @@ describe("renderCvLatex", () => {
     expect(out).toContain("\\href{https://github.com/x/a_b}{github.com/x/a\\_b}");
   });
 
+  it("links a school and a company that carry a website, and only those", () => {
+    const base = makeCv();
+    const out = renderCvLatex(
+      makeCv({
+        education: [{ ...base.education[0], url: "https://uni.example/" }],
+        experience: [
+          { ...base.experience[0], url: "https://acme.example/" },
+          { ...base.experience[0], company: "Beta" },
+        ],
+      }),
+      TEMPLATE,
+    );
+
+    expect(out).toContain("\\cvRole{\\hrefWithoutArrow{https://uni.example/}{A University}}");
+    expect(out).toContain("\\hrefWithoutArrow{https://acme.example/}{Acme}");
+    expect(out).toContain("1. Beta}");
+  });
+
   it("renders a skill as a bold lead-in", () => {
     expect(renderCvLatex(makeCv(), TEMPLATE)).toContain(
       "\\item \\textbf{Flutter:} BLoC, get\\_it",
