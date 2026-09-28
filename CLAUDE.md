@@ -81,19 +81,20 @@
 - **Portfolio**: rendered at `/personal/portfolio` by the components in
   `src/components/portfolio/`. **Every fact comes from the default CV**
   (`cv_full.json`) — name, role, education, skills, jobs, projects,
-  email, GitHub and LinkedIn, the photo, and the school's and companies'
+  email, GitHub and LinkedIn, and the school's and companies'
   websites (`url` on an education or experience entry) — through `buildPortfolio` in
   `src/lib/portfolio/portfolio.ts`. **Two introductions, one file**: the CV
   prints the short `aboutMe`; the portfolio shows `portfolioAbout`, two full
   paragraphs, never printed on the PDF. The hero's lead is `aboutMe`'s first
   line. So the portfolio and the CV cannot drift.
   To change what the portfolio says, edit the CV. `src/data/portfolio.json`
-  holds presentation only (greeting, status, what is being learnt, an icon per
+  holds presentation only (greeting, status, its own photo, what is being learnt, an icon per
   skill area keyed by the CV's area name, time zone, the contact line), and a
-  test fails if a fact is added there or a skill area has no icon. **One
-  photo**: the CV's, in `public/personal/` (`ResourceConstant.CV_ASSETS_DIR`),
-  which the LaTeX build copies into the PDF — the portfolio ships no image of
-  its own. The figures under the hero are computed by
+  test fails if a fact is added there or a skill area has no icon. **Two
+  photos, one each**: the CV's is named by `header.photo` in
+  `public/personal/` (`ResourceConstant.CV_ASSETS_DIR`) and copied into the
+  PDF; the portfolio's is `photo` in `portfolio.json`, in the same folder. Do
+  not point one at the other. The figures under the hero are computed by
   `portfolioStats` — years from the oldest job's start — so never type a number
   of years into any copy. Profile links and skill areas use the real brand
   marks from `react-icons`, never a lookalike glyph. A skill area's mark is a
