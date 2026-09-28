@@ -3,7 +3,6 @@ import { ArrowRight, FileText } from "lucide-react";
 import { Avatar } from "@/components/portfolio/Avatar";
 import { HeroBackdrop } from "@/components/portfolio/HeroBackdrop";
 import { PortfolioLinks } from "@/components/portfolio/PortfolioLinks";
-import { SectionNav } from "@/components/portfolio/SectionNav";
 import { StatStrip } from "@/components/portfolio/StatStrip";
 import { StatusPill } from "@/components/portfolio/StatusPill";
 import type { Portfolio, PortfolioStat } from "@/lib/portfolio/portfolio-model";
@@ -13,7 +12,8 @@ import { AppTextStyles } from "@/lib/design/app-text-styles";
 
 /**
  * The first screen: who, what, and the two ways onward — get in touch or read
- * the CV — with the figures and the page's contents below. Type does the work;
+ * the CV — with the figures below. The page's contents live in the site
+ * header, pinned while the page scrolls. Type does the work;
  * colour appears only as the accent full stop after the role.
  */
 export function PortfolioHero({ portfolio, stats }: { portfolio: Portfolio; stats: PortfolioStat[] }) {
@@ -66,7 +66,6 @@ export function PortfolioHero({ portfolio, stats }: { portfolio: Portfolio; stat
         </div>
 
         <StatStrip stats={stats} />
-        <SectionNav />
       </div>
     </header>
   );

@@ -1,10 +1,11 @@
 import Link from "next/link";
+import { HeaderNav } from "@/components/layout/HeaderNav";
 import { routes } from "@/lib/routes/routes";
-import { AppTextStyles } from "@/lib/design/app-text-styles";
 
 /**
- * Sticky top bar with the publisher name and a way home. The sections are
- * reached from the home page, so the bar carries nothing else.
+ * Sticky top bar with the publisher name and, on the right, `HeaderNav`: the
+ * way home, or on a page with its own sections — the portfolio — those
+ * sections, pinned while the page scrolls.
  *
  * The background is driven entirely by CSS (see `.site-header` in globals.css):
  * solid by default, and transparent only at the very top of the page where a
@@ -18,7 +19,7 @@ export function SiteHeader({ publisher }: { publisher: string }) {
       <div className="mx-auto flex h-16 w-full max-w-5xl items-center justify-between gap-6 px-6">
         <Link
           href={routes.home}
-          className="group flex items-center gap-2.5 text-sm font-semibold tracking-tight"
+          className="group flex shrink-0 items-center gap-2.5 text-sm font-semibold tracking-tight"
         >
           <span
             aria-hidden
@@ -26,14 +27,10 @@ export function SiteHeader({ publisher }: { publisher: string }) {
           >
             {publisher.trim().charAt(0).toUpperCase()}
           </span>
-          {publisher}
+          <span className="[header:has([data-sections])_&]:max-sm:hidden">{publisher}</span>
         </Link>
 
-        <nav className={AppTextStyles.SMALL}>
-          <Link href={routes.home} className="transition-colors hover:text-foreground">
-            Home
-          </Link>
-        </nav>
+        <HeaderNav />
       </div>
     </header>
   );

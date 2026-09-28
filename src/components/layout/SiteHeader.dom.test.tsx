@@ -1,8 +1,14 @@
 /** @vitest-environment jsdom */
 import { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { PORTFOLIO_SECTIONS } from "@/lib/portfolio/portfolio-model";
+import { routes } from "@/lib/routes/routes";
 import { SiteHeader } from "./SiteHeader";
+
+// The header picks its links by path; each test says where it is.
+const location = vi.hoisted(() => ({ path: "/" }));
+vi.mock("next/navigation", () => ({ usePathname: () => location.path }));
 
 let container: HTMLDivElement;
 let root: Root;
@@ -22,6 +28,7 @@ function render() {
 afterEach(() => {
   act(() => root.unmount());
   container.remove();
+  location.path = "/";
 });
 
 describe("SiteHeader", () => {
@@ -62,5 +69,19 @@ describe("SiteHeader", () => {
     expect(header.textContent).toContain("Acme");
     expect(navLinks.map((link) => link.textContent)).toEqual(["Home"]);
     expect(navLinks[0].getAttribute("href")).toBe("/");
+  });
+
+  it("pins the portfolio's sections in place of Home on the portfolio", () => {
+    // Prerendered paths carry the trailing slash trailingSlash adds.
+    location.path = `${routes.portfolio}/`;
+    const header = render();
+    const navLinks = [...header.querySelectorAll("nav a")];
+
+    expect(navLinks.map((link) => link.textContent)).toEqual(
+      PORTFOLIO_SECTIONS.map((section) => section.label),
+    );
+    expect(navLinks.map((link) => link.getAttribute("href"))).toEqual(
+      PORTFOLIO_SECTIONS.map((section) => `#${section.id}`),
+    );
   });
 });
