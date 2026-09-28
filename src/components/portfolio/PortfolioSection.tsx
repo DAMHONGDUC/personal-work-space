@@ -20,7 +20,7 @@ type Props = {
  */
 export function PortfolioSection({ id, eyebrow, title, children }: Props) {
   return (
-    <RevealSection id={id} className="flex flex-col gap-8 py-16">
+    <RevealSection id={id} className="flex flex-col gap-8 py-8">
       <div className="pf-head flex flex-col gap-3">
         <span className={`${AppTextStyles.CAPTION} flex items-center gap-3 font-medium uppercase tracking-[0.2em]`}>
           <span aria-hidden className="pf-rule h-px w-8 bg-[var(--pf-a)]" />
