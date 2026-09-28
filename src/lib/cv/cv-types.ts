@@ -76,8 +76,8 @@ export type Cv = {
   header: {
     name: string;
     /**
-     * Filename inside public/personal (ResourceConstant.CV_ASSETS_DIR), which the
-     * portfolio shows too. The CV prints it at 3.2cm, so a JPEG around
+     * Filename inside public/personal (ResourceConstant.CV_ASSETS_DIR). The
+     * portfolio has a portrait of its own. The CV prints it at 3.2cm, so a JPEG around
      * 800px wide is already past what any printer resolves — anything larger
      * just inflates the PDF.
      */

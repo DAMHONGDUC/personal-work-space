@@ -32,7 +32,7 @@ describe("portfolio.json", () => {
     // A name, a job or an email typed here would be a second copy that
     // drifts from the CV. The page's own keys are the whole list.
     expect(Object.keys(page).sort()).toEqual(
-      ["about", "contact", "greeting", "skillIcons", "status", "timezone"].sort(),
+      ["about", "contact", "greeting", "photo", "skillIcons", "status", "timezone"].sort(),
     );
     expect(Object.keys(page.about).sort()).toEqual(["learning", "title"]);
     expect(Object.keys(page.contact)).toEqual(["title"]);
@@ -79,14 +79,18 @@ describe("portfolio and CV", () => {
     expect(portfolio.role).toBe(cv.experience[0].role);
   });
 
-  it("shows the CV's one photo, and ships no other", () => {
-    // One file serves both: the LaTeX build copies it into the PDF, and the
-    // site serves it from public/.
-    const file = path.join(process.cwd(), ResourceConstant.PUBLIC_DIR, portfolio.photo);
+  it("shows its own photo, which ships under public/", () => {
+    // A static export has no server to notice a 404, so a missing file would
+    // only ever show up as a broken picture in production.
+    const file = path.join(process.cwd(), ResourceConstant.PUBLIC_DIR, page.photo);
 
-    expect(portfolio.photo.endsWith(`/${cv.header.photo}`)).toBe(true);
+    expect(page.photo).toMatch(/^\//);
     expect(fs.existsSync(file)).toBe(true);
-    expect(fs.existsSync(path.join(process.cwd(), ResourceConstant.PUBLIC_DIR, "portfolio"))).toBe(false);
+  });
+
+  it("keeps the CV's photo for the CV", () => {
+    // The portfolio has a portrait of its own; the PDF keeps the CV's.
+    expect(page.photo.endsWith(`/${cv.header.photo}`)).toBe(false);
   });
 
   it("tells a longer story than the CV's short introduction", () => {

@@ -8,7 +8,7 @@ src/data/cv/                    one file per version, the filename is the slug
 ├── cv_full.json                the whole history
 └── cv_no_freelancer.json       the same, without the freelance work
 cv/template/main.tex            the layout: preamble + %%PLACEHOLDER%% per section
-public/personal/avt.jpg         the photo — the portfolio shows the same file
+public/personal/avt.jpg         the CV photo (the portfolio has its own)
 cv/build/<slug>/                generated, git-ignored
 public/cv/<slug>/cv.pdf         the download, git-ignored
 public/cv/<slug>/page-N.png     rasterised pages — what the site renders

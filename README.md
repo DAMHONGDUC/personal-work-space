@@ -29,7 +29,7 @@ src/data/
 └── apps/
     └── baro-ease.json     one file per app
 cv/template/main.tex       CV layout (see cv/README.md)
-public/personal/avt.jpg    CV photo, also the portfolio's
+public/personal/avt.jpg    CV photo; porfolio-avt.png beside it is the portfolio's
 ```
 
 Every URL is defined in `src/lib/routes/routes.ts`; use `routes.*` rather than writing

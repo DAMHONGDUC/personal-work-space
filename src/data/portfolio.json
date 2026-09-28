@@ -1,6 +1,7 @@
 {
   "greeting": "Hi, I'm Duc",
   "status": "Available for new projects",
+  "photo": "/personal/porfolio-avt.png",
   "about": {
     "title": "Curious about me? Here you have it:",
     "learning": ["SwiftUI", "Jetpack Compose"]

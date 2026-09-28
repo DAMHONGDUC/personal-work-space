@@ -73,9 +73,9 @@ export class ResourceConstant {
   static readonly CV_TEMPLATE_DIR = "cv/template";
 
   /**
-   * Images the CV embeds, such as the photo named in the CV data. Under
-   * public/, because the portfolio shows the same photo: one file, served to
-   * the site at /personal/<photo> and copied into the LaTeX build for the PDF.
+   * Images the CV embeds, such as the photo named in the CV data, copied into
+   * the LaTeX build for the PDF. It sits in public/personal beside the
+   * portfolio's own portrait, which is a different file.
    */
   static readonly CV_ASSETS_DIR = "public/personal";
 
