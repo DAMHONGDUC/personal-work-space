@@ -80,10 +80,13 @@
     needs explaining goes in the localized `caption`, not a comment in the code.
 - **Portfolio**: rendered at `/personal/portfolio` by the components in
   `src/components/portfolio/`. **Every fact comes from the default CV**
-  (`cv_full.json`) — name, role, About me, education, skills, jobs, projects,
+  (`cv_full.json`) — name, role, education, skills, jobs, projects,
   email, GitHub and LinkedIn, the photo, and the school's and companies'
   websites (`url` on an education or experience entry) — through `buildPortfolio` in
-  `src/lib/portfolio/portfolio.ts`, so the portfolio and the CV cannot drift.
+  `src/lib/portfolio/portfolio.ts`. **Two introductions, one file**: the CV
+  prints the short `aboutMe`; the portfolio shows `portfolioAbout`, two full
+  paragraphs, never printed on the PDF. The hero's lead is `aboutMe`'s first
+  line. So the portfolio and the CV cannot drift.
   To change what the portfolio says, edit the CV. `src/data/portfolio.json`
   holds presentation only (greeting, status, what is being learnt, an icon per
   skill area keyed by the CV's area name, time zone, the contact line), and a
@@ -93,8 +96,12 @@
   its own. The figures under the hero are computed by
   `portfolioStats` — years from the oldest job's start — so never type a number
   of years into any copy. Profile links and skill areas use the real brand
-  marks from `react-icons`, never a lookalike glyph; the ids in the JSON map to
-  them in `SkillIcon`. The portfolio
+  marks from `react-icons`, never a lookalike glyph. A skill area's mark is a
+  tool that area lists (a test checks it against the CV), drawn in that tool's
+  published brand colour from `AppColors.BRAND` — never a colour picked to
+  suit the page; a monochrome mark such as Next.js takes the text colour. A
+  school or company website opens from a `WebsiteButton`, a bordered pill
+  with a globe, the address and an arrow out. The portfolio
   is a **standalone page** (`useStandalonePage`): its header belongs to it —
   its sections, from `PORTFOLIO_SECTIONS`, replace the Home link, and the
   publisher's name scrolls back to its top instead of going home. Nothing in
