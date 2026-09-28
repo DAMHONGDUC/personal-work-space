@@ -41,7 +41,7 @@ export function PortfolioHero({ portfolio, stats }: { portfolio: Portfolio; stat
               </p>
             </div>
 
-            <p className={AppTextStyles.LEAD}>{portfolio.headline}</p>
+            <p className={AppTextStyles.LEAD}>{portfolio.aboutMe[0]}</p>
 
             <div className="flex flex-wrap items-center gap-3">
               <a

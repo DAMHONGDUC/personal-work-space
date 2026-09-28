@@ -1,23 +1,29 @@
 import fs from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import { portfolio, portfolioStats, yearsSince } from "@/lib/portfolio/portfolio";
+import { cv } from "@/lib/cv/cv";
+import {
+  periodStart,
+  portfolio,
+  portfolioStats,
+  titleCase,
+  yearsSince,
+} from "@/lib/portfolio/portfolio";
 import { PORTFOLIO_SECTIONS } from "@/lib/portfolio/portfolio-model";
 import { ResourceConstant } from "@/lib/resource-constant.mts";
 
 const HTTPS = /^https:\/\//;
-const EMAIL = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+
+/** The presentation file as written, without the CV merged in. */
+const page = JSON.parse(
+  fs.readFileSync(path.join(process.cwd(), ResourceConstant.PORTFOLIO_FILE), "utf8"),
+);
 
 /** Every image the page draws, with where in the data it came from. */
 function images(): [string, string][] {
   return [
     ["avatar", portfolio.avatar],
     ["about.image", portfolio.about.image],
-    ...portfolio.skills.map((skill): [string, string] => [`skills.${skill.label}`, skill.logo]),
-    ...portfolio.experience.flatMap((job): [string, string][] =>
-      job.logo === undefined ? [] : [[`experience.${job.company}`, job.logo]],
-    ),
-    ...portfolio.projects.map((project): [string, string] => [`projects.${project.name}`, project.image]),
   ];
 }
 
@@ -25,11 +31,19 @@ describe("portfolio.json", () => {
   it("is the file ResourceConstant names", () => {
     // The loader imports it by a literal path, which bundling needs; this is
     // what keeps that literal and the constant from drifting apart.
-    const onDisk = JSON.parse(
-      fs.readFileSync(path.join(process.cwd(), ResourceConstant.PORTFOLIO_FILE), "utf8"),
-    );
+    for (const [key, value] of Object.entries(page)) {
+      expect(portfolio[key as keyof typeof portfolio]).toEqual(value);
+    }
+  });
 
-    expect(portfolio).toEqual(onDisk);
+  it("holds presentation only — every fact comes from the CV", () => {
+    // A name, a job or an email typed here would be a second copy that
+    // drifts from the CV. The page's own keys are the whole list.
+    expect(Object.keys(page).sort()).toEqual(
+      ["about", "avatar", "contact", "greeting", "status", "timezone"].sort(),
+    );
+    expect(Object.keys(page.about).sort()).toEqual(["image", "learning", "title"]);
+    expect(Object.keys(page.contact)).toEqual(["title"]);
   });
 
   it("draws only images that ship under public/portfolio", () => {
@@ -59,29 +73,46 @@ describe("portfolio.json", () => {
     expect(onDisk.filter((file) => !used.has(file))).toEqual([]);
   });
 
+  it("names something being learnt", () => {
+    expect(portfolio.about.learning.length).toBeGreaterThan(0);
+  });
+});
+
+describe("portfolio and CV", () => {
+  it("show the same facts", () => {
+    // The point of building one from the other: they cannot disagree.
+    expect(portfolio.aboutMe).toBe(cv.aboutMe);
+    expect(portfolio.education).toBe(cv.education);
+    expect(portfolio.skills).toBe(cv.skills);
+    expect(portfolio.experience).toBe(cv.experience);
+    expect(portfolio.projects).toBe(cv.projects);
+    expect(portfolio.name.toUpperCase()).toBe(cv.header.name.toUpperCase());
+    expect(portfolio.role).toBe(cv.experience[0].role);
+  });
+
+  it("takes the email and profiles from the CV's contacts", () => {
+    const email = cv.header.contacts.find((contact) => contact.kind === "email");
+    const links = cv.header.contacts.filter((contact) => contact.kind === "link");
+
+    expect(portfolio.email).toBe(email?.value);
+    expect(portfolio.links.map((link) => link.href)).toEqual(links.map((link) => link.href));
+    expect(portfolio.links.map((link) => link.kind)).toEqual(
+      expect.arrayContaining(["github", "linkedin"]),
+    );
+  });
+
   it("links out over https only", () => {
     const urls = [
-      ...portfolio.links.filter((link) => link.kind !== "email").map((link) => link.href),
-      ...portfolio.skills.map((skill) => skill.url),
-      ...portfolio.projects.flatMap((project) => [project.source, project.demo]),
-    ].filter((url): url is string => url !== undefined);
+      ...portfolio.links.map((link) => link.href),
+      ...portfolio.projects.flatMap((project) => project.links.map((link) => link.href)),
+    ];
 
     expect(urls.filter((url) => !HTTPS.test(url))).toEqual([]);
   });
 
-  it("has a contact address that is an address", () => {
-    expect(portfolio.contact.email).toMatch(EMAIL);
-  });
-
-  it("gives every project somewhere to go", () => {
-    for (const project of portfolio.projects) {
-      expect(project.source ?? project.demo).toBeDefined();
-    }
-  });
-
   it("has something in every section the page renders", () => {
-    // Each id in PORTFOLIO_SECTIONS is a heading and a nav link; an empty list
-    // behind one would leave a heading over nothing.
+    // Each id in PORTFOLIO_SECTIONS is a heading and a header link; an empty
+    // list behind one would leave a heading over nothing.
     expect(PORTFOLIO_SECTIONS.map((section) => section.id)).toEqual([
       "about",
       "skills",
@@ -89,40 +120,28 @@ describe("portfolio.json", () => {
       "projects",
       "contact",
     ]);
-    expect(portfolio.about.body.length).toBeGreaterThan(0);
+    expect(portfolio.aboutMe.length).toBeGreaterThan(0);
     expect(portfolio.skills.length).toBeGreaterThan(0);
     expect(portfolio.experience.length).toBeGreaterThan(0);
     expect(portfolio.projects.length).toBeGreaterThan(0);
   });
-
-  it("starts the career on a real month, not in the future", () => {
-    expect(portfolio.careerStart).toMatch(/^\d{4}-(0[1-9]|1[0-2])$/);
-    expect(Date.parse(`${portfolio.careerStart}-01`)).toBeLessThan(Date.now());
-  });
-
-  it("names something being learnt", () => {
-    expect(portfolio.about.learning.length).toBeGreaterThan(0);
-  });
-
-  it("has no blank strings", () => {
-    const blank: string[] = [];
-
-    const walk = (value: unknown, at: string) => {
-      if (typeof value === "string") {
-        if (value.trim() === "") blank.push(at);
-      } else if (Array.isArray(value)) {
-        value.forEach((item, index) => walk(item, `${at}[${index}]`));
-      } else if (typeof value === "object" && value !== null) {
-        for (const [key, child] of Object.entries(value)) walk(child, `${at}.${key}`);
-      }
-    };
-
-    walk(portfolio, "portfolio");
-    expect(blank).toEqual([]);
-  });
 });
 
-describe("portfolio stats", () => {
+describe("derived values", () => {
+  it("sets a capitalised name in title case", () => {
+    expect(titleCase("DAM HONG DUC")).toBe("Dam Hong Duc");
+  });
+
+  it("reads the month a CV period starts", () => {
+    expect(periodStart("Jul 2022 – Nov 2022 (5 mos)")).toBe("2022-07");
+    expect(periodStart("Sept 2019 – Aug 2023")).toBe("2019-09");
+    expect(() => periodStart("sometime in 2022")).toThrow(/Cannot read/);
+  });
+
+  it("starts the career at the oldest job", () => {
+    expect(portfolio.careerStart).toBe(periodStart(cv.experience[cv.experience.length - 1].period));
+  });
+
   it("counts whole years, and only once the month has come round", () => {
     expect(yearsSince("2022-07", new Date(2026, 5, 30))).toBe(3);
     expect(yearsSince("2022-07", new Date(2026, 6, 1))).toBe(4);
@@ -134,8 +153,8 @@ describe("portfolio stats", () => {
 
     expect(stats.map((stat) => stat.value)).toEqual([
       "4+",
-      `${portfolio.skills.length}`,
       `${portfolio.experience.length}`,
+      `${portfolio.skills.length}`,
       `${portfolio.projects.length}`,
     ]);
   });

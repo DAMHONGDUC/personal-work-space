@@ -6,7 +6,7 @@ import { AppTextStyles } from "@/lib/design/app-text-styles";
 
 /** The closing call to action: a plain card with every way to get in touch. */
 export function ContactCta({ portfolio }: { portfolio: Portfolio }) {
-  const { contact } = portfolio;
+  const { contact, email } = portfolio;
 
   return (
     <div className="relative overflow-hidden rounded-2xl border border-border-soft bg-surface px-6 py-14 text-center sm:px-12">
@@ -20,13 +20,13 @@ export function ContactCta({ portfolio }: { portfolio: Portfolio }) {
 
         <div className="flex flex-wrap justify-center gap-3">
           <a
-            href={`mailto:${contact.email}`}
+            href={`mailto:${email}`}
             className="flex h-11 items-center gap-2 rounded-xl bg-foreground px-5 text-sm font-semibold text-background transition-opacity hover:opacity-85"
           >
             <Mail aria-hidden className="size-4" />
-            {contact.email}
+            {email}
           </a>
-          <CopyEmailButton email={contact.email} />
+          <CopyEmailButton email={email} />
         </div>
 
         <PortfolioLinks links={portfolio.links} labelled />

@@ -7,7 +7,7 @@ import { PortfolioHero } from "@/components/portfolio/PortfolioHero";
 import { PortfolioSection } from "@/components/portfolio/PortfolioSection";
 import { PortfolioTheme } from "@/components/portfolio/PortfolioTheme";
 import { ProjectShowcase } from "@/components/portfolio/ProjectShowcase";
-import { SkillMarquee } from "@/components/portfolio/SkillMarquee";
+import { SkillGroups } from "@/components/portfolio/SkillGroups";
 import { portfolio, portfolioStats } from "@/lib/portfolio/portfolio";
 import { routes } from "@/lib/routes/routes";
 
@@ -27,8 +27,8 @@ export default function PortfolioPage() {
           <AboutBento portfolio={portfolio} />
         </PortfolioSection>
 
-        <PortfolioSection id="skills" eyebrow="Skills" title="The technologies I work with">
-          <SkillMarquee skills={portfolio.skills} />
+        <PortfolioSection id="skills" eyebrow="Skills" title="What I work with">
+          <SkillGroups skills={portfolio.skills} />
         </PortfolioSection>
 
         <PortfolioSection id="experience" eyebrow="Experience" title="Where I have worked">

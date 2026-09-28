@@ -1,22 +1,34 @@
 import { GlassCard } from "@/components/portfolio/GlassCard";
-import type { PortfolioJob } from "@/lib/portfolio/portfolio-model";
+import type { Experience } from "@/lib/cv/cv-types";
 import { AppTextStyles } from "@/lib/design/app-text-styles";
 
-/** `TGL Solutions` -> `TS`: what the card shows when there is no logo. */
+/** `TGL Solutions` -> `TS`: the mark each job card carries. */
 function initials(company: string): string {
   return company
+    .replace(/[^\p{L}\s]/gu, "")
     .split(/\s+/)
+    .filter(Boolean)
     .map((word) => word.charAt(0))
     .join("")
     .slice(0, 2)
     .toUpperCase();
 }
 
+function Bullet({ children }: { children: React.ReactNode }) {
+  return (
+    <li className="flex gap-2">
+      <span aria-hidden className="mt-2.5 size-1 shrink-0 rounded-full bg-muted-foreground/50" />
+      <span>{children}</span>
+    </li>
+  );
+}
+
 /**
- * The jobs, newest first, hung off a hairline. The newest one's dot takes the
- * accent, because it is the one still running.
+ * The CV's jobs, newest first, hung off a hairline. The newest one's dot takes
+ * the accent, because it is the one still running. Each job lists its blocks
+ * of work as the CV does — title, stack, then what was done.
  */
-export function ExperienceTimeline({ jobs }: { jobs: PortfolioJob[] }) {
+export function ExperienceTimeline({ jobs }: { jobs: Experience[] }) {
   return (
     <ol className="relative flex flex-col gap-6 pl-8 sm:pl-10">
       <span
@@ -41,24 +53,36 @@ export function ExperienceTimeline({ jobs }: { jobs: PortfolioJob[] }) {
               {initials(job.company)}
             </span>
 
-            <div className="flex min-w-0 flex-1 flex-col gap-3">
+            <div className="flex min-w-0 flex-1 flex-col gap-4">
               <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4">
                 <div>
                   <h3 className={AppTextStyles.CARD_TITLE_SM}>{job.role}</h3>
-                  <p className={AppTextStyles.SMALL}>{job.company}</p>
+                  <p className={AppTextStyles.SMALL}>
+                    {job.company} · {job.arrangement} · {job.location}
+                  </p>
                 </div>
                 <span className={`${AppTextStyles.CAPTION} w-fit shrink-0 rounded-full border border-border-soft px-3 py-1`}>
                   {job.period}
                 </span>
               </div>
-              <ul className={`${AppTextStyles.BODY_SM} flex flex-col gap-1.5`}>
-                {job.points.map((point) => (
-                  <li key={point} className="flex gap-2">
-                    <span aria-hidden className="mt-2.5 size-1 shrink-0 rounded-full bg-muted-foreground/50" />
-                    {point}
-                  </li>
-                ))}
-              </ul>
+
+              {job.groups.map((group) => (
+                <div key={group.title} className="flex flex-col gap-2">
+                  <p className="text-sm font-medium">{group.title}</p>
+                  <p className={AppTextStyles.CAPTION}>{group.meta}</p>
+                  <ul className={`${AppTextStyles.BODY_SM} flex flex-col gap-1.5`}>
+                    {group.bullets.map((bullet) => (
+                      <Bullet key={bullet}>{bullet}</Bullet>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+
+              {job.note && (
+                <p className={AppTextStyles.BODY_SM}>
+                  <span className="font-medium text-foreground">{job.note.label}:</span> {job.note.text}
+                </p>
+              )}
             </div>
           </GlassCard>
         </li>

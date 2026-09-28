@@ -1,13 +1,16 @@
 /**
- * The shape of the portfolio — `src/data/portfolio.json`.
+ * The shape of the portfolio.
  *
- * One file, one page, one language: the portfolio was a standalone site in
- * English before it moved here, and it is the publisher's introduction rather
- * than a guide, so nothing about it is translated.
+ * Every fact on the page — name, role, story, education, skills, jobs,
+ * projects, email, profiles — comes from the default CV
+ * (`ResourceConstant.CV_DATA_FILE`, cv_full.json), so the portfolio and the CV
+ * can never disagree. `src/data/portfolio.json` holds only what a CV has no
+ * place for: the greeting, the photos, the availability line and the like.
  *
- * Kept apart from the loader so a client component can import the types
- * without dragging the JSON into the browser bundle a second time.
+ * Kept apart from the loader, which reads the CV off disk, so a client
+ * component can import the types and the section list.
  */
+import type { Education, Experience, Project, Skill } from "@/lib/cv/cv-types";
 
 /**
  * A file under `public/`, written with its leading slash (`/portfolio/…`). The
@@ -16,80 +19,61 @@
  */
 export type PublicPath = string;
 
+/** The shape of `src/data/portfolio.json`: presentation, never a fact. */
+export type PortfolioPage = {
+  /** The greeting at the top of the page, e.g. `Hi, I'm Duc`. */
+  greeting: string;
+  /** Availability, next to a green dot. Omit it and the dot goes too. */
+  status?: string;
+  avatar: PublicPath;
+  about: {
+    title: string;
+    image: PublicPath;
+    /** What is being learnt right now, shown as chips on its own tile. */
+    learning: string[];
+  };
+  /** Shown under the location, e.g. `GMT+7`. */
+  timezone: string;
+  contact: {
+    /** The line above the email button. */
+    title: string;
+  };
+};
+
+/** A profile link, picked out of the CV's contacts by its host. */
 export type PortfolioLink = {
-  /** Picks the icon. The label is what a screen reader hears. */
-  kind: "github" | "linkedin" | "figma" | "email" | "website";
+  /** Picks the brand icon. The label is what a screen reader hears. */
+  kind: "github" | "linkedin" | "website";
   label: string;
   href: string;
 };
 
-export type PortfolioSkill = {
-  label: string;
-  logo: PublicPath;
-  /** The technology's own site, opened from the chip. */
-  url: string;
-};
-
-export type PortfolioJob = {
-  company: string;
-  /**
-   * The employer's logo. Optional: without one the card draws the company's
-   * initials, which beats the wrong logo — the old portfolio shipped template
-   * logos under real company names.
-   */
-  logo?: PublicPath;
-  role: string;
-  /** Printed as written, e.g. `Jan 2023 – now`. */
-  period: string;
-  points: string[];
-};
-
-export type PortfolioProject = {
+/** The portfolio as the page draws it: the CV's facts plus the page's own copy. */
+export type Portfolio = PortfolioPage & {
+  /** The CV prints the name in capitals; the page sets it in title case. */
   name: string;
-  description: string;
-  image: PublicPath;
-  technologies: string[];
-  /** At least one of the two is required; a project card with no way out is a dead end. */
-  source?: string;
-  demo?: string;
-};
-
-export type Portfolio = {
-  name: string;
-  /** The greeting at the top of the page, e.g. `Hi, I'm Duc`. */
-  greeting: string;
-  /** One line under the name, e.g. `Mobile Developer`. */
+  /** The current role: the newest job's title. */
   role: string;
-  headline: string;
+  /** The CV's About me, first paragraph first — it doubles as the hero's lead. */
+  aboutMe: string[];
+  /** Where the newest job is. */
   location: string;
-  /** Availability, next to a green dot. Omit it and the dot goes too. */
-  status?: string;
+  education: Education[];
+  skills: Skill[];
+  /** Newest first, as on the CV. */
+  experience: Experience[];
+  projects: Project[];
+  email: string;
+  links: PortfolioLink[];
   /**
-   * `YYYY-MM` of the first full-time role. The years-of-experience figure is
-   * computed from it at build time, so the page never states a stale number.
+   * `YYYY-MM` the oldest job started, read off its period. The
+   * years-of-experience figure is computed from it at build time.
    */
   careerStart: string;
-  avatar: PublicPath;
-  links: PortfolioLink[];
-  about: {
-    title: string;
-    image: PublicPath;
-    body: string[];
-    /** What is being learnt right now, shown as chips on its own tile. */
-    learning: string[];
-  };
-  skills: PortfolioSkill[];
-  /** Newest first — a portfolio leads with what the reader cares about. */
-  experience: PortfolioJob[];
-  projects: PortfolioProject[];
-  contact: {
-    title: string;
-    email: string;
-  };
 };
 
 /**
- * The page's sections, in order. Ids are anchors, so the in-page nav and the
+ * The page's sections, in order. Ids are anchors, so the header's nav and the
  * headings are built from this one list and cannot disagree.
  */
 export const PORTFOLIO_SECTIONS = [

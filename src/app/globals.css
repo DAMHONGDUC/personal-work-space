@@ -173,18 +173,7 @@ html {
   mask-image: radial-gradient(ellipse at 50% 30%, black 15%, transparent 70%);
 }
 
-.pf-marquee-mask {
-  mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
-}
-
 @media (prefers-reduced-motion: no-preference) {
-  @keyframes pf-marquee {
-    to { transform: translateX(-50%); }
-  }
-
-  .pf-marquee { animation: pf-marquee 45s linear infinite; }
-  .pf-marquee:hover { animation-play-state: paused; }
-
   /* Sections rise in as they scroll into view, where the browser can tie an
      animation to scroll; elsewhere they are simply there. */
   @supports (animation-timeline: view()) {

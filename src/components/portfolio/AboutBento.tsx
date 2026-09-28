@@ -1,4 +1,4 @@
-import { Clock, MapPin, Sparkles } from "lucide-react";
+import { Clock, GraduationCap, MapPin, Sparkles } from "lucide-react";
 import { GlassCard } from "@/components/portfolio/GlassCard";
 import { PublicImage } from "@/components/portfolio/PublicImage";
 import { StatusPill } from "@/components/portfolio/StatusPill";
@@ -6,8 +6,9 @@ import type { Portfolio } from "@/lib/portfolio/portfolio-model";
 import { AppTextStyles } from "@/lib/design/app-text-styles";
 
 /**
- * About, as a bento grid: the story takes the big tile, the photo the tall one,
- * and the small facts — where, what is being learnt, availability — a tile each.
+ * About, as a bento grid: the CV's About me and education take the big tile,
+ * the photo the tall one, and the small facts — where, what is being learnt,
+ * availability — a tile each.
  */
 export function AboutBento({ portfolio }: { portfolio: Portfolio }) {
   const { about } = portfolio;
@@ -16,15 +17,27 @@ export function AboutBento({ portfolio }: { portfolio: Portfolio }) {
     <div className="grid gap-4 md:auto-rows-[minmax(9rem,auto)] md:grid-cols-3">
       <GlassCard className="flex flex-col justify-between gap-8 md:col-span-2 md:row-span-2">
         <div className="flex flex-col gap-4">
-          {about.body.map((paragraph) => (
+          {portfolio.aboutMe.map((paragraph) => (
             <p key={paragraph} className={`${AppTextStyles.BODY} first:text-lg first:text-foreground`}>
               {paragraph}
             </p>
           ))}
         </div>
-        {/* Signs the story off, and fills the tile's foot where the photo
-            beside it runs taller than the text. */}
-        <p className={AppTextStyles.SMALL}>— {portfolio.name}</p>
+
+        <div className="flex flex-col gap-3 border-t border-border-soft pt-5">
+          <p className={AppTextStyles.EYEBROW}>Education</p>
+          {portfolio.education.map((school) => (
+            <div key={school.institution} className="flex items-start gap-3">
+              <GraduationCap aria-hidden className="mt-0.5 size-5 shrink-0 text-muted" />
+              <div>
+                <p className="font-medium">{school.degree}</p>
+                <p className={AppTextStyles.SMALL}>
+                  {school.institution} · {school.period}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
       </GlassCard>
 
       <GlassCard className="p-0! md:row-span-2">
@@ -40,7 +53,7 @@ export function AboutBento({ portfolio }: { portfolio: Portfolio }) {
         <div>
           <p className="font-semibold">{portfolio.location}</p>
           <p className={`${AppTextStyles.SMALL} flex items-center gap-1.5`}>
-            <Clock aria-hidden className="size-3.5" /> GMT+7
+            <Clock aria-hidden className="size-3.5" /> {portfolio.timezone}
           </p>
         </div>
       </GlassCard>
