@@ -72,8 +72,12 @@ export class ResourceConstant {
   /** The LaTeX the CV is rendered into. Hand-edited; never generated. */
   static readonly CV_TEMPLATE_DIR = "cv/template";
 
-  /** Images the CV embeds, such as the photo named in the CV data. */
-  static readonly CV_ASSETS_DIR = "cv/assets";
+  /**
+   * Images the CV embeds, such as the photo named in the CV data. Under
+   * public/, because the portfolio shows the same photo: one file, served to
+   * the site at /personal/<photo> and copied into the LaTeX build for the PDF.
+   */
+  static readonly CV_ASSETS_DIR = "public/personal";
 
   /** Generated LaTeX and the PDF LaTeX produces, one folder per CV. Not in git. */
   static readonly CV_BUILD_DIR = "cv/build";
@@ -85,9 +89,6 @@ export class ResourceConstant {
 
   /** Served at the site root, so a URL is a path here minus this prefix. */
   static readonly PUBLIC_DIR = "public";
-
-  /** Every image the portfolio draws: avatar, skill and employer logos, project shots. */
-  static readonly PORTFOLIO_ASSETS_DIR = "public/portfolio";
 
   /**
    * The default CV, at the address the app store listings and any existing

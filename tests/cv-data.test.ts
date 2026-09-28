@@ -66,7 +66,7 @@ describe.each(versions)("the CV data file $slug", ({ slug, data: cv }) => {
     expect(Number.isNaN(Date.parse(cv.lastUpdated))).toBe(false);
   });
 
-  it("names a photo that is actually in cv/assets", () => {
+  it("names a photo that is actually in the CV assets folder", () => {
     const photo = path.join(process.cwd(), ResourceConstant.CV_ASSETS_DIR, cv.header.photo);
 
     expect(fs.existsSync(photo)).toBe(true);

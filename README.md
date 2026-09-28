@@ -19,7 +19,7 @@ code.
 ```
 src/data/
 ├── site.json              publisher, url, email + shared legal sections
-├── portfolio.json         the portfolio page; images in public/portfolio/
+├── portfolio.json         the portfolio's presentation; its facts come from the CV
 ├── docs/
 │   ├── en/<slug>_en.json  one guide per file, per language
 │   └── vi/<slug>_vi.json
@@ -28,9 +28,8 @@ src/data/
 │   └── cv_no_freelancer.json
 └── apps/
     └── baro-ease.json     one file per app
-cv/
-├── template/main.tex      CV layout (see cv/README.md)
-└── assets/avt.png         CV photo
+cv/template/main.tex       CV layout (see cv/README.md)
+public/personal/avt.jpg    CV photo, also the portfolio's
 ```
 
 Every URL is defined in `src/lib/routes/routes.ts`; use `routes.*` rather than writing

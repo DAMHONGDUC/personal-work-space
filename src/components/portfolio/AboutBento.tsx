@@ -1,21 +1,21 @@
 import { Clock, GraduationCap, MapPin, Sparkles } from "lucide-react";
 import { GlassCard } from "@/components/portfolio/GlassCard";
-import { PublicImage } from "@/components/portfolio/PublicImage";
 import { StatusPill } from "@/components/portfolio/StatusPill";
 import type { Portfolio } from "@/lib/portfolio/portfolio-model";
 import { AppTextStyles } from "@/lib/design/app-text-styles";
 
 /**
  * About, as a bento grid: the CV's About me and education take the big tile,
- * the photo the tall one, and the small facts — where, what is being learnt,
- * availability — a tile each.
+ * and the small facts — where, what is being learnt, availability — stack
+ * beside it a tile each. No photo here: the page shows the CV's one photo, in
+ * the hero.
  */
 export function AboutBento({ portfolio }: { portfolio: Portfolio }) {
   const { about } = portfolio;
 
   return (
-    <div className="grid gap-4 md:auto-rows-[minmax(9rem,auto)] md:grid-cols-3">
-      <GlassCard className="flex flex-col justify-between gap-8 md:col-span-2 md:row-span-2">
+    <div className="grid gap-4 md:grid-cols-3">
+      <GlassCard className="flex flex-col justify-between gap-8 md:col-span-2 md:row-span-3">
         <div className="flex flex-col gap-4">
           {portfolio.aboutMe.map((paragraph) => (
             <p key={paragraph} className={`${AppTextStyles.BODY} first:text-lg first:text-foreground`}>
@@ -38,14 +38,6 @@ export function AboutBento({ portfolio }: { portfolio: Portfolio }) {
             </div>
           ))}
         </div>
-      </GlassCard>
-
-      <GlassCard className="p-0! md:row-span-2">
-        <PublicImage
-          src={about.image}
-          alt={portfolio.name}
-          className="h-72 w-full object-cover transition-transform duration-700 group-hover:scale-105 md:h-full"
-        />
       </GlassCard>
 
       <GlassCard className="flex flex-col justify-between gap-4">

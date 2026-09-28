@@ -2,10 +2,10 @@
  * The shape of the portfolio.
  *
  * Every fact on the page — name, role, story, education, skills, jobs,
- * projects, email, profiles — comes from the default CV
+ * projects, email, profiles, the photo — comes from the default CV
  * (`ResourceConstant.CV_DATA_FILE`, cv_full.json), so the portfolio and the CV
  * can never disagree. `src/data/portfolio.json` holds only what a CV has no
- * place for: the greeting, the photos, the availability line and the like.
+ * place for: the greeting, the availability line and the like.
  *
  * Kept apart from the loader, which reads the CV off disk, so a client
  * component can import the types and the section list.
@@ -25,10 +25,8 @@ export type PortfolioPage = {
   greeting: string;
   /** Availability, next to a green dot. Omit it and the dot goes too. */
   status?: string;
-  avatar: PublicPath;
   about: {
     title: string;
-    image: PublicPath;
     /** What is being learnt right now, shown as chips on its own tile. */
     learning: string[];
   };
@@ -52,6 +50,8 @@ export type PortfolioLink = {
 export type Portfolio = PortfolioPage & {
   /** The CV prints the name in capitals; the page sets it in title case. */
   name: string;
+  /** The CV's photo, as served from public/. */
+  photo: PublicPath;
   /** The current role: the newest job's title. */
   role: string;
   /** The CV's About me, first paragraph first — it doubles as the hero's lead. */

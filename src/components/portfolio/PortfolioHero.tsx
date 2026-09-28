@@ -62,7 +62,7 @@ export function PortfolioHero({ portfolio, stats }: { portfolio: Portfolio; stat
             </div>
           </div>
 
-          <Avatar src={portfolio.avatar} alt={portfolio.name} badge={`📍 ${city}`} />
+          <Avatar src={portfolio.photo} alt={portfolio.name} badge={`📍 ${city}`} />
         </div>
 
         <StatStrip stats={stats} />

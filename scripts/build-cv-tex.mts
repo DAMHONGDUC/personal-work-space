@@ -49,7 +49,7 @@ for (const slug of slugs) {
   const photo = path.join(assetsDir, cv.header.photo);
   if (!fs.existsSync(photo)) {
     throw new Error(
-      `${slug}.json points at header.photo "${cv.header.photo}", which is not in cv/assets.`,
+      `${slug}.json points at header.photo "${cv.header.photo}", which is not in ${ResourceConstant.CV_ASSETS_DIR}.`,
     );
   }
   fs.copyFileSync(photo, path.join(outDir, cv.header.photo));

@@ -19,14 +19,6 @@ const page = JSON.parse(
   fs.readFileSync(path.join(process.cwd(), ResourceConstant.PORTFOLIO_FILE), "utf8"),
 );
 
-/** Every image the page draws, with where in the data it came from. */
-function images(): [string, string][] {
-  return [
-    ["avatar", portfolio.avatar],
-    ["about.image", portfolio.about.image],
-  ];
-}
-
 describe("portfolio.json", () => {
   it("is the file ResourceConstant names", () => {
     // The loader imports it by a literal path, which bundling needs; this is
@@ -40,37 +32,10 @@ describe("portfolio.json", () => {
     // A name, a job or an email typed here would be a second copy that
     // drifts from the CV. The page's own keys are the whole list.
     expect(Object.keys(page).sort()).toEqual(
-      ["about", "avatar", "contact", "greeting", "status", "timezone"].sort(),
+      ["about", "contact", "greeting", "status", "timezone"].sort(),
     );
-    expect(Object.keys(page.about).sort()).toEqual(["image", "learning", "title"]);
+    expect(Object.keys(page.about).sort()).toEqual(["learning", "title"]);
     expect(Object.keys(page.contact)).toEqual(["title"]);
-  });
-
-  it("draws only images that ship under public/portfolio", () => {
-    // A static export has no server to notice a 404, so a missing file would
-    // only ever show up as a broken picture in production.
-    const bad = images()
-      .filter(
-        ([, src]) =>
-          !src.startsWith(`/${ResourceConstant.PORTFOLIO_ASSETS_DIR.replace(/^public\//, "")}/`) ||
-          !fs.existsSync(path.join(process.cwd(), ResourceConstant.PUBLIC_DIR, src)),
-      )
-      .map(([at, src]) => `${at}: ${src}`);
-
-    expect(bad).toEqual([]);
-  });
-
-  it("ships no image that nothing draws", () => {
-    const used = new Set(images().map(([, src]) => src));
-    const assetsDir = path.join(process.cwd(), ResourceConstant.PORTFOLIO_ASSETS_DIR);
-    const onDisk = fs
-      .readdirSync(assetsDir, { recursive: true, withFileTypes: true })
-      .filter((entry) => entry.isFile() && !entry.name.startsWith("."))
-      .map((entry) =>
-        `/${path.relative(path.join(process.cwd(), ResourceConstant.PUBLIC_DIR), path.join(entry.parentPath, entry.name))}`,
-      );
-
-    expect(onDisk.filter((file) => !used.has(file))).toEqual([]);
   });
 
   it("names something being learnt", () => {
@@ -88,6 +53,16 @@ describe("portfolio and CV", () => {
     expect(portfolio.projects).toBe(cv.projects);
     expect(portfolio.name.toUpperCase()).toBe(cv.header.name.toUpperCase());
     expect(portfolio.role).toBe(cv.experience[0].role);
+  });
+
+  it("shows the CV's one photo, and ships no other", () => {
+    // One file serves both: the LaTeX build copies it into the PDF, and the
+    // site serves it from public/.
+    const file = path.join(process.cwd(), ResourceConstant.PUBLIC_DIR, portfolio.photo);
+
+    expect(portfolio.photo.endsWith(`/${cv.header.photo}`)).toBe(true);
+    expect(fs.existsSync(file)).toBe(true);
+    expect(fs.existsSync(path.join(process.cwd(), ResourceConstant.PUBLIC_DIR, "portfolio"))).toBe(false);
   });
 
   it("takes the email and profiles from the CV's contacts", () => {

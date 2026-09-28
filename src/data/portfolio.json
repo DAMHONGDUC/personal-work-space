@@ -1,10 +1,8 @@
 {
   "greeting": "Hi, I'm Duc",
   "status": "Available for new projects",
-  "avatar": "/portfolio/avatar.jpg",
   "about": {
     "title": "Curious about me? Here you have it:",
-    "image": "/portfolio/about.jpg",
     "learning": ["SwiftUI", "Jetpack Compose"]
   },
   "timezone": "GMT+7",

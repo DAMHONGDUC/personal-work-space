@@ -1,6 +1,7 @@
 import page from "@/data/portfolio.json";
 import { cv } from "@/lib/cv/cv";
 import type { Cv } from "@/lib/cv/cv-types";
+import { ResourceConstant } from "@/lib/resource-constant.mts";
 import type {
   Portfolio,
   PortfolioLink,
@@ -62,6 +63,7 @@ export function buildPortfolio(source: Cv, extras: PortfolioPage): Portfolio {
   return {
     ...extras,
     name: titleCase(source.header.name),
+    photo: `/${ResourceConstant.CV_ASSETS_DIR.replace(/^public\//, "")}/${source.header.photo}`,
     role: newest.role,
     aboutMe: source.aboutMe,
     location: newest.location,
