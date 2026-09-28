@@ -158,7 +158,7 @@
 - Every text field in the CV JSON is **plain text**. The renderer escapes LaTeX
   and converts typography, so write `Backend & Integration`, `get_it` and
   `2019 – 2023` (real en dash), never `\&`, `get\_it` or `--`. A backslash in
-  the data ends up printed literally. See [cv/README.md](cv/README.md).
+  the data ends up printed literally. See [docs/guides/cv.md](docs/guides/cv.md).
 
 ## Sections are numbered — except in the CV
 
