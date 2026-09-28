@@ -1,0 +1,219 @@
+{
+  "title": "Ship React Native updates with CodePush",
+  "tagline": "Push a new JavaScript bundle to installed apps without a store review.",
+  "icon": "🚀",
+  "topic": "react-native",
+  "tags": [
+    "React Native",
+    "CodePush",
+    "App Center"
+  ],
+  "readingTime": "7 min",
+  "effectiveDate": "2026-09-28",
+  "lastUpdated": "2026-09-28",
+  "intro": [
+    "CodePush swaps the JavaScript bundle inside an installed app. Native code still needs a store release; everything written in JS does not."
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Overview",
+      "summary": "Set up once, then every release is one command.",
+      "blocks": [
+        {
+          "type": "flow",
+          "caption": "From your terminal to a phone that already has the app.",
+          "stages": [
+            {
+              "items": [
+                {
+                  "label": "Install the CLI",
+                  "detail": "appcenter-cli logs you in and is the tool every later step runs through",
+                  "explain": [
+                    "npm install -g appcenter-cli installs it globally. The older code-push-cli is deprecated, so do not start a project on it.",
+                    "appcenter login opens a browser and hands back a token; pasting it into the terminal ties the CLI to your account."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Create the app",
+                  "detail": "One App Center app per platform: iOS and Android get separate deployment keys",
+                  "explain": [
+                    "appcenter apps create -d demo -o iOS -p React-Native creates the iOS half; run it again with -o Android for the other.",
+                    "-d is the display name, -o the operating system and -p the platform. The app then shows up on the App Center home page."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Wire the SDK",
+                  "detail": "react-native-code-push makes the release build read its bundle from CodePush",
+                  "explain": [
+                    "On iOS, sourceURLForBridge returns [CodePush bundleURL] in release and keeps the Metro URL in debug, so development is untouched.",
+                    "The deployment key goes into Info.plist as CodePushDeploymentKey. Staging and Production each have one, and the key decides which channel a build listens to.",
+                    "Wrapping the root component with codePush() is what makes the app check for an update when it starts."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Release",
+                  "detail": "release-react bundles the JS and uploads it to one deployment, Staging or Production",
+                  "explain": [
+                    "appcenter codepush release-react -a damhongduc/demo -d Staging: -a is owner/app and -d is the deployment to publish into.",
+                    "Each release gets a label such as v3 on the CodePush page, which is how you tell which bundle a device is running."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Device updates",
+                  "detail": "A release build checks on launch, downloads the bundle and applies it on the next start",
+                  "explain": [
+                    "Test it with npx react-native run-ios --configuration Release — a debug build reads Metro and never asks CodePush.",
+                    "The default policy installs on the next restart, so kill and reopen the app after a release to see the change."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "warning",
+          "body": [
+            "Microsoft retired App Center on 31 March 2025. Existing CodePush setups need the self-hosted CodePush server Microsoft open-sourced, or another OTA service.",
+            "The client-side steps below stay the same either way; only the server the CLI talks to changes."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cli",
+      "title": "Install the CLI and log in",
+      "blocks": [
+        {
+          "type": "code",
+          "language": "bash",
+          "caption": "The login prints a token in the browser; paste it back into the terminal",
+          "code": [
+            "npm install -g appcenter-cli",
+            "appcenter login"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "caption": "One app per platform",
+          "code": [
+            "appcenter apps create -d demo -o iOS -p React-Native",
+            "appcenter apps create -d demo -o Android -p React-Native"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "install-sdk",
+      "title": "Install the SDK on iOS",
+      "summary": "Four edits, all in the native project.",
+      "blocks": [
+        {
+          "type": "code",
+          "language": "bash",
+          "code": [
+            "npm install --save react-native-code-push",
+            "cd ios && pod install && cd .."
+          ]
+        },
+        {
+          "type": "steps",
+          "items": [
+            "Open AppDelegate.m and add #import <CodePush/CodePush.h> at the top.",
+            "Replace the release branch of sourceURLForBridge with [CodePush bundleURL].",
+            "In App Center, open Distribute → CodePush → Create standard deployment, then copy the keys from the settings icon.",
+            "Add CodePushDeploymentKey to Info.plist with the Staging or Production key.",
+            "Wrap the root component: export default codePush(App)."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "objectivec",
+          "caption": "Debug still reads Metro; only release asks CodePush",
+          "code": [
+            "- (NSURL *)sourceURLForBridge:(RCTBridge *)bridge",
+            "{",
+            "  #if DEBUG",
+            "    return [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@\"index\" fallbackResource:nil];",
+            "  #else",
+            "    return [CodePush bundleURL];",
+            "  #endif",
+            "}"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "release",
+      "title": "Release an update",
+      "blocks": [
+        {
+          "type": "code",
+          "language": "bash",
+          "caption": "-a is owner/app, -d is Staging or Production",
+          "code": [
+            "appcenter codepush release-react -a damhongduc/demo -d Staging"
+          ]
+        },
+        {
+          "type": "table",
+          "columns": [
+            "Flag",
+            "Meaning"
+          ],
+          "rows": [
+            [
+              "-a",
+              "Owner and app name, as owner/app"
+            ],
+            [
+              "-d",
+              "Deployment: Staging or Production"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "verify",
+      "title": "See it land",
+      "summary": "A release build, a change, a restart.",
+      "blocks": [
+        {
+          "type": "checklist",
+          "items": [
+            "Run the app in release mode: npx react-native run-ios --configuration Release",
+            "Change something visible, such as a background colour or a label",
+            "Release it to the deployment whose key is in Info.plist",
+            "Wait a few minutes, then close and reopen the app"
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "info",
+          "body": [
+            "Only JavaScript and assets travel through CodePush. A new native module or a changed Podfile still needs a store build."
+          ]
+        }
+      ]
+    }
+  ]
+}

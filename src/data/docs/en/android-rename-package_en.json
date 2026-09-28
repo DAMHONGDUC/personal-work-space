@@ -1,0 +1,129 @@
+{
+  "title": "Rename an Android package",
+  "tagline": "Move the code, change the namespace, and rebuild before you trust a release.",
+  "icon": "🏷️",
+  "topic": "android",
+  "tags": [
+    "Android",
+    "Android Studio",
+    "Gradle"
+  ],
+  "readingTime": "4 min",
+  "effectiveDate": "2026-09-28",
+  "lastUpdated": "2026-09-28",
+  "intro": [
+    "A package name is written in three places: the folder path, the package line in every file, and the namespace in Gradle. A rename has to move all three together."
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Overview",
+      "summary": "Let the IDE move the files; do the Gradle part by hand.",
+      "blocks": [
+        {
+          "type": "flow",
+          "caption": "From com.old.app to com.new.app without a broken release.",
+          "stages": [
+            {
+              "items": [
+                {
+                  "label": "Expand the packages",
+                  "detail": "Untick Compact Middle Packages so each part of the name is its own folder",
+                  "explain": [
+                    "With compaction on, com.old.app shows as one row, and a rename can only change the whole thing or nothing.",
+                    "It is in the Project panel's gear menu → Tree Appearance. Only the view changes; nothing on disk moves."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Refactor → Rename",
+                  "detail": "Renaming the folder through Refactor rewrites every package and import line too",
+                  "explain": [
+                    "Right-click the segment to change → Refactor → Rename → Rename package. Renaming in Finder would move the files and break every import.",
+                    "Rename one segment at a time: com.old.app becomes com.new.app by renaming old to new."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Check the debug source set",
+                  "detail": "Files outside main, such as ReactNativeFlipper in debug, can keep the old import",
+                  "explain": [
+                    "The refactor covers the source set you are in. src/debug/java/… is a separate tree that React Native templates put Flipper setup in.",
+                    "A debug build that fails with 'cannot find symbol' right after a rename is almost always this file."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Namespace in Gradle",
+                  "detail": "The namespace in app/build.gradle names the generated R and BuildConfig classes",
+                  "explain": [
+                    "Change namespace \"com.old.app\" to the new name, then Sync. Until then, R still lives in the old package and every screen fails to compile.",
+                    "applicationId is separate: it is the id on the Play Store. Change it only if this is meant to be a different app."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Clean and rebuild",
+                  "detail": "Clean, rebuild, run, then build the release .apk and .aab to be sure",
+                  "explain": [
+                    "Stale intermediates still reference the old package, and the release task is sometimes the only one that trips over them.",
+                    "A debug run that works proves little here; the release build is the check that the rename is finished."
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "steps",
+      "title": "Step by step",
+      "blocks": [
+        {
+          "type": "steps",
+          "items": [
+            "Open the android folder in Android Studio.",
+            "Project panel gear → Tree Appearance → untick Compact Middle Packages.",
+            "Right-click the package segment → Refactor → Rename.",
+            "Open src/debug and fix any file still importing the old package, e.g. ReactNativeFlipper.",
+            "Change namespace in app/build.gradle and click Sync.",
+            "Build → Clean Project, Rebuild Project, run, then build the release .apk and .aab."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "groovy",
+          "caption": "app/build.gradle — applicationId only if the store id should change too",
+          "code": [
+            "android {",
+            "    namespace \"com.new.app\"",
+            "    defaultConfig {",
+            "        applicationId \"com.new.app\"",
+            "    }",
+            "}"
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "warning",
+          "body": [
+            "Changing applicationId on a published app creates a new listing; existing users will not get it as an update."
+          ]
+        }
+      ]
+    }
+  ]
+}

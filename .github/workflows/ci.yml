@@ -13,10 +13,20 @@ concurrency:
 
 jobs:
   verify:
-    name: Lint, typecheck, build
+    name: Commits, lint, typecheck, build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
+        with:
+          # The whole history, so the commit message check below can walk the
+          # pull request's range.
+          fetch-depth: 0
+
+      - name: Commit messages
+        # Every commit in the pull request must follow Conventional Commits —
+        # the same rule the local commit-msg hook applies.
+        if: github.event_name == 'pull_request'
+        run: node scripts/check-commit-message.mts --range "${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }}"
 
       - uses: actions/setup-node@v5
         with:

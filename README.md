@@ -6,8 +6,11 @@ Static site with these sections:
 | -------------------------------- | -------------------------------- |
 | `/apps/`                         | Directory of every published app |
 | `/apps/<slug>/privacy_policy/`   | One app's privacy policy         |
+| `/docs/`                         | Guides, shelved by topic         |
+| `/docs/<slug>/`                  | One guide, in English and Vietnamese |
 | `/effects/`                      | Video-editing effects library    |
 | `/effects/<category>/`           | One category, previews per file  |
+| `/personal/portfolio/`           | Portfolio: skills, work, projects |
 | `/personal/cv/`                  | CV, served from `public/cv.pdf`  |
 
 All content lives in JSON — neither adding an app nor updating the CV touches UI
@@ -16,17 +19,20 @@ code.
 ```
 src/data/
 ├── site.json              publisher, url, email + shared legal sections
+├── portfolio.json         the portfolio's presentation; its facts come from the CV
+├── docs/
+│   ├── en/<slug>_en.json  one guide per file, per language
+│   └── vi/<slug>_vi.json
 ├── cv/
 │   ├── cv_full.json       one file per version of the CV
 │   └── cv_no_freelancer.json
 └── apps/
     └── baro-ease.json     one file per app
-cv/
-├── template/main.tex      CV layout (see cv/README.md)
-└── assets/avt.png         CV photo
+cv/template/main.tex       CV layout (see cv/README.md)
+public/personal/avt.jpg    CV photo; porfolio-avt.png beside it is the portfolio's
 ```
 
-Every URL is defined in `src/lib/routes.ts`; use `routes.*` rather than writing
+Every URL is defined in `src/lib/routes/routes.ts`; use `routes.*` rather than writing
 paths by hand.
 
 The old addresses `/<slug>/` and `/<slug>/privacy_policy/` still resolve — they

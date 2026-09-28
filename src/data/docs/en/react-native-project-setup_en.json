@@ -1,0 +1,209 @@
+{
+  "title": "Start a React Native project properly",
+  "tagline": "Absolute imports, ESLint, Prettier, and hooks that run them on every commit.",
+  "icon": "🧰",
+  "topic": "react-native",
+  "tags": [
+    "React Native",
+    "ESLint",
+    "Husky"
+  ],
+  "readingTime": "7 min",
+  "effectiveDate": "2026-09-28",
+  "lastUpdated": "2026-09-28",
+  "intro": [
+    "The first hour of a project decides how the next year feels. Set up imports and linting before the first feature, when there is nothing to migrate."
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Overview",
+      "summary": "Four layers, each catching what the last one lets through.",
+      "blocks": [
+        {
+          "type": "flow",
+          "caption": "From an empty folder to a commit that cannot break the style.",
+          "stages": [
+            {
+              "items": [
+                {
+                  "label": "Create the app",
+                  "detail": "The React Native CLI scaffolds the native projects and Metro in one command",
+                  "explain": [
+                    "npx react-native init ProjectName writes the ios and android folders, the JS entry and the Metro config.",
+                    "yarn start runs Metro, the bundler; yarn android or yarn ios builds the native app and points it at Metro."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Absolute imports",
+                  "detail": "tsconfig tells the editor where imports resolve; Babel tells Metro the same thing",
+                  "explain": [
+                    "Both are needed. tsconfig paths alone make the editor happy and the bundle fail, because Metro never reads tsconfig.",
+                    "With root ./src, import Button from 'components/Button' replaces '../../../components/Button' wherever the file is."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "ESLint + Prettier",
+                  "detail": "ESLint finds bugs, Prettier fixes layout, and eslint-config-prettier stops them arguing",
+                  "explain": [
+                    "ESLint's own formatting rules clash with Prettier's output. Putting \"prettier\" last in extends switches those rules off.",
+                    "A lint script in package.json gives CI and people the same command: eslint src/**/*.{js,tsx}."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Husky + lint-staged",
+                  "detail": "A pre-commit hook formats and lints only the staged files, so commits stay fast",
+                  "explain": [
+                    "Husky installs the git hook; lint-staged decides which files it touches, so a one-line fix does not lint the whole repo.",
+                    "The hook runs npx lint-staged. A lint error blocks the commit, which is the point: bad code never reaches the branch."
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "create",
+      "title": "Create and run",
+      "blocks": [
+        {
+          "type": "code",
+          "language": "bash",
+          "code": [
+            "npx react-native init ProjectName",
+            "yarn start",
+            "yarn android"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "absolute-imports",
+      "title": "Absolute imports",
+      "summary": "Two files, then a cache reset.",
+      "blocks": [
+        {
+          "type": "code",
+          "language": "json",
+          "caption": "tsconfig.json (or jsconfig.json)",
+          "code": [
+            "{",
+            "  \"compilerOptions\": {",
+            "    \"baseUrl\": \".\",",
+            "    \"paths\": { \"*\": [\"src/*\"] }",
+            "  }",
+            "}"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "code": [
+            "yarn add --dev babel-plugin-module-resolver"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "javascript",
+          "caption": "babel.config.js — older projects name the preset metro-react-native-babel-preset",
+          "code": [
+            "module.exports = {",
+            "  presets: ['module:@react-native/babel-preset'],",
+            "  plugins: [",
+            "    [",
+            "      require.resolve('babel-plugin-module-resolver'),",
+            "      {",
+            "        root: ['./src'],",
+            "        extensions: ['.ts', '.tsx', '.js', '.ios.js', '.android.js'],",
+            "      },",
+            "    ],",
+            "  ],",
+            "};"
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "warning",
+          "body": [
+            "Metro caches the old resolution. Delete node_modules, reinstall and run yarn start --reset-cache, or imports keep failing for no visible reason."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lint",
+      "title": "ESLint and Prettier",
+      "blocks": [
+        {
+          "type": "code",
+          "language": "bash",
+          "caption": "Delete the template's .eslintrc.js first, then answer the init prompts",
+          "code": [
+            "yarn add --dev eslint prettier eslint-config-prettier",
+            "npx eslint --init"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "json",
+          "caption": "\"prettier\" last in .eslintrc.json",
+          "code": [
+            "{",
+            "  \"extends\": [\"…\", \"prettier\"]",
+            "}"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "json",
+          "code": [
+            "\"scripts\": {",
+            "  \"lint\": \"eslint src/**/*.{js,tsx}\"",
+            "}"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "hooks",
+      "title": "Run them on every commit",
+      "blocks": [
+        {
+          "type": "code",
+          "language": "bash",
+          "caption": "Husky 9; older guides use husky install and husky add",
+          "code": [
+            "yarn add --dev lint-staged husky",
+            "npx husky init",
+            "echo \"npx lint-staged\" > .husky/pre-commit"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "json",
+          "caption": "In package.json; the globs assume all code lives in src",
+          "code": [
+            "\"lint-staged\": {",
+            "  \"src/**/*.{js,tsx}\": \"prettier --write\",",
+            "  \"src/**/*.tsx\": \"eslint\"",
+            "}"
+          ]
+        }
+      ]
+    }
+  ]
+}

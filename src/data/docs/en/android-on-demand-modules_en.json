@@ -1,0 +1,204 @@
+{
+  "title": "Download Unity on demand in a Flutter app",
+  "tagline": "Ship the app without the Unity library, and fetch it from Google Play when it is needed.",
+  "icon": "📦",
+  "topic": "flutter",
+  "tags": [
+    "Flutter",
+    "Android",
+    "Play Feature Delivery"
+  ],
+  "readingTime": "7 min",
+  "effectiveDate": "2026-09-28",
+  "lastUpdated": "2026-09-28",
+  "intro": [
+    "An embedded Unity scene can double an app's download size for a feature few users open. Play Feature Delivery moves it into a module that is installed only when asked for.",
+    "This is a research report: the approach works in isolation, and the open questions for a real app are listed at the end."
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Overview",
+      "summary": "What is uploaded, and what the user downloads when.",
+      "blocks": [
+        {
+          "type": "flow",
+          "caption": "From one bundle on Google Play to Unity on the device.",
+          "stages": [
+            {
+              "items": [
+                {
+                  "label": "Upload one .aab",
+                  "detail": "The bundle holds the base app and a dynamic feature module containing unityLibrary",
+                  "explain": [
+                    "Google Play splits the bundle into a base APK and a feature APK called unityFeature, each delivered separately.",
+                    "unityLibrary moves from an ordinary Gradle module into the dynamic feature module; that move is the whole change on the build side."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Install: base only",
+                  "detail": "A new install downloads only the base APK, so the store size excludes Unity",
+                  "explain": [
+                    "The Flutter app runs normally; only the screen that embeds Unity is unavailable until the module arrives.",
+                    "This is the payoff: users who never open the Unity feature never pay for its size."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Request the module",
+                  "detail": "Tapping 'View Unity' calls native code over a MethodChannel to start the download",
+                  "explain": [
+                    "Dart invokes loadUnity on the unity_channel MethodChannel; MainActivity answers by building a SplitInstallRequest for unityFeature.",
+                    "SplitInstallManager.startInstall downloads and installs it through the Play Core API; success and failure come back to Dart as the channel's result."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Open Unity",
+                  "detail": "Once installed, the Unity widget can load — the part not yet proven in the real app",
+                  "explain": [
+                    "The embed plugin expects MainActivity to implement IFakeUnityPlayerActivity, an interface that lives in the Unity library.",
+                    "With unityLibrary in a dynamic module, the base app cannot reference that interface at compile time. That conflict is the open problem."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "list",
+          "items": [
+            "Android codelab: developer.android.com/codelabs/on-demand-dynamic-delivery",
+            "Flutter's own take: the Deferred Components page on the Flutter wiki"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "embed",
+      "title": "How Unity is embedded today",
+      "blocks": [
+        {
+          "type": "code",
+          "language": "kotlin",
+          "caption": "MainActivity implements an interface from the Unity library",
+          "code": [
+            "import com.learntoflutter.flutter_embed_unity_android.unity.IFakeUnityPlayerActivity",
+            "import io.flutter.embedding.android.FlutterFragmentActivity",
+            "",
+            "class MainActivity : FlutterFragmentActivity(), IFakeUnityPlayerActivity {",
+            "    var mUnityPlayer: Any? = null",
+            "",
+            "    override fun setmUnityPlayer(mUnityPlayer: Any?) {",
+            "        this.mUnityPlayer = mUnityPlayer",
+            "    }",
+            "}"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "download",
+      "title": "Download the module",
+      "blocks": [
+        {
+          "type": "code",
+          "language": "java",
+          "caption": "Native side: answer loadUnity by installing unityFeature",
+          "code": [
+            "public class MainActivity extends FlutterActivity {",
+            "    private SplitInstallManager splitInstallManager;",
+            "",
+            "    @Override",
+            "    protected void onCreate(Bundle savedInstanceState) {",
+            "        super.onCreate(savedInstanceState);",
+            "        splitInstallManager = SplitInstallManagerFactory.create(this);",
+            "",
+            "        new MethodChannel(getFlutterEngine().getDartExecutor().getBinaryMessenger(), \"unity_channel\")",
+            "            .setMethodCallHandler((call, result) -> {",
+            "                if (call.method.equals(\"loadUnity\")) {",
+            "                    loadUnityFeature(result);",
+            "                } else {",
+            "                    result.notImplemented();",
+            "                }",
+            "            });",
+            "    }",
+            "",
+            "    private void loadUnityFeature(MethodChannel.Result result) {",
+            "        SplitInstallRequest request = SplitInstallRequest.newBuilder()",
+            "            .addModule(\"unityFeature\")",
+            "            .build();",
+            "",
+            "        splitInstallManager.startInstall(request)",
+            "            .addOnSuccessListener(sessionId -> result.success(\"Unity Feature Loading\"))",
+            "            .addOnFailureListener(e -> result.error(\"ERROR\", e.getMessage(), null));",
+            "    }",
+            "}"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "dart",
+          "caption": "Dart side: one call behind the button",
+          "code": [
+            "class UnityManager {",
+            "  static const MethodChannel _channel = MethodChannel('unity_channel');",
+            "",
+            "  static Future<void> loadUnity() async {",
+            "    try {",
+            "      final result = await _channel.invokeMethod('loadUnity');",
+            "      debugPrint('$result');",
+            "    } catch (e) {",
+            "      debugPrint('Error: $e');",
+            "    }",
+            "  }",
+            "}"
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "info",
+          "body": [
+            "onSuccess means the install started, not finished. Listen with registerListener for SplitInstallSessionStatus.INSTALLED before opening Unity."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "open-questions",
+      "title": "Open questions",
+      "summary": "What has to be answered before this goes into the real app.",
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            "MainActivity must implement IFakeUnityPlayerActivity, but that type moves into a module the base cannot see. How does the base get it?",
+            "Combining the embed and the download has not been tested, and the side effects are unknown.",
+            "Should Flutter call native code to open Unity, or wait until the module is installed and then open the widget from Dart?"
+          ]
+        },
+        {
+          "type": "heading",
+          "text": "Testing"
+        },
+        {
+          "type": "list",
+          "items": [
+            "On-demand delivery only happens through Google Play: upload to Internal Testing, or an open or early-access track.",
+            "That needs a Play Console account, and testing means uploading an .aab and installing the resulting APK back from the store."
+          ]
+        }
+      ]
+    }
+  ]
+}

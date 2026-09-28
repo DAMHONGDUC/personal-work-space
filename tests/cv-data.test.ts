@@ -1,9 +1,9 @@
 import fs from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import { renderCvLatex } from "@/lib/cv-latex.mts";
+import { renderCvLatex } from "@/lib/cv/cv-latex.mts";
 import { ResourceConstant } from "@/lib/resource-constant.mts";
-import { cv, getCvVersions } from "@/lib/cv";
+import { cv, getCvVersions } from "@/lib/cv/cv";
 
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
 
@@ -66,10 +66,21 @@ describe.each(versions)("the CV data file $slug", ({ slug, data: cv }) => {
     expect(Number.isNaN(Date.parse(cv.lastUpdated))).toBe(false);
   });
 
-  it("names a photo that is actually in cv/assets", () => {
+  it("names a photo that is actually in the CV assets folder", () => {
     const photo = path.join(process.cwd(), ResourceConstant.CV_ASSETS_DIR, cv.header.photo);
 
     expect(fs.existsSync(photo)).toBe(true);
+  });
+
+  it("ends every location with the country, spelled Viet Nam", () => {
+    // One spelling across the CV, the PDF and the portfolio — not Vietnam,
+    // not VietNam — and a remote client's country goes in the arrangement.
+    const locations = [
+      ...cv.education.map((school) => school.location),
+      ...cv.experience.map((job) => job.location),
+    ];
+
+    expect(locations.filter((location) => !location.endsWith(", Viet Nam"))).toEqual([]);
   });
 
   it("gives every contact a usable target", () => {

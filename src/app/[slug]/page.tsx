@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { LegacyRedirect } from "@/components/LegacyRedirect";
-import { getApps, getApp } from "@/lib/apps";
-import { routes } from "@/lib/routes";
+import { LegacyRedirect } from "@/components/layout/LegacyRedirect";
+import { getApps, getApp } from "@/lib/apps/apps";
+import { routes } from "@/lib/routes/routes";
 
 export const dynamicParams = false;
 

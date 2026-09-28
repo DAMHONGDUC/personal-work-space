@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="18 18 72 72">
+  <!-- Dual Space's adaptive launcher icon (app/src/main/res in dual-space-android),
+       converted from its vector drawable. The 72×72 view is the part a launcher shows. -->
+  <rect x="0" y="0" width="108" height="108" fill="#090E1A"/>
+  <path fill="#FFFFFF" d="M30,34 L78,34 Q84,34 84,40 L84,68 Q84,74 78,74 L30,74 Q24,74 24,68 L24,40 Q24,34 30,34 Z"/>
+  <path fill="#090E1A" d="M38,45 L44,45 L44,51 L50,51 L50,57 L44,57 L44,63 L38,63 L38,57 L32,57 L32,51 L38,51 Z"/>
+  <path fill="#00D9C0" d="M65,49 A4,4 0,1 0,65.1,49 M75,59 A4,4 0,1 0,75.1,59"/>
+</svg>

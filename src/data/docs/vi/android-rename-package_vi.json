@@ -1,0 +1,129 @@
+{
+  "title": "Đổi tên package Android",
+  "tagline": "Di chuyển code, đổi namespace, và build lại trước khi tin vào bản release.",
+  "icon": "🏷️",
+  "topic": "android",
+  "tags": [
+    "Android",
+    "Android Studio",
+    "Gradle"
+  ],
+  "readingTime": "4 phút",
+  "effectiveDate": "2026-09-28",
+  "lastUpdated": "2026-09-28",
+  "intro": [
+    "Tên package được ghi ở ba nơi: đường dẫn thư mục, dòng package trong mọi file, và namespace trong Gradle. Đổi tên phải chuyển cả ba cùng lúc."
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Tổng quan",
+      "summary": "Để IDE di chuyển file; phần Gradle thì tự làm.",
+      "blocks": [
+        {
+          "type": "flow",
+          "caption": "Từ com.old.app sang com.new.app mà không hỏng bản release.",
+          "stages": [
+            {
+              "items": [
+                {
+                  "label": "Mở rộng package",
+                  "detail": "Bỏ tick Compact Middle Packages để mỗi phần của tên là một thư mục riêng",
+                  "explain": [
+                    "Khi bật chế độ gộp, com.old.app hiện thành một dòng, và đổi tên chỉ có thể đổi cả cụm hoặc không đổi gì.",
+                    "Nó nằm ở menu bánh răng của Project panel → Tree Appearance. Chỉ cách hiển thị đổi; không có gì trên đĩa bị di chuyển."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Refactor → Rename",
+                  "detail": "Đổi tên thư mục qua Refactor sẽ viết lại mọi dòng package và import",
+                  "explain": [
+                    "Chuột phải phần cần đổi → Refactor → Rename → Rename package. Đổi tên trong Finder chỉ di chuyển file và làm hỏng mọi import.",
+                    "Đổi từng phần một: com.old.app thành com.new.app bằng cách đổi old thành new."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Kiểm tra source set debug",
+                  "detail": "File nằm ngoài main, như ReactNativeFlipper trong debug, có thể giữ import cũ",
+                  "explain": [
+                    "Refactor chỉ áp dụng cho source set đang đứng. src/debug/java/… là một cây riêng, nơi template React Native đặt phần cài Flipper.",
+                    "Bản debug lỗi 'cannot find symbol' ngay sau khi đổi tên gần như luôn là do file này."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Namespace trong Gradle",
+                  "detail": "namespace trong app/build.gradle đặt tên cho class R và BuildConfig được sinh ra",
+                  "explain": [
+                    "Đổi namespace \"com.old.app\" sang tên mới, rồi Sync. Trước khi sync, R vẫn nằm ở package cũ và mọi màn hình đều không biên dịch được.",
+                    "applicationId là thứ khác: đó là id trên Play Store. Chỉ đổi nó nếu đây là một app khác hẳn."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Clean và build lại",
+                  "detail": "Clean, build lại, chạy, rồi build .apk và .aab release để chắc chắn",
+                  "explain": [
+                    "File trung gian cũ vẫn tham chiếu tới package cũ, và đôi khi chỉ task release mới vấp phải chúng.",
+                    "Bản debug chạy được chưa chứng minh được gì; build release mới là phép thử cho thấy việc đổi tên đã xong."
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "steps",
+      "title": "Từng bước",
+      "blocks": [
+        {
+          "type": "steps",
+          "items": [
+            "Mở thư mục android trong Android Studio.",
+            "Bánh răng ở Project panel → Tree Appearance → bỏ tick Compact Middle Packages.",
+            "Chuột phải phần package → Refactor → Rename.",
+            "Mở src/debug và sửa file nào còn import package cũ, ví dụ ReactNativeFlipper.",
+            "Đổi namespace trong app/build.gradle và bấm Sync.",
+            "Build → Clean Project, Rebuild Project, chạy thử, rồi build .apk và .aab release."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "groovy",
+          "caption": "app/build.gradle — chỉ đổi applicationId nếu id trên store cũng cần đổi",
+          "code": [
+            "android {",
+            "    namespace \"com.new.app\"",
+            "    defaultConfig {",
+            "        applicationId \"com.new.app\"",
+            "    }",
+            "}"
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "warning",
+          "body": [
+            "Đổi applicationId của app đã phát hành sẽ tạo ra một listing mới; người dùng hiện tại sẽ không nhận được nó như một bản cập nhật."
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,5 +1,6 @@
 import { Section } from "@/components/policy/Section";
-import type { App } from "@/lib/apps";
+import type { App } from "@/lib/apps/apps";
+import { AppColors } from "@/lib/design/app-colors";
 
 export function SummarySection({ app, number }: { app: App; number: number }) {
   return (
@@ -12,8 +13,8 @@ export function SummarySection({ app, number }: { app: App; number: number }) {
       <ul
         className="flex flex-col gap-3.5 rounded-2xl border p-6"
         style={{
-          backgroundColor: `color-mix(in oklab, ${app.accent} 6%, transparent)`,
-          borderColor: `color-mix(in oklab, ${app.accent} 22%, transparent)`,
+          backgroundColor: `${AppColors.tint(app.accent, 6)}`,
+          borderColor: `${AppColors.tint(app.accent, 22)}`,
         }}
       >
         {app.summary.map((point) => (

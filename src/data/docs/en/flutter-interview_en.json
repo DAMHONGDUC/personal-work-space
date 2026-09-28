@@ -1,0 +1,391 @@
+{
+  "title": "Flutter interview questions",
+  "tagline": "The three trees, lifecycle, keys, async, and how Flutter compares with React Native.",
+  "icon": "🎯",
+  "topic": "interview",
+  "tags": [
+    "Flutter",
+    "Dart",
+    "Interview"
+  ],
+  "readingTime": "11 min",
+  "effectiveDate": "2026-09-28",
+  "lastUpdated": "2026-09-28",
+  "intro": [
+    "Flutter interviews circle back to one idea: UI = f(state). Most questions are that idea seen from a different side."
+  ],
+  "sections": [
+    {
+      "id": "trees",
+      "title": "Widget, Element and Render trees",
+      "summary": "Why rebuilding widgets is cheap.",
+      "blocks": [
+        {
+          "type": "flow",
+          "caption": "What happens to each tree when setState runs.",
+          "stages": [
+            {
+              "items": [
+                {
+                  "label": "Widget tree",
+                  "detail": "Immutable blueprints from build(), thrown away and recreated on every rebuild",
+                  "explain": [
+                    "A widget is a plain Dart object describing configuration: Text('Hi') is a few fields, which is why creating thousands per frame is cheap.",
+                    "It holds no state and does no layout. Its React counterpart is the JSX element in the virtual DOM."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Element tree",
+                  "detail": "Long-lived instances that diff new widgets against old and keep State alive",
+                  "explain": [
+                    "When build() returns a widget of the same type and key at the same spot, the element keeps itself and just takes the new configuration.",
+                    "The State object of a StatefulWidget lives here, which is why a counter survives a rebuild. BuildContext is a handle to this element.",
+                    "It plays the role of React's reconciler and Fiber nodes: the layer that decides what actually changed."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Render tree",
+                  "detail": "RenderObjects that measure, position and paint; expensive, so reused wherever possible",
+                  "explain": [
+                    "RenderBox, RenderFlex and RenderParagraph do layout and painting. They update only when layout or paint data really changed.",
+                    "Flutter paints them itself through Skia or Impeller, rather than asking the platform for native views. The React analogue is the real DOM."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "table",
+          "columns": [
+            "Aspect",
+            "Widget",
+            "Element",
+            "Render"
+          ],
+          "rows": [
+            [
+              "Lifespan",
+              "One build",
+              "Across rebuilds",
+              "Across rebuilds"
+            ],
+            [
+              "Mutable",
+              "No",
+              "Yes",
+              "Yes"
+            ],
+            [
+              "Holds state",
+              "No",
+              "Yes",
+              "No"
+            ],
+            [
+              "Layout and paint",
+              "No",
+              "No",
+              "Yes"
+            ],
+            [
+              "On setState",
+              "Rebuilt",
+              "Diffed and updated",
+              "Updated if needed"
+            ],
+            [
+              "Cost",
+              "Very cheap",
+              "Moderate",
+              "Expensive"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "declarative",
+      "title": "Imperative or declarative",
+      "summary": "Describe the result, not the steps.",
+      "blocks": [
+        {
+          "type": "table",
+          "columns": [
+            "Aspect",
+            "Imperative",
+            "Declarative (Flutter)"
+          ],
+          "rows": [
+            [
+              "Mindset",
+              "How to do it, step by step",
+              "What it looks like for the current state"
+            ],
+            [
+              "Formula",
+              "object.doThis() → object.doThat()",
+              "UI = f(state)"
+            ],
+            [
+              "Who updates the UI",
+              "The developer, call by call",
+              "The framework, when state changes"
+            ],
+            [
+              "Risk",
+              "UI and data drift apart",
+              "Needless rebuilds if state is badly placed"
+            ]
+          ]
+        },
+        {
+          "type": "code",
+          "language": "dart",
+          "caption": "Change the state; build() describes the result",
+          "code": [
+            "setState(() {",
+            "  _isVisible = true;",
+            "  _label = 'Hello';",
+            "});",
+            "",
+            "// in build()",
+            "if (_isVisible) Text(_label, style: const TextStyle(color: Colors.red))"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "basics",
+      "title": "Quick answers",
+      "blocks": [
+        {
+          "type": "table",
+          "columns": [
+            "Question",
+            "Answer"
+          ],
+          "rows": [
+            [
+              "What is Flutter, and why Dart?",
+              "Google's UI SDK for mobile, web and desktop from one codebase, released in 2017. Dart compiles AOT to native ARM for speed and JIT in development for hot reload."
+            ],
+            [
+              "What is BuildContext?",
+              "A handle to a widget's place in the tree. It finds ancestors, e.g. Theme.of(context) or Navigator.of(context), and is how InheritedWidget data flows down."
+            ],
+            [
+              "Stateless or Stateful?",
+              "Stateless has only final fields and a build(). Stateful has a separate State object that setState rebuilds, with initState and dispose around it."
+            ],
+            [
+              "Hot reload or hot restart?",
+              "Hot reload injects code into the running VM and keeps state, in under a second. Hot restart reruns main() and clears state; needed after changing main or initState."
+            ],
+            [
+              "What is pubspec.yaml for?",
+              "The project's config: dependencies and plugins, the assets to bundle such as images and fonts, and metadata such as name and version."
+            ],
+            [
+              "Future or Stream?",
+              "A Future delivers one value then completes, e.g. GET /user/1, drawn with FutureBuilder. A Stream delivers many over time, e.g. a WebSocket, drawn with StreamBuilder."
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lifecycle",
+      "title": "StatefulWidget lifecycle",
+      "summary": "In the order Flutter calls them.",
+      "blocks": [
+        {
+          "type": "steps",
+          "items": [
+            "createState() creates the State object that will live in the element.",
+            "initState() runs once: set up controllers, listeners and the first fetch. setState is not allowed yet.",
+            "didChangeDependencies() runs right after, and again when an InheritedWidget it reads changes.",
+            "build() runs after each of the above and every setState, and returns the widget tree.",
+            "didUpdateWidget(oldWidget) runs when the parent rebuilds with new configuration; compare widget with oldWidget.",
+            "dispose() runs when the State leaves for good: cancel timers, dispose controllers, close streams."
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "warning",
+          "body": [
+            "A TextEditingController or AnimationController not disposed in dispose() is a memory leak, and the most common one in Flutter code reviews."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "keys",
+      "title": "Keys",
+      "summary": "How Flutter tells two widgets of the same type apart.",
+      "blocks": [
+        {
+          "type": "table",
+          "columns": [
+            "Key",
+            "Identifies",
+            "Use when"
+          ],
+          "rows": [
+            [
+              "LocalKey",
+              "A widget among its siblings",
+              "Items in a list"
+            ],
+            [
+              "ValueKey<T>",
+              "A list item by its data",
+              "Items are added, removed or reordered and keep their own state"
+            ],
+            [
+              "GlobalKey",
+              "A widget across the whole app",
+              "Reaching a State from outside, e.g. formKey.currentState.validate()"
+            ]
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "info",
+          "body": [
+            "Without keys, reordering two stateful rows moves the data but not the state, so a ticked checkbox stays in the old position."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "vs-react-native",
+      "title": "Flutter or React Native",
+      "blocks": [
+        {
+          "type": "table",
+          "columns": [
+            "Aspect",
+            "Flutter",
+            "React Native"
+          ],
+          "rows": [
+            [
+              "Language",
+              "Dart, compiled AOT",
+              "JavaScript or TypeScript"
+            ],
+            [
+              "Rendering",
+              "Draws every pixel itself with Skia or Impeller",
+              "Real native views via the Bridge or JSI"
+            ],
+            [
+              "Look",
+              "Identical on every platform",
+              "Native look and feel per platform"
+            ],
+            [
+              "Performance",
+              "Strong for complex UI and animation",
+              "Near-native; depends on the JS–native layer"
+            ],
+            [
+              "Ecosystem",
+              "Smaller, growing fast",
+              "Large and mature, the npm world"
+            ],
+            [
+              "App size",
+              "Larger: it ships its engine",
+              "Smaller baseline"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "clean-architecture",
+      "title": "Clean Architecture",
+      "summary": "Dependencies point inward, towards the business rules.",
+      "blocks": [
+        {
+          "type": "table",
+          "columns": [
+            "Layer",
+            "Holds",
+            "Examples"
+          ],
+          "rows": [
+            [
+              "Presentation",
+              "UI and UI state",
+              "Widget, Bloc, Cubit, ViewModel"
+            ],
+            [
+              "Domain",
+              "Business rules in pure Dart",
+              "Entity, UseCase, abstract Repository"
+            ],
+            [
+              "Data",
+              "Where data comes from",
+              "RepositoryImpl, RemoteDataSource, LocalDataSource, Model"
+            ]
+          ]
+        },
+        {
+          "type": "code",
+          "language": "text",
+          "caption": "One login, through every layer and back",
+          "code": [
+            "LoginPage → LoginBloc → LoginUseCase → AuthRepository (abstract)",
+            "  → AuthRepositoryImpl → AuthRemoteDataSource → API",
+            "  ← UserModel ← mapped to User entity",
+            "← Bloc emits Authenticated ← Widget rebuilds"
+          ]
+        },
+        {
+          "type": "table",
+          "columns": [
+            "Pitfall",
+            "Fix"
+          ],
+          "rows": [
+            [
+              "Business logic in widgets",
+              "Move it into a use case"
+            ],
+            [
+              "dio or http imported in domain",
+              "Domain holds only interfaces and pure Dart"
+            ],
+            [
+              "Skipping use cases for simple features",
+              "Keep a thin one, for consistency"
+            ],
+            [
+              "One repository for everything",
+              "Split by feature: AuthRepository, UserRepository"
+            ]
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "info",
+          "body": [
+            "The Architecture guide on this site walks through the same layers with diagrams; this section is the interview-sized version."
+          ]
+        }
+      ]
+    }
+  ]
+}

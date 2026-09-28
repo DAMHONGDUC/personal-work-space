@@ -2,6 +2,7 @@
   "title": "SSL pinning in a mobile app",
   "tagline": "Pin the server's key, so a proxy holding a trusted certificate still reads nothing.",
   "icon": "📌",
+  "topic": "security",
   "tags": [
     "Security",
     "TLS",

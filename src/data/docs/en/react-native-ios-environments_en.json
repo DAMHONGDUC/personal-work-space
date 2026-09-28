@@ -1,0 +1,227 @@
+{
+  "title": "Dev and prod builds of one React Native iOS app",
+  "tagline": "Two targets, two schemes, two .env files — installed side by side.",
+  "icon": "🧪",
+  "topic": "react-native",
+  "tags": [
+    "React Native",
+    "Xcode",
+    "iOS"
+  ],
+  "readingTime": "9 min",
+  "effectiveDate": "2026-09-28",
+  "lastUpdated": "2026-09-28",
+  "intro": [
+    "One codebase, two apps: dev talks to the staging API and prod to the real one, each with its own bundle id, name and Firebase file."
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Overview",
+      "summary": "Xcode decides the native identity; Metro decides the JavaScript environment.",
+      "blocks": [
+        {
+          "type": "flow",
+          "caption": "What each piece switches, from the Xcode project to the running app.",
+          "stages": [
+            {
+              "items": [
+                {
+                  "label": "Duplicate the target",
+                  "detail": "A second target is a second app: its own bundle id, name and Info.plist",
+                  "explain": [
+                    "Right-click the default target → Duplicate. Rename it to the environment, e.g. prod, so the scheme list stays readable.",
+                    "Xcode names the copy's plist 'Copy-Info.plist'. Rename it to info-prod.plist and point the target's Info.plist File setting at it."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Per-target files",
+                  "detail": "Target Membership decides which plist and which GoogleService-Info.plist each app bundles",
+                  "explain": [
+                    "Drag info-prod.plist into the project, then Add Files to…, and tick only the prod target under Target Membership.",
+                    "Do the same with two GoogleService-Info.plist files in separate folders, so dev events never land in the prod Firebase project."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Schemes",
+                  "detail": "A scheme picks a target to build and run; one scheme per environment",
+                  "explain": [
+                    "Manage Schemes → untick the auto-created ones → + to add a dev and a prod scheme, each pointing at its target.",
+                    "The scheme name is what react-native run-ios --scheme takes, so keep it free of surprises."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Podfile",
+                  "detail": "An abstract_target shares one pod list between both targets",
+                  "explain": [
+                    "Change target 'App' to abstract_target 'App', then declare target 'dev' and target 'prod' inside it.",
+                    "Without it, the new target builds with no pods at all and fails on the first native import."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Pick the .env",
+                  "detail": "A gulp task copies .env.dev or .env.prod to .env before Metro starts",
+                  "explain": [
+                    "react-native-dotenv inlines .env into the bundle as the @env module, so import { ENV } from '@env' reads the chosen file.",
+                    "The values are baked in when Metro bundles. Switching environment means restarting Metro with the other start script."
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "xcode",
+      "title": "In Xcode",
+      "blocks": [
+        {
+          "type": "steps",
+          "items": [
+            "Open the .xcworkspace; select the project, then the TARGETS list.",
+            "Right-click the default target → Duplicate, and rename it.",
+            "Rename the copied plist and add it to the project with only the new target ticked.",
+            "Repeat for a second GoogleService-Info.plist if the environments use separate Firebase projects.",
+            "In the new target's Build Settings, change the bundle id, product name and Info.plist File path.",
+            "Manage Schemes: untick every scheme, add dev and prod, close."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pods",
+      "title": "Pods and packages",
+      "blocks": [
+        {
+          "type": "code",
+          "language": "bash",
+          "caption": "Run pod install after switching the Podfile to abstract_target",
+          "code": [
+            "yarn add react-native-dotenv gulp gulp-rename gulp-clean",
+            "cd ios && pod install && cd .."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "ruby",
+          "code": [
+            "abstract_target 'multi_env' do",
+            "  # use_react_native!(…) and the other shared settings",
+            "",
+            "  target 'multi_env dev' do",
+            "  end",
+            "",
+            "  target 'multi_env prod' do",
+            "  end",
+            "end"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "env",
+      "title": "Environment files",
+      "summary": "Three files: two you edit, one Metro reads.",
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            ".env.dev and .env.prod hold the values; commit neither if they contain secrets.",
+            ".env is generated by gulp from one of them — never edit it by hand."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "javascript",
+          "caption": "gulpfile.js at the project root",
+          "code": [
+            "const gulp = require('gulp');",
+            "const args = require('yargs').argv;",
+            "const rename = require('gulp-rename');",
+            "const clean = require('gulp-clean');",
+            "",
+            "gulp.task('del', () => gulp.src('.env', { read: false, allowEmpty: true }).pipe(clean()));",
+            "gulp.task('move', () => gulp.src([args.env]).pipe(rename('.env')).pipe(gulp.dest('./')));",
+            "gulp.task('set', gulp.series('del', 'move'));"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "javascript",
+          "caption": "babel.config.js",
+          "code": [
+            "module.exports = {",
+            "  presets: ['module:@react-native/babel-preset'],",
+            "  plugins: [",
+            "    ['module:react-native-dotenv', { envName: 'APP_ENV', moduleName: '@env', path: '.env' }],",
+            "  ],",
+            "};"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "typescript",
+          "caption": "src/types/env.d.ts — one line per variable",
+          "code": [
+            "declare module '@env' {",
+            "  export const ENV: string;",
+            "}"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "run",
+      "title": "Run it",
+      "blocks": [
+        {
+          "type": "code",
+          "language": "json",
+          "code": [
+            "\"scripts\": {",
+            "  \"ios-dev\": \"react-native run-ios --scheme='multi_env dev' --mode=Debug\",",
+            "  \"ios-prod\": \"react-native run-ios --scheme='multi_env prod' --mode=Debug\",",
+            "  \"ios-dev-release\": \"react-native run-ios --scheme='multi_env dev' --mode=Release\",",
+            "  \"ios-prod-release\": \"react-native run-ios --scheme='multi_env prod' --mode=Release\",",
+            "  \"start:dev\": \"gulp set --env=.env.dev && yarn start --reset-cache\",",
+            "  \"start:prod\": \"gulp set --env=.env.prod && yarn start --reset-cache\"",
+            "}"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "caption": "Start Metro for the environment, then run the matching scheme",
+          "code": [
+            "yarn start:dev",
+            "yarn ios-dev --simulator=\"iPhone 14\""
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "warning",
+          "body": [
+            "Metro decides the JavaScript environment, not the scheme. Restart it with start:dev or start:prod before running or archiving from Xcode, or a prod build ships dev values."
+          ]
+        }
+      ]
+    }
+  ]
+}

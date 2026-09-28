@@ -1,5 +1,5 @@
 import { EffectTile } from "@/components/effects/EffectTile";
-import type { EffectEntry } from "@/lib/effect-model";
+import type { EffectEntry } from "@/lib/effects/effect-model";
 
 /**
  * A grid of tiles. It holds no dialog of its own: the page owns one preview

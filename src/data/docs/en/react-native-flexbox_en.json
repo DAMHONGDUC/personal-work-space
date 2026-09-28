@@ -1,0 +1,165 @@
+{
+  "title": "Flexbox in React Native",
+  "tagline": "Which property goes on the container, which on the child, and which axis it moves.",
+  "icon": "📐",
+  "topic": "react-native",
+  "tags": [
+    "React Native",
+    "Flexbox",
+    "Layout"
+  ],
+  "readingTime": "5 min",
+  "effectiveDate": "2026-09-28",
+  "lastUpdated": "2026-09-28",
+  "intro": [
+    "React Native lays everything out with flexbox, like the web, with one difference that trips everyone: flexDirection defaults to column, not row."
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Overview",
+      "summary": "Pick the axis first; every other property is relative to it.",
+      "blocks": [
+        {
+          "type": "flow",
+          "caption": "The order to think in when a layout looks wrong.",
+          "stages": [
+            {
+              "items": [
+                {
+                  "label": "flexDirection",
+                  "detail": "Sets the main axis: column stacks children downwards, row lays them side by side",
+                  "explain": [
+                    "Values are column (the default), row, column-reverse and row-reverse. The other axis, at right angles, is the cross axis.",
+                    "Everything below is phrased as main or cross axis, so changing this one property rotates what they all do."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "justifyContent",
+                  "detail": "Spreads children along the main axis: start, end, centre or with space between",
+                  "explain": [
+                    "Values: flex-start, flex-end, center, space-between, space-around, space-evenly.",
+                    "space-between puts the first and last child on the edges; space-evenly makes every gap, edges included, the same size."
+                  ]
+                },
+                {
+                  "label": "alignItems",
+                  "detail": "Places children across the cross axis; stretch fills it unless a size is set",
+                  "explain": [
+                    "Values: stretch (the default), flex-start, flex-end, center, baseline.",
+                    "A child with a fixed width in a column container ignores stretch, which is why one card is narrower than the rest."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "alignSelf",
+                  "detail": "Overrides alignItems for one child, set on that child rather than the container",
+                  "explain": [
+                    "Same values as alignItems. Use it for the one badge that should hug the right while its siblings stretch.",
+                    "It is the only property here that lives on the child; the rest describe how a container arranges its children."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "flexWrap + alignContent",
+                  "detail": "Wrap breaks children into several lines; alignContent spreads those lines across the cross axis",
+                  "explain": [
+                    "Example: a column container with maxHeight 200 and ten children that do not fit. flexWrap: 'wrap' starts a second column.",
+                    "alignContent then decides where those two columns sit. With a single line it does nothing, which is why it often seems broken."
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reference",
+      "title": "Where each property goes",
+      "blocks": [
+        {
+          "type": "table",
+          "columns": [
+            "Property",
+            "Set on",
+            "Axis",
+            "Values"
+          ],
+          "rows": [
+            [
+              "flexDirection",
+              "Container",
+              "Sets the main axis",
+              "column, row, column-reverse, row-reverse"
+            ],
+            [
+              "direction",
+              "Container",
+              "Reading order",
+              "ltr, rtl"
+            ],
+            [
+              "justifyContent",
+              "Container",
+              "Main",
+              "flex-start, flex-end, center, space-between, space-around, space-evenly"
+            ],
+            [
+              "alignItems",
+              "Container",
+              "Cross",
+              "stretch, flex-start, flex-end, center, baseline"
+            ],
+            [
+              "alignSelf",
+              "Child",
+              "Cross",
+              "Same as alignItems"
+            ],
+            [
+              "alignContent",
+              "Container",
+              "Cross, per line",
+              "Needs flexWrap: 'wrap'"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "example",
+      "title": "A row with space between",
+      "blocks": [
+        {
+          "type": "code",
+          "language": "tsx",
+          "caption": "row makes justifyContent horizontal and alignItems vertical",
+          "code": [
+            "<View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>",
+            "  <Text>Left</Text>",
+            "  <Text>Right</Text>",
+            "</View>"
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "info",
+          "body": [
+            "direction (ltr or rtl) flips start and end for right-to-left languages; it does not change the axis."
+          ]
+        }
+      ]
+    }
+  ]
+}

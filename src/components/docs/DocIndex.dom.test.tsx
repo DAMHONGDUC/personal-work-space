@@ -3,7 +3,7 @@ import { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { DocIndex } from "./DocIndex";
-import type { Lang, Doc } from "@/lib/doc-model";
+import type { Lang, Doc } from "@/lib/docs/doc-model";
 
 function guide(lang: Lang): Doc[] {
   const vi = lang === "vi";
@@ -14,6 +14,7 @@ function guide(lang: Lang): Doc[] {
       title: vi ? "Cài SSH cho git" : "Set up SSH for git",
       tagline: vi ? "Key, agent và config." : "Keys, agent and config.",
       icon: "🔑",
+      topic: "tooling",
       tags: ["Git"],
       readingTime: "6 min",
       effectiveDate: "2026-01-01",
@@ -37,6 +38,7 @@ function guide(lang: Lang): Doc[] {
       title: vi ? "Dựng máy Mac cho iOS" : "Set up a Mac for iOS",
       tagline: vi ? "Từ máy trắng tới TestFlight." : "Blank machine to TestFlight.",
       icon: "🛠️",
+      topic: "ios",
       tags: ["Xcode"],
       readingTime: "9 min",
       effectiveDate: "2026-01-01",
@@ -84,7 +86,11 @@ function type(text: string) {
 }
 
 function titles() {
-  return [...container.querySelectorAll("h2")].map((heading) => heading.textContent);
+  return [...container.querySelectorAll("h3")].map((heading) => heading.textContent);
+}
+
+function shelves() {
+  return [...container.querySelectorAll("h2")].map((heading) => heading.firstChild?.textContent);
 }
 
 beforeEach(() => {
@@ -100,8 +106,19 @@ describe("DocIndex", () => {
   it("lists every guide before anything is typed", () => {
     const page = render();
 
-    expect(titles()).toEqual(["Set up SSH for git", "Set up a Mac for iOS"]);
+    // Shelved in topic order, not load order: iOS comes before tooling.
+    expect(titles()).toEqual(["Set up a Mac for iOS", "Set up SSH for git"]);
     expect(page.textContent).toContain("2 guides");
+  });
+
+  it("shelves guides under their topic, and drops a shelf the search empties", () => {
+    render();
+
+    expect(shelves()).toEqual(["iOS & Swift", "Git & tooling"]);
+
+    type("xcode");
+
+    expect(shelves()).toEqual(["iOS & Swift"]);
   });
 
   it("filters the list, and says how many are left", () => {

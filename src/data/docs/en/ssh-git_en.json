@@ -2,6 +2,7 @@
   "title": "Set up SSH for git",
   "tagline": "Keys, agent and config, so pushing stops asking who you are.",
   "icon": "🔑",
+  "topic": "tooling",
   "tags": [
     "Git",
     "SSH",
@@ -9,7 +10,7 @@
   ],
   "readingTime": "6 min",
   "effectiveDate": "2026-08-21",
-  "lastUpdated": "2026-08-21",
+  "lastUpdated": "2026-09-28",
   "intro": [
     "One key per machine, added to the agent once, pasted into GitHub once. After that git never asks for a password."
   ],
@@ -357,7 +358,22 @@
             [
               "Pushes to the wrong account",
               "The remote uses github.com instead of the work host alias. Fix it with git remote set-url."
+            ],
+            [
+              "ssh: connect to host github.com port 22: Connection timed out",
+              "The network blocks port 22. Send SSH to GitHub over port 443 with the config below."
             ]
+          ]
+        },
+        {
+          "type": "code",
+          "language": "ssh_config",
+          "caption": "~/.ssh/config — GitHub also answers SSH on ssh.github.com:443",
+          "code": [
+            "Host github.com",
+            "  Hostname ssh.github.com",
+            "  Port 443",
+            "  User git"
           ]
         }
       ]

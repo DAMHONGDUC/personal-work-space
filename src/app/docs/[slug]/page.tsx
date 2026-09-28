@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { DocArticle } from "@/components/docs/DocArticle";
-import { getDocBundle, getDocBundles } from "@/lib/docs";
+import { getDocBundle, getDocBundles } from "@/lib/docs/docs";
 import { formatDate } from "@/lib/format";
-import { routes } from "@/lib/routes";
+import { routes } from "@/lib/routes/routes";
 
 export function generateStaticParams() {
   return getDocBundles().map((bundle) => ({ slug: bundle.slug }));

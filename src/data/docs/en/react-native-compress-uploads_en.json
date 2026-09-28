@@ -1,0 +1,400 @@
+{
+  "title": "Shrink images and videos before uploading",
+  "tagline": "A 10 MB photo becomes 200 KB; a 30 MB video a third of that.",
+  "icon": "🗜️",
+  "topic": "react-native",
+  "tags": [
+    "React Native",
+    "Android",
+    "iOS"
+  ],
+  "readingTime": "9 min",
+  "effectiveDate": "2026-09-28",
+  "lastUpdated": "2026-09-28",
+  "intro": [
+    "Phones shoot files far larger than any server needs. Compressing on the device first makes uploads faster, cheaper on mobile data and kinder to the backend."
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Overview",
+      "summary": "The same path for every file; only the compressor differs.",
+      "blocks": [
+        {
+          "type": "flow",
+          "caption": "Pick, copy, compress, upload, clean up.",
+          "stages": [
+            {
+              "items": [
+                {
+                  "label": "Pick the file",
+                  "detail": "The document picker returns a uri; iOS needs the file:// prefix stripped first",
+                  "explain": [
+                    "react-native-document-picker hands back a DocumentPickerResponse with uri, name, type and size.",
+                    "Android gives a content:// uri that must be used as is; iOS gives file:///…, and the file APIs want the plain path without the scheme."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Copy to cache",
+                  "detail": "rn-fetch-blob copies the file into the app cache, where the app may read and write it freely",
+                  "explain": [
+                    "The picked file often lives in another app's storage; a copy in CacheDir is yours, so the compressor can open it without permission errors.",
+                    "CacheDir is also a place the OS may clear on its own, which is exactly right for a file you only need until the upload ends."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Image",
+                  "detail": "react-native-compressor resizes and re-encodes on both platforms in one call",
+                  "explain": [
+                    "Image.compress(path, { maxWidth: 1000, maxHeight: 1000, quality: 0.5 }) caps the long side at 1000 px and halves the JPEG quality.",
+                    "Tested with jpg, jpeg and png. A 9,388,730-byte photo came out at 222,208 bytes on iOS; a 10,506,316-byte one at 140,231 on Android."
+                  ]
+                },
+                {
+                  "label": "Video",
+                  "detail": "iOS compresses while picking; Android needs a small native module around Mp4Composer",
+                  "explain": [
+                    "On iOS, react-native-image-crop-picker takes compressVideoPreset and hands back an already compressed file.",
+                    "The picker cannot compress video on Android, so a Java module re-encodes it with Mp4Composer at a chosen size and bitrate.",
+                    "Bitrate is file size ÷ duration × 8, scaled by quality: a 30 MB, 60 s clip at quality 0.5 is re-encoded at about 2 Mbit/s."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Upload, then delete",
+                  "detail": "Upload the compressed copy, then unlink it so the cache does not grow with every file",
+                  "explain": [
+                    "Check exists before unlink: a retry or a second tap can try to delete a file that is already gone.",
+                    "Delete in a finally block, so a failed upload does not leave a 20 MB video behind in the cache."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "table",
+          "columns": [
+            "Library",
+            "Used for"
+          ],
+          "rows": [
+            [
+              "react-native-document-picker 8.1.0",
+              "Picking the file"
+            ],
+            [
+              "rn-fetch-blob",
+              "Copying to and deleting from the cache"
+            ],
+            [
+              "react-native-compressor 1.6.1",
+              "Images, both platforms"
+            ],
+            [
+              "react-native-image-crop-picker 0.37.3",
+              "Video on iOS"
+            ],
+            [
+              "Mp4Composer-android v0.4.1",
+              "Video on Android"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "images",
+      "title": "Images",
+      "summary": "One library, both platforms.",
+      "blocks": [
+        {
+          "type": "code",
+          "language": "typescript",
+          "caption": "Pick and copy into the cache",
+          "code": [
+            "const uri = Platform.OS === 'ios'",
+            "  ? file.uri.replace('file://', '')",
+            "  : file.uri;",
+            "",
+            "const destPath = `${RNFetchBlob.fs.dirs.CacheDir}/${file.name}`;",
+            "await RNFetchBlob.fs.cp(uri, destPath);"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "typescript",
+          "caption": "Compress, then upload result",
+          "code": [
+            "const result = await Image.compress(destPath, {",
+            "  maxWidth: 1000,",
+            "  maxHeight: 1000,",
+            "  quality: 0.5,",
+            "});"
+          ]
+        },
+        {
+          "type": "table",
+          "columns": [
+            "Platform",
+            "Before (bytes)",
+            "After (bytes)"
+          ],
+          "rows": [
+            [
+              "iOS",
+              "9,388,730",
+              "222,208"
+            ],
+            [
+              "Android",
+              "10,506,316",
+              "140,231"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "video-ios",
+      "title": "Video on iOS",
+      "summary": "A preset on the picker, nothing else.",
+      "blocks": [
+        {
+          "type": "code",
+          "language": "typescript",
+          "code": [
+            "ImagePicker.openPicker({",
+            "  mediaType: 'video',",
+            "  compressVideoPreset: 'MediumQuality',",
+            "});"
+          ]
+        },
+        {
+          "type": "table",
+          "columns": [
+            "Preset",
+            "Output",
+            "Size (bytes)",
+            "Time (s)"
+          ],
+          "rows": [
+            [
+              "HighestQuality",
+              "1920×1080",
+              "31,958,066",
+              "3.3"
+            ],
+            [
+              "Passthrough",
+              "1920×1080",
+              "31,958,066",
+              "3.4"
+            ],
+            [
+              "1280x720",
+              "1280×720",
+              "25,591,209",
+              "3.7"
+            ],
+            [
+              "960x540",
+              "960×540",
+              "12,780,985",
+              "9.9"
+            ],
+            [
+              "640x480",
+              "640×360",
+              "6,479,070",
+              "11.6"
+            ],
+            [
+              "MediumQuality",
+              "568×320",
+              "1,680,612",
+              "7.5"
+            ],
+            [
+              "LowQuality",
+              "224×128",
+              "303,920",
+              "6.4"
+            ]
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "info",
+          "body": [
+            "Measured on a 1920×1080 clip of 31,957,901 bytes. HighestQuality and Passthrough do not shrink anything; 960x540 is the first preset that halves the file."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "video-android",
+      "title": "Video on Android",
+      "summary": "A native module, called from JavaScript.",
+      "blocks": [
+        {
+          "type": "steps",
+          "items": [
+            "Add implementation 'com.github.MasayukiSuda:Mp4Composer-android:v0.4.1' to android/app/build.gradle.",
+            "Add the module below and register it in a ReactPackage.",
+            "Pass a content:// input and an output path inside CacheDir.",
+            "Await the promise before uploading the output file."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "java",
+          "caption": "The module, in your app's own package",
+          "code": [
+            "public class CompressVideoModule extends ReactContextBaseJavaModule {",
+            "    private final Context appContext;",
+            "",
+            "    CompressVideoModule(ReactApplicationContext context) {",
+            "        super(context);",
+            "        this.appContext = context;",
+            "    }",
+            "",
+            "    @Override",
+            "    public String getName() {",
+            "        return \"CompressVideoModule\";",
+            "    }",
+            "",
+            "    private long getDurationUs(String inputPath) {",
+            "        MediaExtractor extractor = new MediaExtractor();",
+            "        try {",
+            "            extractor.setDataSource(appContext, Uri.parse(inputPath), null);",
+            "            for (int i = 0; i < extractor.getTrackCount(); ++i) {",
+            "                MediaFormat format = extractor.getTrackFormat(i);",
+            "                if (format.getString(MediaFormat.KEY_MIME).startsWith(\"video/\")",
+            "                        && format.containsKey(MediaFormat.KEY_DURATION)) {",
+            "                    return format.getLong(MediaFormat.KEY_DURATION);",
+            "                }",
+            "            }",
+            "        } catch (IOException e) {",
+            "            Log.w(\"CompressVideo\", \"could not read duration\", e);",
+            "        } finally {",
+            "            extractor.release();",
+            "        }",
+            "        return 0;",
+            "    }",
+            "",
+            "    @ReactMethod",
+            "    public void compress(String inputPath, String outputPath, int width, int height,",
+            "                         float quality, Promise promise) {",
+            "        try {",
+            "            AssetFileDescriptor fd = appContext.getContentResolver()",
+            "                    .openAssetFileDescriptor(Uri.parse(inputPath), \"r\");",
+            "            long fileSize = fd.getLength();",
+            "            long durationUs = getDurationUs(inputPath);",
+            "",
+            "            // Fall back to a rule-of-thumb bitrate when size or duration is unknown.",
+            "            float bitrate = 0.25f * 30 * width * height;",
+            "            if (fileSize != 0 && durationUs != 0) {",
+            "                bitrate = ((float) fileSize / durationUs) * 8 * 1_000_000;",
+            "            }",
+            "",
+            "            new Mp4Composer(Uri.parse(inputPath), outputPath, appContext)",
+            "                    .size(width, height)",
+            "                    .videoBitrate((int) (bitrate * quality))",
+            "                    .listener(new Mp4Composer.Listener() {",
+            "                        @Override public void onProgress(double progress) {}",
+            "                        @Override public void onCurrentWrittenVideoTime(long timeUs) {}",
+            "                        @Override public void onCompleted() { promise.resolve(outputPath); }",
+            "                        @Override public void onCanceled() { promise.reject(\"CANCELED\", \"compression canceled\"); }",
+            "                        @Override public void onFailed(Exception e) { promise.reject(\"FAILED\", e); }",
+            "                    })",
+            "                    .start();",
+            "        } catch (Exception e) {",
+            "            promise.reject(\"FAILED\", e);",
+            "        }",
+            "    }",
+            "}"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "typescript",
+          "caption": "width, height, then quality from 0 to 1",
+          "code": [
+            "const { CompressVideoModule } = NativeModules;",
+            "",
+            "await CompressVideoModule.compress(inputPath, destPath, 540, 960, 0.5);"
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "warning",
+          "body": [
+            "Mp4Composer runs in the background. The first version of this module returned at once, so the upload started on a half-written file; resolve a Promise in onCompleted instead."
+          ]
+        },
+        {
+          "type": "table",
+          "columns": [
+            "Width",
+            "Height",
+            "Quality",
+            "Size (bytes)",
+            "Time (s)"
+          ],
+          "rows": [
+            [
+              "1280",
+              "720",
+              "0.6",
+              "21,043,205",
+              "40.2"
+            ],
+            [
+              "960",
+              "540",
+              "0.5",
+              "17,807,424",
+              "31.6"
+            ],
+            [
+              "640",
+              "360",
+              "0.4",
+              "13,840,978",
+              "31.0"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cleanup",
+      "title": "Clean up the cache",
+      "blocks": [
+        {
+          "type": "code",
+          "language": "typescript",
+          "caption": "Run it after the upload, success or not",
+          "code": [
+            "const destPath = `${RNFetchBlob.fs.dirs.CacheDir}/${fileName}`;",
+            "if (await RNFetchBlob.fs.exists(destPath)) {",
+            "  await RNFetchBlob.fs.unlink(destPath);",
+            "}"
+          ]
+        }
+      ]
+    }
+  ]
+}

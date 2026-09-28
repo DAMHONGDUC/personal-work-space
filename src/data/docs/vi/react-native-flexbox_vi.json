@@ -1,0 +1,165 @@
+{
+  "title": "Flexbox trong React Native",
+  "tagline": "Thuộc tính nào đặt ở container, thuộc tính nào ở view con, và nó dịch theo trục nào.",
+  "icon": "📐",
+  "topic": "react-native",
+  "tags": [
+    "React Native",
+    "Flexbox",
+    "Layout"
+  ],
+  "readingTime": "5 phút",
+  "effectiveDate": "2026-09-28",
+  "lastUpdated": "2026-09-28",
+  "intro": [
+    "React Native dàn trang mọi thứ bằng flexbox như trên web, với một khác biệt khiến ai cũng vấp: flexDirection mặc định là column, không phải row."
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Tổng quan",
+      "summary": "Chọn trục trước; mọi thuộc tính khác đều tính theo nó.",
+      "blocks": [
+        {
+          "type": "flow",
+          "caption": "Thứ tự nên nghĩ khi layout trông sai.",
+          "stages": [
+            {
+              "items": [
+                {
+                  "label": "flexDirection",
+                  "detail": "Đặt trục chính: column xếp view con từ trên xuống, row xếp chúng cạnh nhau",
+                  "explain": [
+                    "Giá trị gồm column (mặc định), row, column-reverse và row-reverse. Trục còn lại, vuông góc với nó, là trục phụ.",
+                    "Mọi thứ bên dưới được mô tả theo trục chính hoặc trục phụ, nên đổi thuộc tính này là xoay hướng của tất cả."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "justifyContent",
+                  "detail": "Phân bố view con dọc trục chính: đầu, cuối, giữa hoặc chia khoảng trống",
+                  "explain": [
+                    "Giá trị: flex-start, flex-end, center, space-between, space-around, space-evenly.",
+                    "space-between đặt view đầu và cuối sát hai mép; space-evenly làm mọi khoảng trống, kể cả ở mép, bằng nhau."
+                  ]
+                },
+                {
+                  "label": "alignItems",
+                  "detail": "Đặt view con theo trục phụ; stretch lấp đầy trừ khi đã đặt kích thước",
+                  "explain": [
+                    "Giá trị: stretch (mặc định), flex-start, flex-end, center, baseline.",
+                    "View con có width cố định trong container dạng column sẽ bỏ qua stretch, đó là lý do có một card hẹp hơn những cái còn lại."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "alignSelf",
+                  "detail": "Ghi đè alignItems cho một view con, đặt trên chính view đó thay vì container",
+                  "explain": [
+                    "Cùng giá trị với alignItems. Dùng cho một badge cần nép sang phải trong khi các view bên cạnh vẫn stretch.",
+                    "Đây là thuộc tính duy nhất ở đây nằm trên view con; các thuộc tính còn lại mô tả cách container sắp xếp con của nó."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "flexWrap + alignContent",
+                  "detail": "Wrap ngắt view con thành nhiều dòng; alignContent phân bố các dòng đó theo trục phụ",
+                  "explain": [
+                    "Ví dụ: container dạng column có maxHeight 200 và mười view con không vừa. flexWrap: 'wrap' mở thêm một cột thứ hai.",
+                    "Sau đó alignContent quyết định hai cột đó nằm ở đâu. Khi chỉ có một dòng nó không làm gì, vì vậy trông như bị hỏng."
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reference",
+      "title": "Mỗi thuộc tính đặt ở đâu",
+      "blocks": [
+        {
+          "type": "table",
+          "columns": [
+            "Thuộc tính",
+            "Đặt ở",
+            "Trục",
+            "Giá trị"
+          ],
+          "rows": [
+            [
+              "flexDirection",
+              "Container",
+              "Đặt trục chính",
+              "column, row, column-reverse, row-reverse"
+            ],
+            [
+              "direction",
+              "Container",
+              "Chiều đọc",
+              "ltr, rtl"
+            ],
+            [
+              "justifyContent",
+              "Container",
+              "Chính",
+              "flex-start, flex-end, center, space-between, space-around, space-evenly"
+            ],
+            [
+              "alignItems",
+              "Container",
+              "Phụ",
+              "stretch, flex-start, flex-end, center, baseline"
+            ],
+            [
+              "alignSelf",
+              "View con",
+              "Phụ",
+              "Như alignItems"
+            ],
+            [
+              "alignContent",
+              "Container",
+              "Phụ, theo từng dòng",
+              "Cần flexWrap: 'wrap'"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "example",
+      "title": "Một hàng có khoảng cách đều",
+      "blocks": [
+        {
+          "type": "code",
+          "language": "tsx",
+          "caption": "row khiến justifyContent theo chiều ngang còn alignItems theo chiều dọc",
+          "code": [
+            "<View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>",
+            "  <Text>Left</Text>",
+            "  <Text>Right</Text>",
+            "</View>"
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "info",
+          "body": [
+            "direction (ltr hoặc rtl) đảo đầu và cuối cho ngôn ngữ viết từ phải sang trái; nó không đổi trục."
+          ]
+        }
+      ]
+    }
+  ]
+}

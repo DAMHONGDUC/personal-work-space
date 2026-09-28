@@ -1,6 +1,7 @@
 import { Badge } from "@/components/policy/Badge";
 import { Section } from "@/components/policy/Section";
-import type { App } from "@/lib/apps";
+import type { App } from "@/lib/apps/apps";
+import { AppTextStyles } from "@/lib/design/app-text-styles";
 
 export function CollectedSection({ app, number }: { app: App; number: number }) {
   return (
@@ -35,13 +36,13 @@ export function CollectedSection({ app, number }: { app: App; number: number }) 
                 </Badge>
               </div>
 
-              <p className="mt-2.5 text-base leading-7 text-muted">{entry.purpose}</p>
+              <p className={`${AppTextStyles.BODY} mt-2.5`}>{entry.purpose}</p>
 
               <ul className="mt-4 flex flex-wrap gap-1.5">
                 {entry.items.map((item) => (
                   <li
                     key={item}
-                    className="rounded-lg bg-muted-surface px-2.5 py-1 font-mono text-xs text-muted"
+                    className={`${AppTextStyles.CAPTION} rounded-lg bg-muted-surface px-2.5 py-1 font-mono`}
                   >
                     {item}
                   </li>

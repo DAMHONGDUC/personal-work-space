@@ -7,7 +7,7 @@ import { EffectGrid } from "@/components/effects/EffectGrid";
 import { EffectPreview } from "@/components/effects/EffectPreview";
 import { EffectTree } from "@/components/effects/EffectTree";
 import { FilterPanel } from "@/components/effects/FilterPanel";
-import { useEffectUploads } from "@/hooks/useEffectUploads";
+import { useEffectUploads } from "@/hooks/effects/useEffectUploads";
 import {
   EFFECT_KINDS,
   driveFolderUrl,
@@ -16,15 +16,16 @@ import {
   type EffectKind,
   type EffectPack,
   type EffectTreeCategory,
-} from "@/lib/effect-model";
-import { searchEffects } from "@/lib/effect-search";
+} from "@/lib/effects/effect-model";
+import { searchEffects } from "@/lib/effects/effect-search";
 import {
   UPLOADS_PACK_NAME,
   UPLOADS_PACK_SLUG,
   treeWithUploads,
   uploadedEntries,
-} from "@/lib/effect-uploads";
-import { routes } from "@/lib/routes";
+} from "@/lib/effects/effect-uploads";
+import { routes } from "@/lib/routes/routes";
+import { AppTextStyles } from "@/lib/design/app-text-styles";
 
 /** Consecutive entries sharing a sub-folder, in the order the pack lists them. */
 function groupsOf(entries: EffectEntry[]): { group: string; entries: EffectEntry[] }[] {
@@ -124,7 +125,7 @@ export function CategoryBrowser({
                     className="flex items-center gap-2 rounded-lg border border-border-soft bg-surface px-3 py-1.5 text-sm transition-colors hover:border-foreground/25"
                   >
                     {pack.name}
-                    <span className="text-xs text-muted">{shown.length}</span>
+                    <span className={AppTextStyles.CAPTION}>{shown.length}</span>
                   </a>
                 </li>
               ))}
@@ -133,7 +134,7 @@ export function CategoryBrowser({
         )}
 
         {sections.length === 0 ? (
-          <p className="rounded-2xl border border-dashed border-border-soft px-6 py-16 text-center text-sm text-muted">
+          <p className={`${AppTextStyles.SMALL} rounded-2xl border border-dashed border-border-soft px-6 py-16 text-center`}>
             No file here matches “{query}”.
           </p>
         ) : (
@@ -146,9 +147,9 @@ export function CategoryBrowser({
                 className="flex flex-col gap-6 max-lg:scroll-mt-20"
               >
                 <div className="flex flex-wrap items-end justify-between gap-3 border-b border-border-soft pb-3">
-                  <h2 className="text-xl font-semibold tracking-tight">
+                  <h2 className={AppTextStyles.CARD_TITLE}>
                     {pack.name}
-                    <span className="pl-2 text-sm font-normal text-muted">
+                    <span className={`${AppTextStyles.SMALL} pl-2 font-normal`}>
                       {shown.length} {shown.length === 1 ? "file" : "files"}
                     </span>
                   </h2>
@@ -157,7 +158,7 @@ export function CategoryBrowser({
                       href={driveFolderUrl(pack.folderId)}
                       target="_blank"
                       rel="noreferrer"
-                      className="flex items-center gap-1.5 text-sm text-muted transition-colors hover:text-foreground"
+                      className={`${AppTextStyles.SMALL} flex items-center gap-1.5 transition-colors hover:text-foreground`}
                     >
                       <FolderOpen className="size-4" />
                       Drive folder
@@ -168,7 +169,7 @@ export function CategoryBrowser({
                 {groupsOf(shown).map(({ group, entries: inGroup }) => (
                   <div key={group} className="flex flex-col gap-3">
                     {group && (
-                      <h3 className="text-xs font-medium uppercase tracking-wider text-muted">
+                      <h3 className={AppTextStyles.EYEBROW}>
                         {group}
                       </h3>
                     )}

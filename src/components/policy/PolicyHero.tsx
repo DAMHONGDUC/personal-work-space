@@ -1,8 +1,11 @@
 import Link from "next/link";
-import { AppIcon } from "@/components/AppIcon";
+import { AppIcon } from "@/components/shared/AppIcon";
 import { Badge } from "@/components/ui/badge";
-import { formatDate, site, type App } from "@/lib/apps";
-import { routes } from "@/lib/routes";
+import { formatDate, site, type App } from "@/lib/apps/apps";
+import { routes } from "@/lib/routes/routes";
+import { AppSpacings } from "@/lib/design/app-spacings";
+import { AppColors } from "@/lib/design/app-colors";
+import { AppTextStyles } from "@/lib/design/app-text-styles";
 
 export function PolicyHero({ app }: { app: App }) {
   const links = [
@@ -27,16 +30,16 @@ export function PolicyHero({ app }: { app: App }) {
         className="pointer-events-none absolute inset-x-0 -top-16 bottom-0"
         style={{
           background: `linear-gradient(to bottom,
-            color-mix(in oklab, ${app.accent} 20%, transparent) 0%,
-            color-mix(in oklab, ${app.accent} 15%, transparent) 30%,
-            color-mix(in oklab, ${app.accent} 9%, transparent) 55%,
-            color-mix(in oklab, ${app.accent} 3%, transparent) 78%,
+            ${AppColors.tint(app.accent, 20)} 0%,
+            ${AppColors.tint(app.accent, 15)} 30%,
+            ${AppColors.tint(app.accent, 9)} 55%,
+            ${AppColors.tint(app.accent, 3)} 78%,
             transparent 100%)`,
         }}
       />
 
-      <div className="relative mx-auto w-full max-w-5xl px-6 pb-12 pt-10">
-        <nav className="pb-9 text-sm text-muted">
+      <div className={`relative mx-auto w-full max-w-5xl px-6 ${AppSpacings.HERO_BOTTOM} ${AppSpacings.PAGE_TOP}`}>
+        <nav className={`${AppTextStyles.SMALL} pb-9`}>
           <Link
             href={routes.apps}
             className="transition-colors hover:text-foreground"
@@ -57,10 +60,10 @@ export function PolicyHero({ app }: { app: App }) {
                 </Badge>
               ))}
             </div>
-            <h1 className="text-3xl font-semibold tracking-tight sm:text-[2.5rem] sm:leading-[1.15]">
+            <h1 className={AppTextStyles.HERO_TITLE}>
               {app.name} Privacy Policy
             </h1>
-            <p className="max-w-[60ch] text-base leading-7 text-muted">{app.tagline}</p>
+            <p className={`${AppTextStyles.BODY} max-w-[60ch]`}>{app.tagline}</p>
           </div>
         </div>
 
@@ -68,7 +71,7 @@ export function PolicyHero({ app }: { app: App }) {
           <dl className="flex flex-wrap gap-x-10 gap-y-3 text-sm">
             {meta.map((item) => (
               <div key={item.label}>
-                <dt className="text-xs uppercase tracking-wider text-muted">
+                <dt className={`${AppTextStyles.CAPTION} uppercase tracking-wider`}>
                   {item.label}
                 </dt>
                 <dd className="mt-1 font-medium">{item.value}</dd>

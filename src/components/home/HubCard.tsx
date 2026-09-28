@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { AppColors } from "@/lib/design/app-colors";
+import { AppTextStyles } from "@/lib/design/app-text-styles";
 
 type Props = {
   href: string;
@@ -23,9 +25,9 @@ export function HubCard({ href, icon, accent, title, description, meta }: Props)
         className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
         style={{
           background: `linear-gradient(to bottom,
-            color-mix(in oklab, ${accent} 16%, transparent) 0%,
-            color-mix(in oklab, ${accent} 9%, transparent) 40%,
-            color-mix(in oklab, ${accent} 3%, transparent) 72%,
+            ${AppColors.tint(accent, 16)} 0%,
+            ${AppColors.tint(accent, 9)} 40%,
+            ${AppColors.tint(accent, 3)} 72%,
             transparent 100%)`,
         }}
       />
@@ -35,8 +37,8 @@ export function HubCard({ href, icon, accent, title, description, meta }: Props)
           aria-hidden
           className="flex size-12 shrink-0 items-center justify-center rounded-2xl border text-2xl"
           style={{
-            backgroundColor: `color-mix(in oklab, ${accent} 14%, transparent)`,
-            borderColor: `color-mix(in oklab, ${accent} 28%, transparent)`,
+            backgroundColor: `${AppColors.tint(accent, 14)}`,
+            borderColor: `${AppColors.tint(accent, 28)}`,
           }}
         >
           {icon}
@@ -46,14 +48,14 @@ export function HubCard({ href, icon, accent, title, description, meta }: Props)
         </span>
       </span>
 
-      <span className="relative mt-5 block text-lg font-semibold tracking-tight">
+      <span className={`${AppTextStyles.CARD_TITLE_SM} relative mt-5 block`}>
         {title}
       </span>
-      <span className="relative mt-2 block text-sm leading-6 text-muted">
+      <span className={`${AppTextStyles.BODY_SM} relative mt-2 block`}>
         {description}
       </span>
 
-      <span className="relative mt-6 block text-xs text-muted">{meta}</span>
+      <span className={`${AppTextStyles.CAPTION} relative mt-6 block`}>{meta}</span>
     </Link>
   );
 }

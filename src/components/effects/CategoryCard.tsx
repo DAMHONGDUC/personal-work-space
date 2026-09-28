@@ -2,13 +2,14 @@ import Link from "next/link";
 import {
   EFFECT_KINDS,
   EFFECT_KIND_LABELS,
-  EFFECTS_ACCENT,
   thumbnailUrl,
   type EffectCategory,
   type EffectEntry,
   type EffectKind,
-} from "@/lib/effect-model";
-import { routes } from "@/lib/routes";
+} from "@/lib/effects/effect-model";
+import { routes } from "@/lib/routes/routes";
+import { AppColors } from "@/lib/design/app-colors";
+import { AppTextStyles } from "@/lib/design/app-text-styles";
 
 /** What the index needs to know about a category, without shipping its files. */
 export type CategorySummary = EffectCategory & {
@@ -34,8 +35,8 @@ export function CategoryCard({ category }: { category: CategorySummary }) {
         className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
         style={{
           background: `linear-gradient(to bottom,
-            color-mix(in oklab, ${EFFECTS_ACCENT} 14%, transparent) 0%,
-            color-mix(in oklab, ${EFFECTS_ACCENT} 6%, transparent) 45%,
+            ${AppColors.tint(AppColors.EFFECTS, 14)} 0%,
+            ${AppColors.tint(AppColors.EFFECTS, 6)} 45%,
             transparent 100%)`,
         }}
       />
@@ -45,8 +46,8 @@ export function CategoryCard({ category }: { category: CategorySummary }) {
           aria-hidden
           className="flex size-11 shrink-0 items-center justify-center rounded-xl border text-xl"
           style={{
-            backgroundColor: `color-mix(in oklab, ${EFFECTS_ACCENT} 14%, transparent)`,
-            borderColor: `color-mix(in oklab, ${EFFECTS_ACCENT} 28%, transparent)`,
+            backgroundColor: `${AppColors.tint(AppColors.EFFECTS, 14)}`,
+            borderColor: `${AppColors.tint(AppColors.EFFECTS, 28)}`,
           }}
         >
           {category.icon}
@@ -57,7 +58,7 @@ export function CategoryCard({ category }: { category: CategorySummary }) {
       </span>
 
       <span className="relative mt-4 block font-semibold tracking-tight">{category.label}</span>
-      <span className="relative mt-1.5 block text-sm leading-6 text-muted">
+      <span className={`${AppTextStyles.BODY_SM} relative mt-1.5 block`}>
         {category.description}
       </span>
 
@@ -81,7 +82,7 @@ export function CategoryCard({ category }: { category: CategorySummary }) {
         </span>
       )}
 
-      <span className="relative mt-auto block pt-5 text-xs text-muted">
+      <span className={`${AppTextStyles.CAPTION} relative mt-auto block pt-5`}>
         {category.total} files in {category.packCount}{" "}
         {category.packCount === 1 ? "pack" : "packs"}
         <span className="block pt-0.5">{kinds}</span>

@@ -1,0 +1,224 @@
+{
+  "title": "Khởi tạo Next.js bằng một script",
+  "tagline": "create-next-app, rồi lint, quy tắc commit, Redux, Ant Design và styled-components được nối sẵn trong một lần chạy.",
+  "icon": "⚡",
+  "topic": "web",
+  "tags": [
+    "Next.js",
+    "Ant Design",
+    "Redux"
+  ],
+  "readingTime": "7 phút",
+  "effectiveDate": "2026-09-28",
+  "lastUpdated": "2026-09-28",
+  "intro": [
+    "Mỗi dự án khách hàng mới đều bắt đầu bằng cùng một buổi chiều cấu hình. setup_v2.sh làm việc đó trong một lần chạy, nên commit đầu tiên đã có sẵn quy tắc của team."
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Tổng quan",
+      "summary": "Script làm gì, theo đúng thứ tự nó làm.",
+      "blocks": [
+        {
+          "type": "flow",
+          "caption": "Từ thư mục trống tới project đã có provider trong layout.",
+          "stages": [
+            {
+              "items": [
+                {
+                  "label": "create-next-app",
+                  "detail": "Hỏi tên không có dấu cách, rồi dựng app trong thư mục trùng tên",
+                  "explain": [
+                    "set -e dừng script ở lệnh đầu tiên bị lỗi, nên một lần cài thất bại không bao giờ để lại project cấu hình dở dang.",
+                    "Chọn No cho Tailwind trong các câu hỏi: phần style đến từ Ant Design và styled-components."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Quy tắc code",
+                  "detail": "ESLint cùng Prettier, commitlint và hook Husky chạy ở mỗi lần commit",
+                  "explain": [
+                    "Config ESLint giới hạn file ở 150 dòng, cảnh báo console và cấm var, giữ component nhỏ gọn ngay từ đầu.",
+                    "Hook pre-commit chạy lint-staged (eslint --fix, prettier --write); hook commit-msg bắt buộc Conventional Commits như feat: add login."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Dựng khung bằng plop",
+                  "detail": "Một generator plop tạo các thư mục trong src và điền nội dung từ template Handlebars",
+                  "explain": [
+                    "Nó tạo components, config, constants, features, helpers, hooks, libs, redux, themes và types, mỗi thư mục có một index.ts.",
+                    "Sau đó các template tạo Redux store và hook có kiểu, helper hexToRgba, registry cho styled-components và các theme."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "AppProviders",
+                  "detail": "Một client component lồng mọi provider, và root layout bọc app bằng nó",
+                  "explain": [
+                    "Thứ tự từ ngoài vào: Redux Provider, StyledComponentsRegistry, ThemeProvider, AntdRegistry, ConfigProvider, rồi GlobalStyle.",
+                    "Các registry gom style trong lúc render phía server rồi chèn vào HTML, đó là thứ ngăn hiện tượng nháy trang chưa có style.",
+                    "ConfigProvider được đặt locale tiếng Nhật (jaJP và dayjs 'ja'), vì template làm cho dự án khách hàng Nhật. Đổi cả hai nếu làm cho thị trường khác."
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "run",
+      "title": "Chạy script",
+      "blocks": [
+        {
+          "type": "steps",
+          "items": [
+            "Đặt setup_v2.sh vào thư mục sẽ chứa project mới.",
+            "Chạy lệnh bên dưới và nhập tên project không có dấu cách.",
+            "Chọn No khi create-next-app hỏi có dùng Tailwind không."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "code": [
+            "chmod +x ./setup_v2.sh && ./setup_v2.sh"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "packages",
+      "title": "Những gì được cài",
+      "blocks": [
+        {
+          "type": "table",
+          "columns": [
+            "Nhóm",
+            "Package"
+          ],
+          "rows": [
+            [
+              "Lint và định dạng",
+              "eslint-config-prettier, eslint-plugin-prettier, @typescript-eslint/eslint-plugin, prettier"
+            ],
+            [
+              "Commit",
+              "husky, lint-staged, @commitlint/cli, @commitlint/config-conventional"
+            ],
+            [
+              "UI",
+              "antd, @ant-design/icons, @ant-design/cssinjs, @ant-design/nextjs-registry, styled-components"
+            ],
+            [
+              "State",
+              "@reduxjs/toolkit, react-redux"
+            ],
+            [
+              "Công cụ",
+              "plop, dayjs"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "config",
+      "title": "Các quy tắc nó tạo ra",
+      "summary": "Hai file config định hình mọi commit về sau.",
+      "blocks": [
+        {
+          "type": "code",
+          "language": "json",
+          "caption": ".eslintrc",
+          "code": [
+            "{",
+            "  \"extends\": [\"next\", \"prettier\"],",
+            "  \"plugins\": [\"@typescript-eslint\"],",
+            "  \"rules\": {",
+            "    \"max-lines\": [\"error\", { \"max\": 150, \"skipBlankLines\": true, \"skipComments\": true }],",
+            "    \"import/prefer-default-export\": \"off\",",
+            "    \"no-console\": \"warn\",",
+            "    \"no-var\": \"error\",",
+            "    \"@typescript-eslint/no-unused-vars\": \"warn\"",
+            "  }",
+            "}"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "json",
+          "caption": ".prettierrc, rút gọn",
+          "code": [
+            "{",
+            "  \"semi\": false,",
+            "  \"singleQuote\": true,",
+            "  \"jsxSingleQuote\": true,",
+            "  \"trailingComma\": \"all\",",
+            "  \"printWidth\": 80,",
+            "  \"tabWidth\": 2,",
+            "  \"arrowParens\": \"always\"",
+            "}"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "caption": "Hai git hook",
+          "code": [
+            "npx husky init",
+            "echo \"npx lint-staged\" > .husky/pre-commit",
+            "echo \"npx --no -- commitlint --edit \\$1\" > .husky/commit-msg"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "providers",
+      "title": "Các provider",
+      "blocks": [
+        {
+          "type": "code",
+          "language": "tsx",
+          "caption": "src/config/AppProviders.tsx, được root layout render",
+          "code": [
+            "'use client'",
+            "",
+            "const AppProviders = ({ children }: Readonly<PropsWithChildren>) => (",
+            "  <Provider store={store}>",
+            "    <StyledComponentsRegistry>",
+            "      <ThemeProvider theme={generalTheme}>",
+            "        <AntdRegistry>",
+            "          <ConfigProvider locale={jaJP} theme={antdTheme}>",
+            "            <GlobalStyle />",
+            "            {children}",
+            "          </ConfigProvider>",
+            "        </AntdRegistry>",
+            "      </ThemeProvider>",
+            "    </StyledComponentsRegistry>",
+            "  </Provider>",
+            ")"
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "info",
+          "body": [
+            "Theme của antd lấy màu từ generalTheme, và hexToRgba tạo ra các viền trong suốt, nên chỉ một màu primary là đổi style được cả hai thư viện."
+          ]
+        }
+      ]
+    }
+  ]
+}

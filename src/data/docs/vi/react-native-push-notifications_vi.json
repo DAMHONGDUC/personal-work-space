@@ -1,0 +1,300 @@
+{
+  "title": "Push notification với Firebase Cloud Messaging",
+  "tagline": "Loại message nào hiện popup, ở trạng thái app nào, và handler nào chạy.",
+  "icon": "🔔",
+  "topic": "react-native",
+  "tags": [
+    "React Native",
+    "Firebase",
+    "FCM"
+  ],
+  "readingTime": "8 phút",
+  "effectiveDate": "2026-09-28",
+  "lastUpdated": "2026-09-28",
+  "intro": [
+    "FCM chuyển message tới máy; người dùng thấy gì phụ thuộc vào loại message và app đang mở, chạy nền hay đã tắt. Phần lớn nhầm lẫn đến từ việc trộn lẫn hai điều này."
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Tổng quan",
+      "summary": "Đường đi của message từ Firebase tới màn hình.",
+      "blocks": [
+        {
+          "type": "flow",
+          "caption": "Ai xử lý remote notification ở từng bước.",
+          "stages": [
+            {
+              "items": [
+                {
+                  "label": "Server gửi",
+                  "detail": "Backend hoặc Firebase console gửi một message tới một device token",
+                  "explain": [
+                    "Token định danh một lần cài app trên một thiết bị. messaging().getToken() trả về nó, và backend lưu nó gắn với người dùng.",
+                    "Payload gồm khối notification, khối data, hoặc cả hai. Lựa chọn đó quyết định mọi thứ sau bước này."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "FCM chuyển tới",
+                  "detail": "FCM đưa message tới thiết bị, qua APNs trên iOS, vì thế iOS cần chứng chỉ push",
+                  "explain": [
+                    "Trên iOS, APNs của Apple là đường duy nhất. Bundle id phải bật capability Push Notifications, và Firebase cần APNs key hoặc chứng chỉ.",
+                    "Trên Android, Google Play services nhận message và đánh thức app, miễn là người dùng chưa force-stop nó."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Hệ điều hành hiển thị",
+                  "detail": "Payload notification khi app chạy nền hoặc đã tắt được hệ điều hành tự vẽ, không cần code của bạn",
+                  "explain": [
+                    "Đây là trường hợp duy nhất popup xuất hiện mà không cần JavaScript: hệ điều hành đọc title và body rồi tự vẽ.",
+                    "Trên Android, popup chỉ trượt xuống nếu channel của notification có importance cao; nếu không nó vào thẳng khay thông báo."
+                  ]
+                },
+                {
+                  "label": "Handler của bạn chạy",
+                  "detail": "onMessage khi app đang mở, setBackgroundMessageHandler trong các trường hợp còn lại, và không có gì tự được vẽ",
+                  "explain": [
+                    "Khi app đang mở, FCM không bao giờ hiện popup, kể cả với payload notification. onMessage chạy và app tự quyết định.",
+                    "Muốn vẫn hiện popup thì gọi một thư viện local notification như react-native-push-notification từ bên trong onMessage."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "table",
+          "columns": [
+            "Loại",
+            "Ai gửi",
+            "App phải đang chạy"
+          ],
+          "rows": [
+            [
+              "Local",
+              "Chính app",
+              "Có"
+            ],
+            [
+              "Remote",
+              "Server, thông qua FCM",
+              "Không"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "setup-ios",
+      "title": "Cài đặt iOS",
+      "summary": "Apple phải cho phép push trước thì Firebase mới gửi được.",
+      "blocks": [
+        {
+          "type": "checklist",
+          "items": [
+            "Tạo Firebase project và tải GoogleService-Info.plist",
+            "Tạo bundle id trong Apple Developer → Identifiers với Push Notifications được bật",
+            "Tạo chứng chỉ development và distribution",
+            "Tạo provisioning profile có chứa một máy thật, rồi tải nó trong Xcode"
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "info",
+          "body": [
+            "Simulator iOS không nhận được remote push từ APNs trên các bản Xcode cũ, nên hãy thử trên máy thật."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "packages",
+      "title": "Thư viện",
+      "blocks": [
+        {
+          "type": "table",
+          "columns": [
+            "Thư viện",
+            "Vai trò"
+          ],
+          "rows": [
+            [
+              "@react-native-firebase/app",
+              "Lõi Firebase, module nào cũng cần"
+            ],
+            [
+              "@react-native-firebase/messaging",
+              "Token, handler, quyền"
+            ],
+            [
+              "react-native-push-notification",
+              "Local notification và channel"
+            ],
+            [
+              "@react-native-community/push-notification-ios",
+              "Phần iOS đi kèm thư viện trên"
+            ]
+          ]
+        },
+        {
+          "type": "list",
+          "items": [
+            "Tài liệu: rnfirebase.io/messaging/usage",
+            "Gửi message thử từ testfcm.com mà không cần viết backend",
+            "Project mẫu: github.com/DAMHONGDUC/push_noti"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "channel",
+      "title": "Channel trên Android",
+      "summary": "Không có channel thì không có popup.",
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            "Android 8+ xếp mọi notification vào một channel. Không có channel thì nó chỉ lặng lẽ vào khay.",
+            "Tạo channel trước khi bất kỳ notification nào tới — ngay khi module được nạp, phía trên component App.",
+            "Importance.HIGH là thứ cho phép nó trượt xuống thành popup."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "typescript",
+          "code": [
+            "import PushNotification, { Importance } from 'react-native-push-notification';",
+            "",
+            "PushNotification.createChannel({",
+            "  channelId: NOTIFICATION_CHAT_CHANNEL,",
+            "  channelName: 'Chat',",
+            "  importance: Importance.HIGH,",
+            "  vibrate: true,",
+            "}, () => {});",
+            "",
+            "export default function App() { /* … */ }"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "message-types",
+      "title": "Các loại message",
+      "summary": "Ba dạng payload.",
+      "blocks": [
+        {
+          "type": "code",
+          "language": "json",
+          "caption": "Notification: hệ điều hành tự vẽ được",
+          "code": [
+            "{",
+            "  \"message\": {",
+            "    \"token\": \"bk3RNwTe3H0:CI2k_HHwgIpoDKCIZvvDMExUdFQ3P1...\",",
+            "    \"notification\": { \"title\": \"Portugal vs. Denmark\", \"body\": \"great match!\" }",
+            "  }",
+            "}"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "json",
+          "caption": "Notification + data: hệ điều hành vẽ, kèm trường thêm cho code của bạn",
+          "code": [
+            "{",
+            "  \"message\": {",
+            "    \"token\": \"bk3RNwTe3H0:CI2k_HHwgIpoDKCIZvvDMExUdFQ3P1...\",",
+            "    \"notification\": { \"title\": \"Portugal vs. Denmark\", \"body\": \"great match!\" },",
+            "    \"data\": { \"Nick\": \"Mario\", \"Room\": \"PortugalVSDenmark\" }",
+            "  }",
+            "}"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "json",
+          "caption": "Chỉ data: không bao giờ tự vẽ, luôn giao cho code của bạn",
+          "code": [
+            "{",
+            "  \"message\": {",
+            "    \"token\": \"bk3RNwTe3H0:CI2k_HHwgIpoDKCIZvvDMExUdFQ3P1...\",",
+            "    \"data\": { \"Nick\": \"Mario\", \"body\": \"great match!\", \"Room\": \"PortugalVSDenmark\" }",
+            "  }",
+            "}"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "states",
+      "title": "Trạng thái app và handler",
+      "summary": "Hai bảng đáng để mở sẵn.",
+      "blocks": [
+        {
+          "type": "table",
+          "columns": [
+            "Trạng thái",
+            "Nghĩa là"
+          ],
+          "rows": [
+            [
+              "Foreground",
+              "App đang mở và hiện trên màn hình"
+            ],
+            [
+              "Background",
+              "Đang mở nhưng bị thu nhỏ, ví dụ sau khi bấm home"
+            ],
+            [
+              "Quit",
+              "Đã vuốt tắt, hoặc chưa mở từ lúc khởi động máy"
+            ]
+          ]
+        },
+        {
+          "type": "table",
+          "columns": [
+            "Payload",
+            "Foreground",
+            "Background",
+            "Quit"
+          ],
+          "rows": [
+            [
+              "Notification",
+              "onMessage, không popup",
+              "Popup do hệ điều hành",
+              "Popup do hệ điều hành"
+            ],
+            [
+              "Notification + data",
+              "onMessage, không popup",
+              "Popup do hệ điều hành",
+              "Popup do hệ điều hành"
+            ],
+            [
+              "Data",
+              "onMessage, không popup",
+              "Background handler, không popup",
+              "Background handler, không popup"
+            ]
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "warning",
+          "body": [
+            "Message chỉ có data không bao giờ tự hiện gì. Nếu người dùng cần thấy nó, hãy tạo local notification từ handler."
+          ]
+        }
+      ]
+    }
+  ]
+}

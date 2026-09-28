@@ -4,8 +4,9 @@ import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import type { FilterPlacement } from "@/components/effects/FilterPanel";
 import { KindFilter } from "@/components/effects/KindFilter";
-import { SearchInput } from "@/components/SearchInput";
-import type { EffectKind } from "@/lib/effect-model";
+import { SearchInput } from "@/components/shared/SearchInput";
+import type { EffectKind } from "@/lib/effects/effect-model";
+import { AppTextStyles } from "@/lib/design/app-text-styles";
 
 /** The search box, the kind filter and the count, laid out for one placement. */
 export function EffectFilters({
@@ -47,7 +48,7 @@ export function EffectFilters({
           className="sm:max-w-none"
         />
         <KindFilter kind={kind} onChange={onKindChange} counts={counts} orientation="vertical" />
-        <p className="px-1 text-xs text-muted">{summary}</p>
+        <p className={`${AppTextStyles.CAPTION} px-1`}>{summary}</p>
       </>
     );
   }
@@ -74,7 +75,7 @@ export function EffectFilters({
       </div>
       <div className="flex items-center justify-between gap-3 overflow-x-auto">
         <KindFilter kind={kind} onChange={onKindChange} counts={counts} />
-        <p className="shrink-0 text-xs text-muted">{summary}</p>
+        <p className={`${AppTextStyles.CAPTION} shrink-0`}>{summary}</p>
       </div>
     </div>
   );

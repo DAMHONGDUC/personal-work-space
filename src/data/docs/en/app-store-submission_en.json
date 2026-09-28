@@ -1,0 +1,149 @@
+{
+  "title": "What to collect before an App Store submission",
+  "tagline": "The list to send the client on day one, so release week is not spent waiting.",
+  "icon": "📝",
+  "topic": "ios",
+  "tags": [
+    "App Store",
+    "App Store Connect",
+    "iOS"
+  ],
+  "readingTime": "5 min",
+  "effectiveDate": "2026-09-28",
+  "lastUpdated": "2026-09-28",
+  "intro": [
+    "App Store Connect asks for a dozen things only the client can decide. Collect them early; the build is rarely what delays a release."
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Overview",
+      "summary": "Who decides what, and when it is needed.",
+      "blocks": [
+        {
+          "type": "flow",
+          "caption": "From the first meeting to Submit for Review.",
+          "stages": [
+            {
+              "items": [
+                {
+                  "label": "Identity",
+                  "detail": "Bundle id, name and version are fixed early; the bundle id can never change after release",
+                  "explain": [
+                    "The bundle id, e.g. com.client.shop, is burned into the build and the store record. Ask whether the client wants to choose it; otherwise we do.",
+                    "The app name must be unique on the store, so have a second choice ready before creating the record."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Store listing",
+                  "detail": "Subtitle, description, keywords and promotional text are the words the store shows",
+                  "explain": [
+                    "The subtitle sits under the name in search results. Keywords are never shown, only searched, and are limited to 100 characters.",
+                    "Promotional text can be changed any time without a new build; the description cannot."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Links and legal",
+                  "detail": "Support URL and privacy policy URL are required; the marketing URL is optional",
+                  "explain": [
+                    "The privacy policy must be a live public page. A static page per app, like the policies on this site, is enough.",
+                    "Copyright is a line such as '2026 Client Co., Ltd.', and the contact is a real person's name, phone and email for Apple's reviewers."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Screenshots and rating",
+                  "detail": "Up to 10 screenshots per device size, plus the age rating questionnaire",
+                  "explain": [
+                    "Ask the client which screens to show, or capture them all and let them choose. Screenshots need test data that looks real.",
+                    "The age rating comes from a questionnaire about content such as violence or gambling, not from a number you type."
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "checklist",
+      "title": "The list to send",
+      "summary": "Everything App Store Connect will ask for.",
+      "blocks": [
+        {
+          "type": "checklist",
+          "items": [
+            "App name",
+            "Bundle id — the client's choice, or ours",
+            "Version number — the client's choice, or ours",
+            "Subtitle, shown under the name",
+            "Description",
+            "Keywords for search",
+            "Promotional text",
+            "Support URL",
+            "Marketing URL — the product site or the client's site",
+            "Privacy policy URL",
+            "Copyright line",
+            "Contact: name, phone and email",
+            "App category",
+            "Price, or free",
+            "Screenshots — which screens, up to 10",
+            "Age rating"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "who",
+      "title": "Who owns each answer",
+      "blocks": [
+        {
+          "type": "table",
+          "columns": [
+            "Item",
+            "Decided by",
+            "Changeable later"
+          ],
+          "rows": [
+            [
+              "Bundle id",
+              "Client or us",
+              "Never"
+            ],
+            [
+              "Name, subtitle",
+              "Client",
+              "With a new version"
+            ],
+            [
+              "Promotional text",
+              "Client",
+              "Any time"
+            ],
+            [
+              "Screenshots",
+              "Client picks, we capture",
+              "With a new version"
+            ],
+            [
+              "Price",
+              "Client",
+              "Any time"
+            ]
+          ]
+        }
+      ]
+    }
+  ]
+}

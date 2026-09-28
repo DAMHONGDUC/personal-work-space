@@ -1,4 +1,5 @@
-import { PolicyNav, type NavItem } from "@/components/PolicyNav";
+import { PolicyNav, type NavItem } from "@/components/policy/PolicyNav";
+import { AppTextStyles } from "@/lib/design/app-text-styles";
 
 /** Collapsed table of contents, shown instead of the sidebar on small screens. */
 export function MobileToc({ items, accent }: { items: NavItem[]; accent: string }) {
@@ -23,7 +24,7 @@ export function SidebarToc({ items, accent }: { items: NavItem[]; accent: string
         aria-label="On this page"
         className="sticky top-24 flex flex-col gap-3 border-l border-border-soft"
       >
-        <p className="pl-4 text-xs font-medium uppercase tracking-wider text-muted">
+        <p className={`${AppTextStyles.EYEBROW} pl-4`}>
           On this page
         </p>
         <PolicyNav items={items} accent={accent} />

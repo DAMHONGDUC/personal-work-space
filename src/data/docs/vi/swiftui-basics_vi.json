@@ -1,0 +1,262 @@
+{
+  "title": "SwiftUI cơ bản: view và container",
+  "tagline": "UI kiểu declarative, các stack, và những control dùng đến đầu tiên.",
+  "icon": "🧱",
+  "topic": "ios",
+  "tags": [
+    "SwiftUI",
+    "Swift",
+    "iOS"
+  ],
+  "readingTime": "8 phút",
+  "effectiveDate": "2026-09-28",
+  "lastUpdated": "2026-09-28",
+  "intro": [
+    "SwiftUI dựng app cho iPhone, iPad, Mac và Watch từ một mô tả declarative của màn hình. Bạn nói nó trông thế nào; SwiftUI lo phần làm thế nào."
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Tổng quan",
+      "summary": "UIKit kiểu imperative so với SwiftUI kiểu declarative.",
+      "blocks": [
+        {
+          "type": "text",
+          "body": [
+            "UIKit là imperative: bạn tạo label, gán text và frame, rồi thêm nó vào view, từng bước một. SwiftUI là declarative: Text(\"Hello\") là toàn bộ mô tả."
+          ]
+        },
+        {
+          "type": "flow",
+          "caption": "Một màn hình SwiftUI được ghép lại thế nào.",
+          "stages": [
+            {
+              "items": [
+                {
+                  "label": "State",
+                  "detail": "@State giữ dữ liệu; thay đổi nó là cách duy nhất để thay đổi màn hình",
+                  "explain": [
+                    "@State var isOn = false khai báo một giá trị mà SwiftUI lưu hộ. Gán isOn = true sẽ khiến body được tính lại.",
+                    "Control nhận binding bằng $: Toggle(isOn: $isOn) vừa đọc vừa ghi cùng một giá trị."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Container",
+                  "detail": "VStack, HStack và ZStack xếp view con theo chiều dọc, chiều ngang hoặc chồng lên nhau",
+                  "explain": [
+                    "VStack mặc định căn giữa view con theo chiều ngang; VStack(alignment: .leading, spacing: 8) dồn chúng sang trái và thêm khoảng cách.",
+                    "HStack căn giữa theo chiều dọc, đổi bằng .top, .center hoặc .bottom. ZStack xếp chồng view con, cái cuối nằm trên cùng."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "View và modifier",
+                  "detail": "Text, Image và Button là view; .padding() và .frame() trả về view mới đã được chỉnh",
+                  "explain": [
+                    "Modifier bọc lại chứ không sửa trực tiếp, nên thứ tự quan trọng: .padding().background(.red) tô màu cả phần padding, đảo ngược thì không.",
+                    "body được tính lại thường xuyên và phải nhẹ: chỉ mô tả view, đừng tải dữ liệu bên trong nó."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "code",
+          "language": "swift",
+          "code": [
+            "// UIKit: every step spelled out",
+            "let label = UILabel()",
+            "label.text = \"Hello, Imperative World!\"",
+            "label.frame = CGRect(x: 100, y: 100, width: 200, height: 20)",
+            "view.addSubview(label)",
+            "",
+            "// SwiftUI: the result, described",
+            "Text(\"Hello, Declarative World!\")"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "containers",
+      "title": "Container",
+      "summary": "Những view dùng để sắp xếp view khác.",
+      "blocks": [
+        {
+          "type": "table",
+          "columns": [
+            "Container",
+            "Nó làm gì"
+          ],
+          "rows": [
+            [
+              "VStack",
+              "View con xếp thành cột dọc"
+            ],
+            [
+              "HStack",
+              "View con xếp thành hàng ngang"
+            ],
+            [
+              "ZStack",
+              "View con xếp chồng lên nhau"
+            ],
+            [
+              "Group",
+              "Gom view để dùng chung modifier, không có layout riêng"
+            ],
+            [
+              "List",
+              "Các dòng dữ liệu trong một cột cuộn được"
+            ],
+            [
+              "Form",
+              "Danh sách cuộn được, trình bày cho cài đặt và nhập liệu"
+            ],
+            [
+              "ScrollView",
+              "Cuộn nội dung, theo chiều dọc hoặc ngang"
+            ],
+            [
+              "LazyVStack / LazyHStack",
+              "Như stack thường, nhưng chỉ dựng dòng khi nó cuộn vào màn hình"
+            ],
+            [
+              "GeometryReader",
+              "Cho nội dung biết kích thước và vị trí của view cha"
+            ],
+            [
+              "Spacer",
+              "Khoảng trống co giãn, đẩy các view bên cạnh ra xa dọc theo stack"
+            ]
+          ]
+        },
+        {
+          "type": "code",
+          "language": "swift",
+          "caption": "Sáu hình vuông xoè ra, màu cuối nằm trên cùng",
+          "code": [
+            "ZStack {",
+            "    ForEach(0..<colors.count, id: \\.self) { index in",
+            "        Rectangle()",
+            "            .fill(colors[index])",
+            "            .frame(width: 100, height: 100)",
+            "            .offset(x: CGFloat(index) * 10, y: CGFloat(index) * 10)",
+            "    }",
+            "}"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "swift",
+          "caption": "Trong ScrollView, chỉ những dòng đang hiện mới được dựng",
+          "code": [
+            "LazyVStack {",
+            "    ForEach(0..<1000, id: \\.self) { index in",
+            "        Text(\"Lazy item \\(index)\")",
+            "    }",
+            "}"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "views",
+      "title": "View và control",
+      "summary": "Những viên gạch bên trong container.",
+      "blocks": [
+        {
+          "type": "table",
+          "columns": [
+            "View",
+            "Dùng để"
+          ],
+          "rows": [
+            [
+              "Text",
+              "Hiển thị chữ, một hoặc nhiều dòng"
+            ],
+            [
+              "Image",
+              "Hiển thị ảnh, ví dụ Image(systemName: \"star\") cho SF Symbol"
+            ],
+            [
+              "Button",
+              "Chạy một hành động khi được chạm"
+            ],
+            [
+              "TextField",
+              "Ô nhập chữ, gắn với một String"
+            ],
+            [
+              "Toggle",
+              "Bật và tắt, gắn với một Bool"
+            ],
+            [
+              "Slider",
+              "Chọn giá trị trong một khoảng, ví dụ 0...100"
+            ],
+            [
+              "Stepper",
+              "Tăng hoặc giảm một giá trị"
+            ],
+            [
+              "Picker",
+              "Chọn một trong nhiều lựa chọn, mỗi lựa chọn có tag"
+            ],
+            [
+              "DatePicker",
+              "Chọn ngày, giờ, hoặc cả hai"
+            ],
+            [
+              "ProgressView",
+              "Tiến độ hoàn thành của một tác vụ"
+            ],
+            [
+              "Divider",
+              "Đường kẻ phân tách nội dung"
+            ],
+            [
+              "Color",
+              "Một view tô kín khung bằng một màu"
+            ],
+            [
+              "Shape",
+              "Rectangle, Circle hoặc path tuỳ chỉnh"
+            ]
+          ]
+        },
+        {
+          "type": "code",
+          "language": "swift",
+          "caption": "Control gắn với state bằng $",
+          "code": [
+            "@State private var isOn = false",
+            "@State private var value = 50.0",
+            "",
+            "var body: some View {",
+            "    VStack(alignment: .leading, spacing: 12) {",
+            "        Toggle(\"Enable feature\", isOn: $isOn)",
+            "        Slider(value: $value, in: 0...100)",
+            "        HStack {",
+            "            Text(\"Left\")",
+            "            Spacer()",
+            "            Text(\"Right\")",
+            "        }",
+            "        Button(\"Tap me!\") { print(\"Button tapped!\") }",
+            "    }",
+            "    .padding()",
+            "}"
+          ]
+        }
+      ]
+    }
+  ]
+}

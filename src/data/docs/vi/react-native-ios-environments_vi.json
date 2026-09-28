@@ -1,0 +1,227 @@
+{
+  "title": "Bản dev và prod của cùng một app React Native iOS",
+  "tagline": "Hai target, hai scheme, hai file .env — cài song song trên cùng một máy.",
+  "icon": "🧪",
+  "topic": "react-native",
+  "tags": [
+    "React Native",
+    "Xcode",
+    "iOS"
+  ],
+  "readingTime": "9 phút",
+  "effectiveDate": "2026-09-28",
+  "lastUpdated": "2026-09-28",
+  "intro": [
+    "Một codebase, hai app: dev nói chuyện với API staging còn prod với API thật, mỗi bản có bundle id, tên và file Firebase riêng."
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Tổng quan",
+      "summary": "Xcode quyết định danh tính native; Metro quyết định môi trường JavaScript.",
+      "blocks": [
+        {
+          "type": "flow",
+          "caption": "Mỗi phần chuyển đổi cái gì, từ project Xcode tới app đang chạy.",
+          "stages": [
+            {
+              "items": [
+                {
+                  "label": "Nhân bản target",
+                  "detail": "Target thứ hai là một app thứ hai: có bundle id, tên và Info.plist riêng",
+                  "explain": [
+                    "Chuột phải target mặc định → Duplicate. Đổi tên theo môi trường, ví dụ prod, để danh sách scheme dễ đọc.",
+                    "Xcode đặt tên plist của bản sao là 'Copy-Info.plist'. Đổi thành info-prod.plist và trỏ mục Info.plist File của target về đó."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "File theo từng target",
+                  "detail": "Target Membership quyết định mỗi app đóng gói plist nào và GoogleService-Info.plist nào",
+                  "explain": [
+                    "Kéo info-prod.plist vào project, rồi Add Files to…, và chỉ tick target prod ở mục Target Membership.",
+                    "Làm tương tự với hai file GoogleService-Info.plist ở hai thư mục riêng, để sự kiện của dev không bao giờ rơi vào Firebase project của prod."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Scheme",
+                  "detail": "Scheme chọn target để build và chạy; mỗi môi trường một scheme",
+                  "explain": [
+                    "Manage Schemes → bỏ tick các scheme tự tạo → bấm + để thêm scheme dev và prod, mỗi cái trỏ về target của nó.",
+                    "Tên scheme là thứ react-native run-ios --scheme nhận vào, nên hãy đặt tên dễ đoán."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Podfile",
+                  "detail": "abstract_target dùng chung một danh sách pod cho cả hai target",
+                  "explain": [
+                    "Đổi target 'App' thành abstract_target 'App', rồi khai báo target 'dev' và target 'prod' bên trong.",
+                    "Không có nó, target mới build mà không có pod nào và lỗi ngay ở lần import native đầu tiên."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Chọn file .env",
+                  "detail": "Một task gulp chép .env.dev hoặc .env.prod thành .env trước khi Metro khởi động",
+                  "explain": [
+                    "react-native-dotenv đưa .env vào bundle dưới dạng module @env, nên import { ENV } from '@env' đọc đúng file đã chọn.",
+                    "Các giá trị được gắn cứng lúc Metro đóng gói. Đổi môi trường nghĩa là khởi động lại Metro bằng script start còn lại."
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "xcode",
+      "title": "Trong Xcode",
+      "blocks": [
+        {
+          "type": "steps",
+          "items": [
+            "Mở .xcworkspace; chọn project, rồi danh sách TARGETS.",
+            "Chuột phải target mặc định → Duplicate, rồi đổi tên.",
+            "Đổi tên plist vừa sao chép và thêm vào project, chỉ tick target mới.",
+            "Làm lại với GoogleService-Info.plist thứ hai nếu các môi trường dùng Firebase project riêng.",
+            "Trong Build Settings của target mới, đổi bundle id, product name và đường dẫn Info.plist File.",
+            "Manage Schemes: bỏ tick mọi scheme, thêm dev và prod, đóng lại."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pods",
+      "title": "Pod và package",
+      "blocks": [
+        {
+          "type": "code",
+          "language": "bash",
+          "caption": "Chạy pod install sau khi đổi Podfile sang abstract_target",
+          "code": [
+            "yarn add react-native-dotenv gulp gulp-rename gulp-clean",
+            "cd ios && pod install && cd .."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "ruby",
+          "code": [
+            "abstract_target 'multi_env' do",
+            "  # use_react_native!(…) and the other shared settings",
+            "",
+            "  target 'multi_env dev' do",
+            "  end",
+            "",
+            "  target 'multi_env prod' do",
+            "  end",
+            "end"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "env",
+      "title": "File môi trường",
+      "summary": "Ba file: hai file bạn sửa, một file Metro đọc.",
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            ".env.dev và .env.prod chứa giá trị; đừng commit cái nào nếu chúng có secret.",
+            ".env được gulp tạo ra từ một trong hai — đừng bao giờ sửa tay."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "javascript",
+          "caption": "gulpfile.js ở thư mục gốc project",
+          "code": [
+            "const gulp = require('gulp');",
+            "const args = require('yargs').argv;",
+            "const rename = require('gulp-rename');",
+            "const clean = require('gulp-clean');",
+            "",
+            "gulp.task('del', () => gulp.src('.env', { read: false, allowEmpty: true }).pipe(clean()));",
+            "gulp.task('move', () => gulp.src([args.env]).pipe(rename('.env')).pipe(gulp.dest('./')));",
+            "gulp.task('set', gulp.series('del', 'move'));"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "javascript",
+          "caption": "babel.config.js",
+          "code": [
+            "module.exports = {",
+            "  presets: ['module:@react-native/babel-preset'],",
+            "  plugins: [",
+            "    ['module:react-native-dotenv', { envName: 'APP_ENV', moduleName: '@env', path: '.env' }],",
+            "  ],",
+            "};"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "typescript",
+          "caption": "src/types/env.d.ts — mỗi biến một dòng",
+          "code": [
+            "declare module '@env' {",
+            "  export const ENV: string;",
+            "}"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "run",
+      "title": "Chạy thử",
+      "blocks": [
+        {
+          "type": "code",
+          "language": "json",
+          "code": [
+            "\"scripts\": {",
+            "  \"ios-dev\": \"react-native run-ios --scheme='multi_env dev' --mode=Debug\",",
+            "  \"ios-prod\": \"react-native run-ios --scheme='multi_env prod' --mode=Debug\",",
+            "  \"ios-dev-release\": \"react-native run-ios --scheme='multi_env dev' --mode=Release\",",
+            "  \"ios-prod-release\": \"react-native run-ios --scheme='multi_env prod' --mode=Release\",",
+            "  \"start:dev\": \"gulp set --env=.env.dev && yarn start --reset-cache\",",
+            "  \"start:prod\": \"gulp set --env=.env.prod && yarn start --reset-cache\"",
+            "}"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "caption": "Khởi động Metro cho môi trường đó, rồi chạy scheme tương ứng",
+          "code": [
+            "yarn start:dev",
+            "yarn ios-dev --simulator=\"iPhone 14\""
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "warning",
+          "body": [
+            "Metro quyết định môi trường JavaScript, không phải scheme. Hãy khởi động lại Metro bằng start:dev hoặc start:prod trước khi chạy hay archive từ Xcode, nếu không bản prod sẽ mang giá trị của dev."
+          ]
+        }
+      ]
+    }
+  ]
+}

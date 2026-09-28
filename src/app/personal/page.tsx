@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import { LegacyRedirect } from "@/components/LegacyRedirect";
-import { routes } from "@/lib/routes";
+import { LegacyRedirect } from "@/components/layout/LegacyRedirect";
+import { routes } from "@/lib/routes/routes";
 
-// The section holds one page today, so its root forwards instead of 404ing.
+// The section has no index of its own, so its root forwards instead of 404ing
+// — to the portfolio, the introduction, with the CV one link away from it.
 export const metadata: Metadata = { robots: { index: false } };
 
 export default function PersonalIndexPage() {
-  return <LegacyRedirect href={routes.cv} label="the CV" />;
+  return <LegacyRedirect href={routes.portfolio} label="the portfolio" />;
 }

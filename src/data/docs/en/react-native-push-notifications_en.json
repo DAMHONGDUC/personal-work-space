@@ -1,0 +1,300 @@
+{
+  "title": "Push notifications with Firebase Cloud Messaging",
+  "tagline": "Which message type shows a popup, in which app state, and which handler runs.",
+  "icon": "🔔",
+  "topic": "react-native",
+  "tags": [
+    "React Native",
+    "Firebase",
+    "FCM"
+  ],
+  "readingTime": "8 min",
+  "effectiveDate": "2026-09-28",
+  "lastUpdated": "2026-09-28",
+  "intro": [
+    "FCM delivers the message; what the user sees depends on the message type and on whether the app is open, in the background or quit. Most confusion comes from mixing those up."
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Overview",
+      "summary": "A message's path from Firebase to the screen.",
+      "blocks": [
+        {
+          "type": "flow",
+          "caption": "Who handles a remote notification at each step.",
+          "stages": [
+            {
+              "items": [
+                {
+                  "label": "Server sends",
+                  "detail": "Your backend or the Firebase console sends a message addressed to one device token",
+                  "explain": [
+                    "The token identifies one install of the app on one device. messaging().getToken() returns it, and the backend stores it against the user.",
+                    "The payload is a notification block, a data block, or both. That choice decides everything after this step."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "FCM delivers",
+                  "detail": "FCM routes it to the device, through APNs on iOS, which is why iOS needs push certificates",
+                  "explain": [
+                    "On iOS, Apple's APNs is the only way in. The bundle id needs the Push Notifications capability, and Firebase needs the APNs key or certificate.",
+                    "On Android, Google Play services receives it and wakes the app, as long as the user has not force-stopped it."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "OS shows it",
+                  "detail": "A notification payload in background or quit is drawn by the OS, without your code",
+                  "explain": [
+                    "This is the only case where a popup appears with no JavaScript involved: the OS reads title and body and draws them.",
+                    "On Android the popup only drops down if the notification's channel has high importance; otherwise it goes straight to the tray."
+                  ]
+                },
+                {
+                  "label": "Your handler runs",
+                  "detail": "onMessage in foreground, setBackgroundMessageHandler otherwise, and nothing is drawn for you",
+                  "explain": [
+                    "In the foreground FCM never shows a popup, even for a notification payload. onMessage fires and the app decides.",
+                    "To show one anyway, call a local notification library such as react-native-push-notification from inside onMessage."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "table",
+          "columns": [
+            "Kind",
+            "Sent by",
+            "App must be running"
+          ],
+          "rows": [
+            [
+              "Local",
+              "The app itself",
+              "Yes"
+            ],
+            [
+              "Remote",
+              "A server, through FCM",
+              "No"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "setup-ios",
+      "title": "iOS setup",
+      "summary": "Apple has to allow pushes before Firebase can send them.",
+      "blocks": [
+        {
+          "type": "checklist",
+          "items": [
+            "Create the Firebase project and download GoogleService-Info.plist",
+            "Create the bundle id in Apple Developer → Identifiers with Push Notifications enabled",
+            "Create development and distribution certificates",
+            "Create a provisioning profile that includes a real device, then download it in Xcode"
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "info",
+          "body": [
+            "The iOS simulator cannot receive remote pushes from APNs on older Xcode versions, so test on a real device."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "packages",
+      "title": "Packages",
+      "blocks": [
+        {
+          "type": "table",
+          "columns": [
+            "Package",
+            "Role"
+          ],
+          "rows": [
+            [
+              "@react-native-firebase/app",
+              "Firebase core, required by every module"
+            ],
+            [
+              "@react-native-firebase/messaging",
+              "Token, handlers, permission"
+            ],
+            [
+              "react-native-push-notification",
+              "Local notifications and channels"
+            ],
+            [
+              "@react-native-community/push-notification-ios",
+              "iOS peer of the one above"
+            ]
+          ]
+        },
+        {
+          "type": "list",
+          "items": [
+            "Docs: rnfirebase.io/messaging/usage",
+            "Send test messages from testfcm.com without writing a backend",
+            "Sample project: github.com/DAMHONGDUC/push_noti"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "channel",
+      "title": "Android channels",
+      "summary": "No channel, no popup.",
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            "Android 8+ files every notification under a channel. Without one it lands in the tray silently.",
+            "Create the channel before any notification can arrive — at module load, above the App component.",
+            "Importance.HIGH is what lets it drop down as a heads-up popup."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "typescript",
+          "code": [
+            "import PushNotification, { Importance } from 'react-native-push-notification';",
+            "",
+            "PushNotification.createChannel({",
+            "  channelId: NOTIFICATION_CHAT_CHANNEL,",
+            "  channelName: 'Chat',",
+            "  importance: Importance.HIGH,",
+            "  vibrate: true,",
+            "}, () => {});",
+            "",
+            "export default function App() { /* … */ }"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "message-types",
+      "title": "Message types",
+      "summary": "Three payload shapes.",
+      "blocks": [
+        {
+          "type": "code",
+          "language": "json",
+          "caption": "Notification: the OS can draw it on its own",
+          "code": [
+            "{",
+            "  \"message\": {",
+            "    \"token\": \"bk3RNwTe3H0:CI2k_HHwgIpoDKCIZvvDMExUdFQ3P1...\",",
+            "    \"notification\": { \"title\": \"Portugal vs. Denmark\", \"body\": \"great match!\" }",
+            "  }",
+            "}"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "json",
+          "caption": "Notification + data: drawn by the OS, with extra fields for your code",
+          "code": [
+            "{",
+            "  \"message\": {",
+            "    \"token\": \"bk3RNwTe3H0:CI2k_HHwgIpoDKCIZvvDMExUdFQ3P1...\",",
+            "    \"notification\": { \"title\": \"Portugal vs. Denmark\", \"body\": \"great match!\" },",
+            "    \"data\": { \"Nick\": \"Mario\", \"Room\": \"PortugalVSDenmark\" }",
+            "  }",
+            "}"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "json",
+          "caption": "Data only: never drawn, always handed to your code",
+          "code": [
+            "{",
+            "  \"message\": {",
+            "    \"token\": \"bk3RNwTe3H0:CI2k_HHwgIpoDKCIZvvDMExUdFQ3P1...\",",
+            "    \"data\": { \"Nick\": \"Mario\", \"body\": \"great match!\", \"Room\": \"PortugalVSDenmark\" }",
+            "  }",
+            "}"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "states",
+      "title": "App states and handlers",
+      "summary": "The two tables worth keeping open.",
+      "blocks": [
+        {
+          "type": "table",
+          "columns": [
+            "State",
+            "Meaning"
+          ],
+          "rows": [
+            [
+              "Foreground",
+              "The app is open and on screen"
+            ],
+            [
+              "Background",
+              "Open but minimised, e.g. after pressing home"
+            ],
+            [
+              "Quit",
+              "Swiped away or not started since the device booted"
+            ]
+          ]
+        },
+        {
+          "type": "table",
+          "columns": [
+            "Payload",
+            "Foreground",
+            "Background",
+            "Quit"
+          ],
+          "rows": [
+            [
+              "Notification",
+              "onMessage, no popup",
+              "Popup by the OS",
+              "Popup by the OS"
+            ],
+            [
+              "Notification + data",
+              "onMessage, no popup",
+              "Popup by the OS",
+              "Popup by the OS"
+            ],
+            [
+              "Data",
+              "onMessage, no popup",
+              "Background handler, no popup",
+              "Background handler, no popup"
+            ]
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "warning",
+          "body": [
+            "A data-only message never shows anything by itself. If users must see it, draw a local notification from the handler."
+          ]
+        }
+      ]
+    }
+  ]
+}

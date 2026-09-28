@@ -1,0 +1,209 @@
+{
+  "title": "Khởi tạo project React Native cho đàng hoàng",
+  "tagline": "Import tuyệt đối, ESLint, Prettier, và hook chạy chúng mỗi lần commit.",
+  "icon": "🧰",
+  "topic": "react-native",
+  "tags": [
+    "React Native",
+    "ESLint",
+    "Husky"
+  ],
+  "readingTime": "7 phút",
+  "effectiveDate": "2026-09-28",
+  "lastUpdated": "2026-09-28",
+  "intro": [
+    "Giờ đầu tiên của project quyết định cả năm sau dễ chịu hay không. Hãy cài import và lint trước tính năng đầu tiên, khi chưa có gì phải chuyển đổi."
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Tổng quan",
+      "summary": "Bốn lớp, lớp sau bắt những gì lớp trước bỏ lọt.",
+      "blocks": [
+        {
+          "type": "flow",
+          "caption": "Từ thư mục trống tới commit không thể phá quy ước.",
+          "stages": [
+            {
+              "items": [
+                {
+                  "label": "Tạo app",
+                  "detail": "React Native CLI dựng sẵn project native và Metro chỉ bằng một lệnh",
+                  "explain": [
+                    "npx react-native init ProjectName tạo thư mục ios và android, file JS khởi đầu và cấu hình Metro.",
+                    "yarn start chạy Metro, bộ đóng gói; yarn android hoặc yarn ios build app native và trỏ nó về Metro."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Import tuyệt đối",
+                  "detail": "tsconfig báo cho editor import được tìm ở đâu; Babel báo điều đó cho Metro",
+                  "explain": [
+                    "Cần cả hai. Chỉ có paths trong tsconfig thì editor vui nhưng bundle lỗi, vì Metro không đọc tsconfig.",
+                    "Với root là ./src, import Button from 'components/Button' thay cho '../../../components/Button' dù file nằm ở đâu."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "ESLint + Prettier",
+                  "detail": "ESLint tìm lỗi, Prettier sửa định dạng, và eslint-config-prettier ngăn chúng giẫm chân nhau",
+                  "explain": [
+                    "Các rule định dạng của ESLint xung đột với kết quả của Prettier. Đặt \"prettier\" cuối cùng trong extends sẽ tắt các rule đó.",
+                    "Script lint trong package.json cho CI và người dùng cùng một lệnh: eslint src/**/*.{js,tsx}."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Husky + lint-staged",
+                  "detail": "Hook pre-commit định dạng và lint chỉ những file đã stage, nên commit vẫn nhanh",
+                  "explain": [
+                    "Husky cài git hook; lint-staged quyết định hook đụng tới file nào, nên sửa một dòng không phải lint cả repo.",
+                    "Hook chạy npx lint-staged. Lỗi lint sẽ chặn commit, và đó chính là mục đích: code lỗi không bao giờ vào nhánh."
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "create",
+      "title": "Tạo và chạy",
+      "blocks": [
+        {
+          "type": "code",
+          "language": "bash",
+          "code": [
+            "npx react-native init ProjectName",
+            "yarn start",
+            "yarn android"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "absolute-imports",
+      "title": "Import tuyệt đối",
+      "summary": "Hai file, rồi reset cache.",
+      "blocks": [
+        {
+          "type": "code",
+          "language": "json",
+          "caption": "tsconfig.json (hoặc jsconfig.json)",
+          "code": [
+            "{",
+            "  \"compilerOptions\": {",
+            "    \"baseUrl\": \".\",",
+            "    \"paths\": { \"*\": [\"src/*\"] }",
+            "  }",
+            "}"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "code": [
+            "yarn add --dev babel-plugin-module-resolver"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "javascript",
+          "caption": "babel.config.js — project cũ đặt tên preset là metro-react-native-babel-preset",
+          "code": [
+            "module.exports = {",
+            "  presets: ['module:@react-native/babel-preset'],",
+            "  plugins: [",
+            "    [",
+            "      require.resolve('babel-plugin-module-resolver'),",
+            "      {",
+            "        root: ['./src'],",
+            "        extensions: ['.ts', '.tsx', '.js', '.ios.js', '.android.js'],",
+            "      },",
+            "    ],",
+            "  ],",
+            "};"
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "warning",
+          "body": [
+            "Metro cache cách resolve cũ. Hãy xoá node_modules, cài lại và chạy yarn start --reset-cache, nếu không import vẫn lỗi mà không rõ lý do."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lint",
+      "title": "ESLint và Prettier",
+      "blocks": [
+        {
+          "type": "code",
+          "language": "bash",
+          "caption": "Xoá .eslintrc.js của template trước, rồi trả lời các câu hỏi của init",
+          "code": [
+            "yarn add --dev eslint prettier eslint-config-prettier",
+            "npx eslint --init"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "json",
+          "caption": "\"prettier\" nằm cuối trong .eslintrc.json",
+          "code": [
+            "{",
+            "  \"extends\": [\"…\", \"prettier\"]",
+            "}"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "json",
+          "code": [
+            "\"scripts\": {",
+            "  \"lint\": \"eslint src/**/*.{js,tsx}\"",
+            "}"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "hooks",
+      "title": "Chạy chúng mỗi lần commit",
+      "blocks": [
+        {
+          "type": "code",
+          "language": "bash",
+          "caption": "Husky 9; hướng dẫn cũ dùng husky install và husky add",
+          "code": [
+            "yarn add --dev lint-staged husky",
+            "npx husky init",
+            "echo \"npx lint-staged\" > .husky/pre-commit"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "json",
+          "caption": "Trong package.json; các glob giả định mọi code nằm trong src",
+          "code": [
+            "\"lint-staged\": {",
+            "  \"src/**/*.{js,tsx}\": \"prettier --write\",",
+            "  \"src/**/*.tsx\": \"eslint\"",
+            "}"
+          ]
+        }
+      ]
+    }
+  ]
+}

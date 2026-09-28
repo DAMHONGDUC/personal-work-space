@@ -1,0 +1,224 @@
+{
+  "title": "A one-script Next.js starter",
+  "tagline": "create-next-app, then linting, commit rules, Redux, Ant Design and styled-components wired in one go.",
+  "icon": "⚡",
+  "topic": "web",
+  "tags": [
+    "Next.js",
+    "Ant Design",
+    "Redux"
+  ],
+  "readingTime": "7 min",
+  "effectiveDate": "2026-09-28",
+  "lastUpdated": "2026-09-28",
+  "intro": [
+    "Every new client project started with the same afternoon of configuration. setup_v2.sh does it in one run, so the first commit already has the team's rules in it."
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Overview",
+      "summary": "What the script does, in the order it does it.",
+      "blocks": [
+        {
+          "type": "flow",
+          "caption": "From an empty folder to a project with providers in its layout.",
+          "stages": [
+            {
+              "items": [
+                {
+                  "label": "create-next-app",
+                  "detail": "Asks for a name with no spaces, then scaffolds the app in a folder of that name",
+                  "explain": [
+                    "set -e stops the script at the first failing command, so a failed install never leaves a half-configured project behind.",
+                    "Answer No to Tailwind in the prompts: styling comes from Ant Design and styled-components instead."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Code rules",
+                  "detail": "ESLint with Prettier, commitlint and Husky hooks run on every commit",
+                  "explain": [
+                    "The ESLint config caps files at 150 lines, warns on console and forbids var, which keeps components small from the start.",
+                    "The pre-commit hook runs lint-staged (eslint --fix, prettier --write); the commit-msg hook enforces Conventional Commits such as feat: add login."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "plop scaffolding",
+                  "detail": "A plop generator creates the src folders and fills them from Handlebars templates",
+                  "explain": [
+                    "It creates components, config, constants, features, helpers, hooks, libs, redux, themes and types, each with an index.ts.",
+                    "Templates then write the Redux store and typed hooks, a hexToRgba helper, the styled-components registry and the themes."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "AppProviders",
+                  "detail": "One client component nests every provider, and the root layout wraps the app in it",
+                  "explain": [
+                    "Order, outermost first: Redux Provider, StyledComponentsRegistry, ThemeProvider, AntdRegistry, ConfigProvider, then GlobalStyle.",
+                    "The registries collect styles during server rendering and inject them into the HTML, which is what stops a flash of unstyled content.",
+                    "ConfigProvider is set to the Japanese locale (jaJP and dayjs 'ja'), because the template was made for Japanese client projects. Change both for other markets."
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "run",
+      "title": "Run it",
+      "blocks": [
+        {
+          "type": "steps",
+          "items": [
+            "Put setup_v2.sh in the folder that should contain the new project.",
+            "Run the command below and type a project name without spaces.",
+            "Answer No when create-next-app offers Tailwind."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "code": [
+            "chmod +x ./setup_v2.sh && ./setup_v2.sh"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "packages",
+      "title": "What it installs",
+      "blocks": [
+        {
+          "type": "table",
+          "columns": [
+            "Group",
+            "Packages"
+          ],
+          "rows": [
+            [
+              "Lint and format",
+              "eslint-config-prettier, eslint-plugin-prettier, @typescript-eslint/eslint-plugin, prettier"
+            ],
+            [
+              "Commits",
+              "husky, lint-staged, @commitlint/cli, @commitlint/config-conventional"
+            ],
+            [
+              "UI",
+              "antd, @ant-design/icons, @ant-design/cssinjs, @ant-design/nextjs-registry, styled-components"
+            ],
+            [
+              "State",
+              "@reduxjs/toolkit, react-redux"
+            ],
+            [
+              "Tools",
+              "plop, dayjs"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "config",
+      "title": "The rules it writes",
+      "summary": "The two config files that shape every later commit.",
+      "blocks": [
+        {
+          "type": "code",
+          "language": "json",
+          "caption": ".eslintrc",
+          "code": [
+            "{",
+            "  \"extends\": [\"next\", \"prettier\"],",
+            "  \"plugins\": [\"@typescript-eslint\"],",
+            "  \"rules\": {",
+            "    \"max-lines\": [\"error\", { \"max\": 150, \"skipBlankLines\": true, \"skipComments\": true }],",
+            "    \"import/prefer-default-export\": \"off\",",
+            "    \"no-console\": \"warn\",",
+            "    \"no-var\": \"error\",",
+            "    \"@typescript-eslint/no-unused-vars\": \"warn\"",
+            "  }",
+            "}"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "json",
+          "caption": ".prettierrc, abridged",
+          "code": [
+            "{",
+            "  \"semi\": false,",
+            "  \"singleQuote\": true,",
+            "  \"jsxSingleQuote\": true,",
+            "  \"trailingComma\": \"all\",",
+            "  \"printWidth\": 80,",
+            "  \"tabWidth\": 2,",
+            "  \"arrowParens\": \"always\"",
+            "}"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "caption": "The two git hooks",
+          "code": [
+            "npx husky init",
+            "echo \"npx lint-staged\" > .husky/pre-commit",
+            "echo \"npx --no -- commitlint --edit \\$1\" > .husky/commit-msg"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "providers",
+      "title": "The providers",
+      "blocks": [
+        {
+          "type": "code",
+          "language": "tsx",
+          "caption": "src/config/AppProviders.tsx, rendered by the root layout",
+          "code": [
+            "'use client'",
+            "",
+            "const AppProviders = ({ children }: Readonly<PropsWithChildren>) => (",
+            "  <Provider store={store}>",
+            "    <StyledComponentsRegistry>",
+            "      <ThemeProvider theme={generalTheme}>",
+            "        <AntdRegistry>",
+            "          <ConfigProvider locale={jaJP} theme={antdTheme}>",
+            "            <GlobalStyle />",
+            "            {children}",
+            "          </ConfigProvider>",
+            "        </AntdRegistry>",
+            "      </ThemeProvider>",
+            "    </StyledComponentsRegistry>",
+            "  </Provider>",
+            ")"
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "info",
+          "body": [
+            "The antd theme takes its colours from generalTheme, and hexToRgba derives the translucent borders, so one primary colour restyles both libraries."
+          ]
+        }
+      ]
+    }
+  ]
+}

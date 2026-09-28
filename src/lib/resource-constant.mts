@@ -38,6 +38,12 @@ export class ResourceConstant {
   static readonly SITE_FILE = "src/data/site.json";
 
   /**
+   * The portfolio page: introduction, skills, experience, projects. One file,
+   * imported statically by `src/lib/portfolio/portfolio.ts`.
+   */
+  static readonly PORTFOLIO_FILE = "src/data/portfolio.json";
+
+  /**
    * Every CV, one JSON file per version, each cut for a different reader. The
    * build compiles all of them and the CV page offers them in a switcher, so
    * adding a file here adds an entry to the dropdown.
@@ -66,8 +72,12 @@ export class ResourceConstant {
   /** The LaTeX the CV is rendered into. Hand-edited; never generated. */
   static readonly CV_TEMPLATE_DIR = "cv/template";
 
-  /** Images the CV embeds, such as the photo named in the CV data. */
-  static readonly CV_ASSETS_DIR = "cv/assets";
+  /**
+   * Images the CV embeds, such as the photo named in the CV data, copied into
+   * the LaTeX build for the PDF. It sits in public/personal beside the
+   * portfolio's own portrait, which is a different file.
+   */
+  static readonly CV_ASSETS_DIR = "public/personal";
 
   /** Generated LaTeX and the PDF LaTeX produces, one folder per CV. Not in git. */
   static readonly CV_BUILD_DIR = "cv/build";

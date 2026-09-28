@@ -8,7 +8,7 @@ src/data/cv/                    one file per version, the filename is the slug
 ├── cv_full.json                the whole history
 └── cv_no_freelancer.json       the same, without the freelance work
 cv/template/main.tex            the layout: preamble + %%PLACEHOLDER%% per section
-cv/assets/avt.jpg               the photo
+public/personal/avt.jpg         the CV photo (the portfolio has its own)
 cv/build/<slug>/                generated, git-ignored
 public/cv/<slug>/cv.pdf         the download, git-ignored
 public/cv/<slug>/page-N.png     rasterised pages — what the site renders
@@ -17,13 +17,13 @@ public/cv.pdf                   a copy of the default, for links already in the 
 
 **Every file here is built and offered**: the CV page has a dropdown, and each
 file's `label` is what it is called in it. Adding a version is adding a file —
-and then naming it in `src/lib/cv.ts`, which is the one content directory that
+and then naming it in `src/lib/cv/cv.ts`, which is the one content directory that
 cannot read itself, because a static export needs a literal import path. A test
 compares that list against this directory, so a file left out fails the suite.
 
 `ResourceConstant.CV_DATA_FILE` picks which version a visitor lands on and which
 one answers the legacy `/cv.pdf`. Changing it means changing nothing else — the
-imports in `src/lib/cv.ts` already cover every file.
+imports in `src/lib/cv/cv.ts` already cover every file.
 
 Every version downloads under the same name, `CV_<NAME>_<DD_MM_YYYY>.pdf`.
 
@@ -102,7 +102,7 @@ target survives, with only `%` and `#` escaped.
 
 Section order, spacing and fonts live in `cv/template/main.tex`. The
 `%%HEADER%%`, `%%ABOUT_ME%%`, `%%EDUCATION%%`, `%%SKILLS%%`, `%%EXPERIENCE%%`
-and `%%PROJECTS%%` placeholders are filled by `src/lib/cv-latex.mts`. A
+and `%%PROJECTS%%` placeholders are filled by `src/lib/cv/cv-latex.mts`. A
 placeholder with no matching section fails the build rather than printing
 `%%AWARDS%%` on the page.
 

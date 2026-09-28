@@ -2,6 +2,7 @@
   "title": "Bên trong Flutter, React Native và React",
   "tagline": "Thứ gì thật sự vẽ ra pixel trong từng cái, và clean architecture nằm ở đâu.",
   "icon": "🏗️",
+  "topic": "architecture",
   "tags": [
     "Flutter",
     "React Native",

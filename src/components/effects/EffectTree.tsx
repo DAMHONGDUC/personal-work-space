@@ -3,9 +3,12 @@
 import { ChevronRight, Library } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
-import { useActiveSection } from "@/hooks/useActiveSection";
-import { EFFECTS_ACCENT, type EffectTreeCategory } from "@/lib/effect-model";
-import { routes } from "@/lib/routes";
+import { useActiveSection } from "@/hooks/scroll/useActiveSection";
+import {
+  type EffectTreeCategory,
+} from "@/lib/effects/effect-model";
+import { routes } from "@/lib/routes/routes";
+import { AppColors } from "@/lib/design/app-colors";
 
 const ROW =
   "flex min-w-0 flex-1 items-baseline justify-between gap-2 rounded-md py-1 pr-1 text-sm leading-6 transition-colors";
@@ -93,7 +96,7 @@ export function EffectTree({
                       ? "font-medium text-foreground"
                       : "text-muted hover:bg-muted-surface hover:text-foreground"
                   }`}
-                  style={isCurrent ? { color: EFFECTS_ACCENT } : undefined}
+                  style={isCurrent ? { color: AppColors.EFFECTS } : undefined}
                 >
                   <span className="min-w-0">{category.label}</span>
                   <Count value={category.total} />
@@ -110,7 +113,7 @@ export function EffectTree({
                         ? "font-medium text-foreground"
                         : "border-transparent text-muted hover:border-foreground/25 hover:text-foreground"
                     }`;
-                    const style = isActive ? { borderColor: EFFECTS_ACCENT } : undefined;
+                    const style = isActive ? { borderColor: AppColors.EFFECTS } : undefined;
                     const body = (
                       <>
                         <span className="min-w-0">{pack.name}</span>

@@ -4,9 +4,9 @@ import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import {
   EFFECT_KINDS,
   EFFECT_KIND_LABELS,
-  EFFECTS_ACCENT,
   type EffectKind,
-} from "@/lib/effect-model";
+} from "@/lib/effects/effect-model";
+import { AppColors } from "@/lib/design/app-colors";
 
 const ALL = "all";
 
@@ -59,8 +59,8 @@ export function KindFilter({
           style={
             option === value
               ? {
-                  backgroundColor: `color-mix(in oklab, ${EFFECTS_ACCENT} 16%, transparent)`,
-                  color: EFFECTS_ACCENT,
+                  backgroundColor: `${AppColors.tint(AppColors.EFFECTS, 16)}`,
+                  color: AppColors.EFFECTS,
                 }
               : undefined
           }

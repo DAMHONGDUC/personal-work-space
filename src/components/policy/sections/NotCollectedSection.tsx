@@ -1,5 +1,6 @@
 import { Section } from "@/components/policy/Section";
-import type { App } from "@/lib/apps";
+import type { App } from "@/lib/apps/apps";
+import { AppTextStyles } from "@/lib/design/app-text-styles";
 
 export function NotCollectedSection({ app, number }: { app: App; number: number }) {
   return (
@@ -9,7 +10,7 @@ export function NotCollectedSection({ app, number }: { app: App; number: number 
       title="Data we do not collect"
       accent={app.accent}
     >
-      <p className="max-w-[68ch] text-base leading-7 text-muted">
+      <p className={`${AppTextStyles.BODY} max-w-[68ch]`}>
         {app.name} never asks for, receives, or stores any of the following:
       </p>
       <ul className="mt-5 grid gap-2 sm:grid-cols-2">

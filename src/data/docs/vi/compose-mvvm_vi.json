@@ -2,6 +2,7 @@
   "title": "Jetpack Compose và MVVM",
   "tagline": "State đi xuống, sự kiện đi lên, và một ViewModel giữ mọi quyết định của màn hình.",
   "icon": "🤖",
+  "topic": "android",
   "tags": [
     "Android",
     "Compose",

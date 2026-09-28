@@ -1,0 +1,27 @@
+{
+  "greeting": "Hi, I'm Duc",
+  "status": "Available for new projects",
+  "photo": "/personal/porfolio-avt.png",
+  "about": {
+    "title": "Curious about me? Here you have it:",
+    "learning": ["SwiftUI", "Jetpack Compose"]
+  },
+  "skillIcons": {
+    "Native Android": "android",
+    "Flutter": "flutter",
+    "React Native": "react",
+    "Backend & Integration": "firebase",
+    "Web": "nextjs",
+    "AI-Assisted Development": "claude",
+    "CI/CD & Release": "github-actions"
+  },
+  "projectIcons": {
+    "BaroEase": "/app-icons/baro-ease.png",
+    "Reseller Studio": "/app-icons/reseller-studio.png",
+    "Dual Space": "/personal/projects/dual-space.svg"
+  },
+  "timezone": "GMT+7",
+  "contact": {
+    "title": "What's next? Feel free to reach out if you are looking for a developer, have a question, or simply want to connect."
+  }
+}

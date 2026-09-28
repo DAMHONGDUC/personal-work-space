@@ -1,15 +1,21 @@
 "use client";
 
-import type { NavItem } from "@/components/PolicyNav";
-import { ReadingProgress } from "@/components/ReadingProgress";
+import type { NavItem } from "@/components/policy/PolicyNav";
+import { ReadingProgress } from "@/components/shared/ReadingProgress";
 import { DocBlocks } from "@/components/docs/DocBlocks";
 import { DocHero } from "@/components/docs/DocHero";
 import { LanguageSwitch } from "@/components/docs/LanguageSwitch";
 import { MobileToc, SidebarToc } from "@/components/policy/PolicyToc";
 import { Prose } from "@/components/policy/Prose";
 import { Section } from "@/components/policy/Section";
-import { useDocLanguage } from "@/hooks/useDocLanguage";
-import { DOCS_ACCENT, type Lang, type Doc } from "@/lib/doc-model";
+import { useDocLanguage } from "@/hooks/docs/useDocLanguage";
+import {
+  type Lang,
+  type Doc,
+} from "@/lib/docs/doc-model";
+import { AppSpacings } from "@/lib/design/app-spacings";
+import { AppColors } from "@/lib/design/app-colors";
+import { AppTextStyles } from "@/lib/design/app-text-styles";
 
 /**
  * One guide, in whichever language the reader picked.
@@ -29,16 +35,16 @@ export function DocArticle({ versions }: { versions: Record<Lang, Doc> }) {
 
   return (
     <>
-      <ReadingProgress accent={DOCS_ACCENT} />
+      <ReadingProgress accent={AppColors.DOCS} />
 
       <DocHero doc={doc} lang={lang}>
-        <LanguageSwitch lang={lang} onChange={setLang} accent={DOCS_ACCENT} />
+        <LanguageSwitch lang={lang} onChange={setLang} accent={AppColors.DOCS} />
       </DocHero>
 
       {/* The chrome around the guide is English whatever the body is, so the
           body carries its own lang for screen readers and hyphenation. */}
-      <main lang={lang} className="mx-auto w-full max-w-5xl px-6 pb-20 pt-14">
-        <MobileToc items={toc} accent={DOCS_ACCENT} />
+      <main lang={lang} className={`mx-auto w-full max-w-5xl px-6 ${AppSpacings.AFTER_HERO} ${AppSpacings.PAGE_BOTTOM}`}>
+        <MobileToc items={toc} accent={AppColors.DOCS} />
 
         <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_13rem] lg:gap-14">
           <div className="flex min-w-0 flex-col gap-14">
@@ -50,23 +56,23 @@ export function DocArticle({ versions }: { versions: Record<Lang, Doc> }) {
                 id={section.id}
                 number={index + 1}
                 title={section.title}
-                accent={DOCS_ACCENT}
+                accent={AppColors.DOCS}
               >
                 {section.summary && (
-                  <p className="-mt-1 max-w-[68ch] text-base leading-7 text-muted">
+                  <p className={`${AppTextStyles.BODY} -mt-1 max-w-[68ch]`}>
                     {section.summary}
                   </p>
                 )}
                 <DocBlocks
                   blocks={section.blocks}
-                  accent={DOCS_ACCENT}
+                  accent={AppColors.DOCS}
                   lang={lang}
                 />
               </Section>
             ))}
           </div>
 
-          <SidebarToc items={toc} accent={DOCS_ACCENT} />
+          <SidebarToc items={toc} accent={AppColors.DOCS} />
         </div>
       </main>
     </>

@@ -1,6 +1,7 @@
 import { Badge } from "@/components/policy/Badge";
 import { Section } from "@/components/policy/Section";
-import type { App } from "@/lib/apps";
+import type { App } from "@/lib/apps/apps";
+import { AppTextStyles } from "@/lib/design/app-text-styles";
 
 export function PermissionsSection({ app, number }: { app: App; number: number }) {
   return (
@@ -29,7 +30,7 @@ export function PermissionsSection({ app, number }: { app: App; number: number }
               </Badge>
             </div>
 
-            <p className="mt-2.5 text-base leading-7 text-muted">{permission.reason}</p>
+            <p className={`${AppTextStyles.BODY} mt-2.5`}>{permission.reason}</p>
           </article>
         ))}
       </div>
