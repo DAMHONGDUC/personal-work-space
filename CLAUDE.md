@@ -81,16 +81,20 @@
 - **Portfolio**: rendered at `/personal/portfolio` by the components in
   `src/components/portfolio/`. **Every fact comes from the default CV**
   (`cv_full.json`) — name, role, About me, education, skills, jobs, projects,
-  email, GitHub and LinkedIn — through `buildPortfolio` in
+  email, GitHub and LinkedIn, the photo, and the school's and companies'
+  websites (`url` on an education or experience entry) — through `buildPortfolio` in
   `src/lib/portfolio/portfolio.ts`, so the portfolio and the CV cannot drift.
   To change what the portfolio says, edit the CV. `src/data/portfolio.json`
-  holds presentation only (greeting, status, photos, what is being learnt,
-  time zone, the contact line), and a test fails if a fact is added there.
-  Images live under `public/portfolio/`; the test fails on a missing file and
-  on one nothing draws. The figures under the hero are computed by
+  holds presentation only (greeting, status, what is being learnt, an icon per
+  skill area keyed by the CV's area name, time zone, the contact line), and a
+  test fails if a fact is added there or a skill area has no icon. **One
+  photo**: the CV's, in `public/personal/` (`ResourceConstant.CV_ASSETS_DIR`),
+  which the LaTeX build copies into the PDF — the portfolio ships no image of
+  its own. The figures under the hero are computed by
   `portfolioStats` — years from the oldest job's start — so never type a number
-  of years into any copy. Profile links use the real brand marks from
-  `react-icons` (`react-icons/fa6`), never a lookalike glyph. The page's
+  of years into any copy. Profile links and skill areas use the real brand
+  marks from `react-icons`, never a lookalike glyph; the ids in the JSON map to
+  them in `SkillIcon`. The page's
   sections are pinned in the site header by `HeaderNav`, from
   `PORTFOLIO_SECTIONS`. Its look is the `.pf-*` block in `globals.css` plus one
   accent handed down as `--pf-a` by `PortfolioTheme`. Keep it quiet: the accent
