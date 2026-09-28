@@ -50,7 +50,7 @@ export function ExperienceTimeline({ jobs }: { jobs: Experience[] }) {
             <span className={`relative size-2 rounded-full ${index === 0 ? "bg-[var(--pf-a)]" : "bg-muted-foreground/40"}`} />
           </span>
 
-          <GlassCard as="article" className="flex flex-col gap-4 sm:flex-row sm:gap-6">
+          <GlassCard as="article" order={index} className="flex flex-col gap-4 sm:flex-row sm:gap-6">
             <span
               aria-hidden
               className="flex size-12 shrink-0 items-center justify-center rounded-xl border border-border-soft bg-muted-surface text-sm font-semibold"

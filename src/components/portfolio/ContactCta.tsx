@@ -9,7 +9,7 @@ export function ContactCta({ portfolio }: { portfolio: Portfolio }) {
   const { contact, email } = portfolio;
 
   return (
-    <div className="relative overflow-hidden rounded-2xl border border-border-soft bg-surface px-6 py-14 text-center sm:px-12">
+    <div className="pf-item relative overflow-hidden rounded-2xl border border-border-soft bg-surface px-6 py-14 text-center sm:px-12">
       <div aria-hidden className="pf-dots pointer-events-none absolute inset-0 opacity-50" />
 
       <div className="relative mx-auto flex max-w-2xl flex-col items-center gap-7">

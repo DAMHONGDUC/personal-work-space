@@ -208,26 +208,43 @@ html {
     animation-delay: var(--pf-delay, 0ms);
   }
 
-  /* Sections rise in as they scroll into view, where the browser can tie an
-     animation to scroll; elsewhere they are simply there. */
-  @supports (animation-timeline: view()) {
-    @keyframes pf-reveal {
-      from { opacity: 0; translate: 0 1.5rem; }
-      to { opacity: 1; translate: 0 0; }
-    }
+  @keyframes pf-card {
+    from { opacity: 0; translate: 0 1.75rem; scale: 0.98; }
+    to { opacity: 1; translate: 0 0; scale: 1; }
+  }
 
-    .pf-reveal {
-      animation: pf-reveal linear both;
-      animation-timeline: view();
-      animation-range: entry 0% entry 50%;
-    }
+  /* A section's entrance, driven by RevealSection's data-reveal: hidden
+     until the section scrolls in, then the heading rises, its rule draws, and
+     the cards rise one after another — each card's turn is --pf-i. A section
+     that was on screen from the start never gets data-reveal at all. */
+  [data-reveal="hidden"] .pf-head,
+  [data-reveal="hidden"] .pf-item {
+    opacity: 0;
+  }
 
-    /* The short rule before a section's label draws itself as it arrives. */
-    .pf-rule {
-      transform-origin: left;
-      animation: pf-grow linear both;
-      animation-timeline: view();
-      animation-range: entry 30% entry 90%;
-    }
+  [data-reveal="hidden"] .pf-rule {
+    scale: 0 1;
+  }
+
+  [data-reveal="shown"] .pf-head {
+    animation: pf-rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+
+  [data-reveal="shown"] .pf-rule {
+    transform-origin: left;
+    animation: pf-grow 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) 0.15s both;
+  }
+
+  [data-reveal="shown"] .pf-item {
+    animation: pf-card 0.75s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    animation-delay: calc(0.2s + var(--pf-i, 0) * 90ms);
+  }
+}
+
+/* A printed portfolio shows every section, whatever has scrolled in. */
+@media print {
+  [data-reveal] .pf-head,
+  [data-reveal] .pf-item {
+    opacity: 1 !important;
   }
 }

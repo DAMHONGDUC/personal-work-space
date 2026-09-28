@@ -10,9 +10,19 @@ import { AppTextStyles } from "@/lib/design/app-text-styles";
  * One small fact: an icon and a label on one line, the fact under it. Every
  * tile in the column shares this rhythm, so they line up whatever they hold.
  */
-function FactTile({ icon: Icon, label, children }: { icon: LucideIcon; label: string; children: ReactNode }) {
+function FactTile({
+  icon: Icon,
+  label,
+  order,
+  children,
+}: {
+  icon: LucideIcon;
+  label: string;
+  order: number;
+  children: ReactNode;
+}) {
   return (
-    <GlassCard className="flex flex-col gap-3 p-5!">
+    <GlassCard order={order} className="flex flex-col gap-3 p-5!">
       <p className={`${AppTextStyles.CAPTION} flex items-center gap-2`}>
         <Icon aria-hidden className="size-4" />
         {label}
@@ -61,7 +71,7 @@ export function AboutBento({ portfolio }: { portfolio: Portfolio }) {
         </div>
       </GlassCard>
 
-      <FactTile icon={MapPin} label="Based in">
+      <FactTile icon={MapPin} label="Based in" order={1}>
         <div className="flex flex-col gap-1">
           <p className="font-semibold">{portfolio.location}</p>
           <p className={`${AppTextStyles.SMALL} flex items-center gap-1.5`}>
@@ -70,7 +80,7 @@ export function AboutBento({ portfolio }: { portfolio: Portfolio }) {
         </div>
       </FactTile>
 
-      <FactTile icon={Sparkles} label="Currently learning">
+      <FactTile icon={Sparkles} label="Currently learning" order={2}>
         <ul className="flex flex-wrap gap-1.5">
           {about.learning.map((topic) => (
             <li key={topic} className="rounded-lg bg-muted-surface px-2.5 py-1 text-sm font-medium">
@@ -80,7 +90,7 @@ export function AboutBento({ portfolio }: { portfolio: Portfolio }) {
         </ul>
       </FactTile>
 
-      <GlassCard className="flex flex-col gap-3 p-5!">
+      <GlassCard order={3} className="flex flex-col gap-3 p-5!">
         {portfolio.status && <StatusPill>{portfolio.status}</StatusPill>}
         <a href="#contact" className="w-fit text-lg font-semibold underline-offset-4 hover:underline">
           Let&apos;s work together →

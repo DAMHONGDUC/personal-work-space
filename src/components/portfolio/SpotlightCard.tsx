@@ -1,15 +1,16 @@
 "use client";
 
-import { useRef, type PointerEvent, type ReactNode } from "react";
+import { useRef, type CSSProperties, type PointerEvent, type ReactNode } from "react";
 
 /**
  * A card with a faint, colourless light that follows the pointer.
  *
- * The only JavaScript on the portfolio: it writes the pointer position into two
- * CSS variables and CSS draws the light, so there is no re-render per move.
- * On touch there is no hover, and the card is simply a card.
+ * It writes the pointer position into two CSS variables and CSS draws the
+ * light, so there is no re-render per move. On touch there is no hover, and
+ * the card is simply a card. Like GlassCard it rises in on turn `order` when
+ * its section scrolls in.
  */
-export function SpotlightCard({ children }: { children: ReactNode }) {
+export function SpotlightCard({ children, order = 0 }: { children: ReactNode; order?: number }) {
   const ref = useRef<HTMLDivElement>(null);
 
   function onPointerMove(event: PointerEvent<HTMLDivElement>) {
@@ -25,7 +26,8 @@ export function SpotlightCard({ children }: { children: ReactNode }) {
     <div
       ref={ref}
       onPointerMove={onPointerMove}
-      className="pf-reveal group relative overflow-hidden rounded-2xl border border-border-soft bg-surface transition-[border-color,box-shadow,transform] duration-300 hover:border-foreground/20 hover:shadow-lg motion-safe:hover:[transform:translateY(-3px)]"
+      style={{ "--pf-i": order } as CSSProperties}
+      className="pf-item group relative overflow-hidden rounded-2xl border border-border-soft bg-surface transition-[border-color,box-shadow,transform] duration-300 hover:border-foreground/20 hover:shadow-lg motion-safe:hover:[transform:translateY(-3px)]"
     >
       <div
         aria-hidden

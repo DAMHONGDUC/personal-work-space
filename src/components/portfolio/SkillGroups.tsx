@@ -11,8 +11,8 @@ import { AppTextStyles } from "@/lib/design/app-text-styles";
 export function SkillGroups({ skills, icons }: { skills: Skill[]; icons: Record<string, SkillIconId> }) {
   return (
     <ul className="grid gap-4 sm:grid-cols-2">
-      {skills.map((skill) => (
-        <GlassCard key={skill.name} as="li" className="flex flex-col gap-4">
+      {skills.map((skill, index) => (
+        <GlassCard key={skill.name} as="li" order={index} className="flex flex-col gap-4">
           <div className="flex items-center gap-3">
             <SkillIcon id={icons[skill.name]} />
             <h3 className={AppTextStyles.CARD_TITLE_SM}>{skill.name}</h3>

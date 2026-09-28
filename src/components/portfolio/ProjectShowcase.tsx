@@ -12,7 +12,7 @@ function linkIcon(href: string) {
 
 function ProjectCard({ project, index, icon }: { project: Project; index: number; icon?: string }) {
   return (
-    <SpotlightCard>
+    <SpotlightCard order={index}>
       <div className="flex h-full flex-col gap-5 p-6 md:p-8">
         <div className="flex items-start justify-between gap-4">
           <ProjectIcon name={project.name} src={icon} />

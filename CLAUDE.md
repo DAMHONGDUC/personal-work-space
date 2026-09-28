@@ -113,8 +113,9 @@
   accent handed down as `--pf-a` by `PortfolioTheme`. Keep it quiet: the accent
   marks a rule, a dot, a full stop — no gradients on text, buttons or borders,
   nothing spinning or drifting. The motion there is: the hero plays in once on
-  load (`pf-enter` / `pf-pop`, timed by `enterStyle`), each card rises in as
-  it scrolls into view and lifts on hover (with `transform`, since the rise-in
+  load (`pf-enter` / `pf-pop`, timed by `enterStyle`), each section plays its
+  entrance as it scrolls in (`RevealSection`, IntersectionObserver: heading
+  rises, rule draws, cards rise in by `order`) and cards lift on hover (with `transform`, since the rise-in
   holds `translate`), a section's rule draws itself, the current job's dot
   pulses and the greeting waves twice. All CSS, and every animation sits
   behind `prefers-reduced-motion: no-preference`.
