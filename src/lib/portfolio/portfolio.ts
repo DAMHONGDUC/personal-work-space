@@ -62,12 +62,15 @@ export function buildPortfolio(source: Cv, extras: PortfolioPage): Portfolio {
     throw new Error("The CV has no portfolioAbout, the portfolio's own introduction");
   }
 
+  const careerStart = periodStart(oldest.period);
+  const years = String(yearsSince(careerStart));
+
   return {
     ...extras,
     name: titleCase(source.header.name),
     role: newest.role,
     headline: source.aboutMe[0],
-    story: source.portfolioAbout,
+    story: source.portfolioAbout.map((paragraph) => paragraph.replaceAll("{{years}}", years)),
     location: newest.location,
     education: source.education,
     skills: source.skills,
@@ -75,7 +78,7 @@ export function buildPortfolio(source: Cv, extras: PortfolioPage): Portfolio {
     projects: source.projects,
     email,
     links: profileLinks(source),
-    careerStart: periodStart(oldest.period),
+    careerStart,
   };
 }
 

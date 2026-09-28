@@ -98,7 +98,7 @@ export type Portfolio = PortfolioPage & {
   role: string;
   /** The CV's short About me, first line: the hero's lead. */
   headline: string;
-  /** The portfolio's own, longer introduction: the CV's `portfolioAbout`. */
+  /** The portfolio's own introduction: the CV's `portfolioAbout`, `{{years}}` filled in. */
   story: string[];
   /** Where the newest job is. */
   location: string;

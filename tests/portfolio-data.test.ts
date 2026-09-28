@@ -70,7 +70,11 @@ describe("portfolio and CV", () => {
   it("show the same facts", () => {
     // The point of building one from the other: they cannot disagree.
     expect(portfolio.headline).toBe(cv.aboutMe[0]);
-    expect(portfolio.story).toBe(cv.portfolioAbout);
+    expect(portfolio.story).toEqual(
+      cv.portfolioAbout?.map((paragraph) =>
+        paragraph.replaceAll("{{years}}", String(yearsSince(portfolio.careerStart))),
+      ),
+    );
     expect(portfolio.education).toBe(cv.education);
     expect(portfolio.skills).toBe(cv.skills);
     expect(portfolio.experience).toBe(cv.experience);
@@ -93,14 +97,31 @@ describe("portfolio and CV", () => {
     expect(page.photo.endsWith(`/${cv.header.photo}`)).toBe(false);
   });
 
-  it("tells a longer story than the CV's short introduction", () => {
-    // Two introductions, one file: the CV prints aboutMe, the portfolio shows
-    // portfolioAbout — two full paragraphs, and not the CV's lines again.
-    expect(cv.portfolioAbout).toHaveLength(2);
-    expect(cv.portfolioAbout?.join(" ").length).toBeGreaterThan(cv.aboutMe.join(" ").length * 2);
-    for (const paragraph of cv.portfolioAbout ?? []) {
+  it("introduces briefly, in its own words", () => {
+    // Two short paragraphs — experience, the team being looked for, the way of
+    // working. Companies and results have their own sections, so the
+    // introduction does not repeat them, nor the CV's own lines.
+    const about = cv.portfolioAbout ?? [];
+    const text = about.join(" ");
+
+    expect(about).toHaveLength(2);
+    for (const paragraph of about) {
       expect(cv.aboutMe).not.toContain(paragraph);
+      expect(paragraph.length).toBeLessThanOrEqual(320);
     }
+    for (const job of cv.experience) {
+      expect(text).not.toContain(job.company);
+    }
+  });
+
+  it("counts the years of experience instead of typing them", () => {
+    // Typed, the number goes stale every July; {{years}} is filled at build.
+    const about = (cv.portfolioAbout ?? []).join(" ");
+
+    expect(about).toContain("{{years}}");
+    expect(about).not.toMatch(/\d+\+? years/);
+    expect(portfolio.story.join(" ")).not.toContain("{{");
+    expect(portfolio.story.join(" ")).toContain(`${yearsSince(portfolio.careerStart)}+ years`);
   });
 
   it("takes the email and profiles from the CV's contacts", () => {
