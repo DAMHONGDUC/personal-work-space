@@ -36,7 +36,7 @@ export default function PortfolioPage() {
         </PortfolioSection>
 
         <PortfolioSection id="projects" eyebrow="Projects" title="Things I have built">
-          <ProjectShowcase projects={portfolio.projects} />
+          <ProjectShowcase projects={portfolio.projects} icons={portfolio.projectIcons} />
         </PortfolioSection>
 
         <PortfolioSection id="contact" eyebrow="Contact" title="Get in touch">

@@ -32,7 +32,7 @@ describe("portfolio.json", () => {
     // A name, a job or an email typed here would be a second copy that
     // drifts from the CV. The page's own keys are the whole list.
     expect(Object.keys(page).sort()).toEqual(
-      ["about", "contact", "greeting", "photo", "skillIcons", "status", "timezone"].sort(),
+      ["about", "contact", "greeting", "photo", "projectIcons", "skillIcons", "status", "timezone"].sort(),
     );
     expect(Object.keys(page.about).sort()).toEqual(["learning", "title"]);
     expect(Object.keys(page.contact)).toEqual(["title"]);
@@ -59,6 +59,20 @@ describe("portfolio.json", () => {
       .map((skill) => skill.name);
 
     expect(wrong).toEqual([]);
+  });
+
+  it("gives icons only to projects the CV has, from files that ship", () => {
+    const names = cv.projects.map((project) => project.name);
+    const bad = Object.entries(page.projectIcons as Record<string, string>)
+      .filter(
+        ([name, src]) =>
+          !names.includes(name) ||
+          !src.startsWith("/") ||
+          !fs.existsSync(path.join(process.cwd(), ResourceConstant.PUBLIC_DIR, src)),
+      )
+      .map(([name, src]) => `${name}: ${src}`);
+
+    expect(bad).toEqual([]);
   });
 
   it("names something being learnt", () => {

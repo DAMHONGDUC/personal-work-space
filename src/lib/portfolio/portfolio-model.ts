@@ -74,6 +74,13 @@ export type PortfolioPage = {
    * area the CV no longer has.
    */
   skillIcons: Record<string, SkillIconId>;
+  /**
+   * A project's app icon, under public/, keyed by the project's name exactly
+   * as the CV writes it. A project with no entry shows a placeholder tile.
+   * An icon the site already ships — an app under /app-icons — is reused
+   * rather than copied.
+   */
+  projectIcons: Record<string, PublicPath>;
   /** Shown under the location, e.g. `GMT+7`. */
   timezone: string;
   contact: {

@@ -15,6 +15,11 @@
     "AI-Assisted Development": "claude",
     "CI/CD & Release": "github-actions"
   },
+  "projectIcons": {
+    "BaroEase": "/app-icons/baro-ease.png",
+    "Reseller Studio": "/app-icons/reseller-studio.png",
+    "Dual Space": "/personal/projects/dual-space.svg"
+  },
   "timezone": "GMT+7",
   "contact": {
     "title": "What's next? Feel free to reach out if you are looking for a developer, have a question, or simply want to connect."
