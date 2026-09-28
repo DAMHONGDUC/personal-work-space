@@ -1,38 +1,23 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
+import { useStandalonePage, type HeaderSection } from "@/hooks/layout/useStandalonePage";
 import { useActiveSection } from "@/hooks/scroll/useActiveSection";
-import { PORTFOLIO_SECTIONS } from "@/lib/portfolio/portfolio-model";
 import { routes } from "@/lib/routes/routes";
 import { AppTextStyles } from "@/lib/design/app-text-styles";
-
-type HeaderSection = { readonly id: string; readonly label: string };
-
-/**
- * Pages whose sections are pinned in the header, by path. A page listed here
- * gets its own contents in the bar while it scrolls; every other page gets the
- * way home. The list is the page's own, so the headings and the links cannot
- * drift apart.
- */
-const PAGE_SECTIONS: Record<string, readonly HeaderSection[]> = {
-  [routes.portfolio]: PORTFOLIO_SECTIONS,
-};
 
 const NONE: readonly HeaderSection[] = [];
 
 /**
  * The right-hand side of the sticky header.
  *
- * A client component only because it reads the path and follows the scroll;
- * each page is prerendered at its own path, so the first paint already shows
- * the right links.
+ * The way home, or on a standalone page its own sections, with the one on
+ * screen highlighted. A client component only because it reads the path and
+ * follows the scroll.
  */
 export function HeaderNav() {
-  // Paths carry a trailing slash under `trailingSlash: true`; routes do not.
-  const path = (usePathname() ?? routes.home).replace(/(.)\/$/, "$1");
-  const sections = PAGE_SECTIONS[path] ?? NONE;
+  const sections = useStandalonePage()?.sections ?? NONE;
   const active = useActiveSection(sections.map((section) => section.id));
   const listRef = useRef<HTMLUListElement>(null);
 
@@ -60,9 +45,7 @@ export function HeaderNav() {
   }
 
   return (
-    // data-sections lets the header drop the publisher's name on a phone,
-    // so the links get the width.
-    <nav aria-label="On this page" data-sections className="-mr-2 min-w-0">
+    <nav aria-label="On this page" className="-mr-2 min-w-0">
       <ul
         ref={listRef}
         className={`${AppTextStyles.SMALL} flex items-center gap-1 overflow-x-auto scroll-smooth whitespace-nowrap [scrollbar-width:none] [&::-webkit-scrollbar]:hidden`}

@@ -84,4 +84,34 @@ describe("SiteHeader", () => {
       PORTFOLIO_SECTIONS.map((section) => `#${section.id}`),
     );
   });
+
+  it("sends the publisher's name home from an ordinary page", () => {
+    const brand = render().querySelector("a:not(nav a)");
+
+    expect(brand?.textContent).toContain("Acme");
+    expect(brand?.getAttribute("href")).toBe(routes.home);
+  });
+
+  it("keeps the publisher's name on the portfolio, never linking home", () => {
+    // The portfolio stands on its own: no link in its header leads out of it.
+    location.path = `${routes.portfolio}/`;
+    const header = render();
+    const brand = header.querySelector("a:not(nav a)");
+
+    expect(brand?.getAttribute("href")).toBe(routes.portfolio);
+    expect([...header.querySelectorAll("a")].map((link) => link.getAttribute("href"))).not.toContain(
+      routes.home,
+    );
+  });
+
+  it("scrolls the portfolio back to its top when the name is clicked", () => {
+    location.path = `${routes.portfolio}/`;
+    const scrollTo = vi.fn();
+    window.scrollTo = scrollTo as typeof window.scrollTo;
+
+    const brand = render().querySelector<HTMLAnchorElement>("a:not(nav a)");
+    act(() => brand?.click());
+
+    expect(scrollTo).toHaveBeenCalledWith({ top: 0 });
+  });
 });
