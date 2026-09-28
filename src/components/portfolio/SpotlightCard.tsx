@@ -25,7 +25,7 @@ export function SpotlightCard({ children }: { children: ReactNode }) {
     <div
       ref={ref}
       onPointerMove={onPointerMove}
-      className="group relative overflow-hidden rounded-2xl border border-border-soft bg-surface transition-colors duration-300 hover:border-foreground/20"
+      className="pf-reveal group relative overflow-hidden rounded-2xl border border-border-soft bg-surface transition-[border-color,box-shadow,transform] duration-300 hover:border-foreground/20 hover:shadow-lg motion-safe:hover:[transform:translateY(-3px)]"
     >
       <div
         aria-hidden
@@ -35,7 +35,7 @@ export function SpotlightCard({ children }: { children: ReactNode }) {
             "radial-gradient(28rem circle at var(--x, 50%) var(--y, 50%), color-mix(in oklab, var(--foreground) 5%, transparent), transparent 60%)",
         }}
       />
-      <div className="relative">{children}</div>
+      <div className="relative h-full">{children}</div>
     </div>
   );
 }

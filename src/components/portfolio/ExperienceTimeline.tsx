@@ -43,7 +43,11 @@ export function ExperienceTimeline({ jobs }: { jobs: Experience[] }) {
             aria-hidden
             className="absolute -left-8 top-7 flex size-6 items-center justify-center rounded-full border border-border-soft bg-background sm:-left-10 sm:size-8"
           >
-            <span className={`size-2 rounded-full ${index === 0 ? "bg-[var(--pf-a)]" : "bg-muted-foreground/40"}`} />
+            {index === 0 && (
+              // The job still running pulses, like the availability dot.
+              <span className="absolute size-2 rounded-full bg-[var(--pf-a)] opacity-60 motion-safe:animate-ping" />
+            )}
+            <span className={`relative size-2 rounded-full ${index === 0 ? "bg-[var(--pf-a)]" : "bg-muted-foreground/40"}`} />
           </span>
 
           <GlassCard as="article" className="flex flex-col gap-4 sm:flex-row sm:gap-6">
