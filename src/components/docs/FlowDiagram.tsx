@@ -10,6 +10,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import type { FlowBlock, FlowItem, Lang } from "@/lib/docs/doc-model";
+import { AppTextStyles } from "@/lib/design/app-text-styles";
 
 /**
  * A diagram drawn from the data in a `flow` block: each stage is a row of boxes,
@@ -51,7 +52,7 @@ export function FlowDiagram({
         {block.stages.map((stage, stageIndex) => (
           <div key={stageIndex} className="flex flex-col items-stretch gap-2">
             {stageIndex > 0 && (
-              <span aria-hidden className="text-center text-sm leading-none text-muted">
+              <span aria-hidden className={`${AppTextStyles.SMALL} text-center leading-none`}>
                 ↓
               </span>
             )}
@@ -70,7 +71,7 @@ export function FlowDiagram({
                   <span className="pr-5 text-sm font-medium leading-6">
                     {item.label}
                   </span>
-                  <span className="text-xs leading-5 text-muted">{item.detail}</span>
+                  <span className={`${AppTextStyles.CAPTION} leading-5`}>{item.detail}</span>
 
                   {/* The affordance is an icon rather than a word: the dialog
                       is opened from a guide written in either language, and a
@@ -88,7 +89,7 @@ export function FlowDiagram({
       </div>
 
       {block.caption && (
-        <figcaption className="text-xs leading-5 text-muted">{block.caption}</figcaption>
+        <figcaption className={`${AppTextStyles.CAPTION} leading-5`}>{block.caption}</figcaption>
       )}
 
       {/* One dialog for the whole diagram rather than one per box: only ever a

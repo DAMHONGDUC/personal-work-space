@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CategoryBrowser } from "@/components/effects/CategoryBrowser";
+import { CategoryIcon } from "@/components/effects/CategoryIcon";
 import { EffectUploadButton } from "@/components/effects/EffectUploadButton";
-import { EFFECTS_ACCENT, treeOf } from "@/lib/effects/effect-model";
+import { BreadcrumbLink } from "@/components/layout/BreadcrumbLink";
+import { CompactPageHeader } from "@/components/layout/CompactPageHeader";
+import { PageContainer } from "@/components/layout/PageContainer";
+import { treeOf } from "@/lib/effects/effect-model";
 import { getEffectCategories, getEffectCategory } from "@/lib/effects/effects";
 import { routes } from "@/lib/routes/routes";
 
@@ -37,39 +40,21 @@ export default async function EffectCategoryPage(props: PageProps<"/effects/[cat
   }
 
   return (
-    <main className="mx-auto w-full max-w-5xl px-6 pb-20 pt-8">
-      {/* Compact on purpose: the page is for looking things up, so the files
-          start above the fold. Counts live in the filters and the pack list. */}
-      <div className="flex items-center gap-3 pb-6">
-        <span
-          aria-hidden
-          className="flex size-10 shrink-0 items-center justify-center rounded-xl border text-lg"
-          style={{
-            backgroundColor: `color-mix(in oklab, ${EFFECTS_ACCENT} 14%, transparent)`,
-            borderColor: `color-mix(in oklab, ${EFFECTS_ACCENT} 28%, transparent)`,
-          }}
-        >
-          {category.icon}
-        </span>
-        <div className="flex min-w-0 flex-col">
-          <nav className="text-xs text-muted">
-            <Link href={routes.effects} className="transition-colors hover:text-foreground">
-              Effects library
-            </Link>
-            <span className="px-1.5 opacity-50">/</span>
-          </nav>
-          <h1 className="text-2xl font-semibold tracking-tight">{category.label}</h1>
-        </div>
-        <div className="ml-auto">
-          <EffectUploadButton defaultCategory={category.id} />
-        </div>
-      </div>
+    // Compact on purpose: the page is for looking things up, so the files
+    // start above the fold. Counts live in the filters and the pack list.
+    <PageContainer>
+      <CompactPageHeader
+        title={category.label}
+        leading={<CategoryIcon icon={category.icon} />}
+        breadcrumb={<BreadcrumbLink href={routes.effects}>Effects library</BreadcrumbLink>}
+        action={<EffectUploadButton defaultCategory={category.id} />}
+      />
 
       <CategoryBrowser
         category={category.id}
         packs={category.packs}
         tree={treeOf(getEffectCategories())}
       />
-    </main>
+    </PageContainer>
   );
 }

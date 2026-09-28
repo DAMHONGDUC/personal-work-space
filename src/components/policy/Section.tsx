@@ -1,3 +1,5 @@
+import { AppTextStyles } from "@/lib/design/app-text-styles";
+
 /**
  * One numbered section of a policy or a guide.
  *
@@ -21,7 +23,7 @@ export function Section({
 }) {
   return (
     <section id={id} className="scroll-mt-24">
-      <h2 className="flex items-baseline gap-2.5 pb-5 text-xl font-semibold tracking-tight">
+      <h2 className={`${AppTextStyles.CARD_TITLE} flex items-baseline gap-2.5 pb-5`}>
         <span className="tabular-nums" style={{ color: accent }}>
           {number}.
         </span>

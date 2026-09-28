@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { withBasePath } from "@/lib/routes/routes";
+import { AppSpacings } from "@/lib/design/app-spacings";
+import { AppTextStyles } from "@/lib/design/app-text-styles";
 
 /**
  * Stand-in for a 301 on paths that have moved.
@@ -13,9 +15,9 @@ export function LegacyRedirect({ href, label }: { href: string; label: string })
   return (
     <>
       <meta httpEquiv="refresh" content={`0; url=${withBasePath(`${href}/`)}`} />
-      <main className="mx-auto flex w-full max-w-5xl flex-col items-start gap-4 px-6 py-24">
-        <p className="font-mono text-sm text-muted">This page has moved</p>
-        <h1 className="text-2xl font-semibold tracking-tight">
+      <main className={`mx-auto flex w-full max-w-5xl flex-col items-start gap-4 px-6 ${AppSpacings.PAGE_TOP} ${AppSpacings.PAGE_BOTTOM}`}>
+        <p className={AppTextStyles.MONO_LABEL}>This page has moved</p>
+        <h1 className={AppTextStyles.COMPACT_TITLE}>
           Redirecting to {label}…
         </h1>
         <Link

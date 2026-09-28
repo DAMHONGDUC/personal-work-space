@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { CvGate } from "@/components/cv/CvGate";
 import { CvSwitcher } from "@/components/cv/CvSwitcher";
+import { PageContainer } from "@/components/layout/PageContainer";
+import { PageIntro } from "@/components/layout/PageIntro";
 import { cv, getCvVersions } from "@/lib/cv/cv";
 import { routes } from "@/lib/routes/routes";
 
@@ -16,20 +18,17 @@ export default function CvPage() {
   const versions = getCvVersions();
 
   return (
-    <main className="mx-auto w-full max-w-5xl px-6 py-20">
-      <div className="flex max-w-2xl flex-col gap-5 pb-12">
-        {/* Just "CV": the name is already in the site header and again at the
-            top of the document below. */}
-        <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">CV</h1>
-        <p className="text-lg leading-8 text-muted">
-          My background, experience and skills. Pick the version that fits what
-          you are hiring for, read it below, or take a copy with you.
-        </p>
-      </div>
+    <PageContainer>
+      {/* Just "CV": the name is already in the site header and again at the
+          top of the document below. */}
+      <PageIntro title="CV">
+        My background, experience and skills. Pick the version that fits what
+        you are hiring for, read it below, or take a copy with you.
+      </PageIntro>
 
       <CvGate>
         <CvSwitcher versions={versions} />
       </CvGate>
-    </main>
+    </PageContainer>
   );
 }

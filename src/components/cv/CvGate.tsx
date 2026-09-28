@@ -4,6 +4,7 @@ import { LockKeyhole } from "lucide-react";
 import { useState, useSyncExternalStore, type FormEvent, type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { AppTextStyles } from "@/lib/design/app-text-styles";
 
 /**
  * SHA-256 of the CV password, so the password itself is not in the bundle.
@@ -78,8 +79,8 @@ export function CvGate({ children }: { children: ReactNode }) {
         <LockKeyhole className="size-5" />
       </span>
       <div className="flex flex-col gap-1">
-        <h2 className="text-lg font-semibold tracking-tight">This CV is private</h2>
-        <p className="text-sm text-muted">Enter the password you were given to read it.</p>
+        <h2 className={AppTextStyles.CARD_TITLE_SM}>This CV is private</h2>
+        <p className={AppTextStyles.SMALL}>Enter the password you were given to read it.</p>
       </div>
 
       <label className="flex flex-col gap-2">

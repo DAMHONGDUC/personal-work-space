@@ -18,7 +18,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { commitUploads } from "@/hooks/effects/useEffectUploads";
-import { EFFECT_KIND_LABELS, EFFECTS_ACCENT, type EffectKind } from "@/lib/effects/effect-model";
+import {
+  EFFECT_KIND_LABELS,
+  type EffectKind,
+} from "@/lib/effects/effect-model";
 import {
   UPLOAD_CATEGORIES,
   UPLOADS_FOLDER_NAME,
@@ -35,6 +38,8 @@ import {
   uploadFolderFor,
   writeUploads,
 } from "@/lib/effects/google-drive";
+import { AppColors } from "@/lib/design/app-colors";
+import { AppTextStyles } from "@/lib/design/app-text-styles";
 
 type Picked = { file: File; kind: EffectKind | null; progress: number };
 type Phase = "picking" | "uploading" | "done";
@@ -162,7 +167,7 @@ export function EffectUploadButton({ defaultCategory }: { defaultCategory?: stri
           </DialogHeader>
 
           <div className="flex flex-col gap-2">
-            <span className="text-xs font-medium uppercase tracking-wider text-muted">Category</span>
+            <span className={AppTextStyles.EYEBROW}>Category</span>
             <Select value={category} onValueChange={setCategory} disabled={phase !== "picking"}>
               <SelectTrigger className="h-10 w-full rounded-xl">
                 <SelectValue />
@@ -178,7 +183,7 @@ export function EffectUploadButton({ defaultCategory }: { defaultCategory?: stri
           </div>
 
           <label className="flex flex-col gap-2">
-            <span className="text-xs font-medium uppercase tracking-wider text-muted">Files</span>
+            <span className={AppTextStyles.EYEBROW}>Files</span>
             <input
               ref={input}
               type="file"
@@ -206,7 +211,7 @@ export function EffectUploadButton({ defaultCategory }: { defaultCategory?: stri
                     <span className="min-w-0 truncate" title={entry.file.name}>
                       {entry.file.name}
                     </span>
-                    <span className="shrink-0 text-xs text-muted">
+                    <span className={`${AppTextStyles.CAPTION} shrink-0`}>
                       {entry.kind ? `${EFFECT_KIND_LABELS[entry.kind]} · ${sizeOf(entry.file.size)}` : "Not supported — skipped"}
                     </span>
                   </div>
@@ -214,7 +219,7 @@ export function EffectUploadButton({ defaultCategory }: { defaultCategory?: stri
                     <div className="h-1.5 overflow-hidden rounded-full bg-muted-surface">
                       <div
                         className="h-full rounded-full transition-[width] duration-200"
-                        style={{ width: `${Math.round(entry.progress * 100)}%`, backgroundColor: EFFECTS_ACCENT }}
+                        style={{ width: `${Math.round(entry.progress * 100)}%`, backgroundColor: AppColors.EFFECTS }}
                       />
                     </div>
                   )}
@@ -233,7 +238,7 @@ export function EffectUploadButton({ defaultCategory }: { defaultCategory?: stri
           {phase === "done" ? (
             <div className="flex items-center justify-between gap-3">
               <p className="flex items-center gap-2 text-sm">
-                <CheckCircle2 className="size-4" style={{ color: EFFECTS_ACCENT }} />
+                <CheckCircle2 className="size-4" style={{ color: AppColors.EFFECTS }} />
                 Uploaded to {label}.
               </p>
               <Button variant="outline" onClick={reset} className="rounded-xl">

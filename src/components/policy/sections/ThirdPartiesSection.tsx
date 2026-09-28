@@ -1,5 +1,6 @@
 import { Section } from "@/components/policy/Section";
 import type { App } from "@/lib/apps/apps";
+import { AppTextStyles } from "@/lib/design/app-text-styles";
 
 export function ThirdPartiesSection({ app, number }: { app: App; number: number }) {
   return (
@@ -9,7 +10,7 @@ export function ThirdPartiesSection({ app, number }: { app: App; number: number 
       title="Third-party services"
       accent={app.accent}
     >
-      <p className="max-w-[68ch] text-base leading-7 text-muted">
+      <p className={`${AppTextStyles.BODY} max-w-[68ch]`}>
         {app.name} relies on the services below. Each one handles data under its own
         privacy policy.
       </p>
@@ -21,13 +22,13 @@ export function ThirdPartiesSection({ app, number }: { app: App; number: number 
           >
             <span className="min-w-0">
               <span className="block font-medium tracking-tight">{party.name}</span>
-              <span className="block text-sm leading-6 text-muted">{party.purpose}</span>
+              <span className={`${AppTextStyles.BODY_SM} block`}>{party.purpose}</span>
             </span>
             <a
               href={party.url}
               target="_blank"
               rel="noreferrer noopener"
-              className="shrink-0 whitespace-nowrap rounded-lg border border-border-soft px-2.5 py-1.5 text-xs text-muted transition-colors hover:border-foreground/25 hover:text-foreground"
+              className={`${AppTextStyles.CAPTION} shrink-0 whitespace-nowrap rounded-lg border border-border-soft px-2.5 py-1.5 transition-colors hover:border-foreground/25 hover:text-foreground`}
             >
               Privacy policy ↗
             </a>

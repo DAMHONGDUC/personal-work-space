@@ -16,6 +16,7 @@ import {
 } from "@/lib/effects/effect-model";
 import { searchEffects } from "@/lib/effects/effect-search";
 import { treeWithUploads, uploadedEntries } from "@/lib/effects/effect-uploads";
+import { AppTextStyles } from "@/lib/design/app-text-styles";
 
 /**
  * Past this many hits the grid is too long to scan, and each tile is an image
@@ -86,7 +87,7 @@ export function EffectIndex({
             ))}
           </ul>
         ) : matches.length === 0 ? (
-          <p className="rounded-2xl border border-dashed border-border-soft px-6 py-16 text-center text-sm text-muted">
+          <p className={`${AppTextStyles.SMALL} rounded-2xl border border-dashed border-border-soft px-6 py-16 text-center`}>
             No file matches “{query}”. Names come from the files themselves, so
             they are mostly English — try “whoosh”, “burn” or “arrow”.
           </p>
@@ -98,7 +99,7 @@ export function EffectIndex({
               showPack
             />
             {matches.length > shown.length && (
-              <p className="text-center text-sm text-muted">
+              <p className={`${AppTextStyles.SMALL} text-center`}>
                 Showing the first {shown.length} of {matches.length}. Add a word to narrow it down.
               </p>
             )}

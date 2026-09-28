@@ -5,6 +5,7 @@ import { CodeSample } from "@/components/docs/CodeSample";
 import { DocTable } from "@/components/docs/DocTable";
 import { FlowDiagram } from "@/components/docs/FlowDiagram";
 import type { Block, Lang } from "@/lib/docs/doc-model";
+import { AppColors } from "@/lib/design/app-colors";
 
 /**
  * Renders one section's blocks in order. Every block type in `Block` is handled
@@ -85,7 +86,7 @@ function Checklist({ items, accent }: { items: string[]; accent: string }) {
           <span
             aria-hidden
             className="mt-1.5 size-4 shrink-0 rounded-[0.3rem] border"
-            style={{ borderColor: `color-mix(in oklab, ${accent} 45%, transparent)` }}
+            style={{ borderColor: `${AppColors.tint(accent, 45)}` }}
           />
           <span className="text-muted">{item}</span>
         </li>
@@ -104,7 +105,7 @@ function Steps({ items, accent }: { items: string[]; accent: string }) {
             aria-hidden
             className="mt-1 flex size-5 shrink-0 items-center justify-center rounded-full text-xs font-medium"
             style={{
-              backgroundColor: `color-mix(in oklab, ${accent} 14%, transparent)`,
+              backgroundColor: `${AppColors.tint(accent, 14)}`,
               color: accent,
             }}
           >

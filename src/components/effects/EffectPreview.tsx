@@ -20,6 +20,7 @@ import {
   thumbnailUrl,
   type EffectEntry,
 } from "@/lib/effects/effect-model";
+import { AppTextStyles } from "@/lib/design/app-text-styles";
 
 /** What plays in the dialog. Everything is served by Drive, nothing by this site. */
 function Stage({ entry }: { entry: EffectEntry }) {
@@ -41,7 +42,7 @@ function Stage({ entry }: { entry: EffectEntry }) {
     return (
       <div className="checkerboard flex aspect-video flex-col items-center justify-center gap-3 rounded-xl border border-border-soft px-6 text-center">
         <span className="text-5xl font-semibold">Aa</span>
-        <p className="max-w-sm text-sm text-muted">
+        <p className={`${AppTextStyles.SMALL} max-w-sm`}>
           Drive cannot preview a font. Download it and install it to try it out.
         </p>
       </div>
@@ -135,7 +136,7 @@ export function EffectPreview({
                 >
                   <ChevronRight />
                 </Button>
-                <span className="text-xs text-muted">
+                <span className={AppTextStyles.CAPTION}>
                   {index! + 1} of {entries.length}
                 </span>
               </div>

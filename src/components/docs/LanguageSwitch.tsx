@@ -2,6 +2,7 @@
 
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { LANGUAGES, LANGUAGE_LABELS, type Lang } from "@/lib/docs/doc-model";
+import { AppColors } from "@/lib/design/app-colors";
 
 /**
  * Segmented control for the language a guide is read in. Both versions are
@@ -41,7 +42,7 @@ export function LanguageSwitch({
           style={
             option === lang
               ? {
-                  backgroundColor: `color-mix(in oklab, ${accent} 16%, transparent)`,
+                  backgroundColor: `${AppColors.tint(accent, 16)}`,
                   color: accent,
                 }
               : undefined

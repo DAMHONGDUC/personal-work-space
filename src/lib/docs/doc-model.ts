@@ -16,16 +16,6 @@ export const LANGUAGES = ["en", "vi"] as const;
 
 export type Lang = (typeof LANGUAGES)[number];
 
-/**
- * The colour of the whole guides section.
- *
- * One colour, not one per guide: the accent marks section numbers, diagram
- * boxes and the language switch, and a guide that arrived in its own colour
- * made the set read as unrelated pages. The app policies are the opposite case
- * — there the colour belongs to the app, so it stays in their data.
- */
-export const DOCS_ACCENT = "#0ea5e9";
-
 export const LANGUAGE_LABELS: Record<Lang, string> = {
   en: "English",
   vi: "Tiếng Việt",

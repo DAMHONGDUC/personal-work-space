@@ -19,9 +19,6 @@ export const EFFECT_KIND_LABELS: Record<EffectKind, string> = {
   font: "Font",
 };
 
-/** One colour for the whole section, as with the guides. */
-export const EFFECTS_ACCENT = "#f43f5e";
-
 /** One file, as Drive lists it. */
 export type EffectItem = {
   /** Drive file id. */

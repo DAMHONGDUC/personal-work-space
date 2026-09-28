@@ -1,10 +1,11 @@
 import { Info, TriangleAlert } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import type { NoteBlock } from "@/lib/docs/doc-model";
+import { AppColors } from "@/lib/design/app-colors";
 
 const TONES = {
-  info: { Icon: Info, color: "#0ea5e9", label: "Note" },
-  warning: { Icon: TriangleAlert, color: "#f59e0b", label: "Warning" },
+  info: { Icon: Info, color: AppColors.NOTE_INFO, label: "Note" },
+  warning: { Icon: TriangleAlert, color: AppColors.NOTE_WARNING, label: "Warning" },
 } as const;
 
 /**
@@ -19,8 +20,8 @@ export function Callout({ block }: { block: NoteBlock }) {
     <Alert
       className="mt-5 max-w-[68ch] rounded-xl px-4 py-3.5"
       style={{
-        borderColor: `color-mix(in oklab, ${tone.color} 32%, transparent)`,
-        backgroundColor: `color-mix(in oklab, ${tone.color} 8%, transparent)`,
+        borderColor: `${AppColors.tint(tone.color, 32)}`,
+        backgroundColor: `${AppColors.tint(tone.color, 8)}`,
       }}
     >
       <tone.Icon aria-hidden style={{ color: tone.color }} />

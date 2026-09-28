@@ -12,6 +12,7 @@ import {
 import type { CvVersion } from "@/lib/cv/cv-types";
 import { formatDate } from "@/lib/format";
 import { withBasePath } from "@/lib/routes/routes";
+import { AppTextStyles } from "@/lib/design/app-text-styles";
 
 /**
  * The CV, with a dropdown for choosing which version of it to read.
@@ -81,11 +82,11 @@ export function CvSwitcher({ versions }: { versions: CvVersion[] }) {
                 Open CV ↗
               </a>
             </Button>
-            <span className="text-xs text-muted">PDF · {pdf.sizeKb} KB</span>
+            <span className={AppTextStyles.CAPTION}>PDF · {pdf.sizeKb} KB</span>
           </>
         )}
 
-        <span className="text-xs text-muted">
+        <span className={AppTextStyles.CAPTION}>
           Updated {formatDate(current.data.lastUpdated)}
         </span>
       </div>
@@ -122,7 +123,7 @@ export function CvSwitcher({ versions }: { versions: CvVersion[] }) {
           {/* Only reachable if the build did not produce the page images, so it
               is worded for a visitor first — a developer already has the
               script's own message on the console. */}
-          <p className="text-sm text-muted">
+          <p className={AppTextStyles.SMALL}>
             The CV is not available to preview right now. Please try the download
             above, or check back shortly.
           </p>

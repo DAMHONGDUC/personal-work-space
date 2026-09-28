@@ -1,4 +1,5 @@
 import { withBasePath } from "@/lib/routes/routes";
+import { AppColors } from "@/lib/design/app-colors";
 
 type Props = {
   /**
@@ -24,8 +25,8 @@ export function AppIcon({ icon, accent, size = "sm" }: Props) {
       aria-hidden
       className={`flex shrink-0 items-center justify-center overflow-hidden border border-border-soft ${box}`}
       style={{
-        backgroundColor: `color-mix(in oklab, ${accent} 14%, transparent)`,
-        borderColor: `color-mix(in oklab, ${accent} 28%, transparent)`,
+        backgroundColor: `${AppColors.tint(accent, 14)}`,
+        borderColor: `${AppColors.tint(accent, 28)}`,
       }}
     >
       {isImagePath(icon) ? (

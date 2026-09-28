@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import type { NavItem } from "@/components/policy/PolicyNav";
+import { PageContainer } from "@/components/layout/PageContainer";
+import { WithSidebar } from "@/components/layout/WithSidebar";
 import { ReadingProgress } from "@/components/shared/ReadingProgress";
 import { Bullets } from "@/components/policy/Bullets";
 import { PolicyHero } from "@/components/policy/PolicyHero";
@@ -83,11 +85,10 @@ export default async function PrivacyPolicyPage(
 
       <PolicyHero app={app} />
 
-      <main className="mx-auto w-full max-w-5xl px-6 pb-20 pt-14">
+      <PageContainer spacing="afterHero">
         <MobileToc items={toc} accent={app.accent} />
 
-        <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_13rem] lg:gap-14">
-          <div className="flex min-w-0 flex-col gap-14">
+        <WithSidebar sidebar={<SidebarToc items={toc} accent={app.accent} />}>
             {overview.length > 0 && (
               <Section
                 id="overview"
@@ -120,11 +121,8 @@ export default async function PrivacyPolicyPage(
             ))}
 
             <ContactCard app={app} email={email} />
-          </div>
-
-          <SidebarToc items={toc} accent={app.accent} />
-        </div>
-      </main>
+        </WithSidebar>
+      </PageContainer>
     </>
   );
 }

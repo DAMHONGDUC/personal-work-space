@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { routes } from "@/lib/routes/routes";
+import { AppTextStyles } from "@/lib/design/app-text-styles";
 
 /**
  * Sticky top bar with the publisher name and a way home. The sections are
@@ -28,7 +29,7 @@ export function SiteHeader({ publisher }: { publisher: string }) {
           {publisher}
         </Link>
 
-        <nav className="text-sm text-muted">
+        <nav className={AppTextStyles.SMALL}>
           <Link href={routes.home} className="transition-colors hover:text-foreground">
             Home
           </Link>

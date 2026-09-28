@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { AppDirectory } from "@/components/directory/AppDirectory";
 import type { DirectoryEntry } from "@/components/directory/AppCard";
 import { DirectoryHero } from "@/components/directory/DirectoryHero";
+import { PageContainer } from "@/components/layout/PageContainer";
 import { formatDate, getApps, site } from "@/lib/apps/apps";
 import { routes } from "@/lib/routes/routes";
 
@@ -25,9 +26,9 @@ export default function AppsPage() {
   }));
 
   return (
-    <main className="mx-auto w-full max-w-5xl px-6 py-20">
+    <PageContainer>
       <DirectoryHero publisher={site.publisher} appCount={apps.length} />
       <AppDirectory entries={entries} />
-    </main>
+    </PageContainer>
   );
 }

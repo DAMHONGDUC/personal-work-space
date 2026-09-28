@@ -7,11 +7,12 @@ import { useDocLanguage } from "@/hooks/docs/useDocLanguage";
 import { useDocSearch } from "@/hooks/docs/useDocSearch";
 import {
   DOC_TOPICS,
-  DOCS_ACCENT,
   TOPIC_LABELS,
   type Doc,
   type Lang,
 } from "@/lib/docs/doc-model";
+import { AppColors } from "@/lib/design/app-colors";
+import { AppTextStyles } from "@/lib/design/app-text-styles";
 
 /**
  * The guide list, in the reader's language. The choice is shared with the guide
@@ -40,17 +41,17 @@ export function DocIndex({ versions }: { versions: Record<Lang, Doc[]> }) {
         />
 
         <div className="flex items-center gap-4">
-          <p className="text-sm text-muted">
+          <p className={AppTextStyles.SMALL}>
             {results.length === docs.length
               ? `${docs.length} ${docs.length === 1 ? "guide" : "guides"}`
               : `${results.length} of ${docs.length} guides`}
           </p>
-          <LanguageSwitch lang={lang} onChange={setLang} accent={DOCS_ACCENT} />
+          <LanguageSwitch lang={lang} onChange={setLang} accent={AppColors.DOCS} />
         </div>
       </div>
 
       {results.length === 0 ? (
-        <p className="rounded-2xl border border-dashed border-border-soft px-6 py-12 text-center text-sm text-muted">
+        <p className={`${AppTextStyles.SMALL} rounded-2xl border border-dashed border-border-soft px-6 py-12 text-center`}>
           Nothing here matches “{query}”. The other language may — the search
           reads the guides as they are written, not translations of them.
         </p>
@@ -65,7 +66,7 @@ export function DocIndex({ versions }: { versions: Record<Lang, Doc[]> }) {
                 <h2
                   id={`topic-${topic}`}
                   lang={lang}
-                  className="flex items-baseline gap-3 text-sm font-medium uppercase tracking-wider text-muted"
+                  className={`${AppTextStyles.SMALL} flex items-baseline gap-3 font-medium uppercase tracking-wider`}
                 >
                   {TOPIC_LABELS[topic][lang]}
                   <span className="text-xs font-normal normal-case tracking-normal">

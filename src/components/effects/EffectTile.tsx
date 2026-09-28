@@ -3,13 +3,14 @@
 import { AudioLines, Image as ImageIcon, Play, Type } from "lucide-react";
 import { useState } from "react";
 import {
-  EFFECTS_ACCENT,
   displayName,
   extensionOf,
   thumbnailUrl,
   type EffectEntry,
   type EffectKind,
 } from "@/lib/effects/effect-model";
+import { AppColors } from "@/lib/design/app-colors";
+import { AppTextStyles } from "@/lib/design/app-text-styles";
 
 const KIND_ICONS: Record<EffectKind, typeof Play> = {
   video: Play,
@@ -76,11 +77,11 @@ export function EffectTile({
             }`}
           />
         ) : entry.kind === "font" ? (
-          <span className="text-3xl font-semibold" style={{ color: EFFECTS_ACCENT }}>
+          <span className="text-3xl font-semibold" style={{ color: AppColors.EFFECTS }}>
             Aa
           </span>
         ) : (
-          <Icon aria-hidden className="size-8" style={{ color: EFFECTS_ACCENT }} />
+          <Icon aria-hidden className="size-8" style={{ color: AppColors.EFFECTS }} />
         )}
 
         <span className="absolute left-2 top-2 rounded-md bg-background/85 px-1.5 py-0.5 text-[0.65rem] font-medium tracking-wide text-muted backdrop-blur-sm">
@@ -101,7 +102,7 @@ export function EffectTile({
         <span className="line-clamp-2 text-sm leading-5 break-words" title={entry.file}>
           {name}
         </span>
-        {showPack && <span className="truncate text-xs text-muted">{entry.pack}</span>}
+        {showPack && <span className={`${AppTextStyles.CAPTION} truncate`}>{entry.pack}</span>}
       </span>
     </button>
   );

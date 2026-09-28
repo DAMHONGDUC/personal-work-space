@@ -2,6 +2,8 @@ import Link from "next/link";
 import { AppIcon } from "@/components/shared/AppIcon";
 import { Badge } from "@/components/ui/badge";
 import { routes } from "@/lib/routes/routes";
+import { AppColors } from "@/lib/design/app-colors";
+import { AppTextStyles } from "@/lib/design/app-text-styles";
 
 export type DirectoryEntry = {
   slug: string;
@@ -25,9 +27,9 @@ export function AppCard({ entry }: { entry: DirectoryEntry }) {
         className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
         style={{
           background: `linear-gradient(to bottom,
-            color-mix(in oklab, ${entry.accent} 16%, transparent) 0%,
-            color-mix(in oklab, ${entry.accent} 9%, transparent) 40%,
-            color-mix(in oklab, ${entry.accent} 3%, transparent) 72%,
+            ${AppColors.tint(entry.accent, 16)} 0%,
+            ${AppColors.tint(entry.accent, 9)} 40%,
+            ${AppColors.tint(entry.accent, 3)} 72%,
             transparent 100%)`,
         }}
       />
@@ -42,11 +44,11 @@ export function AppCard({ entry }: { entry: DirectoryEntry }) {
       <span className="relative mt-4 block font-semibold tracking-tight">
         {entry.name}
       </span>
-      <span className="relative mt-1.5 block text-sm leading-6 text-muted">
+      <span className={`${AppTextStyles.BODY_SM} relative mt-1.5 block`}>
         {entry.tagline}
       </span>
 
-      <span className="relative mt-5 flex flex-wrap items-center gap-1.5 text-xs text-muted">
+      <span className={`${AppTextStyles.CAPTION} relative mt-5 flex flex-wrap items-center gap-1.5`}>
         {entry.platforms.map((platform) => (
           <Badge key={platform} variant="outline" className="rounded-md">
             {platform}

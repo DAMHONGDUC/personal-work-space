@@ -1,18 +1,20 @@
 import type { App } from "@/lib/apps/apps";
+import { AppColors } from "@/lib/design/app-colors";
+import { AppTextStyles } from "@/lib/design/app-text-styles";
 
 export function ContactCard({ app, email }: { app: App; email: string }) {
   return (
     <div
       className="rounded-2xl border p-7"
       style={{
-        backgroundColor: `color-mix(in oklab, ${app.accent} 6%, transparent)`,
-        borderColor: `color-mix(in oklab, ${app.accent} 22%, transparent)`,
+        backgroundColor: `${AppColors.tint(app.accent, 6)}`,
+        borderColor: `${AppColors.tint(app.accent, 22)}`,
       }}
     >
-      <h2 className="text-lg font-semibold tracking-tight">
+      <h2 className={AppTextStyles.CARD_TITLE_SM}>
         Questions about {app.name}?
       </h2>
-      <p className="mt-2 max-w-[60ch] text-base leading-7 text-muted">
+      <p className={`${AppTextStyles.BODY} mt-2 max-w-[60ch]`}>
         We usually reply within a few business days.
       </p>
       <a

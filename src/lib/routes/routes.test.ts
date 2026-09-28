@@ -8,6 +8,7 @@ describe("routes", () => {
     expect(routes.cv).toBe("/personal/cv");
   });
 
+
   it("nests an app policy under that app's own path", () => {
     expect(routes.app("focus-timer")).toBe(`${routes.apps}/focus-timer`);
     expect(routes.privacyPolicy("focus-timer")).toBe(
