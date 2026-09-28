@@ -18,8 +18,6 @@ import { AppTextStyles } from "@/lib/design/app-text-styles";
  * colour appears only as the accent full stop after the role.
  */
 export function PortfolioHero({ portfolio, stats }: { portfolio: Portfolio; stats: PortfolioStat[] }) {
-  const city = portfolio.location.split(",")[0];
-
   return (
     <header className="relative">
       <HeroBackdrop />
@@ -73,7 +71,7 @@ export function PortfolioHero({ portfolio, stats }: { portfolio: Portfolio; stat
           </div>
 
           <div className="pf-pop" style={enterStyle(200)}>
-            <Avatar src={portfolio.photo} alt={portfolio.name} badge={`📍 ${city}`} />
+            <Avatar src={portfolio.photo} alt={portfolio.name} badge={`📍 ${portfolio.location}`} />
           </div>
         </div>
 

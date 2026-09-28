@@ -72,6 +72,17 @@ describe.each(versions)("the CV data file $slug", ({ slug, data: cv }) => {
     expect(fs.existsSync(photo)).toBe(true);
   });
 
+  it("ends every location with the country, spelled Viet Nam", () => {
+    // One spelling across the CV, the PDF and the portfolio — not Vietnam,
+    // not VietNam — and a remote client's country goes in the arrangement.
+    const locations = [
+      ...cv.education.map((school) => school.location),
+      ...cv.experience.map((job) => job.location),
+    ];
+
+    expect(locations.filter((location) => !location.endsWith(", Viet Nam"))).toEqual([]);
+  });
+
   it("gives every contact a usable target", () => {
     for (const contact of cv.header.contacts) {
       expect(contact.value.trim()).not.toBe("");
