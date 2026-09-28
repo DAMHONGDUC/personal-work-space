@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { Clock, GraduationCap, MapPin, Sparkles, type LucideIcon } from "lucide-react";
 import { GlassCard } from "@/components/portfolio/GlassCard";
 import { StatusPill } from "@/components/portfolio/StatusPill";
+import { Typewriter } from "@/components/portfolio/Typewriter";
 import { WebsiteButton } from "@/components/portfolio/WebsiteButton";
 import type { Portfolio } from "@/lib/portfolio/portfolio-model";
 import { AppTextStyles } from "@/lib/design/app-text-styles";
@@ -44,12 +45,11 @@ export function AboutBento({ portfolio }: { portfolio: Portfolio }) {
   return (
     <div className="grid gap-4 md:grid-cols-3">
       <GlassCard className="flex flex-col justify-between gap-8 md:col-span-2 md:row-span-3 md:p-8!">
-        <div className="flex max-w-[60ch] flex-col gap-4">
-          {portfolio.story.map((paragraph) => (
-            <p key={paragraph} className={`${AppTextStyles.BODY} first:text-lg first:leading-8 first:text-foreground`}>
-              {paragraph}
-            </p>
-          ))}
+        <div className="max-w-[60ch]">
+          <Typewriter
+            paragraphs={portfolio.story}
+            paragraphClassName={`${AppTextStyles.BODY} first:text-lg first:leading-8 first:text-foreground`}
+          />
         </div>
 
         <div className="flex flex-col gap-4 border-t border-border-soft pt-6">

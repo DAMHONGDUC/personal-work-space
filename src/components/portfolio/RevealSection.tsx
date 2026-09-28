@@ -4,8 +4,8 @@ import { useEffect, useRef, type ReactNode } from "react";
 
 /**
  * A `<section>` that plays its entrance when it scrolls into view: the
- * heading rises, its rule draws, then its cards rise one after another (the
- * `.pf-head`, `.pf-rule` and `.pf-item` rules in globals.css).
+ * heading rises, its rule draws, then its cards and copy arrive one after
+ * another (the `.pf-head`, `.pf-rule`, `.pf-item` and `.pf-type-line` rules).
  *
  * Works in every browser, through IntersectionObserver rather than CSS
  * scroll timelines. Only a section that starts below the fold is hidden
@@ -21,10 +21,14 @@ export function RevealSection({ id, className, children }: { id: string; classNa
     if (!section || typeof IntersectionObserver === "undefined") return;
     if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
 
-    // Already on screen (a short page, an anchor, a restored scroll): leave it.
-    if (section.getBoundingClientRect().top < window.innerHeight) return;
-
     section.dataset.reveal = "hidden";
+
+    // Already on screen (a short page, an anchor, a restored scroll): play
+    // immediately instead of leaving the section in its hidden state.
+    if (section.getBoundingClientRect().top < window.innerHeight * 0.88) {
+      section.dataset.reveal = "shown";
+      return;
+    }
 
     const observer = new IntersectionObserver(
       ([entry]) => {

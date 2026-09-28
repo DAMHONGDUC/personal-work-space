@@ -34,7 +34,7 @@ export function ExperienceTimeline({ jobs }: { jobs: Experience[] }) {
     <ol className="relative flex flex-col gap-6 pl-8 sm:pl-10">
       <span
         aria-hidden
-        className="absolute bottom-2 left-[0.6875rem] top-2 w-px bg-border sm:left-[0.9375rem]"
+        className="pf-line absolute bottom-2 left-[0.6875rem] top-2 w-px bg-border sm:left-[0.9375rem]"
       />
 
       {jobs.map((job, index) => (

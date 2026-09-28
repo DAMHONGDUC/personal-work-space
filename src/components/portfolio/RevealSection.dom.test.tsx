@@ -55,8 +55,8 @@ describe("RevealSection", () => {
     expect(section.dataset.reveal).toBe("shown");
   });
 
-  it("never hides a section that is already on screen", () => {
-    expect(render(300).dataset.reveal).toBeUndefined();
+  it("plays a section that is already on screen immediately", () => {
+    expect(render(300).dataset.reveal).toBe("shown");
   });
 
   it("does nothing for a reader who asked for reduced motion", () => {

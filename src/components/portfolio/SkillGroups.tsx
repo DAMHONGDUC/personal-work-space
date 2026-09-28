@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import { GlassCard } from "@/components/portfolio/GlassCard";
 import { SkillIcon } from "@/components/portfolio/SkillIcon";
 import type { Skill } from "@/lib/cv/cv-types";
@@ -18,8 +19,11 @@ export function SkillGroups({ skills, icons }: { skills: Skill[]; icons: Record<
             <h3 className={AppTextStyles.CARD_TITLE_SM}>{skill.name}</h3>
           </div>
           <ul className="flex flex-wrap gap-1.5">
-            {skill.items.split(/,\s*/).map((item) => (
-              <li key={item} className="rounded-lg border border-border-soft bg-muted-surface px-2.5 py-1 text-sm">
+            {skill.items.split(/,\s*/).map((item, chip) => (
+              <li
+                key={item}
+                style={{ "--pf-j": chip } as CSSProperties}
+                className="pf-chip rounded-lg border border-border-soft bg-muted-surface px-2.5 py-1 text-sm">
                 {item}
               </li>
             ))}
