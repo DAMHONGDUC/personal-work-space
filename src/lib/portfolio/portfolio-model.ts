@@ -5,7 +5,8 @@
  * projects, email, profiles, the photo — comes from the default CV
  * (`ResourceConstant.CV_DATA_FILE`, cv_full.json), so the portfolio and the CV
  * can never disagree. `src/data/portfolio.json` holds only what a CV has no
- * place for: the greeting, the availability line and the like.
+ * place for: the greeting, the availability line, an icon per skill area and
+ * the like.
  *
  * Kept apart from the loader, which reads the CV off disk, so a client
  * component can import the types and the section list.
@@ -19,6 +20,14 @@ import type { Education, Experience, Project, Skill } from "@/lib/cv/cv-types";
  */
 export type PublicPath = string;
 
+/**
+ * The icon a skill area is drawn with. The ids are the page's own; which mark
+ * each one is lives in `SkillIcon`, so the JSON never names an icon library.
+ */
+export const SKILL_ICON_IDS = ["android", "flutter", "react", "backend", "web", "ai", "release"] as const;
+
+export type SkillIconId = (typeof SKILL_ICON_IDS)[number];
+
 /** The shape of `src/data/portfolio.json`: presentation, never a fact. */
 export type PortfolioPage = {
   /** The greeting at the top of the page, e.g. `Hi, I'm Duc`. */
@@ -30,6 +39,12 @@ export type PortfolioPage = {
     /** What is being learnt right now, shown as chips on its own tile. */
     learning: string[];
   };
+  /**
+   * An icon for every skill area of the CV, keyed by the area's name exactly as
+   * the CV writes it. A test fails if an area has none, or if a key names an
+   * area the CV no longer has.
+   */
+  skillIcons: Record<string, SkillIconId>;
   /** Shown under the location, e.g. `GMT+7`. */
   timezone: string;
   contact: {

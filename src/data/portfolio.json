@@ -5,6 +5,15 @@
     "title": "Curious about me? Here you have it:",
     "learning": ["SwiftUI", "Jetpack Compose"]
   },
+  "skillIcons": {
+    "Native Android": "android",
+    "Flutter": "flutter",
+    "React Native": "react",
+    "Backend & Integration": "backend",
+    "Web": "web",
+    "AI-Assisted Development": "ai",
+    "CI/CD & Release": "release"
+  },
   "timezone": "GMT+7",
   "contact": {
     "title": "What's next? Feel free to reach out if you are looking for a developer, have a question, or simply want to connect."

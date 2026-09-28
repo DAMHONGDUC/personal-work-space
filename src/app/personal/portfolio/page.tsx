@@ -28,7 +28,7 @@ export default function PortfolioPage() {
         </PortfolioSection>
 
         <PortfolioSection id="skills" eyebrow="Skills" title="What I work with">
-          <SkillGroups skills={portfolio.skills} />
+          <SkillGroups skills={portfolio.skills} icons={portfolio.skillIcons} />
         </PortfolioSection>
 
         <PortfolioSection id="experience" eyebrow="Experience" title="Where I have worked">

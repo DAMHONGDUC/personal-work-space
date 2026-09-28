@@ -9,7 +9,7 @@ import {
   titleCase,
   yearsSince,
 } from "@/lib/portfolio/portfolio";
-import { PORTFOLIO_SECTIONS } from "@/lib/portfolio/portfolio-model";
+import { PORTFOLIO_SECTIONS, SKILL_ICON_IDS } from "@/lib/portfolio/portfolio-model";
 import { ResourceConstant } from "@/lib/resource-constant.mts";
 
 const HTTPS = /^https:\/\//;
@@ -32,10 +32,20 @@ describe("portfolio.json", () => {
     // A name, a job or an email typed here would be a second copy that
     // drifts from the CV. The page's own keys are the whole list.
     expect(Object.keys(page).sort()).toEqual(
-      ["about", "contact", "greeting", "status", "timezone"].sort(),
+      ["about", "contact", "greeting", "skillIcons", "status", "timezone"].sort(),
     );
     expect(Object.keys(page.about).sort()).toEqual(["learning", "title"]);
     expect(Object.keys(page.contact)).toEqual(["title"]);
+  });
+
+  it("gives every skill area of the CV an icon, and no other", () => {
+    // Keyed by the CV's own names, so a renamed area shows up here rather
+    // than as a card with no icon.
+    expect(Object.keys(page.skillIcons).sort()).toEqual(cv.skills.map((skill) => skill.name).sort());
+
+    for (const id of Object.values(page.skillIcons)) {
+      expect([...SKILL_ICON_IDS] as string[]).toContain(id);
+    }
   });
 
   it("names something being learnt", () => {
