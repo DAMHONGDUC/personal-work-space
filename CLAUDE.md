@@ -113,12 +113,16 @@
   accent handed down as `--pf-a` by `PortfolioTheme`. Keep it quiet: the accent
   marks a rule, a dot, a full stop — no gradients on text, buttons or borders,
   nothing spinning or drifting. The motion there is: the hero plays in once on
-  load (`pf-enter` / `pf-pop`, timed by `enterStyle`), each section plays its
-  entrance as it scrolls in (`RevealSection`, IntersectionObserver: heading
-  rises, rule draws, cards rise in by `order`) and cards lift on hover (with `transform`, since the rise-in
-  holds `translate`), a section's rule draws itself, the current job's dot
-  pulses and the greeting waves twice. All CSS, and every animation sits
-  behind `prefers-reduced-motion: no-preference`.
+  load (`pf-enter` / `pf-pop`, timed by `enterStyle`); every section plays
+  its entrance as it scrolls in (`RevealSection`, IntersectionObserver — the
+  heading rises out of a blur, its rule draws, cards rise in by `order`,
+  skill chips pop after their card, the timeline's line draws down); cards
+  lift on hover (with `transform`, since the rise-in holds `translate`); the
+  current job's dot pulses; the greeting waves twice; and the About tile's
+  introduction types itself out (`Typewriter`), the real text holding the
+  layout underneath. CSS does the moving; JavaScript only decides when, and
+  does nothing — so everything is simply visible — with no script or with
+  `prefers-reduced-motion: reduce`.
   A project leads with its app icon from `projectIcons` in `portfolio.json`,
   keyed by the CV's project name; reuse an icon the site already ships under
   `/app-icons`, otherwise put it in `public/personal/projects/`. A project
@@ -147,6 +151,10 @@
   needs a literal import path, and a test compares the list against the folder.
   The LaTeX in `cv/build/` is **generated** — never edit it, and never edit
   `cv/template/main.tex` to change wording.
+- **Locations end with ", Viet Nam"** — that spelling, never "Vietnam" or
+  "VietNam" — on every education and experience entry of every CV; a test
+  holds it. A remote client's country goes in the job's `arrangement`
+  ("Freelance, remote (Japan)"), not its location.
 - Every text field in the CV JSON is **plain text**. The renderer escapes LaTeX
   and converts typography, so write `Backend & Integration`, `get_it` and
   `2019 – 2023` (real en dash), never `\&`, `get\_it` or `--`. A backslash in
@@ -263,6 +271,8 @@
 
 - Every URL is defined in `src/lib/routes/routes.ts`. Use `routes.*`; never hand-write
   a path in a component, a test or the sitemap.
+- The site footer carries the copyright line only — no links out to other
+  sections, which the home page lists.
 - The site has four top-level sections: `/apps`, `/docs`, `/effects` and
   `/personal`. `/personal` holds the portfolio and the CV, and its root forwards
   to the portfolio.
