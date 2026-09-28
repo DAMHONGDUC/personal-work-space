@@ -94,9 +94,11 @@
   `portfolioStats` — years from the oldest job's start — so never type a number
   of years into any copy. Profile links and skill areas use the real brand
   marks from `react-icons`, never a lookalike glyph; the ids in the JSON map to
-  them in `SkillIcon`. The page's
-  sections are pinned in the site header by `HeaderNav`, from
-  `PORTFOLIO_SECTIONS`. Its look is the `.pf-*` block in `globals.css` plus one
+  them in `SkillIcon`. The portfolio
+  is a **standalone page** (`useStandalonePage`): its header belongs to it —
+  its sections, from `PORTFOLIO_SECTIONS`, replace the Home link, and the
+  publisher's name scrolls back to its top instead of going home. Nothing in
+  its header leads out to the rest of the site. Its look is the `.pf-*` block in `globals.css` plus one
   accent handed down as `--pf-a` by `PortfolioTheme`. Keep it quiet: the accent
   marks a rule, a dot, a full stop — no gradients on text, buttons or borders,
   nothing spinning or drifting. Every animation sits behind
