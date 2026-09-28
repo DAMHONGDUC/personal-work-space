@@ -84,8 +84,11 @@
   email, GitHub and LinkedIn, and the school's and companies'
   websites (`url` on an education or experience entry) — through `buildPortfolio` in
   `src/lib/portfolio/portfolio.ts`. **Two introductions, one file**: the CV
-  prints the short `aboutMe`; the portfolio shows `portfolioAbout`, two full
-  paragraphs, never printed on the PDF. The hero's lead is `aboutMe`'s first
+  prints the short `aboutMe`; the portfolio shows `portfolioAbout`, never
+  printed on the PDF — two short paragraphs on experience, the team being
+  looked for and the way of working, with no company names or results (those
+  have their own sections). Its years of experience are written `{{years}}`
+  and filled in at build time. The hero's lead is `aboutMe`'s first
   line. So the portfolio and the CV cannot drift.
   To change what the portfolio says, edit the CV. `src/data/portfolio.json`
   holds presentation only (greeting, status, its own photo, what is being learnt, an icon per
