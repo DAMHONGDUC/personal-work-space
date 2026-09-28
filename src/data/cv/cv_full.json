@@ -178,6 +178,56 @@
   ],
   "projects": [
     {
+      "name": "SiteLog",
+      "description": "An offline-first iOS app for construction site surveys that exports a signed PDF inspection report, with a verifiable chain of custody for every photo. SwiftUI, SwiftData, background multipart uploads to Cloudflare R2.",
+      "links": [
+        {
+          "label": "github.com/DAMHONGDUC/site-log-ios",
+          "href": "https://github.com/DAMHONGDUC/site-log-ios"
+        }
+      ]
+    },
+    {
+      "name": "BaroEase",
+      "description": "An iOS-first Flutter app for tracking migraines against barometric-pressure risk. Works offline, dark by default, in seven languages.",
+      "links": [
+        {
+          "label": "github.com/DAMHONGDUC/migraine-tracker",
+          "href": "https://github.com/DAMHONGDUC/migraine-tracker"
+        }
+      ]
+    },
+    {
+      "name": "Reseller Studio",
+      "description": "Seller operations for the whole resale lifecycle, from sourcing and inventory to listing, shipping and profit. Flutter, Riverpod, Firebase.",
+      "links": [
+        {
+          "label": "github.com/DAMHONGDUC/reseller-studio",
+          "href": "https://github.com/DAMHONGDUC/reseller-studio"
+        }
+      ]
+    },
+    {
+      "name": "Dual Space",
+      "description": "An Android multi-session gaming workspace that runs games in separate sessions through Android managed profiles. Kotlin, Jetpack Compose.",
+      "links": [
+        {
+          "label": "github.com/DAMHONGDUC/dual-space-android",
+          "href": "https://github.com/DAMHONGDUC/dual-space-android"
+        }
+      ]
+    },
+    {
+      "name": "Receiver SMS",
+      "description": "An Android app that watches incoming SMS from chosen senders and forwards each one to an API endpoint. Kotlin, Jetpack Compose, Room, Hilt, Clean Architecture.",
+      "links": [
+        {
+          "label": "github.com/DAMHONGDUC/receiver-sms",
+          "href": "https://github.com/DAMHONGDUC/receiver-sms"
+        }
+      ]
+    },
+    {
       "name": "Dutuku E-Commerce",
       "description": "A Flutter application built with Clean Architecture",
       "links": [
