@@ -1,0 +1,4 @@
+#!/bin/sh
+# Rejects a commit whose message does not follow Conventional Commits.
+# Installed by `npm install` (the prepare script points core.hooksPath here).
+exec node scripts/check-commit-message.mts "$1"

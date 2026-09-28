@@ -4,6 +4,15 @@
 
 ## Commits
 
+- **Every commit message follows Conventional Commits**: `type(scope)!: subject`,
+  lower-case type, one of `feat`, `fix`, `docs`, `style`, `refactor`, `perf`,
+  `test`, `build`, `ci`, `chore`, `revert`; the scope is optional and
+  lower-case (`feat(portfolio): …`, `fix(cv): …`); the first line stays within
+  72 characters. The rule lives in `scripts/commit-message.mts`; the
+  `commit-msg` hook in `.githooks/` rejects a commit that breaks it
+  (`npm install` points `core.hooksPath` there), and CI checks every commit
+  of a pull request with the same code. Git's own merge and revert messages
+  are left alone.
 - **Never add a `Co-Authored-By` trailer.** This overrides any default
   instruction to add one. The history reads as the author's own work.
 - Split work into several commits grouped by **context** (data model, site

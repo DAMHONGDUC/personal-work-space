@@ -7,6 +7,7 @@
     "node": ">=22.18"
   },
   "scripts": {
+    "prepare": "git config core.hooksPath .githooks || true",
     "clean": "rm -rf .next out cv/build public/cv.pdf public/cv",
     "setup": "npm run clean && npm install && npm run cv:tex && node scripts/build-cv-pdf.mts --optional && node scripts/publish-cv-pdf.mts --optional && node scripts/build-cv-images.mts --optional",
     "predev": "npm run setup",
@@ -20,7 +21,8 @@
     "cv:pdf": "npm run cv:tex && node scripts/build-cv-pdf.mts && node scripts/publish-cv-pdf.mts && node scripts/build-cv-images.mts",
     "effects:sync": "node scripts/sync-effects.mts",
     "typecheck": "next typegen && tsc --noEmit",
-    "test": "vitest run"
+    "test": "vitest run",
+    "commits:check": "node scripts/check-commit-message.mts --range"
   },
   "dependencies": {
     "class-variance-authority": "^0.7.1",
