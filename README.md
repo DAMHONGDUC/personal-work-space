@@ -14,35 +14,54 @@
 
 ## App IDs
 
-| Platform | Flavor / scheme | ID type | Value |
-|---|---|---|---|
-| Web | GitHub Pages | Base path | Set by CI as `NEXT_PUBLIC_BASE_PATH` (the repository name) |
+| ID | Value |
+|---|---|
+| iOS bundle ID | None — web project |
+| Android app ID | None — web project |
+| Android namespace | None — web project |
 
 ## Tech stack
 
 | Category | Technology | Version |
 |---|---|---|
 | Framework | Next.js (App Router, `output: "export"`) | 16.3.0 |
-| UI | React | 19.2.8 |
 | Language | TypeScript | 5.9.3 |
-| Styling | Tailwind CSS | 4.3.3 |
-| Components | shadcn/ui on Radix (`radix-ui`) | 1.6.7 |
-| Icons | lucide-react, react-icons | 1.33.0, 5.7.0 |
-| Tests | Vitest + jsdom | 4.1.10 |
-| CV | LaTeX (pdfLaTeX in CI, Tectonic locally) + poppler | — |
-| Runtime | Node.js | >= 22.18 |
-| Hosting / CI | GitHub Pages, GitHub Actions | — |
+| State management | React state and hooks, no store library | React 19.2.8 |
+| Backend | None — static export; effect uploads call the Google Drive API from the browser | — |
+| Local DB | None — `localStorage` only for the guide language and scroll memory | — |
+| Special libraries | Tailwind CSS · shadcn/ui on Radix · react-icons · LaTeX CV pipeline | 4.3.3 · 1.6.7 · 5.7.0 · — |
 
 ## Project architecture
 
+| | |
+|---|---|
+| Architecture | Layered, content-driven static site: JSON → loaders → components → routes |
+| Encryption | None — no data is stored or encrypted by the site; GitHub Pages serves it over HTTPS |
+
 ```mermaid
 flowchart TD
-  Data["src/data — JSON content"] --> Lib["src/lib — loaders, models, design tokens"]
-  Lib --> Comp["src/components — markup and style"]
-  Hooks["src/hooks — client behaviour"] --> Comp
-  Comp --> App["src/app — routes: /apps /docs /effects /personal"]
-  Lib --> App
-  Scripts["scripts — CV LaTeX/PDF, effects sync"] --> Public["public — icons, photos, CV PDFs"]
-  Public --> App
-  App --> Out["out — static export"] --> Pages["GitHub Pages"]
+  subgraph Content["Content — src/data"]
+    JSON["apps · docs · effects · cv · portfolio · site JSON"]
+  end
+  subgraph Lib["Logic — src/lib"]
+    Loaders["loaders: getApps · getDocBundles · buildPortfolio"]
+    Tokens["design: AppColors · AppTextStyles · AppSpacings"]
+  end
+  subgraph UI["UI — src/hooks + src/components"]
+    Hooks["hooks: search · language · scroll"]
+    Components["components: layout · docs · policy · portfolio · ui"]
+  end
+  subgraph Routes["Routes — src/app"]
+    Pages["/apps · /docs · /effects · /personal"]
+  end
+  subgraph Build["Build — scripts + CI"]
+    Scripts["cv:tex · cv:pdf · effects:sync"]
+    Out["out/ → GitHub Pages"]
+  end
+
+  JSON --> Loaders --> Pages
+  Tokens --> Components
+  Hooks --> Components --> Pages
+  Scripts --> Pages
+  Pages --> Out
 ```
