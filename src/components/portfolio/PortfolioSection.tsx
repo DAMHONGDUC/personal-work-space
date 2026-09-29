@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { MaskedWords } from "@/components/portfolio/MaskedWords";
 import { RevealSection } from "@/components/portfolio/RevealSection";
 import type { PortfolioSectionId } from "@/lib/portfolio/portfolio-model";
 import { AppTextStyles } from "@/lib/design/app-text-styles";
@@ -22,12 +23,14 @@ type Props = {
 export function PortfolioSection({ id, eyebrow, title, children }: Props) {
   return (
     <RevealSection id={id} className="flex flex-col gap-8">
-      <div className="pf-head flex flex-col gap-3">
-        <span className={`${AppTextStyles.CAPTION} flex items-center gap-3 font-medium uppercase tracking-[0.2em]`}>
+      <div className="flex flex-col gap-3">
+        <span className={`pf-head ${AppTextStyles.CAPTION} flex items-center gap-3 font-medium uppercase tracking-[0.2em]`}>
           <span aria-hidden className="pf-rule h-px w-8 bg-[var(--pf-a)]" />
           {eyebrow}
         </span>
-        <h2 className={`${AppTextStyles.SECTION_TITLE} max-w-2xl`}>{title}</h2>
+        <h2 className={`pf-title ${AppTextStyles.SECTION_TITLE} max-w-2xl`}>
+          <MaskedWords text={title} />
+        </h2>
       </div>
       {children}
     </RevealSection>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { PageContainer } from "@/components/layout/PageContainer";
+import { ReadingProgress } from "@/components/shared/ReadingProgress";
 import { AboutBento } from "@/components/portfolio/AboutBento";
 import { ContactCta } from "@/components/portfolio/ContactCta";
 import { ExperienceTimeline } from "@/components/portfolio/ExperienceTimeline";
@@ -10,6 +11,7 @@ import { PortfolioTheme } from "@/components/portfolio/PortfolioTheme";
 import { ProjectShowcase } from "@/components/portfolio/ProjectShowcase";
 import { SkillGroups } from "@/components/portfolio/SkillGroups";
 import { portfolio, portfolioStats } from "@/lib/portfolio/portfolio";
+import { AppColors } from "@/lib/design/app-colors";
 import { routes } from "@/lib/routes/routes";
 
 export const metadata: Metadata = {
@@ -21,6 +23,7 @@ export const metadata: Metadata = {
 export default function PortfolioPage() {
   return (
     <PortfolioTheme>
+      <ReadingProgress accent={AppColors.PORTFOLIO} />
       <PortfolioHero portfolio={portfolio} stats={portfolioStats()} />
 
       <PageContainer spacing="flush">

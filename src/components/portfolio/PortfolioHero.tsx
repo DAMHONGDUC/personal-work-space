@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowRight, FileText } from "lucide-react";
 import { Avatar } from "@/components/portfolio/Avatar";
 import { HeroBackdrop } from "@/components/portfolio/HeroBackdrop";
+import { MaskedWords } from "@/components/portfolio/MaskedWords";
 import { PortfolioLinks } from "@/components/portfolio/PortfolioLinks";
 import { StatStrip } from "@/components/portfolio/StatStrip";
 import { StatusPill } from "@/components/portfolio/StatusPill";
@@ -38,8 +39,8 @@ export function PortfolioHero({ portfolio, stats }: { portfolio: Portfolio; stat
                   👋
                 </span>
               </p>
-              <h1 className={`pf-enter ${AppTextStyles.DISPLAY}`} style={enterStyle(160)}>
-                {portfolio.name}
+              <h1 className={`pf-words-enter ${AppTextStyles.DISPLAY}`} style={enterStyle(160)}>
+                <MaskedWords text={portfolio.name} />
               </h1>
               <p className="pf-enter text-xl font-medium tracking-tight text-muted sm:text-2xl" style={enterStyle(240)}>
                 {portfolio.role}
@@ -70,13 +71,11 @@ export function PortfolioHero({ portfolio, stats }: { portfolio: Portfolio; stat
             </div>
           </div>
 
-          <div className="pf-pop" style={enterStyle(200)}>
-            <Avatar src={portfolio.photo} alt={portfolio.name} badge={`📍 ${portfolio.location}`} />
-          </div>
+          <Avatar src={portfolio.photo} alt={portfolio.name} badge={`📍 ${portfolio.location}`} delay={150} />
         </div>
 
         <div className="pf-enter" style={enterStyle(520)}>
-          <StatStrip stats={stats} />
+          <StatStrip stats={stats} delay={700} />
         </div>
       </div>
     </header>
