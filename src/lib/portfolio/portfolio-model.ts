@@ -131,7 +131,7 @@ export const PORTFOLIO_SECTIONS = [
   { id: "about", label: "About" },
   { id: "skills", label: "Skills" },
   { id: "experience", label: "Experience" },
-  { id: "projects", label: "Projects" },
+  { id: "projects", label: "Personal projects" },
   { id: "contact", label: "Contact" },
 ] as const;
 

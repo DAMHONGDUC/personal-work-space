@@ -108,6 +108,6 @@ export function portfolioStats(source: Portfolio = portfolio, now?: Date): Portf
     { value: `${yearsSince(source.careerStart, now)}+`, label: "years building apps" },
     count(source.experience.length, "company", "companies"),
     count(source.skills.length, "skill area", "skill areas"),
-    count(source.projects.length, "project", "projects"),
+    count(source.projects.length, "personal project", "personal projects"),
   ];
 }

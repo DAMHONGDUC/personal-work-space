@@ -37,7 +37,7 @@ export default function PortfolioPage() {
             <ExperienceTimeline jobs={portfolio.experience} />
           </PortfolioSection>
 
-          <PortfolioSection id="projects" eyebrow="Projects" title="Things I have built">
+          <PortfolioSection id="projects" eyebrow="Personal projects" title="Things I have built on my own">
             <ProjectShowcase projects={portfolio.projects} icons={portfolio.projectIcons} />
           </PortfolioSection>
 
