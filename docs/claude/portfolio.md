@@ -33,16 +33,22 @@ Rendered at `/personal/portfolio` by `src/components/portfolio/`.
 
 | Element | Motion | Where |
 |---|---|---|
-| Hero | Plays in once on load | `pf-enter` / `pf-pop`, timed by `enterStyle` |
-| Sections | Heading rises from a blur, rule draws, cards rise by `order`, chips pop, timeline line draws | `RevealSection` (IntersectionObserver) |
-| Cards | Lift on hover | `transform`, because the rise-in holds `translate` |
+| Hero | Plays in once on load: pieces rise in turn, the name word by word from behind masks | `pf-enter`, `pf-words-enter` + `MaskedWords`, timed by `enterStyle` |
+| Portrait | Opens like a curtain from the bottom while settling from a slight zoom | `pf-curtain` in `Avatar` |
+| Hero figures | Count up from zero, one after another | `CountUp` |
+| Sections | Label rises, rule draws, title words slide up from their masks, cards rise by `order`, chips pop, timeline line draws | `RevealSection` (IntersectionObserver), `MaskedWords` |
+| Header | The pill behind the current section slides to the next one | `HeaderNav` |
+| Reading progress | Thin accent line across the top | `ReadingProgress` |
+| Project cards | Tilt toward a mouse pointer (≤ 5–7°), lift on hover | `SpotlightCard`, `transform` because the rise-in holds `translate` |
 | About intro | Types itself out over the real text | `Typewriter` |
 | Current job dot, greeting | Pulse; wave twice | — |
 
 | Motion rule | Detail |
 |---|---|
-| Who moves | CSS animates; JavaScript only decides when |
-| No script, or `prefers-reduced-motion: reduce` | Nothing is hidden; everything is simply visible |
+| One curve | `--pf-ease` (`cubic-bezier(0.16, 1, 0.3, 1)`), for every animation |
+| Who moves | CSS animates; JavaScript only decides when (and writes the tilt and count to the DOM, never to state) |
+| Real text stays | Masked words, the count and the typewriter keep the real text in the page |
+| No script, touch, or `prefers-reduced-motion: reduce` | Nothing is hidden or tilted; everything is simply visible |
 
 ## Never
 
