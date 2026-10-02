@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import full from "@/data/cv/cv_full.json";
 import noFreelancer from "@/data/cv/cv_no_freelancer.json";
+import upwork from "@/data/cv/cv_upwork.json";
 import type { Cv, CvPage, CvPdf, CvVersion } from "@/lib/cv/cv-types";
 import { ResourceConstant } from "@/lib/resource-constant.mts";
 
@@ -18,6 +19,7 @@ export type { Cv, CvPage, CvPdf, CvVersion } from "@/lib/cv/cv-types";
 const VERSIONS: Record<string, Cv> = {
   cv_full: full as Cv,
   cv_no_freelancer: noFreelancer as Cv,
+  cv_upwork: upwork as Cv,
 };
 
 /**

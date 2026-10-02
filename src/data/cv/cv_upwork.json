@@ -1,0 +1,238 @@
+{
+  "label": "Upwork",
+  "lastUpdated": "2026-10-02",
+  "header": {
+    "name": "DAM HONG DUC",
+    "photo": "avt.jpg",
+    "contacts": [
+      {
+        "kind": "email",
+        "value": "hongduc.dam2001@gmail.com"
+      },
+      {
+        "kind": "phone",
+        "value": "+84 355 211 735",
+        "href": "tel:+84355211735"
+      },
+      {
+        "kind": "link",
+        "value": "linkedin.com/in/dam-hong-duc",
+        "href": "https://linkedin.com/in/dam-hong-duc"
+      },
+      {
+        "kind": "link",
+        "value": "github.com/DAMHONGDUC",
+        "href": "https://github.com/DAMHONGDUC"
+      }
+    ]
+  },
+  "aboutMe": [
+    "Mobile engineer with 4+ years shipping native Android, Flutter and React Native apps, from an empty repository to Google Play and the App Store.",
+    "Three years of remote freelance work for a client in Japan: owned delivery end to end and reported directly across time zones.",
+    "Based in Ho Chi Minh City (GMT+7), available for remote contract work."
+  ],
+  "education": [
+    {
+      "institution": "University of Science - VNUHCM",
+      "url": "https://en.hcmus.edu.vn/",
+      "location": "HCM City, Viet Nam",
+      "period": "Sept 2019 – Aug 2023",
+      "degree": "Bachelor of Science in Information Systems"
+    }
+  ],
+  "skills": [
+    {
+      "name": "Flutter",
+      "items": "Clean Architecture, BLoC, Provider, Riverpod, Stream, Hive, Dio, get_it, Mockito, unit testing, Flame, Unity integration"
+    },
+    {
+      "name": "React Native",
+      "items": "Redux, Redux Toolkit, SQLite, Axios, Jest"
+    },
+    {
+      "name": "Native Android",
+      "items": "Kotlin, Jetpack Compose, MVVM, Clean Architecture, Hilt, Dagger, Room, Retrofit"
+    },
+    {
+      "name": "Backend & Integration",
+      "items": "REST API, Firebase, VNPAY, RevenueCat, push notifications, SSL pinning, offline-first storage, camera, permissions, hardware barcode scanners"
+    },
+    {
+      "name": "CI/CD & Release",
+      "items": "Fastlane, GitLab Runner, GitHub Actions, Google Play Console, Apple App Store"
+    },
+    {
+      "name": "Web",
+      "items": "React.js, Next.js, Three.js"
+    },
+    {
+      "name": "AI-Assisted Development",
+      "items": "Claude Code, Codex"
+    }
+  ],
+  "experience": [
+    {
+      "company": "Oivan",
+      "url": "https://oivan.com/",
+      "role": "Mobile Developer",
+      "arrangement": "Hybrid",
+      "location": "HCM City, Viet Nam",
+      "period": "Oct 2024 – now (1 yr 11 mos)",
+      "groups": [
+        {
+          "title": "Real Estate Product – Flutter",
+          "meta": "Flutter, Clean Architecture, Scrum, Kanban · Team size: 20 mobile devs",
+          "bullets": [
+            "Deliver features on a real estate product for a Saudi Arabian government client, within a 20-developer mobile team.",
+            "Integrated third-party SDKs and embedded Unity into Flutter for an in-app metaverse of buildings and events."
+          ]
+        },
+        {
+          "title": "Joined the Performance Team",
+          "meta": "Profiling, state management, network security (SSL pinning)",
+          "bullets": [
+            "Reduced app size from 200MB to 90MB.",
+            "Raised key screens from 30–40 FPS to a steady 60 by removing unnecessary re-renders.",
+            "Optimised data-layer caching and migrated state management from Stream to BLoC."
+          ]
+        }
+      ]
+    },
+    {
+      "company": "P&A Inc.",
+      "role": "Mobile Developer",
+      "arrangement": "Freelance, remote (Japan)",
+      "location": "HCM City, Viet Nam",
+      "period": "Aug 2023 – Jul 2026 (3 yrs)",
+      "groups": [
+        {
+          "title": "Cocototo – virtual pet game",
+          "meta": "Flutter, Flame, Firebase · Team size: 2 mobile devs",
+          "bullets": [
+            "A virtual pet game where players raise and care for a companion, taken from an empty repository to release.",
+            "Worked across every layer: architecture, the Flame game loop, gameplay state, the Firebase backend, UI and release, reporting directly to the client in another time zone."
+          ]
+        },
+        {
+          "title": "Pet Management App",
+          "meta": "Jetpack Compose · Team size: 3 mobile devs",
+          "bullets": [
+            "Built the native Android client in Jetpack Compose."
+          ]
+        }
+      ]
+    },
+    {
+      "company": "TGL Solutions",
+      "url": "https://www.tgl-sol.com/",
+      "role": "Mobile Developer",
+      "arrangement": "Onsite",
+      "location": "HCM City, Viet Nam",
+      "period": "Nov 2022 – Oct 2024 (2 yrs)",
+      "groups": [
+        {
+          "title": "Warehouse App for POS / Handheld Devices",
+          "meta": "Kotlin, Jetpack Compose, MVVM, Clean Architecture · Team size: 2 mobile devs",
+          "bullets": [
+            "Built a warehouse management app for Unitech HT300/HT330 barcode devices, end to end.",
+            "Integrated the hardware scanner for real-time barcode capture; handled goods receipt, dispatch and inventory updates over REST API.",
+            "Built an offline-first data layer with periodic sync to an on-device database, so the floor kept working without a network.",
+            "Drove cross-team agreement on barcode formats; implemented auto-launch on reboot and published the app privately on Google Play."
+          ]
+        },
+        {
+          "title": "Cross-Platform Apps – Flutter & React Native",
+          "meta": "Flutter, React Native · Team size: 4–6 mobile devs",
+          "bullets": [
+            "Built new apps and maintained existing ones across booking, e-learning, file management and apartment equipment.",
+            "Led a sub-project with 3 members: planned sprints, estimated tasks and reviewed delivery.",
+            "Integrated VNPAY, FCM and Firebase Crashlytics."
+          ]
+        }
+      ],
+      "note": {
+        "label": "Also:",
+        "text": "Maintained admin dashboards and academy websites in React.js and Next.js, with 3D UI components in Three.js. Agile throughout – system design, API contracts with backend, and QA triage."
+      }
+    },
+    {
+      "company": "Flynk",
+      "url": "https://flynk.com/",
+      "role": "Fresher Mobile Developer",
+      "arrangement": "Onsite",
+      "location": "HCM City, Viet Nam",
+      "period": "Jul 2022 – Nov 2022 (5 mos)",
+      "groups": [
+        {
+          "title": "Trading & Finance App – React Native",
+          "meta": "React Native · Team size: 3 mobile devs",
+          "bullets": [
+            "Maintained and improved the app UI; implemented charts for trading and financial data."
+          ]
+        }
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "name": "SiteLog",
+      "description": "An offline-first iOS app for construction site surveys that exports a signed PDF inspection report, with a verifiable chain of custody for every photo. SwiftUI, SwiftData, background multipart uploads to Cloudflare R2.",
+      "links": [
+        {
+          "label": "github.com/DAMHONGDUC/site-log-ios",
+          "href": "https://github.com/DAMHONGDUC/site-log-ios"
+        }
+      ]
+    },
+    {
+      "name": "BaroEase",
+      "description": "An iOS-first Flutter app for tracking migraines against barometric-pressure risk. Works offline, dark by default, in seven languages.",
+      "links": [
+        {
+          "label": "github.com/DAMHONGDUC/migraine-tracker",
+          "href": "https://github.com/DAMHONGDUC/migraine-tracker"
+        }
+      ]
+    },
+    {
+      "name": "Reseller Studio",
+      "description": "Seller operations for the whole resale lifecycle, from sourcing and inventory to listing, shipping and profit. Flutter, Riverpod, Firebase.",
+      "links": [
+        {
+          "label": "github.com/DAMHONGDUC/reseller-studio",
+          "href": "https://github.com/DAMHONGDUC/reseller-studio"
+        }
+      ]
+    },
+    {
+      "name": "Dual Space",
+      "description": "An Android multi-session gaming workspace that runs games in separate sessions through Android managed profiles. Kotlin, Jetpack Compose.",
+      "links": [
+        {
+          "label": "github.com/DAMHONGDUC/dual-space-android",
+          "href": "https://github.com/DAMHONGDUC/dual-space-android"
+        }
+      ]
+    },
+    {
+      "name": "Receiver SMS",
+      "description": "An Android app that watches incoming SMS from chosen senders and forwards each one to an API endpoint. Kotlin, Jetpack Compose, Room, Hilt, Clean Architecture.",
+      "links": [
+        {
+          "label": "github.com/DAMHONGDUC/receiver-sms",
+          "href": "https://github.com/DAMHONGDUC/receiver-sms"
+        }
+      ]
+    },
+    {
+      "name": "Dutuku E-Commerce",
+      "description": "A Flutter application built with Clean Architecture",
+      "links": [
+        {
+          "label": "github.com/DAMHONGDUC/dutuku_e_commerce",
+          "href": "https://github.com/DAMHONGDUC/dutuku_e_commerce"
+        }
+      ]
+    }
+  ]
+}

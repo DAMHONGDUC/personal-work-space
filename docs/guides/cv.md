@@ -8,6 +8,7 @@ The CV is generated: edit the JSON in `src/data/cv/`, never the LaTeX.
 |---|---|---|
 | `src/data/cv/cv_full.json` | Full history; the default version and the portfolio's source | Yes |
 | `src/data/cv/cv_no_freelancer.json` | Same, without the freelance work | Yes |
+| `src/data/cv/cv_upwork.json` | For Upwork clients: freelance-first About me, skills ordered by what clients search | Yes |
 | `cv/template/main.tex` | Layout: preamble + one `%%PLACEHOLDER%%` per section | Yes |
 | `public/personal/avt.jpg` | CV photo (the portfolio has its own) | Yes |
 | `cv/build/<slug>/` | Generated LaTeX + photo | No |
