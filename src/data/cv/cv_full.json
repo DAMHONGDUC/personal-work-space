@@ -184,7 +184,7 @@
   "projects": [
     {
       "name": "BaroEase",
-      "description": "An iOS-first Flutter app for tracking migraines against barometric-pressure risk. Works offline, dark by default, in seven languages.",
+      "description": "Migraine tracker that flags barometric-pressure risk; works offline, in seven languages. Flutter, iOS-first.",
       "links": [
         {
           "label": "github.com/DAMHONGDUC/migraine-tracker",
@@ -194,7 +194,7 @@
     },
     {
       "name": "Reseller Studio",
-      "description": "Seller operations for the whole resale lifecycle, from sourcing and inventory to listing, shipping and profit. Flutter, Riverpod, Firebase.",
+      "description": "Runs a resale business end to end: sourcing, inventory, listings, shipping and profit. Flutter, Riverpod, Firebase.",
       "links": [
         {
           "label": "github.com/DAMHONGDUC/reseller-studio",
@@ -204,7 +204,7 @@
     },
     {
       "name": "SMS Hook",
-      "description": "An Android app that calls user-configured HTTP APIs whenever an incoming SMS matches a rule, running unattended in the background. Kotlin, Jetpack Compose, Room, WorkManager, Clean Architecture.",
+      "description": "Forwards incoming SMS that match a rule to user-configured APIs, unattended in the background. Kotlin, Jetpack Compose, Room, WorkManager.",
       "links": [
         {
           "label": "github.com/DAMHONGDUC/sms-hook",
