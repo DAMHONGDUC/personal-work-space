@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type CSSProperties } from "react";
+import { DownloadIcon, ExternalLinkIcon, FileTextIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -12,7 +13,22 @@ import {
 import type { CvVersion } from "@/lib/cv/cv-types";
 import { formatDate } from "@/lib/format";
 import { withBasePath } from "@/lib/routes/routes";
+import { AppColors } from "@/lib/design/app-colors";
 import { AppTextStyles } from "@/lib/design/app-text-styles";
+
+/**
+ * One size for the three controls — version, download, open — so they read as
+ * one toolbar. The trigger's own `data-[size=default]:h-8` outranks a plain
+ * `h-11`, so its height is set on the same attribute.
+ */
+const CONTROL =
+  "h-11 w-44 gap-2 rounded-xl px-4 text-sm font-semibold shadow-md data-[size=default]:h-11";
+
+/** The two secondary controls, drawn in the CV's accent so they stand out from the page. */
+const ACCENT: CSSProperties = {
+  backgroundColor: AppColors.tint(AppColors.CV, 12),
+  borderColor: AppColors.tint(AppColors.CV, 60),
+};
 
 /**
  * The CV, with a dropdown for choosing which version of it to read.
@@ -41,14 +57,36 @@ export function CvSwitcher({ versions }: { versions: CvVersion[] }) {
             <Select value={slug} onValueChange={setSlug}>
               <SelectTrigger
                 size="default"
-                className="h-11 rounded-xl px-4 font-semibold"
+                style={ACCENT}
+                className={`${CONTROL} border-2 text-foreground`}
               >
-                <SelectValue />
+                <FileTextIcon />
+                <span className="flex min-w-0 flex-1 text-left">
+                  {/* Explicit children: the items carry a date line that the
+                      trigger has no room for. */}
+                  <SelectValue>{current.label}</SelectValue>
+                </span>
               </SelectTrigger>
-              <SelectContent>
+              {/* Popper, not item-aligned: the list opens below the trigger at
+                  its width instead of covering it. */}
+              <SelectContent
+                position="popper"
+                sideOffset={8}
+                className="rounded-xl p-1.5 shadow-lg"
+              >
                 {versions.map((version) => (
-                  <SelectItem key={version.slug} value={version.slug}>
-                    {version.label}
+                  <SelectItem
+                    key={version.slug}
+                    value={version.slug}
+                    textValue={version.label}
+                    className="rounded-lg py-2 pr-8 pl-2.5"
+                  >
+                    <span className="flex flex-col items-start gap-0.5">
+                      <span className="font-semibold">{version.label}</span>
+                      <span className={AppTextStyles.CAPTION}>
+                        Updated {formatDate(version.data.lastUpdated)}
+                      </span>
+                    </span>
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -60,11 +98,12 @@ export function CvSwitcher({ versions }: { versions: CvVersion[] }) {
           <>
             {/* asChild keeps these anchors — a download and an external link are
                 navigation, not buttons, whatever they look like. */}
-            <Button asChild size="lg" className="h-11 rounded-xl px-5 font-semibold">
+            <Button asChild size="lg" className={CONTROL}>
               {/* Each version is served as its own cv.pdf; `download` renames the
                   visitor's copy to something they can find again in a downloads
                   folder, and tells the two versions apart once it is there. */}
               <a href={withBasePath(pdf.url)} download={pdf.fileName}>
+                <DownloadIcon />
                 Download CV
               </a>
             </Button>
@@ -72,14 +111,16 @@ export function CvSwitcher({ versions }: { versions: CvVersion[] }) {
               asChild
               variant="outline"
               size="lg"
-              className="h-11 rounded-xl px-5 font-semibold"
+              style={ACCENT}
+              className={`${CONTROL} border-2`}
             >
               <a
                 href={withBasePath(pdf.url)}
                 target="_blank"
                 rel="noreferrer noopener"
               >
-                Open CV ↗
+                <ExternalLinkIcon />
+                Open CV
               </a>
             </Button>
             <span className={AppTextStyles.CAPTION}>PDF · {pdf.sizeKb} KB</span>
