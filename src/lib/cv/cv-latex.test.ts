@@ -230,6 +230,13 @@ describe("renderCvLatex", () => {
     expect(out).not.toContain("\\begin{itemize}");
   });
 
+  it("drops the projects section, heading and all, when there are none", () => {
+    const out = renderCvLatex(makeCv({ projects: [] }), TEMPLATE);
+
+    expect(out).not.toContain("Personal Projects");
+    expect(out).not.toContain("\\begin{highlights}\n\\end{highlights}");
+  });
+
   it("treats a dollar sign in the data as text, not as maths", () => {
     // A raw "$" would open maths mode and break the compile several lines later.
     const out = renderCvLatex(makeCv({ aboutMe: ["Saved $1M"] }), TEMPLATE);

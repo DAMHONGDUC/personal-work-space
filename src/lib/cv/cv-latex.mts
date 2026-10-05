@@ -224,8 +224,14 @@ ${links}
     \\end{itemize}`;
 }
 
+/** The section with its heading, or nothing: an empty list will not compile. */
 function renderProjects(projects: Project[]): string {
-  return `\\begin{highlights}
+  if (projects.length === 0) {
+    return "";
+  }
+
+  return `\\section{Personal Projects}
+\\begin{highlights}
 ${projects.map(renderProject).join("\n")}
 \\end{highlights}`;
 }
