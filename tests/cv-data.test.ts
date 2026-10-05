@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
 import { renderCvLatex } from "@/lib/cv/cv-latex.mts";
+import { periodWithDuration } from "@/lib/cv/cv-period.mts";
 import { ResourceConstant } from "@/lib/resource-constant.mts";
 import { cv, getCvVersions } from "@/lib/cv/cv";
 
@@ -70,6 +71,13 @@ describe.each(versions)("the CV data file $slug", ({ slug, data: cv }) => {
     const photo = path.join(process.cwd(), ResourceConstant.CV_ASSETS_DIR, cv.header.photo);
 
     expect(fs.existsSync(photo)).toBe(true);
+  });
+
+  it("writes every job's period without its length, which the build counts", () => {
+    // A typed "(1 yr 11 mos)" goes stale the month after it is written.
+    for (const job of cv.experience) {
+      expect(() => periodWithDuration(job.period)).not.toThrow();
+    }
   });
 
   it("ends every location with the country, spelled Viet Nam", () => {

@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
 import { cv } from "@/lib/cv/cv";
+import { periodWithDuration } from "@/lib/cv/cv-period.mts";
 import {
   periodStart,
   portfolio,
@@ -91,7 +92,10 @@ describe("portfolio and CV", () => {
     );
     expect(portfolio.education).toBe(cv.education);
     expect(portfolio.skills).toBe(cv.skills);
-    expect(portfolio.experience).toBe(cv.experience);
+    // Only the length of service is added, counted to the day of the build.
+    expect(portfolio.experience).toEqual(
+      cv.experience.map((job) => ({ ...job, period: periodWithDuration(job.period) })),
+    );
     expect(portfolio.projects).toBe(cv.projects);
     expect(portfolio.name.toUpperCase()).toBe(cv.header.name.toUpperCase());
     expect(portfolio.role).toBe(cv.experience[0].role);

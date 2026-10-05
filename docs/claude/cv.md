@@ -9,6 +9,7 @@
 | `ResourceConstant.CV_DATA_FILE` only picks the landing version and the legacy `/cv.pdf` | — | `cv_full.json` |
 | Every text field is plain text | The renderer escapes LaTeX and converts typography | `Backend & Integration`, `get_it`, `2019 – 2023` |
 | Every location ends with `, Viet Nam` | One spelling; test-enforced | A remote client's country goes in `arrangement`: `Freelance, remote (Japan)` |
+| A job's `period` is `Mon YYYY – Mon YYYY` or `Mon YYYY – now`, never with its length | The build appends the length, counted to the build month, in [cv-period.mts](../../src/lib/cv/cv-period.mts); test-enforced | `Oct 2024 – now` prints `Oct 2024 – now (2 yrs 1 mo)` |
 | Optional `url` on education and experience | Links the name in the PDF and on the portfolio | `"url": "https://oivan.com/"` |
 | `portfolioAbout` is for the portfolio only | Never printed on the PDF; see [portfolio.md](portfolio.md) | — |
 

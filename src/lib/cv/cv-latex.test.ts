@@ -28,7 +28,7 @@ function makeCv(overrides: Partial<Cv> = {}): Cv {
         role: "Developer",
         arrangement: "Onsite",
         location: "A City",
-        period: "2024 – now",
+        period: "Jan 2024 – Mar 2024",
         groups: [{ title: "Mobile App", meta: "Flutter · Team size: 4", bullets: ["Did a thing."] }],
       },
     ],
@@ -199,7 +199,7 @@ describe("renderCvLatex", () => {
     // headings drifted out of step with each other before.
     const out = renderCvLatex(makeCv(), TEMPLATE);
 
-    expect(out).toContain("\\cvDate{2024 -- now}");
+    expect(out).toContain("\\cvDate{Jan 2024 -- Mar 2024 (3 mos)}");
     expect(out).toContain("\\cvRole{Mobile App}");
     expect(out).not.toContain("\\fontsize");
   });

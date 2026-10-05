@@ -7,6 +7,7 @@ import type {
   Project,
   Skill,
 } from "./cv-types";
+import { periodWithDuration } from "./cv-period.mts";
 
 /**
  * Turns cv.json into the body of a LaTeX document.
@@ -183,7 +184,7 @@ function renderExperience(entry: Experience, position: number): string {
     );
   }
 
-  return `\\begin{twocolentry}{\\cvDate{${tex(entry.period)}}}
+  return `\\begin{twocolentry}{\\cvDate{${tex(periodWithDuration(entry.period))}}}
     \\cvCompany{${position}. ${linked(entry.company, entry.url)}} -- ${heading}
 \\end{twocolentry}
 \\vspace{3mm}

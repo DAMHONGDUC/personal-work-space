@@ -1,5 +1,6 @@
 import page from "@/data/portfolio.json";
 import { cv } from "@/lib/cv/cv";
+import { periodStart, periodWithDuration } from "@/lib/cv/cv-period.mts";
 import type { Cv } from "@/lib/cv/cv-types";
 import type {
   Portfolio,
@@ -9,28 +10,11 @@ import type {
 } from "@/lib/portfolio/portfolio-model";
 
 export type { Portfolio } from "@/lib/portfolio/portfolio-model";
-
-const MONTHS = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
+export { periodStart } from "@/lib/cv/cv-period.mts";
 
 /** `DAM HONG DUC` -> `Dam Hong Duc`. */
 export function titleCase(text: string): string {
   return text.toLowerCase().replace(/\b\p{L}/gu, (letter) => letter.toUpperCase());
-}
-
-/**
- * `Jul 2022 – Nov 2022 (5 mos)` -> `2022-07`: the month a period starts.
- * Throws on a period it cannot read, so a typo in the CV fails the build
- * rather than printing a wrong number of years.
- */
-export function periodStart(period: string): string {
-  const match = /^([A-Za-z]{3})[a-z]*\.?\s+(\d{4})/.exec(period.trim());
-  const month = match ? MONTHS.indexOf(match[1].toLowerCase()) : -1;
-
-  if (!match || month === -1) {
-    throw new Error(`Cannot read the start of the CV period "${period}"`);
-  }
-
-  return `${match[2]}-${String(month + 1).padStart(2, "0")}`;
 }
 
 /** The CV's link contacts that the page shows as profiles, by host. */
@@ -74,7 +58,7 @@ export function buildPortfolio(source: Cv, extras: PortfolioPage): Portfolio {
     location: newest.location,
     education: source.education,
     skills: source.skills,
-    experience: source.experience,
+    experience: source.experience.map((job) => ({ ...job, period: periodWithDuration(job.period) })),
     projects: source.projects,
     email,
     links: profileLinks(source),
