@@ -1,6 +1,6 @@
 {
   "label": "No freelancer",
-  "lastUpdated": "2026-08-26",
+  "lastUpdated": "2026-10-05",
   "header": {
     "name": "DAM HONG DUC",
     "photo": "avt.jpg",
@@ -27,7 +27,8 @@
     ]
   },
   "aboutMe": [
-    "Mobile engineer with 4+ years in native Android, Flutter and React Native, on team products and on apps built from scratch.",
+    "Mobile engineer with 4+ years in native Android, Flutter and React Native, from an empty repository to Google Play and the App Store.",
+    "Experienced in optimising app size and rendering performance, CI/CD pipelines and app security, in large teams and on my own.",
     "Based in Ho Chi Minh City."
   ],
   "education": [
@@ -42,19 +43,23 @@
   "skills": [
     {
       "name": "Native Android",
-      "items": "Kotlin, Jetpack Compose, MVVM, Clean Architecture, Hilt, Dagger, Room, Retrofit"
+      "items": "Kotlin, Jetpack Compose, MVVM, Hilt, Dagger, Room, Retrofit"
     },
     {
       "name": "Flutter",
-      "items": "Render pipeline (widget, element, render object), Clean Architecture, BLoC, Provider, Riverpod, Stream, Hive, Dio, get_it, Mockito, unit testing, Unity integration"
+      "items": "Render pipeline (widget, element, render object), Clean Architecture, BLoC, Provider, Riverpod, Hive, Dio, get_it, Unity integration"
     },
     {
       "name": "React Native",
-      "items": "Redux, Redux Toolkit, SQLite, Axios, Jest"
+      "items": "Redux, Redux Toolkit, SQLite, Axios"
     },
     {
       "name": "Backend & Integration",
       "items": "REST API, Firebase, VNPAY, RevenueCat, push notifications, SSL pinning, offline-first storage, camera, permissions, hardware barcode scanners"
+    },
+    {
+      "name": "Testing",
+      "items": "Unit testing, Mockito, Jest"
     },
     {
       "name": "Web",
@@ -82,7 +87,7 @@
           "title": "Real Estate Product – Flutter",
           "meta": "Flutter, Clean Architecture, Scrum, Kanban · Team size: 20 mobile devs",
           "bullets": [
-            "Deliver features on a real estate product for a Saudi Arabian government client, within a 20-developer mobile team.",
+            "Built features for a Saudi Arabian government client's real estate product, within a 20-developer mobile team.",
             "Integrated third-party SDKs and embedded Unity into Flutter for an in-app metaverse of buildings and events."
           ]
         },

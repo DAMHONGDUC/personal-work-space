@@ -11,6 +11,7 @@
     "Flutter": "flutter",
     "React Native": "react",
     "Backend & Integration": "firebase",
+    "Testing": "jest",
     "Web": "nextjs",
     "AI-Assisted Development": "claude",
     "CI/CD & Release": "github-actions"
