@@ -70,8 +70,8 @@ describe("withBasePath", () => {
   });
 
   it("prefixes the base path GitHub Pages serves a project site from", () => {
-    process.env.NEXT_PUBLIC_BASE_PATH = "/personal_work_space";
+    process.env.NEXT_PUBLIC_BASE_PATH = "/personal-work-space";
 
-    expect(withBasePath(routes.cv)).toBe("/personal_work_space/personal/cv");
+    expect(withBasePath(routes.cv)).toBe("/personal-work-space/personal/cv");
   });
 });

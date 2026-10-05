@@ -10,7 +10,7 @@
 
 | Platform | Link |
 |---|---|
-| Web (GitHub Pages) | https://damhongduc.github.io/personal_work_space |
+| Web (GitHub Pages) | https://damhongduc.github.io/personal-work-space |
 
 ## App IDs
 
