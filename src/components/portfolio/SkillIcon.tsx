@@ -6,6 +6,7 @@ import {
   SiFirebase,
   SiFlutter,
   SiGithubactions,
+  SiJest,
   SiNextdotjs,
   SiReact,
 } from "react-icons/si";
@@ -22,6 +23,7 @@ const MARKS: Record<SkillIconId, { Icon: IconType; color?: string }> = {
   flutter: { Icon: SiFlutter, color: AppColors.BRAND.flutter },
   react: { Icon: SiReact, color: AppColors.BRAND.react },
   firebase: { Icon: SiFirebase, color: AppColors.BRAND.firebase },
+  jest: { Icon: SiJest, color: AppColors.BRAND.jest },
   nextjs: { Icon: SiNextdotjs },
   claude: { Icon: SiClaude, color: AppColors.BRAND.claude },
   "github-actions": { Icon: SiGithubactions, color: AppColors.BRAND.githubActions },
