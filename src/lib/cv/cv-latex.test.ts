@@ -150,8 +150,8 @@ describe("renderCvLatex", () => {
       TEMPLATE,
     );
 
-    expect(out).toContain("\\cvRole{\\hrefWithoutArrow{https://uni.example/}{A University}}");
-    expect(out).toContain("\\hrefWithoutArrow{https://acme.example/}{Acme}");
+    expect(out).toContain("\\cvRole{\\cvNameLink{https://uni.example/}{A University}}");
+    expect(out).toContain("\\cvNameLink{https://acme.example/}{Acme}");
     expect(out).toContain("1. Beta}");
   });
 

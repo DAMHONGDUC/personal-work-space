@@ -164,6 +164,9 @@
 }%
 
 \let\hrefWithoutArrow\href
+% A company or school name that links to its website: still clickable, but in
+% the text colour, so the heading reads as a heading rather than as a link.
+\newcommand{\cvNameLink}[2]{\href{#1}{\textcolor{primaryColor}{#2}}}
 
 \usepackage{fontenc}
 \usepackage{hyperref}
