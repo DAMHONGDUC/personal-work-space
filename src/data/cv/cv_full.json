@@ -178,16 +178,6 @@
   ],
   "projects": [
     {
-      "name": "SiteLog",
-      "description": "An offline-first iOS app for construction site surveys that exports a signed PDF inspection report, with a verifiable chain of custody for every photo. SwiftUI, SwiftData, background multipart uploads to Cloudflare R2.",
-      "links": [
-        {
-          "label": "github.com/DAMHONGDUC/site-log-ios",
-          "href": "https://github.com/DAMHONGDUC/site-log-ios"
-        }
-      ]
-    },
-    {
       "name": "BaroEase",
       "description": "An iOS-first Flutter app for tracking migraines against barometric-pressure risk. Works offline, dark by default, in seven languages.",
       "links": [
@@ -208,32 +198,12 @@
       ]
     },
     {
-      "name": "Dual Space",
-      "description": "An Android multi-session gaming workspace that runs games in separate sessions through Android managed profiles. Kotlin, Jetpack Compose.",
+      "name": "SMS Hook",
+      "description": "An Android app that calls user-configured HTTP APIs whenever an incoming SMS matches a rule, running unattended in the background. Kotlin, Jetpack Compose, Room, WorkManager, Clean Architecture.",
       "links": [
         {
-          "label": "github.com/DAMHONGDUC/dual-space-android",
-          "href": "https://github.com/DAMHONGDUC/dual-space-android"
-        }
-      ]
-    },
-    {
-      "name": "Receiver SMS",
-      "description": "An Android app that watches incoming SMS from chosen senders and forwards each one to an API endpoint. Kotlin, Jetpack Compose, Room, Hilt, Clean Architecture.",
-      "links": [
-        {
-          "label": "github.com/DAMHONGDUC/receiver-sms",
-          "href": "https://github.com/DAMHONGDUC/receiver-sms"
-        }
-      ]
-    },
-    {
-      "name": "Dutuku E-Commerce",
-      "description": "A Flutter application built with Clean Architecture",
-      "links": [
-        {
-          "label": "github.com/DAMHONGDUC/dutuku_e_commerce",
-          "href": "https://github.com/DAMHONGDUC/dutuku_e_commerce"
+          "label": "github.com/DAMHONGDUC/sms-hook",
+          "href": "https://github.com/DAMHONGDUC/sms-hook"
         }
       ]
     }
