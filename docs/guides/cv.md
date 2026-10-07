@@ -6,8 +6,8 @@ The CV is generated: edit the JSON in `src/data/cv/`, never the LaTeX.
 
 | Path | What | In git |
 |---|---|---|
-| `src/data/cv/cv_with_freelancer.json` | Full history, freelance work included; the default version and the portfolio's source | Yes |
-| `src/data/cv/cv_normal.json` | Without the freelance work | Yes |
+| `src/data/cv/cv_normal.json` | Without the freelance work; the default version | Yes |
+| `src/data/cv/cv_with_freelancer.json` | Full history, freelance work included | Yes |
 | `src/data/cv/shared/*.json` | What every version shares: `header`, `about-me`, `education`, `skills`, `projects`, and `experience` — every job, keyed by id | Yes |
 | `src/data/cv/portfolio/portfolio.json` | The portfolio's version: same format, never offered as a CV | Yes |
 | `cv/template/main.tex` | Layout: preamble + one `%%PLACEHOLDER%%` per section | Yes |
