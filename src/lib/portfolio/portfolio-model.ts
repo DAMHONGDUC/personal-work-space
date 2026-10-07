@@ -51,7 +51,7 @@ export const SKILL_ICON_TOOLS: Record<SkillIconId, string> = {
   flutter: "Flutter",
   react: "React Native",
   "app-store": "App Store",
-  ios: "iOS",
+  ios: "Face ID",
   revenuecat: "RevenueCat",
   jest: "Jest",
   nextjs: "Next.js",
