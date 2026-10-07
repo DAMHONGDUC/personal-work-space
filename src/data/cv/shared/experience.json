@@ -68,6 +68,7 @@
         "meta": "Flutter, React Native · Team size: 4–6 mobile devs",
         "bullets": [
           "Built new apps and maintained existing ones across booking, e-learning, file management and apartment equipment.",
+          "Made the apps responsive on iPad, in portrait and landscape.",
           "Led a sub-project with 3 members: planned sprints, estimated tasks and reviewed delivery.",
           "Integrated VNPAY, FCM and Firebase Crashlytics."
         ]
