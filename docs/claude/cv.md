@@ -12,7 +12,8 @@
 | Every location ends with `, Viet Nam` | One spelling; test-enforced | A remote client's country goes in `arrangement`: `Freelancer, part-time, remote (Japan)` |
 | A job's `period` is `Mon YYYY – Mon YYYY` or `Mon YYYY – now`, never with its length | The build appends the length, counted to the build month, in [cv-period.mts](../../src/lib/cv/cv-period.mts); test-enforced | `Oct 2024 – now` prints `Oct 2024 – now (2 yrs 1 mo)` |
 | Optional `url` on education and experience | Links the name in the PDF and on the portfolio | `"url": "https://oivan.com/"` |
-| `aboutMe` stays general: no figures, no results | The figures belong to the jobs, where they have context | `Experienced in optimising app size…`, never `200MB to 90MB` |
+| `aboutMe` stays general: no figures, no results | The figures belong to the jobs, where they have context | `I have experience in optimising app size…`, never `200MB to 90MB` |
+| Every `aboutMe` sentence has a subject and a verb | A CV reads as written by a person, not as a list of fragments | `I am based in Ho Chi Minh City.`, never `Based in Ho Chi Minh City.` |
 | `portfolioAbout` is for the portfolio only | Never printed on the PDF; see [portfolio.md](portfolio.md) | — |
 
 ## Build and page

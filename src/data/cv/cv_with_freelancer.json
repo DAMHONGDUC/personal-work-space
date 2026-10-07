@@ -1,10 +1,10 @@
 {
   "label": "With freelancer",
-  "lastUpdated": "2026-10-05",
+  "lastUpdated": "2026-10-07",
   "aboutMe": [
-    "Mobile engineer with 4+ years in native Android, Flutter and React Native, from an empty repository to Google Play and the App Store.",
-    "Experienced in optimising app size and rendering performance, CI/CD pipelines and app security, in large teams and on my own.",
-    "Based in Ho Chi Minh City."
+    "I am a mobile engineer with 4+ years of experience in native Android, Flutter and React Native, taking apps from an empty repository to Google Play and the App Store.",
+    "I have experience in optimising app size and rendering performance, CI/CD pipelines and app security, in large teams and on my own.",
+    "I am based in Ho Chi Minh City."
   ],
   "portfolioAbout": [
     "I'm a mobile engineer with {{years}}+ years of experience building apps in native Android, Flutter and React Native, based in Ho Chi Minh City.",
