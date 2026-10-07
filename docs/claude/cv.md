@@ -9,6 +9,7 @@
 | A new file is also named in [cv.ts](../../src/lib/cv/cv.ts) | Static export needs a literal import; a test compares the list with the folder | — |
 | `ResourceConstant.CV_DATA_FILE` only picks the landing version and the legacy `/cv.pdf` | — | `cv_normal.json` |
 | Every text field is plain text | The renderer escapes LaTeX and converts typography | `Backend & Integration`, `get_it`, `2019 – 2023` |
+| The word `Freelancer` in an `arrangement` prints bold and blue | Freelance work is found at a glance; `\cvHighlight` in the template | **Freelancer**, part-time, remote (Japan) |
 | Every location ends with `, Viet Nam` | One spelling; test-enforced | A remote client's country goes in `arrangement`: `Freelancer, part-time, remote (Japan)` |
 | A job's `period` is `Mon YYYY – Mon YYYY` or `Mon YYYY – now`, never with its length | The build appends the length, counted to the build month, in [cv-period.mts](../../src/lib/cv/cv-period.mts); test-enforced | `Oct 2024 – now` prints `Oct 2024 – now (2 yrs 1 mo)` |
 | Optional `url` on education and experience | Links the name in the PDF and on the portfolio | `"url": "https://oivan.com/"` |
