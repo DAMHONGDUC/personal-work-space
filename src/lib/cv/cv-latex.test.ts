@@ -137,7 +137,7 @@ describe("renderCvLatex", () => {
     expect(out).toContain("\\href{https://github.com/x/a_b}{github.com/x/a\\_b}");
   });
 
-  it("links a school and a company that carry a website, and only those", () => {
+  it("links a school and a company that carry a website, and highlights the rest", () => {
     const base = makeCv();
     const out = renderCvLatex(
       makeCv({
@@ -152,7 +152,7 @@ describe("renderCvLatex", () => {
 
     expect(out).toContain("\\cvRole{\\cvNameLink{https://uni.example/}{A University}}");
     expect(out).toContain("\\cvNameLink{https://acme.example/}{Acme}");
-    expect(out).toContain("1. Beta}");
+    expect(out).toContain("1. \\cvNameHighlight{Beta}}");
   });
 
   it("renders a skill as a bold lead-in", () => {
@@ -188,9 +188,9 @@ describe("renderCvLatex", () => {
       TEMPLATE,
     );
 
-    expect(out).toContain("\\cvCompany{2. Acme}");
-    expect(out).toContain("\\cvCompany{1. Older}");
-    expect(out.indexOf("2. Acme")).toBeLessThan(out.indexOf("1. Older"));
+    expect(out).toContain("\\cvCompany{2. \\cvNameHighlight{Acme}}");
+    expect(out).toContain("\\cvCompany{1. \\cvNameHighlight{Older}}");
+    expect(out.indexOf("{Acme}")).toBeLessThan(out.indexOf("{Older}"));
   });
 
   it("marks up dates, roles and companies by meaning, not by size", () => {

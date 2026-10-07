@@ -164,9 +164,11 @@
 }%
 
 \let\hrefWithoutArrow\href
-% A company or school name that links to its website: still clickable, but in
-% the text colour, so the heading reads as a heading rather than as a link.
-\newcommand{\cvNameLink}[2]{\href{#1}{\textcolor{primaryColor}{#2}}}
+% A company or school name, in the same blue as the contacts so it stands out
+% from the role beside it: a link when the data gives a website, else the
+% same colour without one, so every name on the CV reads alike.
+\newcommand{\cvNameLink}[2]{\href{#1}{#2}}
+\newcommand{\cvNameHighlight}[1]{\textcolor{blue}{#1}}
 
 \usepackage{fontenc}
 \usepackage{hyperref}

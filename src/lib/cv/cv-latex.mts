@@ -74,11 +74,13 @@ function link(href: string, label: string): string {
 }
 
 /**
- * A company or school name: a link in the text colour when the data gives it a
- * website, plain text otherwise. Contacts stay ordinary blue links.
+ * A company or school name, always in the contacts' blue: a link when the data
+ * gives it a website, the same colour without one.
  */
 function linked(label: string, href: string | undefined): string {
-  return href ? `\\cvNameLink{${texUrl(href)}}{${tex(label)}}` : tex(label);
+  return href
+    ? `\\cvNameLink{${texUrl(href)}}{${tex(label)}}`
+    : `\\cvNameHighlight{${tex(label)}}`;
 }
 
 function contactLine(contact: Contact): string {
