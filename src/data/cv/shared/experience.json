@@ -57,7 +57,7 @@
     "groups": [
       {
         "title": "Warehouse App for POS / Handheld Devices",
-        "meta": "Kotlin, Jetpack Compose, MVVM, Clean Architecture · Team size: 2 mobile devs",
+        "meta": "Kotlin, Jetpack Compose, MVVM, Clean Architecture · Team size: 4 mobile devs",
         "bullets": [
           "Built a warehouse management app for Unitech HT300/HT330 barcode devices, end to end.",
           "Integrated the hardware scanner for real-time barcode capture; handled goods receipt, dispatch and inventory updates over REST API.",
