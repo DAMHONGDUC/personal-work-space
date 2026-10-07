@@ -13,7 +13,7 @@
   },
   {
     "name": "Mobile Features",
-    "items": "Push notifications, Local storage, Local databases, Camera, Location, Permissions, Deep links, Deferred deep links with Adjust, App Links, Universal Links, Play Feature Delivery, On-Demand Resources, App Store and Google Play delivery"
+    "items": "Push notifications, Local storage and databases, Camera, Location, Permissions, Deep links, Deferred deep links with Adjust, App Links, Universal Links, Play Feature Delivery, On-Demand Resources, App Store and Google Play delivery"
   },
   {
     "name": "Mobile Security",
@@ -21,7 +21,7 @@
   },
   {
     "name": "Mobile Integration",
-    "items": "RevenueCat, In-app purchases, Subscriptions, Firebase Firestore, FCM, Crashlytics and Analytics, OneSignal, Adjust, Unity integration in Flutter apps"
+    "items": "RevenueCat, In-app purchases and subscriptions, Firebase Firestore, FCM, Crashlytics and Analytics, OneSignal, Unity in Flutter"
   },
   {
     "name": "Mobile Testing",
@@ -33,7 +33,7 @@
   },
   {
     "name": "Web Development",
-    "items": "React.js, Next.js, 3D components with Three.js"
+    "items": "React.js, Next.js, Three.js"
   },
   {
     "name": "AI-Assisted Development",
