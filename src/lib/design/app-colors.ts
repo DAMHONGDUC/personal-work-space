@@ -43,6 +43,7 @@ export class AppColors {
     react: "#61DAFB",
     appStore: "#0D96F6",
     revenueCat: "#F25A5A",
+    jest: "#C21325",
     claude: "#D97757",
     githubActions: "#2088FF",
   } as const;

@@ -1,15 +1,15 @@
 [
   {
     "name": "Native Android",
-    "items": "Kotlin, Jetpack Compose, MVVM, Clean Architecture, MVC, Dependency injection, Broadcast receivers, Kiosk mode, Unit testing"
+    "items": "Kotlin, Jetpack Compose, MVVM, Clean Architecture, MVC, Dependency injection, Broadcast receivers, Kiosk mode"
   },
   {
     "name": "Flutter",
-    "items": "Dart, Clean Architecture, State management (BLoC, Provider, Riverpod), Dependency injection, Unit testing"
+    "items": "Dart, Clean Architecture, State management (BLoC, Provider, Riverpod), Dependency injection"
   },
   {
     "name": "React Native",
-    "items": "TypeScript, State management (Redux Toolkit + RTK Query, Zustand + TanStack Query), Unit testing"
+    "items": "TypeScript, State management (Redux Toolkit + RTK Query, Zustand + TanStack Query)"
   },
   {
     "name": "Mobile Features",
@@ -22,6 +22,10 @@
   {
     "name": "Mobile Integration",
     "items": "RevenueCat, In-app purchases, Subscriptions, Unity integration in Flutter apps"
+  },
+  {
+    "name": "Mobile Testing",
+    "items": "Logic and UI tests on Android (JUnit, Mockito, Compose UI Test), Flutter (flutter_test, mockito) and React Native (Jest, React Native Testing Library)"
   },
   {
     "name": "Mobile CI/CD",

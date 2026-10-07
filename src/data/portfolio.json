@@ -13,6 +13,7 @@
     "Mobile Features": "app-store",
     "Mobile Security": "ios",
     "Mobile Integration": "revenuecat",
+    "Mobile Testing": "jest",
     "Mobile CI/CD": "github-actions",
     "Web Development": "nextjs",
     "AI-Assisted Development": "claude"
