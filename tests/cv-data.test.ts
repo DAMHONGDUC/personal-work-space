@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
+import { readCv, readCvShared, readCvSlugs } from "@/lib/cv/cv-disk.mts";
 import { renderCvLatex } from "@/lib/cv/cv-latex.mts";
 import { periodWithDuration } from "@/lib/cv/cv-period.mts";
 import { ResourceConstant } from "@/lib/resource-constant.mts";
@@ -14,11 +15,7 @@ const template = fs.readFileSync(
 );
 
 /** The slugs actually sitting in the data directory. */
-const onDisk = fs
-  .readdirSync(path.join(process.cwd(), ResourceConstant.CV_DATA_DIR))
-  .filter((file) => file.endsWith(".json"))
-  .map((file) => ResourceConstant.cvSlug(file))
-  .sort();
+const onDisk = readCvSlugs(process.cwd());
 
 const versions = getCvVersions();
 
@@ -47,19 +44,29 @@ describe("the set of CVs", () => {
   });
 });
 
+describe("the shared CV parts", () => {
+  it("lists no job that no version prints", () => {
+    // A job in the shared pool that every version leaves out is a job that
+    // was meant to be on a CV and is not.
+    // Compared as JSON: the versions come from the static imports, the pool
+    // from disk, so the same job is two different objects.
+    const used = new Set(
+      versions.flatMap(({ data }) => data.experience.map((job) => JSON.stringify(job))),
+    );
+    const unused = Object.entries(readCvShared(process.cwd()).experience)
+      .filter(([, job]) => !used.has(JSON.stringify(job)))
+      .map(([id]) => id);
+
+    expect(unused).toEqual([]);
+  });
+});
+
 describe.each(versions)("the CV data file $slug", ({ slug, data: cv }) => {
   it("is the same file the PDF is generated from", () => {
     // The site imports the JSON statically and the generator reads it from
     // disk. If those ever name different files, the page and the downloadable
     // PDF quietly show different CVs.
-    const fromGenerator = JSON.parse(
-      fs.readFileSync(
-        path.join(process.cwd(), ResourceConstant.CV_DATA_DIR, `${slug}.json`),
-        "utf8",
-      ),
-    );
-
-    expect(fromGenerator).toEqual(cv);
+    expect(readCv(process.cwd(), slug)).toEqual(cv);
   });
 
   it("has an ISO lastUpdated date that is not in the future", () => {

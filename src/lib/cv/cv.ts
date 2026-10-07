@@ -2,13 +2,22 @@ import fs from "node:fs";
 import path from "node:path";
 import normal from "@/data/cv/cv_normal.json";
 import withFreelancer from "@/data/cv/cv_with_freelancer.json";
-import type { Cv, CvPage, CvPdf, CvVersion } from "@/lib/cv/cv-types";
+import education from "@/data/cv/shared/education.json";
+import experience from "@/data/cv/shared/experience.json";
+import header from "@/data/cv/shared/header.json";
+import projects from "@/data/cv/shared/projects.json";
+import { mergeCv } from "@/lib/cv/cv-merge.mts";
+import type { Cv, CvPage, CvPdf, CvShared, CvSource, CvVersion } from "@/lib/cv/cv-types";
 import { ResourceConstant } from "@/lib/resource-constant.mts";
 
 export type { Cv, CvPage, CvPdf, CvVersion } from "@/lib/cv/cv-types";
 
+/** What every version has in common, merged into each one below. */
+const SHARED = { header, education, projects, experience } as CvShared;
+
 /**
- * Every CV, keyed by the slug its filename gives it.
+ * Every CV, keyed by the slug its filename gives it, each merged with the
+ * shared parts — the same merge the LaTeX build runs, in cv-merge.mts.
  *
  * This is the one content directory in the project that does not read itself.
  * Bundling a static export needs a literal import path, so each file has to be
@@ -16,8 +25,8 @@ export type { Cv, CvPage, CvPdf, CvVersion } from "@/lib/cv/cv-types";
  * so a new CV cannot be added and then silently left out of the switcher.
  */
 const VERSIONS: Record<string, Cv> = {
-  cv_normal: normal as Cv,
-  cv_with_freelancer: withFreelancer as Cv,
+  cv_normal: mergeCv(normal as CvSource, SHARED),
+  cv_with_freelancer: mergeCv(withFreelancer as CvSource, SHARED),
 };
 
 /**

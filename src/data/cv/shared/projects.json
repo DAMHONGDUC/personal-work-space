@@ -1,0 +1,32 @@
+[
+  {
+    "name": "BaroEase",
+    "description": "Migraine tracker that flags barometric-pressure risk; works offline, in seven languages. Flutter, iOS-first.",
+    "links": [
+      {
+        "label": "github.com/DAMHONGDUC/migraine-tracker",
+        "href": "https://github.com/DAMHONGDUC/migraine-tracker"
+      }
+    ]
+  },
+  {
+    "name": "Reseller Studio",
+    "description": "Runs a resale business end to end: sourcing, inventory, listings, shipping and profit. Flutter, Riverpod, Firebase.",
+    "links": [
+      {
+        "label": "github.com/DAMHONGDUC/reseller-studio",
+        "href": "https://github.com/DAMHONGDUC/reseller-studio"
+      }
+    ]
+  },
+  {
+    "name": "SMS Hook",
+    "description": "Forwards incoming SMS that match a rule to user-configured APIs, unattended in the background. Kotlin, Jetpack Compose, Room, WorkManager.",
+    "links": [
+      {
+        "label": "github.com/DAMHONGDUC/sms-hook",
+        "href": "https://github.com/DAMHONGDUC/sms-hook"
+      }
+    ]
+  }
+]

@@ -5,6 +5,7 @@
 | Rule | Reason | Example |
 |---|---|---|
 | One file per CV version; the filename is its slug | Every version is built and offered in the CV page's dropdown under its `label` | `cv_normal.json` |
+| What versions share lives once in `src/data/cv/shared/` (`header`, `education`, `projects`, `experience`); a version lists its jobs by id | One fact, one place; `mergeCv` in [cv-merge.mts](../../src/lib/cv/cv-merge.mts) builds the full CV for both the site and the LaTeX | `"experience": ["oivan", "flynk"]` |
 | A new file is also named in [cv.ts](../../src/lib/cv/cv.ts) | Static export needs a literal import; a test compares the list with the folder | — |
 | `ResourceConstant.CV_DATA_FILE` only picks the landing version and the legacy `/cv.pdf` | — | `cv_with_freelancer.json` |
 | Every text field is plain text | The renderer escapes LaTeX and converts typography | `Backend & Integration`, `get_it`, `2019 – 2023` |
@@ -18,7 +19,7 @@
 
 | Rule | Reason |
 |---|---|
-| The site imports every CV statically and the LaTeX generator reads them from disk; a test asserts both resolve the same | Page and PDF must not drift |
+| The site imports every CV statically and the LaTeX generator reads them from disk (`cv-disk.mts`); both go through `mergeCv`, and a test asserts they resolve the same | Page and PDF must not drift |
 | Every version downloads under the same filename (name + build date) | The version is the sender's business |
 | Font sizes live only in the `\cv*` macros of `cv/template/main.tex` | The renderer marks up meaning; a test fails on `\fontsize` in generated LaTeX |
 | The CV page is public: no password, no gate | A static export could only curtain files that stay reachable by URL |

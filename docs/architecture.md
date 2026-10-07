@@ -50,7 +50,7 @@ sequenceDiagram
 
 ```mermaid
 flowchart LR
-  CV["cv_with_freelancer.json<br/>facts"] --> Build["buildPortfolio()"]
+  CV["cv_with_freelancer.json + shared/*.json<br/>facts"] --> Build["buildPortfolio()"]
   Page["portfolio.json<br/>presentation"] --> Build
   Build --> P["Portfolio"] --> Page2["/personal/portfolio"]
   CV --> Tex["cv:tex → PDF"] --> CVPage["/personal/cv"]

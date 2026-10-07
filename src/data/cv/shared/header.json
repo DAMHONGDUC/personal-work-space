@@ -1,0 +1,25 @@
+{
+  "name": "DAM HONG DUC",
+  "photo": "avt.jpg",
+  "contacts": [
+    {
+      "kind": "email",
+      "value": "hongduc.dam2001@gmail.com"
+    },
+    {
+      "kind": "phone",
+      "value": "+84 355 211 735",
+      "href": "tel:+84355211735"
+    },
+    {
+      "kind": "link",
+      "value": "linkedin.com/in/dam-hong-duc",
+      "href": "https://linkedin.com/in/dam-hong-duc"
+    },
+    {
+      "kind": "link",
+      "value": "github.com/DAMHONGDUC",
+      "href": "https://github.com/DAMHONGDUC"
+    }
+  ]
+}

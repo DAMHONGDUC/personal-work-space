@@ -1,44 +1,10 @@
 {
   "label": "Normal",
   "lastUpdated": "2026-10-05",
-  "header": {
-    "name": "DAM HONG DUC",
-    "photo": "avt.jpg",
-    "contacts": [
-      {
-        "kind": "email",
-        "value": "hongduc.dam2001@gmail.com"
-      },
-      {
-        "kind": "phone",
-        "value": "+84 355 211 735",
-        "href": "tel:+84355211735"
-      },
-      {
-        "kind": "link",
-        "value": "linkedin.com/in/dam-hong-duc",
-        "href": "https://linkedin.com/in/dam-hong-duc"
-      },
-      {
-        "kind": "link",
-        "value": "github.com/DAMHONGDUC",
-        "href": "https://github.com/DAMHONGDUC"
-      }
-    ]
-  },
   "aboutMe": [
     "Software engineer with 4+ years of experience, focused on mobile development with Jetpack Compose, Flutter and React Native. Also experienced in front-end web development with Next.js and React.js, and back-end development with Node.js.",
     "Experienced in optimising app size and rendering performance, CI/CD pipelines and app security, both in large teams and on my own.",
     "Based in Ho Chi Minh City."
-  ],
-  "education": [
-    {
-      "institution": "University of Science - VNUHCM",
-      "url": "https://en.hcmus.edu.vn/",
-      "location": "HCM City, Viet Nam",
-      "period": "Sept 2019 – Aug 2023",
-      "degree": "Bachelor of Science in Information Systems"
-    }
   ],
   "skills": [
     {
@@ -79,114 +45,8 @@
     }
   ],
   "experience": [
-    {
-      "company": "Oivan",
-      "url": "https://oivan.com/",
-      "role": "Mobile Developer",
-      "arrangement": "Hybrid",
-      "location": "HCM City, Viet Nam",
-      "period": "Oct 2024 – now",
-      "groups": [
-        {
-          "title": "Real Estate Product – Flutter",
-          "meta": "Flutter, Clean Architecture, Scrum, Kanban · Team size: 20 mobile devs",
-          "bullets": [
-            "Built features for a Saudi Arabian government client's real estate product, within a 20-developer mobile team.",
-            "Integrated third-party SDKs and embedded Unity into Flutter for an in-app metaverse of buildings and events."
-          ]
-        },
-        {
-          "title": "Joined the Performance Team",
-          "meta": "Profiling, state management, network security (SSL pinning)",
-          "bullets": [
-            "Reduced app size from 200MB to 90MB.",
-            "Raised key screens from 30–40 FPS to a steady 60 by removing unnecessary re-renders.",
-            "Optimised data-layer caching and migrated state management from Stream to BLoC."
-          ]
-        }
-      ]
-    },
-    {
-      "company": "TGL Solutions",
-      "url": "https://www.tgl-sol.com/",
-      "role": "Mobile Developer",
-      "arrangement": "Onsite",
-      "location": "HCM City, Viet Nam",
-      "period": "Nov 2022 – Oct 2024",
-      "groups": [
-        {
-          "title": "Warehouse App for POS / Handheld Devices",
-          "meta": "Kotlin, Jetpack Compose, MVVM, Clean Architecture · Team size: 2 mobile devs",
-          "bullets": [
-            "Built a warehouse management app for Unitech HT300/HT330 barcode devices, end to end.",
-            "Integrated the hardware scanner for real-time barcode capture; handled goods receipt, dispatch and inventory updates over REST API.",
-            "Built an offline-first data layer with periodic sync to an on-device database, so the floor kept working without a network.",
-            "Drove cross-team agreement on barcode formats; implemented auto-launch on reboot and published the app privately on Google Play."
-          ]
-        },
-        {
-          "title": "Cross-Platform Apps – Flutter & React Native",
-          "meta": "Flutter, React Native · Team size: 4–6 mobile devs",
-          "bullets": [
-            "Built new apps and maintained existing ones across booking, e-learning, file management and apartment equipment.",
-            "Led a sub-project with 3 members: planned sprints, estimated tasks and reviewed delivery.",
-            "Integrated VNPAY, FCM and Firebase Crashlytics."
-          ]
-        }
-      ],
-      "note": {
-        "label": "Also:",
-        "text": "Maintained admin dashboards and academy websites in React.js and Next.js, with 3D UI components in Three.js. Agile throughout – system design, API contracts with backend, and QA triage."
-      }
-    },
-    {
-      "company": "Flynk",
-      "url": "https://flynk.com/",
-      "role": "Fresher Mobile Developer",
-      "arrangement": "Onsite",
-      "location": "HCM City, Viet Nam",
-      "period": "Jul 2022 – Nov 2022",
-      "groups": [
-        {
-          "title": "Trading & Finance App – React Native",
-          "meta": "React Native · Team size: 3 mobile devs",
-          "bullets": [
-            "Maintained and improved the app UI; implemented charts for trading and financial data."
-          ]
-        }
-      ]
-    }
-  ],
-  "projects": [
-    {
-      "name": "BaroEase",
-      "description": "Migraine tracker that flags barometric-pressure risk; works offline, in seven languages. Flutter, iOS-first.",
-      "links": [
-        {
-          "label": "github.com/DAMHONGDUC/migraine-tracker",
-          "href": "https://github.com/DAMHONGDUC/migraine-tracker"
-        }
-      ]
-    },
-    {
-      "name": "Reseller Studio",
-      "description": "Runs a resale business end to end: sourcing, inventory, listings, shipping and profit. Flutter, Riverpod, Firebase.",
-      "links": [
-        {
-          "label": "github.com/DAMHONGDUC/reseller-studio",
-          "href": "https://github.com/DAMHONGDUC/reseller-studio"
-        }
-      ]
-    },
-    {
-      "name": "SMS Hook",
-      "description": "Forwards incoming SMS that match a rule to user-configured APIs, unattended in the background. Kotlin, Jetpack Compose, Room, WorkManager.",
-      "links": [
-        {
-          "label": "github.com/DAMHONGDUC/sms-hook",
-          "href": "https://github.com/DAMHONGDUC/sms-hook"
-        }
-      ]
-    }
+    "oivan",
+    "tgl-solutions",
+    "flynk"
   ]
 }

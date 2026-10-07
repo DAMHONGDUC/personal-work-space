@@ -8,6 +8,7 @@ The CV is generated: edit the JSON in `src/data/cv/`, never the LaTeX.
 |---|---|---|
 | `src/data/cv/cv_with_freelancer.json` | Full history, freelance work included; the default version and the portfolio's source | Yes |
 | `src/data/cv/cv_normal.json` | Without the freelance work | Yes |
+| `src/data/cv/shared/*.json` | What both versions share: `header`, `education`, `projects`, and `experience` — every job, keyed by id | Yes |
 | `cv/template/main.tex` | Layout: preamble + one `%%PLACEHOLDER%%` per section | Yes |
 | `public/personal/avt.jpg` | CV photo (the portfolio has its own) | Yes |
 | `cv/build/<slug>/` | Generated LaTeX + photo | No |
@@ -18,7 +19,9 @@ The CV is generated: edit the JSON in `src/data/cv/`, never the LaTeX.
 
 ```mermaid
 flowchart LR
-  JSON["src/data/cv/*.json"] -->|npm run cv:tex| TEX["cv/build/{slug}/main.tex"]
+  JSON["src/data/cv/*.json"] -->|mergeCv| CV["complete CV"]
+  SHARED["src/data/cv/shared/*.json"] -->|mergeCv| CV
+  CV -->|npm run cv:tex| TEX["cv/build/{slug}/main.tex"]
   TPL["cv/template/main.tex"] --> TEX
   TEX -->|latexmk / pdflatex / tectonic| PDF["main.pdf"]
   PDF -->|publish-cv-pdf.mts| PUB["public/cv/{slug}/cv.pdf"]
@@ -40,9 +43,19 @@ flowchart LR
 
 | Step | File |
 |---|---|
-| Add `src/data/cv/<slug>.json` with its own `label` | New file |
+| Add `src/data/cv/<slug>.json`: `label`, `lastUpdated`, `aboutMe`, `skills`, and `experience` as job ids from `shared/experience.json` | New file |
 | Import it by name | [src/lib/cv/cv.ts](../../src/lib/cv/cv.ts) |
 | Optional: make it the landing version | `ResourceConstant.CV_DATA_FILE` |
+
+## Shared or per version
+
+| Part | Where | Note |
+|---|---|---|
+| `header`, `education`, `projects` | `shared/<part>.json` | Every version prints the same |
+| A job | `shared/experience.json`, under an id such as `oivan` | A version lists ids in print order: `"experience": ["oivan", "flynk"]` |
+| `label`, `lastUpdated`, `aboutMe`, `portfolioAbout`, `skills` | The version file | What sets a version apart |
+| An unknown job id | — | Fails `npm run cv:tex` and `npm test` |
+| A job no version lists | — | Fails `npm test` |
 
 ## Writing the JSON
 
@@ -57,7 +70,7 @@ flowchart LR
 
 | Field rule | Detail |
 |---|---|
-| `lastUpdated` | Bump on every change; the site shows it |
+| `lastUpdated` | Bump on every change; the site shows it. A change under `shared/` bumps every version |
 | `location` | Ends with `, Viet Nam` |
 | `url` (education, experience) | Optional website, linked in the PDF and on the portfolio |
 | `portfolioAbout` | Portfolio-only introduction; `{{years}}` is filled at build |

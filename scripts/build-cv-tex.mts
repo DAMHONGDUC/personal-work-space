@@ -1,5 +1,6 @@
 /**
- * Generates cv/build/<slug>/ from every CV in the data directory.
+ * Generates cv/build/<slug>/ from every CV in the data directory, each merged
+ * with the shared parts in src/data/cv/shared/.
  *
  * Run with `npm run cv:tex`. Each folder is a self-contained main.tex plus the
  * image, which is all Overleaf needs — drag one in to preview that version.
@@ -10,23 +11,20 @@
  */
 import fs from "node:fs";
 import path from "node:path";
+import { readCv, readCvShared, readCvSlugs } from "../src/lib/cv/cv-disk.mts";
 import { renderCvLatex } from "../src/lib/cv/cv-latex.mts";
 import { ResourceConstant } from "../src/lib/resource-constant.mts";
-import type { Cv } from "../src/lib/cv/cv-types";
 
 const root = path.join(import.meta.dirname, "..");
-const dataDir = path.join(root, ResourceConstant.CV_DATA_DIR);
 const templateDir = path.join(root, ResourceConstant.CV_TEMPLATE_DIR);
 const assetsDir = path.join(root, ResourceConstant.CV_ASSETS_DIR);
 const buildDir = path.join(root, ResourceConstant.CV_BUILD_DIR);
 
 const template = fs.readFileSync(path.join(templateDir, "main.tex"), "utf8");
 
-const slugs = fs
-  .readdirSync(dataDir)
-  .filter((file) => file.endsWith(".json"))
-  .map((file) => ResourceConstant.cvSlug(file))
-  .sort();
+const slugs = readCvSlugs(root);
+// Read once: every version is merged with the same shared parts.
+const shared = readCvShared(root);
 
 if (slugs.length === 0) {
   throw new Error(`No CV JSON found in ${ResourceConstant.CV_DATA_DIR}.`);
@@ -37,9 +35,7 @@ if (slugs.length === 0) {
 fs.rmSync(buildDir, { recursive: true, force: true });
 
 for (const slug of slugs) {
-  const cv = JSON.parse(
-    fs.readFileSync(path.join(dataDir, `${slug}.json`), "utf8"),
-  ) as Cv;
+  const cv = readCv(root, slug, shared);
 
   const outDir = path.join(root, ResourceConstant.cvBuildDir(slug));
   fs.mkdirSync(outDir, { recursive: true });
@@ -49,7 +45,7 @@ for (const slug of slugs) {
   const photo = path.join(assetsDir, cv.header.photo);
   if (!fs.existsSync(photo)) {
     throw new Error(
-      `${slug}.json points at header.photo "${cv.header.photo}", which is not in ${ResourceConstant.CV_ASSETS_DIR}.`,
+      `${ResourceConstant.CV_SHARED_DIR}/header.json points at photo "${cv.header.photo}", which is not in ${ResourceConstant.CV_ASSETS_DIR}.`,
     );
   }
   fs.copyFileSync(photo, path.join(outDir, cv.header.photo));

@@ -53,6 +53,13 @@ export class ResourceConstant {
   static readonly CV_DATA_DIR = "src/data/cv";
 
   /**
+   * What every version has in common — header, education, projects and the
+   * pool of jobs — one JSON file each. Merged into each version before
+   * anything renders; a subfolder, so it is never mistaken for a version.
+   */
+  static readonly CV_SHARED_DIR = "src/data/cv/shared";
+
+  /**
    * The CV shown first, and the one served at the legacy /cv.pdf. Other files
    * beside it are equally valid CVs — this constant only decides which one a
    * visitor lands on and which one an old link resolves to.
