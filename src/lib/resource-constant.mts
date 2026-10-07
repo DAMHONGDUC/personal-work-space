@@ -57,9 +57,9 @@ export class ResourceConstant {
    * beside it are equally valid CVs — this constant only decides which one a
    * visitor lands on and which one an old link resolves to.
    */
-  static readonly CV_DATA_FILE = "src/data/cv/cv_full.json";
+  static readonly CV_DATA_FILE = "src/data/cv/cv_with_freelancer.json";
 
-  /** `cv_full.json` -> `cv_full`, the slug a version is addressed by everywhere. */
+  /** `cv_normal.json` -> `cv_normal`, the slug a version is addressed by everywhere. */
   static cvSlug(file: string): string {
     return file.replace(/^.*\//, "").replace(/\.json$/, "");
   }

@@ -1,8 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
-import full from "@/data/cv/cv_full.json";
-import noFreelancer from "@/data/cv/cv_no_freelancer.json";
-import upwork from "@/data/cv/cv_upwork.json";
+import normal from "@/data/cv/cv_normal.json";
+import withFreelancer from "@/data/cv/cv_with_freelancer.json";
 import type { Cv, CvPage, CvPdf, CvVersion } from "@/lib/cv/cv-types";
 import { ResourceConstant } from "@/lib/resource-constant.mts";
 
@@ -17,9 +16,8 @@ export type { Cv, CvPage, CvPdf, CvVersion } from "@/lib/cv/cv-types";
  * so a new CV cannot be added and then silently left out of the switcher.
  */
 const VERSIONS: Record<string, Cv> = {
-  cv_full: full as Cv,
-  cv_no_freelancer: noFreelancer as Cv,
-  cv_upwork: upwork as Cv,
+  cv_normal: normal as Cv,
+  cv_with_freelancer: withFreelancer as Cv,
 };
 
 /**

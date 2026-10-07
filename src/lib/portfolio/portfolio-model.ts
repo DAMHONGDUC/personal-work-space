@@ -3,10 +3,10 @@
  *
  * Every fact on the page — name, role, story, education, skills, jobs,
  * projects, email, profiles — comes from the default CV
- * (`ResourceConstant.CV_DATA_FILE`, cv_full.json), so the portfolio and the CV
- * can never disagree. `src/data/portfolio.json` holds only what a CV has no
- * place for: the greeting, the availability line, the portfolio's own photo,
- * an icon per skill area and the like.
+ * (`ResourceConstant.CV_DATA_FILE`, cv_with_freelancer.json), so the
+ * portfolio and the CV can never disagree. `src/data/portfolio.json` holds
+ * only what a CV has no place for: the greeting, the availability line, the
+ * portfolio's own photo, an icon per skill area and the like.
  *
  * Kept apart from the loader, which reads the CV off disk, so a client
  * component can import the types and the section list.
