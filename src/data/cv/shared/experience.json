@@ -8,13 +8,11 @@
     "period": "Oct 2024 – now",
     "groups": [
       {
-        "title": "Real Estate Product – Flutter",
+        "title": "Real Estate Product",
         "meta": "Flutter, Clean Architecture, Scrum, Kanban · Team size: 20 mobile devs",
         "bullets": [
-          "Built and maintained features for a Saudi Arabian government client's real estate product; analysed BRDs and discussed requirements with BA, backend and QC.",
-          "Discussed API implementation with backend, estimated tasks and delivered them on time.",
-          "Demoed features to the client at the end of every epic.",
-          "Reviewed code and supported team members.",
+          "Built and maintained features for a Saudi Arabian government client's real estate product; analysed BRDs with BA, backend and QC, agreed API implementation, estimated tasks and delivered on time.",
+          "Demoed features to the client after every epic; reviewed code and supported team members.",
           "Integrated third-party SDKs and embedded Unity into Flutter for an in-app metaverse of buildings and events.",
           "Reduced app size from 200MB to 90MB and raised key screens from 30–40 FPS to a steady 60 by removing unnecessary re-renders.",
           "Optimised data-layer caching and migrated state management from Stream to BLoC.",
@@ -34,15 +32,15 @@
         "title": "Cocototo – virtual pet game",
         "meta": "Flutter, Flame, Firebase · Team size: 2 mobile devs",
         "bullets": [
-          "Took a virtual pet game, where players raise and care for a companion, from an empty repository to release.",
-          "Worked across every layer: architecture, the Flame game loop, gameplay state, the Firebase backend, UI and release, reporting directly to the client in another time zone."
+          "Took the game from an empty repository to release.",
+          "Worked across every layer: architecture, Flame game loop, gameplay state, Firebase backend, UI and release, reporting directly to the client in Japan."
         ]
       },
       {
         "title": "Pet Management App",
         "meta": "Jetpack Compose · Team size: 3 mobile devs",
         "bullets": [
-          "Built the native Android client in Jetpack Compose."
+          "Built the native Android client."
         ]
       }
     ]
@@ -61,12 +59,12 @@
         "bullets": [
           "Built a warehouse management app for Unitech HT300/HT330 barcode devices, end to end.",
           "Integrated the hardware scanner for real-time barcode capture; handled goods receipt, dispatch and inventory updates over REST API.",
-          "Built an offline-first data layer with periodic sync to an on-device database, so the floor kept working without a network.",
+          "Built an offline-first data layer with periodic sync, so the floor kept working without a network.",
           "Drove cross-team agreement on barcode formats; implemented auto-launch on reboot and published the app privately on Google Play."
         ]
       },
       {
-        "title": "Cross-Platform Apps – Flutter & React Native",
+        "title": "Cross-Platform Apps",
         "meta": "Flutter, React Native · Team size: 4–6 mobile devs",
         "bullets": [
           "Built new apps and maintained existing ones across booking, e-learning, file management and apartment equipment.",
@@ -77,7 +75,7 @@
     ],
     "note": {
       "label": "Also:",
-      "text": "Maintained admin dashboards and academy websites in React.js and Next.js, with 3D UI components in Three.js. Agile throughout – system design, API contracts with backend, and QA triage."
+      "text": "Maintained admin dashboards and academy websites in React.js and Next.js, with 3D UI components in Three.js. Agile throughout: system design, API contracts and QA triage."
     }
   },
   "flynk": {
@@ -89,7 +87,7 @@
     "period": "Jul 2022 – Nov 2022",
     "groups": [
       {
-        "title": "Trading & Finance App – React Native",
+        "title": "Trading & Finance App",
         "meta": "React Native · Team size: 3 mobile devs",
         "bullets": [
           "Maintained and improved the app UI; implemented charts for trading and financial data."
