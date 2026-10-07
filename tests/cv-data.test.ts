@@ -137,6 +137,14 @@ describe.each(versions)("the CV data file $slug", ({ slug, data: cv }) => {
     }
   });
 
+  it("introduces every project on one line: framework – what it does", () => {
+    // 110 characters, name included, is what one line of the A4 PDF holds.
+    for (const project of cv.projects) {
+      expect(project.description).toMatch(/^[^–]+ – [A-Z].+\.$/);
+      expect(`${project.name}: ${project.description}`.length).toBeLessThanOrEqual(110);
+    }
+  });
+
   it("holds plain text, never LaTeX markup", () => {
     // A backslash here would be escaped into a literal "\textbackslash" on the
     // page rather than acting as a command, so it is always a mistake.
