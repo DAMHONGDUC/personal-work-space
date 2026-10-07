@@ -10,11 +10,12 @@
     "Native Android": "android",
     "Flutter": "flutter",
     "React Native": "react",
-    "Backend & Integration": "firebase",
-    "Testing": "jest",
-    "Web": "nextjs",
-    "AI-Assisted Development": "claude",
-    "CI/CD & Release": "github-actions"
+    "Mobile Features": "app-store",
+    "Mobile Security": "ios",
+    "Mobile Integration": "revenuecat",
+    "Mobile CI/CD": "github-actions",
+    "Web Development": "nextjs",
+    "AI-Assisted Development": "claude"
   },
   "projectIcons": {
     "BaroEase": "/app-icons/baro-ease.png",

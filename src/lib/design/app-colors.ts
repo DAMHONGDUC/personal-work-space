@@ -41,8 +41,8 @@ export class AppColors {
     android: "#3DDC84",
     flutter: "#54C5F8",
     react: "#61DAFB",
-    firebase: "#FFCA28",
-    jest: "#C21325",
+    appStore: "#0D96F6",
+    revenueCat: "#F25A5A",
     claude: "#D97757",
     githubActions: "#2088FF",
   } as const;

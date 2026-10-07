@@ -13,7 +13,9 @@ const job = (company: string): Experience => ({
 
 const shared: CvShared = {
   header: { name: "A", photo: "a.jpg", contacts: [] },
+  aboutMe: ["I am A."],
   education: [],
+  skills: [{ name: "Flutter", items: "Dart" }],
   projects: [],
   experience: { first: job("First"), second: job("Second") },
 };
@@ -21,8 +23,6 @@ const shared: CvShared = {
 const source: CvSource = {
   label: "Test",
   lastUpdated: "2026-01-01",
-  aboutMe: ["Hi."],
-  skills: [],
   experience: ["second", "first"],
 };
 
@@ -34,11 +34,13 @@ describe("merging a CV version with the shared parts", () => {
     ]);
   });
 
-  it("takes the header, education and projects from the shared parts", () => {
+  it("takes everything but the label, date, jobs and portfolio text from the shared parts", () => {
     const cv = mergeCv(source, shared);
 
     expect(cv.header).toBe(shared.header);
+    expect(cv.aboutMe).toBe(shared.aboutMe);
     expect(cv.education).toBe(shared.education);
+    expect(cv.skills).toBe(shared.skills);
     expect(cv.projects).toBe(shared.projects);
   });
 
@@ -46,7 +48,7 @@ describe("merging a CV version with the shared parts", () => {
     const cv = mergeCv({ ...source, portfolioAbout: ["About."] }, shared);
 
     expect(cv.label).toBe("Test");
-    expect(cv.aboutMe).toEqual(["Hi."]);
+    expect(cv.lastUpdated).toBe("2026-01-01");
     expect(cv.portfolioAbout).toEqual(["About."]);
   });
 

@@ -30,10 +30,10 @@ export function mergeCv(source: CvSource, shared: CvShared): Cv {
     label: source.label,
     lastUpdated: source.lastUpdated,
     header: shared.header,
-    aboutMe: source.aboutMe,
+    aboutMe: shared.aboutMe,
     ...(source.portfolioAbout ? { portfolioAbout: source.portfolioAbout } : {}),
     education: shared.education,
-    skills: source.skills,
+    skills: shared.skills,
     experience,
     projects: shared.projects,
   };

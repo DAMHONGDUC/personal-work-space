@@ -2,13 +2,14 @@ import type { CSSProperties } from "react";
 import type { IconType } from "react-icons";
 import {
   SiAndroid,
+  SiAppstore,
   SiClaude,
-  SiFirebase,
   SiFlutter,
   SiGithubactions,
-  SiJest,
+  SiIos,
   SiNextdotjs,
   SiReact,
+  SiRevenuecat,
 } from "react-icons/si";
 import { AppColors } from "@/lib/design/app-colors";
 import type { SkillIconId } from "@/lib/portfolio/portfolio-model";
@@ -22,8 +23,9 @@ const MARKS: Record<SkillIconId, { Icon: IconType; color?: string }> = {
   android: { Icon: SiAndroid, color: AppColors.BRAND.android },
   flutter: { Icon: SiFlutter, color: AppColors.BRAND.flutter },
   react: { Icon: SiReact, color: AppColors.BRAND.react },
-  firebase: { Icon: SiFirebase, color: AppColors.BRAND.firebase },
-  jest: { Icon: SiJest, color: AppColors.BRAND.jest },
+  "app-store": { Icon: SiAppstore, color: AppColors.BRAND.appStore },
+  ios: { Icon: SiIos },
+  revenuecat: { Icon: SiRevenuecat, color: AppColors.BRAND.revenueCat },
   nextjs: { Icon: SiNextdotjs },
   claude: { Icon: SiClaude, color: AppColors.BRAND.claude },
   "github-actions": { Icon: SiGithubactions, color: AppColors.BRAND.githubActions },

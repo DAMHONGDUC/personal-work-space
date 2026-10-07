@@ -53,9 +53,10 @@ export class ResourceConstant {
   static readonly CV_DATA_DIR = "src/data/cv";
 
   /**
-   * What every version has in common — header, education, projects and the
-   * pool of jobs — one JSON file each. Merged into each version before
-   * anything renders; a subfolder, so it is never mistaken for a version.
+   * What every version has in common — header, about me, education, skills,
+   * projects and the pool of jobs — one JSON file each. Merged into each
+   * version before anything renders; a subfolder, so it is never mistaken for
+   * a version.
    */
   static readonly CV_SHARED_DIR = "src/data/cv/shared";
 

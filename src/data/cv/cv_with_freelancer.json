@@ -1,48 +1,9 @@
 {
   "label": "With freelancer",
   "lastUpdated": "2026-10-07",
-  "aboutMe": [
-    "I am a mobile engineer with 4+ years of experience in native Android, Flutter and React Native, taking apps from an empty repository to Google Play and the App Store.",
-    "I have experience in optimising app size and rendering performance, CI/CD pipelines and app security, in large teams and on my own.",
-    "I am based in Ho Chi Minh City."
-  ],
   "portfolioAbout": [
     "I'm a mobile engineer with {{years}}+ years of experience building apps in native Android, Flutter and React Native, based in Ho Chi Minh City.",
     "I'm looking for a team that gives engineers real ownership, reviews code honestly and ships often — remote, hybrid or on site. I focus on clean, testable architecture, apps that stay fast as they grow, and code the next developer can change with confidence."
-  ],
-  "skills": [
-    {
-      "name": "Native Android",
-      "items": "Kotlin, Jetpack Compose, MVVM, Hilt, Dagger, Room, Retrofit"
-    },
-    {
-      "name": "Flutter",
-      "items": "Clean Architecture, BLoC, Provider, Riverpod, Hive, Dio, get_it, Flame, Unity integration"
-    },
-    {
-      "name": "React Native",
-      "items": "Redux, Redux Toolkit, SQLite, Axios"
-    },
-    {
-      "name": "Backend & Integration",
-      "items": "REST API, Firebase, VNPAY, RevenueCat, push notifications, SSL pinning, offline-first storage, camera, permissions, hardware barcode scanners"
-    },
-    {
-      "name": "Testing",
-      "items": "Unit testing, Mockito, Jest"
-    },
-    {
-      "name": "Web",
-      "items": "React.js, Next.js, Three.js"
-    },
-    {
-      "name": "AI-Assisted Development",
-      "items": "Claude Code, Codex"
-    },
-    {
-      "name": "CI/CD & Release",
-      "items": "Fastlane, GitLab Runner, GitHub Actions, Google Play Console, Apple App Store"
-    }
   ],
   "experience": [
     "oivan",

@@ -1,0 +1,38 @@
+[
+  {
+    "name": "Native Android",
+    "items": "Kotlin, Jetpack Compose, MVVM, Clean Architecture, MVC, Dependency injection, Broadcast receivers, Kiosk mode, Unit testing"
+  },
+  {
+    "name": "Flutter",
+    "items": "Dart, Clean Architecture, State management (BLoC, Provider, Riverpod), Dependency injection, Unit testing"
+  },
+  {
+    "name": "React Native",
+    "items": "TypeScript, State management (Redux Toolkit + RTK Query, Zustand + TanStack Query), Unit testing"
+  },
+  {
+    "name": "Mobile Features",
+    "items": "Push notifications, Local storage, Local databases, Camera, Location, Permissions, Deep links, App Links (Android), Universal Links (iOS), On-demand packages (Android), On-Demand Resources (iOS), App Store and Google Play delivery"
+  },
+  {
+    "name": "Mobile Security",
+    "items": "SSL pinning, Passcode, Face ID (iOS)"
+  },
+  {
+    "name": "Mobile Integration",
+    "items": "RevenueCat, In-app purchases, Subscriptions, Unity integration in Flutter apps"
+  },
+  {
+    "name": "Mobile CI/CD",
+    "items": "Fastlane, GitLab Runner, GitHub Actions, Firebase App Distribution"
+  },
+  {
+    "name": "Web Development",
+    "items": "React.js, Next.js, 3D components with Three.js"
+  },
+  {
+    "name": "AI-Assisted Development",
+    "items": "Claude Code, Codex, Cursor, GitNexus, Custom AI agent skills"
+  }
+]

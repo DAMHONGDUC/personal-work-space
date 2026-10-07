@@ -105,12 +105,14 @@ export type Cv = {
 
 /**
  * What every version has in common, one file each in `src/data/cv/shared/`.
- * Written once so a new job, link or project lands in every CV at the same
+ * Written once so a new job, skill or sentence lands in every CV at the same
  * time instead of being copied — and drifting — between the versions.
  */
 export type CvShared = {
   header: Cv["header"];
+  aboutMe: string[];
   education: Education[];
+  skills: Skill[];
   projects: Project[];
   /** Every job any version may list, keyed by an id the versions pick from. */
   experience: Record<string, Experience>;
@@ -120,7 +122,10 @@ export type CvShared = {
  * One version file as written in `src/data/cv/`: only what sets it apart.
  * `mergeCv` fills in the rest from the shared files before anything renders.
  */
-export type CvSource = Omit<Cv, "header" | "education" | "projects" | "experience"> & {
+export type CvSource = Omit<
+  Cv,
+  "header" | "aboutMe" | "education" | "skills" | "projects" | "experience"
+> & {
   /** Ids from the shared `experience.json`, in the order this CV prints them. */
   experience: string[];
 };
