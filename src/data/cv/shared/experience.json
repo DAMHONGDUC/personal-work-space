@@ -12,16 +12,10 @@
         "meta": "Flutter, Clean Architecture, Scrum, Kanban · Team size: 20 mobile devs",
         "bullets": [
           "Built features for a Saudi Arabian government client's real estate product, within a 20-developer mobile team.",
-          "Integrated third-party SDKs and embedded Unity into Flutter for an in-app metaverse of buildings and events."
-        ]
-      },
-      {
-        "title": "Joined the Performance Team",
-        "meta": "Profiling, state management, network security (SSL pinning)",
-        "bullets": [
-          "Reduced app size from 200MB to 90MB.",
-          "Raised key screens from 30–40 FPS to a steady 60 by removing unnecessary re-renders.",
-          "Optimised data-layer caching and migrated state management from Stream to BLoC."
+          "Integrated third-party SDKs and embedded Unity into Flutter for an in-app metaverse of buildings and events.",
+          "Reduced app size from 200MB to 90MB and raised key screens from 30–40 FPS to a steady 60 by removing unnecessary re-renders.",
+          "Optimised data-layer caching and migrated state management from Stream to BLoC.",
+          "Implemented SSL pinning and set up Adjust deferred deep links."
         ]
       }
     ]
