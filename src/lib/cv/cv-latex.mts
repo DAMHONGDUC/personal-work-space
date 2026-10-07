@@ -165,7 +165,10 @@ function renderGroup(group: ExperienceGroup): string {
     "        ",
   );
 
-  return `        \\item \\cvRole{${tex(group.title)}}
+  // A heading needs its stack line and first bullet beside it: with less room
+  // than that left on the page, it moves to the next page with them.
+  return `        \\needspace{4\\baselineskip}
+        \\item \\cvRole{${tex(group.title)}}
 ${inner}`;
 }
 
@@ -184,7 +187,10 @@ function renderExperience(entry: Experience): string {
     );
   }
 
-  return `\\begin{twocolentry}{\\cvDate{${tex(periodWithDuration(entry.period))}}}
+  // The company line moves to the next page with its first group rather than
+  // sit alone at the foot of one.
+  return `\\needspace{8\\baselineskip}
+\\begin{twocolentry}{\\cvDate{${tex(periodWithDuration(entry.period))}}}
     \\cvCompany{${linked(entry.company, entry.url)}} -- ${heading}
 \\end{twocolentry}
 \\vspace{3mm}
