@@ -14,6 +14,7 @@
 | Optional `url` on education and experience | Links the name in the PDF and on the portfolio | `"url": "https://oivan.com/"` |
 | `aboutMe` stays general: no figures, no results | The figures belong to the jobs, where they have context | `I have experience in optimising app size…`, never `200MB to 90MB` |
 | Every `aboutMe` sentence has a subject and a verb | A CV reads as written by a person, not as a list of fragments | `I am based in Ho Chi Minh City.`, never `Based in Ho Chi Minh City.` |
+| A project's `description` is `Framework (libraries) – what it does.`, on one PDF line | Read at a glance; ≤ 110 characters with the name, test-enforced | `Flutter (Riverpod, Firebase) – Resale business app: sourcing, inventory, listings, profit.` |
 | `aboutMe` writes the years as `{{years}}` | `mergeCv` counts them from the version's oldest job at build; the portfolio shows the same lines, see [portfolio.md](portfolio.md) | `I am a software engineer with {{years}}+ years…` |
 | The portfolio has its own file in the version format, `src/data/cv/portfolio/portfolio.json` | A subfolder, so it is never offered as a CV | — |
 
