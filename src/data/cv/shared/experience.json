@@ -60,7 +60,7 @@
           "Built a warehouse management app for Unitech HT300/HT330 barcode devices, end to end.",
           "Integrated the hardware scanner for real-time barcode capture; handled goods receipt, dispatch and inventory updates over REST API.",
           "Built an offline-first data layer with periodic sync, so the floor kept working without a network.",
-          "Drove cross-team agreement on barcode formats; implemented auto-launch on reboot and published the app privately on Google Play."
+          "Drove cross-team agreement on barcode formats; set up kiosk mode and auto-launch on reboot, and published the app privately on Google Play."
         ]
       },
       {
