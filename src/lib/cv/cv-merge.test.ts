@@ -7,13 +7,13 @@ const job = (company: string): Experience => ({
   role: "Mobile engineer",
   arrangement: "Onsite",
   location: "HCM City, Viet Nam",
-  period: "Jan 2024 – now",
+  period: "Jan 2022 – now",
   groups: [{ title: "App", meta: "Flutter", bullets: ["Built it."] }],
 });
 
 const shared: CvShared = {
   header: { name: "A", photo: "a.jpg", contacts: [] },
-  aboutMe: ["I am A."],
+  aboutMe: ["I am A, with {{years}}+ years of experience.", "I am based here."],
   education: [],
   skills: [{ name: "Flutter", items: "Dart" }],
   projects: [],
@@ -38,22 +38,24 @@ describe("merging a CV version with the shared parts", () => {
     const cv = mergeCv(source, shared);
 
     expect(cv.header).toBe(shared.header);
-    expect(cv.aboutMe).toBe(shared.aboutMe);
+    expect(cv.aboutMe[1]).toBe(shared.aboutMe[1]);
     expect(cv.education).toBe(shared.education);
     expect(cv.skills).toBe(shared.skills);
     expect(cv.projects).toBe(shared.projects);
   });
 
   it("keeps what belongs to the version", () => {
-    const cv = mergeCv({ ...source, portfolioAbout: ["About."] }, shared);
+    const cv = mergeCv(source, shared);
 
     expect(cv.label).toBe("Test");
     expect(cv.lastUpdated).toBe("2026-01-01");
-    expect(cv.portfolioAbout).toEqual(["About."]);
   });
 
-  it("leaves portfolioAbout out when the version has none", () => {
-    expect("portfolioAbout" in mergeCv(source, shared)).toBe(false);
+  it("counts {{years}} from the oldest job the version lists", () => {
+    // Typed, the number goes stale every year; counted, it never does.
+    const cv = mergeCv(source, shared, new Date(2026, 9, 7));
+
+    expect(cv.aboutMe[0]).toBe("I am A, with 4+ years of experience.");
   });
 
   it("fails on a job the shared file does not have", () => {

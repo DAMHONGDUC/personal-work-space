@@ -15,7 +15,7 @@ import { ResourceConstant } from "@/lib/resource-constant.mts";
 export type { Cv, CvPage, CvPdf, CvVersion } from "@/lib/cv/cv-types";
 
 /** What every version has in common, merged into each one below. */
-const SHARED = { header, aboutMe, education, skills, projects, experience } as CvShared;
+export const SHARED = { header, aboutMe, education, skills, projects, experience } as CvShared;
 
 /**
  * Every CV, keyed by the slug its filename gives it, each merged with the

@@ -61,6 +61,13 @@ export class ResourceConstant {
   static readonly CV_SHARED_DIR = "src/data/cv/shared";
 
   /**
+   * The portfolio's own version, in the same format as a CV file: which jobs
+   * it shows, merged with the shared parts. A subfolder, so it is never
+   * offered as a CV.
+   */
+  static readonly PORTFOLIO_CV_FILE = "src/data/cv/portfolio/portfolio.json";
+
+  /**
    * The CV shown first, and the one served at the legacy /cv.pdf. Other files
    * beside it are equally valid CVs — this constant only decides which one a
    * visitor lands on and which one an old link resolves to.

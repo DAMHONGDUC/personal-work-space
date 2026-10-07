@@ -84,19 +84,12 @@ export type Cv = {
     photo: string;
     contacts: Contact[];
   };
-  /** The short introduction printed on the CV. */
-  aboutMe: string[];
   /**
-   * The portfolio's own introduction, in paragraphs: experience, the kind of
-   * team being looked for, and how the work is approached — no companies, no
-   * results, which the page shows elsewhere. Never printed on the PDF, which
-   * keeps the short `aboutMe`; it lives here so every fact about the publisher
-   * stays in one file. Required on the default CV.
-   *
-   * Write `{{years}}` for the years of experience: the portfolio fills it in at
-   * build time from the oldest job, so the copy never goes stale.
+   * The short introduction, printed on the CV and shown on the portfolio: the
+   * first line leads the hero, the rest opens its About section. Write
+   * `{{years}}` for the years of experience; `mergeCv` counts them.
    */
-  portfolioAbout?: string[];
+  aboutMe: string[];
   education: Education[];
   skills: Skill[];
   experience: Experience[];

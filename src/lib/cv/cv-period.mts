@@ -38,6 +38,14 @@ function monthsBetween(start: string, end: string): number {
   return (endYear - startYear) * 12 + (endMonth - startMonth) + 1;
 }
 
+/** Whole years from a `YYYY-MM` start to `now`. */
+export function yearsSince(start: string, now: Date = new Date()): number {
+  const [year, month] = start.split("-").map(Number);
+  const months = (now.getFullYear() - year) * 12 + (now.getMonth() + 1 - month);
+
+  return Math.max(0, Math.floor(months / 12));
+}
+
 /** 23 -> `1 yr 11 mos`, 24 -> `2 yrs`, 5 -> `5 mos`. */
 export function formatDuration(months: number): string {
   const years = Math.floor(months / 12);

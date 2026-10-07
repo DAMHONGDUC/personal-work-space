@@ -8,7 +8,8 @@ The CV is generated: edit the JSON in `src/data/cv/`, never the LaTeX.
 |---|---|---|
 | `src/data/cv/cv_with_freelancer.json` | Full history, freelance work included; the default version and the portfolio's source | Yes |
 | `src/data/cv/cv_normal.json` | Without the freelance work | Yes |
-| `src/data/cv/shared/*.json` | What both versions share: `header`, `about-me`, `education`, `skills`, `projects`, and `experience` — every job, keyed by id | Yes |
+| `src/data/cv/shared/*.json` | What every version shares: `header`, `about-me`, `education`, `skills`, `projects`, and `experience` — every job, keyed by id | Yes |
+| `src/data/cv/portfolio/portfolio.json` | The portfolio's version: same format, never offered as a CV | Yes |
 | `cv/template/main.tex` | Layout: preamble + one `%%PLACEHOLDER%%` per section | Yes |
 | `public/personal/avt.jpg` | CV photo (the portfolio has its own) | Yes |
 | `cv/build/<slug>/` | Generated LaTeX + photo | No |
@@ -53,7 +54,7 @@ flowchart LR
 |---|---|---|
 | `header`, `about-me`, `education`, `skills`, `projects` | `shared/<part>.json` | Every version prints the same |
 | A job | `shared/experience.json`, under an id such as `oivan` | A version lists ids in print order: `"experience": ["oivan", "flynk"]` |
-| `label`, `lastUpdated`, `portfolioAbout`, the job ids | The version file | What sets a version apart |
+| `label`, `lastUpdated`, the job ids | The version file | What sets a version apart |
 | An unknown job id | — | Fails `npm run cv:tex` and `npm test` |
 | A job no version lists | — | Fails `npm test` |
 
@@ -73,7 +74,7 @@ flowchart LR
 | `lastUpdated` | Bump on every change; the site shows it. A change under `shared/` bumps every version |
 | `location` | Ends with `, Viet Nam` |
 | `url` (education, experience) | Optional website, linked in the PDF and on the portfolio |
-| `portfolioAbout` | Portfolio-only introduction; `{{years}}` is filled at build |
+| `{{years}}` (About me) | Whole years since the version's oldest job, filled at build |
 
 ## Previewing without LaTeX
 

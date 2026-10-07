@@ -1,11 +1,12 @@
 import fs from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import { cv } from "@/lib/cv/cv";
+import { readCvFile, readCvShared } from "@/lib/cv/cv-disk.mts";
 import { periodWithDuration } from "@/lib/cv/cv-period.mts";
 import {
   periodStart,
   portfolio,
+  portfolioCv as cv,
   portfolioStats,
   titleCase,
   yearsSince,
@@ -19,6 +20,19 @@ const HTTPS = /^https:\/\//;
 const page = JSON.parse(
   fs.readFileSync(path.join(process.cwd(), ResourceConstant.PORTFOLIO_FILE), "utf8"),
 );
+
+describe("the portfolio's CV file", () => {
+  it("is the file ResourceConstant names, merged like every CV", () => {
+    // Imported statically by a literal path; this keeps that literal, the
+    // constant and the merge from drifting apart.
+    expect(readCvFile(process.cwd(), ResourceConstant.PORTFOLIO_CV_FILE)).toEqual(cv);
+  });
+
+  it("is never offered as a CV", () => {
+    expect(ResourceConstant.PORTFOLIO_CV_FILE.startsWith(`${ResourceConstant.CV_DATA_DIR}/`)).toBe(true);
+    expect(path.dirname(ResourceConstant.PORTFOLIO_CV_FILE)).not.toBe(ResourceConstant.CV_DATA_DIR);
+  });
+});
 
 describe("portfolio.json", () => {
   it("is the file ResourceConstant names", () => {
@@ -85,11 +99,7 @@ describe("portfolio and CV", () => {
   it("show the same facts", () => {
     // The point of building one from the other: they cannot disagree.
     expect(portfolio.headline).toBe(cv.aboutMe[0]);
-    expect(portfolio.story).toEqual(
-      cv.portfolioAbout?.map((paragraph) =>
-        paragraph.replaceAll("{{years}}", String(yearsSince(portfolio.careerStart))),
-      ),
-    );
+    expect(portfolio.story).toEqual(cv.aboutMe.slice(1));
     expect(portfolio.education).toBe(cv.education);
     expect(portfolio.skills).toBe(cv.skills);
     // Only the length of service is added, counted to the day of the build.
@@ -115,31 +125,22 @@ describe("portfolio and CV", () => {
     expect(page.photo.endsWith(`/${cv.header.photo}`)).toBe(false);
   });
 
-  it("introduces briefly, in its own words", () => {
-    // Two short paragraphs — experience, the team being looked for, the way of
-    // working. Companies and results have their own sections, so the
-    // introduction does not repeat them, nor the CV's own lines.
-    const about = cv.portfolioAbout ?? [];
-    const text = about.join(" ");
-
-    expect(about).toHaveLength(2);
-    for (const paragraph of about) {
-      expect(cv.aboutMe).not.toContain(paragraph);
-      expect(paragraph.length).toBeLessThanOrEqual(320);
-    }
-    for (const job of cv.experience) {
-      expect(text).not.toContain(job.company);
-    }
+  it("shows the CV's About me without repeating a line", () => {
+    // The hero leads with the first line and the About section carries on
+    // from there, so no sentence appears twice on the page.
+    expect(portfolio.story).not.toContain(portfolio.headline);
+    expect(portfolio.story.length).toBeGreaterThan(0);
   });
 
   it("counts the years of experience instead of typing them", () => {
     // Typed, the number goes stale every July; {{years}} is filled at build.
-    const about = (cv.portfolioAbout ?? []).join(" ");
+    const written = readCvShared(process.cwd()).aboutMe.join(" ");
+    const shown = [portfolio.headline, ...portfolio.story].join(" ");
 
-    expect(about).toContain("{{years}}");
-    expect(about).not.toMatch(/\d+\+? years/);
-    expect(portfolio.story.join(" ")).not.toContain("{{");
-    expect(portfolio.story.join(" ")).toContain(`${yearsSince(portfolio.careerStart)}+ years`);
+    expect(written).toContain("{{years}}");
+    expect(written).not.toMatch(/\d+\+? years/);
+    expect(shown).not.toContain("{{");
+    expect(shown).toContain(`${yearsSince(portfolio.careerStart)}+ years`);
   });
 
   it("takes the email and profiles from the CV's contacts", () => {

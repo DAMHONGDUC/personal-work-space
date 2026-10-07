@@ -50,10 +50,12 @@ sequenceDiagram
 
 ```mermaid
 flowchart LR
-  CV["cv_with_freelancer.json + shared/*.json<br/>facts"] --> Build["buildPortfolio()"]
+  Shared["cv/shared/*.json<br/>facts"] --> PCV["cv/portfolio/portfolio.json<br/>job ids"]
+  Shared --> Versions["cv/cv_*.json<br/>job ids"]
+  PCV --> Build["buildPortfolio()"]
   Page["portfolio.json<br/>presentation"] --> Build
   Build --> P["Portfolio"] --> Page2["/personal/portfolio"]
-  CV --> Tex["cv:tex → PDF"] --> CVPage["/personal/cv"]
+  Versions --> Tex["cv:tex → PDF"] --> CVPage["/personal/cv"]
 ```
 
 ## Key decisions
@@ -62,7 +64,7 @@ flowchart LR
 |---|---|---|
 | Static export (`output: "export"`) | Free hosting on GitHub Pages | No server: no `next start`, search is client-side, uploads go straight to Drive |
 | Content in JSON, never markup | Edit content without touching UI | Rules enforced by tests, not types alone |
-| One CV feeds the PDF and the portfolio | Facts cannot drift | Portfolio-only copy needs its own CV field (`portfolioAbout`) |
+| Shared CV parts feed every CV and the portfolio | Facts cannot drift | The portfolio shows the CV's own About me |
 | Dark mode by media query only | Correct first paint without JavaScript | No manual toggle |
 | CSS animation, JavaScript only for timing | Works without script; honours reduced motion | Needs IntersectionObserver for scroll entrances |
 | Paths in `ResourceConstant`, URLs in `routes` | Renames happen once | — |

@@ -6,10 +6,10 @@ Rendered at `/personal/portfolio` by `src/components/portfolio/`.
 
 | Rule | Reason | Example |
 |---|---|---|
-| Every fact comes from the default CV through `buildPortfolio` in [portfolio.ts](../../src/lib/portfolio/portfolio.ts) | Portfolio and CV cannot drift; to change what it says, edit the CV | Name, role, education, skills, jobs, projects, email, GitHub, LinkedIn, school and company websites |
+| Every fact comes from `src/data/cv/portfolio/portfolio.json` (CV version format: `label`, `lastUpdated`, job ids) merged with `src/data/cv/shared/`, through `buildPortfolio` in [portfolio.ts](../../src/lib/portfolio/portfolio.ts) | Portfolio and CV cannot drift; to change what it says, edit the shared CV files | Name, role, education, skills, jobs, projects, email, GitHub, LinkedIn, school and company websites |
 | `src/data/portfolio.json` holds presentation only | A test fails if a fact is added | Greeting, status, photo, learning, `skillIcons`, `projectIcons`, time zone, contact line |
-| Two introductions in one file: the CV prints `aboutMe`, the portfolio shows `portfolioAbout` | — | `portfolioAbout`: two short paragraphs — experience, team sought, way of working; no companies or results |
-| Years are written `{{years}}` and computed at build | Never type a number of years | Hero figures come from `portfolioStats` |
+| One introduction: the CV's `aboutMe` | The hero leads with its first line, the About section shows the rest; no line twice | `shared/about-me.json` |
+| Years are written `{{years}}` and computed at build, by `mergeCv` | Never type a number of years | Hero figures come from `portfolioStats` |
 | Two photos, one each | Never point one at the other | CV: `header.photo` in `public/personal/`; portfolio: `photo` in `portfolio.json` |
 
 ## Icons

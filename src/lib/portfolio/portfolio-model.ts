@@ -2,11 +2,12 @@
  * The shape of the portfolio.
  *
  * Every fact on the page — name, role, story, education, skills, jobs,
- * projects, email, profiles — comes from the default CV
- * (`ResourceConstant.CV_DATA_FILE`, cv_with_freelancer.json), so the
- * portfolio and the CV can never disagree. `src/data/portfolio.json` holds
- * only what a CV has no place for: the greeting, the availability line, the
- * portfolio's own photo, an icon per skill area and the like.
+ * projects, email, profiles — comes from the portfolio's own CV file
+ * (`ResourceConstant.PORTFOLIO_CV_FILE`), merged with the parts every CV
+ * shares, so the portfolio and the CV can never disagree.
+ * `src/data/portfolio.json` holds only what a CV has no place for: the
+ * greeting, the availability line, the portfolio's own photo, an icon per
+ * skill area and the like.
  *
  * Kept apart from the loader, which reads the CV off disk, so a client
  * component can import the types and the section list.
@@ -107,9 +108,9 @@ export type Portfolio = PortfolioPage & {
   name: string;
   /** The current role: the newest job's title. */
   role: string;
-  /** The CV's short About me, first line: the hero's lead. */
+  /** The CV's About me, first line: the hero's lead. */
   headline: string;
-  /** The portfolio's own introduction: the CV's `portfolioAbout`, `{{years}}` filled in. */
+  /** The rest of the CV's About me: the About section's paragraphs. */
   story: string[];
   /** Where the newest job is. */
   location: string;

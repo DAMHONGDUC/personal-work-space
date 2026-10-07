@@ -38,10 +38,12 @@ export function readCvSlugs(root: string): string[] {
     .sort();
 }
 
-/** One complete CV, ready to render. */
+/** One complete CV from any file in the version format, ready to render. */
+export function readCvFile(root: string, file: string, shared = readCvShared(root)): Cv {
+  return mergeCv(readJson<CvSource>(root, file), shared);
+}
+
+/** One complete CV version, by slug. */
 export function readCv(root: string, slug: string, shared = readCvShared(root)): Cv {
-  return mergeCv(
-    readJson<CvSource>(root, `${ResourceConstant.CV_DATA_DIR}/${slug}.json`),
-    shared,
-  );
+  return readCvFile(root, `${ResourceConstant.CV_DATA_DIR}/${slug}.json`, shared);
 }

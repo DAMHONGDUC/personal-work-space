@@ -1,7 +1,9 @@
+import source from "@/data/cv/portfolio/portfolio.json";
 import page from "@/data/portfolio.json";
-import { cv } from "@/lib/cv/cv";
-import { periodStart, periodWithDuration } from "@/lib/cv/cv-period.mts";
-import type { Cv } from "@/lib/cv/cv-types";
+import { SHARED } from "@/lib/cv/cv";
+import { mergeCv } from "@/lib/cv/cv-merge.mts";
+import { periodStart, periodWithDuration, yearsSince } from "@/lib/cv/cv-period.mts";
+import type { Cv, CvSource } from "@/lib/cv/cv-types";
 import type {
   Portfolio,
   PortfolioLink,
@@ -10,7 +12,7 @@ import type {
 } from "@/lib/portfolio/portfolio-model";
 
 export type { Portfolio } from "@/lib/portfolio/portfolio-model";
-export { periodStart } from "@/lib/cv/cv-period.mts";
+export { periodStart, yearsSince } from "@/lib/cv/cv-period.mts";
 
 /** `DAM HONG DUC` -> `Dam Hong Duc`. */
 export function titleCase(text: string): string {
@@ -42,19 +44,20 @@ export function buildPortfolio(source: Cv, extras: PortfolioPage): Portfolio {
 
   if (!newest || !oldest) throw new Error("The CV has no experience to show on the portfolio");
   if (!email) throw new Error("The CV has no email contact for the portfolio");
-  if (!source.portfolioAbout?.length) {
-    throw new Error("The CV has no portfolioAbout, the portfolio's own introduction");
+  if (source.aboutMe.length < 2) {
+    throw new Error("The CV's About me needs a lead line for the hero and the rest for the About section");
   }
 
   const careerStart = periodStart(oldest.period);
-  const years = String(yearsSince(careerStart));
 
   return {
     ...extras,
     name: titleCase(source.header.name),
     role: newest.role,
+    // The CV's own About me, split: the first line leads the hero and the rest
+    // opens the About section, so no sentence is shown twice.
     headline: source.aboutMe[0],
-    story: source.portfolioAbout.map((paragraph) => paragraph.replaceAll("{{years}}", years)),
+    story: source.aboutMe.slice(1),
     location: newest.location,
     education: source.education,
     skills: source.skills,
@@ -67,19 +70,15 @@ export function buildPortfolio(source: Cv, extras: PortfolioPage): Portfolio {
 }
 
 /**
- * The portfolio as the site shows it, built from the default CV and
- * `ResourceConstant.PORTFOLIO_FILE`. A static import: bundling needs a
- * literal path, and a test asserts it names the same file as the constant.
+ * The portfolio's facts: `ResourceConstant.PORTFOLIO_CV_FILE`, a file in the
+ * CV version format, merged with the same shared parts as every CV. Static
+ * imports, because bundling needs a literal path; a test asserts both name the
+ * same files as the constants.
  */
-export const portfolio = buildPortfolio(cv, page as PortfolioPage);
+export const portfolioCv = mergeCv(source as CvSource, SHARED);
 
-/** Whole years from a `YYYY-MM` start to `now`. */
-export function yearsSince(start: string, now: Date = new Date()): number {
-  const [year, month] = start.split("-").map(Number);
-  const months = (now.getFullYear() - year) * 12 + (now.getMonth() + 1 - month);
-
-  return Math.max(0, Math.floor(months / 12));
-}
+/** The portfolio as the site shows it, with `ResourceConstant.PORTFOLIO_FILE`. */
+export const portfolio = buildPortfolio(portfolioCv, page as PortfolioPage);
 
 /**
  * The figures under the hero, derived from the data rather than typed into it,
