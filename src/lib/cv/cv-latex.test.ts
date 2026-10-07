@@ -155,6 +155,17 @@ describe("renderCvLatex", () => {
     expect(out).toContain("\\cvCompany{\\cvNameHighlight{Beta}}");
   });
 
+  it("highlights the word freelancer in a job's heading, and nothing else", () => {
+    const job = makeCv().experience[0];
+    const out = renderCvLatex(
+      makeCv({ experience: [{ ...job, arrangement: "Freelancer, remote (Japan)" }, job] }),
+      TEMPLATE,
+    );
+
+    expect(out).toContain("\\cvHighlight{Freelancer}, remote (Japan)");
+    expect(out.match(/\\cvHighlight\{/g)).toHaveLength(1);
+  });
+
   it("renders a skill as a bold lead-in", () => {
     expect(renderCvLatex(makeCv(), TEMPLATE)).toContain(
       "\\item \\textbf{Flutter:} BLoC, get\\_it",

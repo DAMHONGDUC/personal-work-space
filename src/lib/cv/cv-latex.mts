@@ -172,10 +172,18 @@ function renderGroup(group: ExperienceGroup): string {
 ${inner}`;
 }
 
+/**
+ * The word marking freelance work, set apart in a job's heading so a reader
+ * looking for it sees it at once. Only the word: the rest reads as usual.
+ */
+const FREELANCE = /\bfreelanc\w*/i;
+
 function renderExperience(entry: Experience): string {
-  const heading = [entry.role, entry.arrangement, entry.location]
-    .map(tex)
-    .join(" -- ");
+  const arrangement = tex(entry.arrangement).replace(
+    FREELANCE,
+    (word) => `\\cvHighlight{${word}}`,
+  );
+  const heading = [tex(entry.role), arrangement, tex(entry.location)].join(" -- ");
 
   const blocks = entry.groups.map(renderGroup);
 
