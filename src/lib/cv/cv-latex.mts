@@ -169,12 +169,7 @@ function renderGroup(group: ExperienceGroup): string {
 ${inner}`;
 }
 
-/**
- * `position` counts from the earliest job, so the oldest is 1. Entries are
- * still listed newest first, which means the numbers run downwards — they read
- * as "this was my Nth role" rather than as a ranking of the list.
- */
-function renderExperience(entry: Experience, position: number): string {
+function renderExperience(entry: Experience): string {
   const heading = [entry.role, entry.arrangement, entry.location]
     .map(tex)
     .join(" -- ");
@@ -190,7 +185,7 @@ function renderExperience(entry: Experience, position: number): string {
   }
 
   return `\\begin{twocolentry}{\\cvDate{${tex(periodWithDuration(entry.period))}}}
-    \\cvCompany{${position}. ${linked(entry.company, entry.url)}} -- ${heading}
+    \\cvCompany{${linked(entry.company, entry.url)}} -- ${heading}
 \\end{twocolentry}
 \\vspace{3mm}
 \\begin{onecolentry}
@@ -200,13 +195,10 @@ ${blocks.join("\n\n        \\vspace{2mm}\n\n")}
 \\end{onecolentry}`;
 }
 
-/**
- * Jobs are listed newest first but numbered from the oldest, so the count runs
- * down the page. Separated by a full-width rule.
- */
+/** Jobs, newest first and unnumbered, separated by a full-width rule. */
 function renderExperiences(entries: Experience[]): string {
   return entries
-    .map((entry, index) => renderExperience(entry, entries.length - index))
+    .map(renderExperience)
     .join("\n\n\\noindent\\rule{\\linewidth}{0.5pt}\\par\n\\vspace{3mm}\n\n");
 }
 

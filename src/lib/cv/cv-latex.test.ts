@@ -152,7 +152,7 @@ describe("renderCvLatex", () => {
 
     expect(out).toContain("\\cvRole{\\cvNameLink{https://uni.example/}{A University}}");
     expect(out).toContain("\\cvNameLink{https://acme.example/}{Acme}");
-    expect(out).toContain("1. \\cvNameHighlight{Beta}}");
+    expect(out).toContain("\\cvCompany{\\cvNameHighlight{Beta}}");
   });
 
   it("renders a skill as a bold lead-in", () => {
@@ -179,17 +179,15 @@ describe("renderCvLatex", () => {
     expect(out.match(/\\noindent\\rule/g)).toHaveLength(1);
   });
 
-  it("numbers the jobs from the oldest, listing the newest first", () => {
-    // Entries are given newest first, so the newest carries the highest number
-    // and the count runs down the page to 1.
+  it("lists the jobs newest first, without numbers", () => {
     const job = makeCv().experience[0];
     const out = renderCvLatex(
       makeCv({ experience: [job, { ...job, company: "Older" }] }),
       TEMPLATE,
     );
 
-    expect(out).toContain("\\cvCompany{2. \\cvNameHighlight{Acme}}");
-    expect(out).toContain("\\cvCompany{1. \\cvNameHighlight{Older}}");
+    expect(out).toContain("\\cvCompany{\\cvNameHighlight{Acme}}");
+    expect(out).toContain("\\cvCompany{\\cvNameHighlight{Older}}");
     expect(out.indexOf("{Acme}")).toBeLessThan(out.indexOf("{Older}"));
   });
 

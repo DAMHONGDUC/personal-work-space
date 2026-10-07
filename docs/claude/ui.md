@@ -48,7 +48,7 @@ Never write a page-level `pt-*`/`pb-*` by hand; change the constant.
 |---|---|---|
 | Guides, privacy policies | Yes: `1.`, `2.` … | The number is a prop on `Section`, derived from the same list as the table of contents — never a CSS counter |
 | Portfolio | No | An introduction; sections from `PORTFOLIO_SECTIONS`, which also builds the header nav |
-| CV | Never | Jobs keep their own count, from the oldest role, descending the page |
+| CV | Never | Jobs too: newest first, unnumbered |
 
 ## Footer
 
