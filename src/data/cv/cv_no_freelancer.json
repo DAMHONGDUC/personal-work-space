@@ -27,8 +27,8 @@
     ]
   },
   "aboutMe": [
-    "Mobile engineer with 4+ years in native Android, Flutter and React Native, from an empty repository to Google Play and the App Store.",
-    "Experienced in optimising app size and rendering performance, CI/CD pipelines and app security, in large teams and on my own.",
+    "Software engineer with 4+ years of experience, focused on mobile development with Jetpack Compose, Flutter and React Native. Also experienced in front-end web development with Next.js and React.js, and back-end development with Node.js.",
+    "Experienced in optimising app size and rendering performance, CI/CD pipelines and app security, both in large teams and on my own.",
     "Based in Ho Chi Minh City."
   ],
   "education": [
@@ -43,35 +43,39 @@
   "skills": [
     {
       "name": "Native Android",
-      "items": "Kotlin, Jetpack Compose, MVVM, Hilt, Dagger, Room, Retrofit"
+      "items": "Kotlin, Jetpack Compose, MVVM, Clean Architecture, MVC, Dependency injection, Broadcast receivers, Kiosk mode, Unit testing"
     },
     {
       "name": "Flutter",
-      "items": "Render pipeline (widget, element, render object), Clean Architecture, BLoC, Provider, Riverpod, Hive, Dio, get_it, Unity integration"
+      "items": "Dart, Clean Architecture, State management (BLoC, Provider, Riverpod), Dependency injection, Unit testing"
     },
     {
       "name": "React Native",
-      "items": "Redux, Redux Toolkit, SQLite, Axios"
+      "items": "TypeScript, State management (Redux Toolkit + RTK Query, Zustand + TanStack Query), Unit testing"
     },
     {
-      "name": "Backend & Integration",
-      "items": "REST API, Firebase, VNPAY, RevenueCat, push notifications, SSL pinning, offline-first storage, camera, permissions, hardware barcode scanners"
+      "name": "Mobile Features",
+      "items": "Push notifications, Local storage, Local databases, Camera, Location, Permissions, Deep links, App Links (Android), Universal Links (iOS), On-demand packages (Android), On-Demand Resources (iOS), App Store and Google Play delivery"
     },
     {
-      "name": "Testing",
-      "items": "Unit testing, Mockito, Jest"
+      "name": "Mobile Security",
+      "items": "SSL pinning, Passcode, Face ID (iOS)"
     },
     {
-      "name": "Web",
-      "items": "React.js, Next.js, Three.js"
+      "name": "Mobile Integration",
+      "items": "RevenueCat, In-app purchases, Subscriptions, Unity integration in Flutter apps"
+    },
+    {
+      "name": "Mobile CI/CD",
+      "items": "Fastlane, GitLab Runner, GitHub Actions, Firebase App Distribution"
+    },
+    {
+      "name": "Web Development",
+      "items": "React.js, Next.js, 3D components with Three.js"
     },
     {
       "name": "AI-Assisted Development",
-      "items": "Claude Code, Codex"
-    },
-    {
-      "name": "CI/CD & Release",
-      "items": "Fastlane, GitLab Runner, GitHub Actions, Google Play Console, Apple App Store"
+      "items": "Claude Code, Codex, Cursor, GitNexus, Custom AI agent skills"
     }
   ],
   "experience": [
