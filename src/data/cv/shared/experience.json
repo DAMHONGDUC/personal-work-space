@@ -11,7 +11,10 @@
         "title": "Real Estate Product – Flutter",
         "meta": "Flutter, Clean Architecture, Scrum, Kanban · Team size: 20 mobile devs",
         "bullets": [
-          "Built features for a Saudi Arabian government client's real estate product, within a 20-developer mobile team.",
+          "Built and maintained features for a Saudi Arabian government client's real estate product; analysed BRDs and discussed requirements with BA, backend and QC.",
+          "Discussed API implementation with backend, estimated tasks and delivered them on time.",
+          "Demoed features to the client at the end of every epic.",
+          "Reviewed code and supported contractor team members.",
           "Integrated third-party SDKs and embedded Unity into Flutter for an in-app metaverse of buildings and events.",
           "Reduced app size from 200MB to 90MB and raised key screens from 30–40 FPS to a steady 60 by removing unnecessary re-renders.",
           "Optimised data-layer caching and migrated state management from Stream to BLoC.",
