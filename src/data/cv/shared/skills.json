@@ -1,11 +1,11 @@
 [
   {
     "name": "Native Android",
-    "items": "Kotlin, Jetpack Compose, MVVM, Clean Architecture, MVC, Hilt, Dagger, Broadcast receivers, Kiosk mode"
+    "items": "Kotlin, Jetpack Compose, MVVM, Clean Architecture, MVC, DI with Hilt and Dagger, Broadcast receivers, Kiosk mode"
   },
   {
     "name": "Flutter",
-    "items": "Dart, Clean Architecture, BLoC, Provider, Riverpod, get_it"
+    "items": "Dart, Clean Architecture, BLoC, Provider, Riverpod, DI with get_it"
   },
   {
     "name": "React Native",
