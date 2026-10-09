@@ -1,5 +1,6 @@
 import type { CSSProperties } from "react";
 import type { IconType } from "react-icons";
+import { LuBriefcaseBusiness } from "react-icons/lu";
 import {
   SiAndroid,
   SiAppstore,
@@ -31,6 +32,7 @@ const MARKS: Record<SkillIconId, { Icon: IconType; color?: string }> = {
   nextjs: { Icon: SiNextdotjs },
   claude: { Icon: SiClaude, color: AppColors.BRAND.claude },
   "github-actions": { Icon: SiGithubactions, color: AppColors.BRAND.githubActions },
+  domains: { Icon: LuBriefcaseBusiness },
 };
 
 /** A skill area's mark in its brand colour, on a faint wash of that colour. */

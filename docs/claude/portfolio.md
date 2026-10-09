@@ -18,6 +18,7 @@ Rendered at `/personal/portfolio` by `src/components/portfolio/`.
 |---|---|---|
 | Profile links and skill areas use real brand marks from `react-icons` | No lookalike glyphs | `FaGithub`, `SiFlutter` |
 | A skill area's mark is a tool that area lists, in its brand colour from `AppColors.BRAND` | Test-checked against the CV; monochrome marks take the text colour | Mobile Integration → RevenueCat red; Web Development → Next.js |
+| The one exception: `Domains` lists industries, not tools, and takes a generic monochrome mark | No brand stands for a domain | `LuBriefcaseBusiness` |
 | A project's icon comes from `projectIcons`, keyed by the CV project name | Reuse `/app-icons/…` first, else `public/personal/projects/` | Missing → dashed placeholder with initials, never a stock icon |
 | Websites open from `WebsiteButton` | A bordered pill: globe, address, arrow out | — |
 

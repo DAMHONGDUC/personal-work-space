@@ -16,7 +16,8 @@
     "Mobile Testing": "jest",
     "Mobile CI/CD": "github-actions",
     "Web Development": "nextjs",
-    "AI-Assisted Development": "claude"
+    "AI-Assisted Development": "claude",
+    "Domains": "domains"
   },
   "projectIcons": {
     "BaroEase": "/app-icons/baro-ease.png",

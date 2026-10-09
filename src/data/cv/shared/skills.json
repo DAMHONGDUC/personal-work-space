@@ -38,5 +38,9 @@
   {
     "name": "AI-Assisted Development",
     "items": "Claude Code, Codex, Cursor, GitNexus, Custom AI agent skills"
+  },
+  {
+    "name": "Domains",
+    "items": "Real estate, Fintech, Logistics, E-commerce, E-learning, Health and pet care, Games, Utilities"
   }
 ]
