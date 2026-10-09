@@ -13,6 +13,7 @@
         "bullets": [
           "Built and maintained features for a Saudi Arabian government client's real estate product; analysed BRDs with BA, backend and QC, agreed API implementation, estimated tasks and delivered on time.",
           "Demoed features to the client after every epic; reviewed code and supported team members.",
+          "Built a design system library with Flutter Widget Previews.",
           "Integrated third-party SDKs and embedded Unity into Flutter for an in-app metaverse of buildings and events.",
           "Reduced app size from 200MB to 90MB and raised key screens from 30–40 FPS to a steady 60 by removing unnecessary re-renders.",
           "Optimised data-layer caching and migrated state management from Stream to BLoC.",
