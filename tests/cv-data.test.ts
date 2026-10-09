@@ -129,6 +129,25 @@ describe.each(versions)("the CV data file $slug", ({ slug, data: cv }) => {
     }
   });
 
+  it("tags every piece of work with a domain, spelled one way", () => {
+    // The Domains line is built from these tags, so "Fintech" and "FinTech"
+    // would print as two industries.
+    const tags = [
+      ...cv.experience.flatMap((job) => job.groups.map((group) => group.domains)),
+      ...cv.projects.map((project) => project.domains),
+    ];
+
+    for (const domains of tags) {
+      expect(domains.length).toBeGreaterThan(0);
+    }
+
+    const spellings = new Map<string, Set<string>>();
+    for (const domain of tags.flat()) {
+      spellings.set(domain.toLowerCase(), (spellings.get(domain.toLowerCase()) ?? new Set()).add(domain));
+    }
+    expect([...spellings.values()].filter((set) => set.size > 1).map((set) => [...set])).toEqual([]);
+  });
+
   it("uses https for every project link", () => {
     for (const project of cv.projects) {
       for (const link of project.links) {

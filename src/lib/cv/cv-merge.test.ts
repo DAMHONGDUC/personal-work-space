@@ -1,14 +1,14 @@
 import { describe, expect, it } from "vitest";
-import { mergeCv } from "./cv-merge.mts";
+import { DOMAINS_SKILL, mergeCv } from "./cv-merge.mts";
 import type { CvShared, CvSource, Experience } from "./cv-types";
 
-const job = (company: string): Experience => ({
+const job = (company: string, domains: string[] = []): Experience => ({
   company,
   role: "Mobile engineer",
   arrangement: "Onsite",
   location: "HCM City, Viet Nam",
   period: "Jan 2022 – now",
-  groups: [{ title: "App", meta: "Flutter", bullets: ["Built it."] }],
+  groups: [{ title: "App", meta: "Flutter", domains, bullets: ["Built it."] }],
 });
 
 const shared: CvShared = {
@@ -17,7 +17,7 @@ const shared: CvShared = {
   education: [],
   skills: [{ name: "Flutter", items: "Dart" }],
   projects: [],
-  experience: { first: job("First"), second: job("Second") },
+  experience: { first: job("First", ["Fintech"]), second: job("Second", ["Games", "Fintech"]) },
 };
 
 const source: CvSource = {
@@ -40,7 +40,7 @@ describe("merging a CV version with the shared parts", () => {
     expect(cv.header).toBe(shared.header);
     expect(cv.aboutMe[1]).toBe(shared.aboutMe[1]);
     expect(cv.education).toBe(shared.education);
-    expect(cv.skills).toBe(shared.skills);
+    expect(cv.skills.slice(0, -1)).toEqual(shared.skills);
     expect(cv.projects).toBe(shared.projects);
   });
 
@@ -56,6 +56,35 @@ describe("merging a CV version with the shared parts", () => {
     const cv = mergeCv(source, shared, new Date(2026, 9, 7));
 
     expect(cv.aboutMe[0]).toBe("I am A, with 4+ years of experience.");
+  });
+
+  it("builds the Domains line from the jobs it lists, then the projects, once each", () => {
+    const projects = [{ name: "P", description: "D.", domains: ["Health", "Games"], links: [] }];
+
+    expect(mergeCv(source, { ...shared, projects }).skills.at(-1)).toEqual({
+      name: DOMAINS_SKILL,
+      items: "Games, Fintech, Health",
+    });
+  });
+
+  it("leaves out the industry of a job the version does not list", () => {
+    // The point of building it: a version cut without a job must not claim
+    // that job's domain.
+    const cv = mergeCv({ ...source, experience: ["first"] }, shared);
+
+    expect(cv.skills.at(-1)?.items).toBe("Fintech");
+  });
+
+  it("writes no Domains line when nothing has a domain", () => {
+    const bare = { ...shared, experience: { first: job("First"), second: job("Second") } };
+
+    expect(mergeCv(source, bare).skills).toBe(bare.skills);
+  });
+
+  it("fails on a Domains line written into the shared skills", () => {
+    const skills = [...shared.skills, { name: DOMAINS_SKILL, items: "Fintech" }];
+
+    expect(() => mergeCv(source, { ...shared, skills })).toThrow(/Domains/);
   });
 
   it("fails on a job the shared file does not have", () => {

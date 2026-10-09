@@ -40,6 +40,11 @@ export type ExperienceGroup = {
   title: string;
   /** Stack and team size, shown as the first bullet. */
   meta: string;
+  /**
+   * Industries the work was for, e.g. `Real estate`. Not printed here:
+   * `mergeCv` collects them into the version's Domains skill line.
+   */
+  domains: string[];
   bullets: string[];
 };
 
@@ -60,6 +65,8 @@ export type Experience = {
 export type Project = {
   name: string;
   description: string;
+  /** Industries, collected into the Domains line like a job's. */
+  domains: string[];
   links: { label: string; href: string }[];
 };
 

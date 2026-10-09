@@ -1,6 +1,9 @@
 import type { Cv, CvShared, CvSource } from "./cv-types";
 import { periodStart, yearsSince } from "./cv-period.mts";
 
+/** The skill line `mergeCv` writes; the shared skills may not hold one. */
+export const DOMAINS_SKILL = "Domains";
+
 /**
  * One version file plus the shared parts -> the complete CV every renderer
  * reads.
@@ -11,6 +14,10 @@ import { periodStart, yearsSince } from "./cv-period.mts";
  *
  * `{{years}}` in About me becomes the whole years since this version's oldest
  * job, counted to `now`, so neither the PDF nor the portfolio goes stale.
+ *
+ * The Domains skill line is built here, from the domains of this version's
+ * jobs and of the projects, in the order they first appear: a version without
+ * a job does not claim its industry.
  *
  * Throws on a job id the shared file does not have, so a typo fails the build
  * rather than quietly dropping a job from the CV.
@@ -28,6 +35,22 @@ export function mergeCv(source: CvSource, shared: CvShared, now: Date = new Date
     return job;
   });
 
+  if (shared.skills.some((skill) => skill.name === DOMAINS_SKILL)) {
+    throw new Error(
+      `shared/skills.json has a "${DOMAINS_SKILL}" line; it is built from the jobs and projects`,
+    );
+  }
+
+  const domains = [
+    ...new Set([
+      ...experience.flatMap((job) => job.groups.flatMap((group) => group.domains)),
+      ...shared.projects.flatMap((project) => project.domains),
+    ]),
+  ];
+  const skills = domains.length
+    ? [...shared.skills, { name: DOMAINS_SKILL, items: domains.join(", ") }]
+    : shared.skills;
+
   const oldest = experience[experience.length - 1];
   const years = oldest ? String(yearsSince(periodStart(oldest.period), now)) : "";
 
@@ -39,7 +62,7 @@ export function mergeCv(source: CvSource, shared: CvShared, now: Date = new Date
     header: shared.header,
     aboutMe: shared.aboutMe.map((line) => line.replaceAll("{{years}}", years)),
     education: shared.education,
-    skills: shared.skills,
+    skills,
     experience,
     projects: shared.projects,
   };

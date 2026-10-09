@@ -29,13 +29,14 @@ function makeCv(overrides: Partial<Cv> = {}): Cv {
         arrangement: "Onsite",
         location: "A City",
         period: "Jan 2024 – Mar 2024",
-        groups: [{ title: "Mobile App", meta: "Flutter · Team size: 4", bullets: ["Did a thing."] }],
+        groups: [{ title: "Mobile App", meta: "Flutter · Team size: 4", domains: [], bullets: ["Did a thing."] }],
       },
     ],
     projects: [
       {
         name: "Thing",
         description: "A thing.",
+        domains: [],
         links: [{ label: "github.com/x/a_b", href: "https://github.com/x/a_b" }],
       },
     ],
@@ -232,7 +233,7 @@ describe("renderCvLatex", () => {
 
   it("omits the link list for a project with no links", () => {
     const out = renderCvLatex(
-      makeCv({ projects: [{ name: "Thing", description: "A thing.", links: [] }] }),
+      makeCv({ projects: [{ name: "Thing", description: "A thing.", domains: [], links: [] }] }),
       TEMPLATE,
     );
 

@@ -10,6 +10,9 @@
       {
         "title": "Real Estate Product",
         "meta": "Flutter, Clean Architecture, Scrum, Kanban · Team size: 20 mobile devs",
+        "domains": [
+          "Real estate"
+        ],
         "bullets": [
           "Built and maintained features for a Saudi Arabian government client's real estate product; analysed BRDs with BA, backend and QC, agreed API implementation, estimated tasks and delivered on time.",
           "Demoed features to the client after every epic; reviewed code and supported team members.",
@@ -32,6 +35,9 @@
       {
         "title": "Cocototo – virtual pet game",
         "meta": "Flutter, Flame, Firebase · Team size: 2 mobile devs",
+        "domains": [
+          "Games"
+        ],
         "bullets": [
           "Took the game from an empty repository to release.",
           "Worked across every layer: architecture, Flame game loop, gameplay state, Firebase backend, UI and release, reporting directly to the client in Japan."
@@ -40,6 +46,9 @@
       {
         "title": "Pet Management App",
         "meta": "Jetpack Compose · Team size: 3 mobile devs",
+        "domains": [
+          "Pet care"
+        ],
         "bullets": [
           "Built the native Android client."
         ]
@@ -57,6 +66,9 @@
       {
         "title": "Warehouse App for POS / Handheld Devices",
         "meta": "Kotlin, Jetpack Compose, MVVM, Clean Architecture · Team size: 4 mobile devs",
+        "domains": [
+          "Logistics"
+        ],
         "bullets": [
           "Built a warehouse management app for Unitech HT300/HT330 barcode devices, end to end.",
           "Integrated the hardware scanner for real-time barcode capture; handled goods receipt, dispatch and inventory updates over REST API.",
@@ -67,6 +79,12 @@
       {
         "title": "Cross-Platform Apps",
         "meta": "Flutter, React Native · Team size: 4–6 mobile devs",
+        "domains": [
+          "E-commerce",
+          "E-learning",
+          "Utilities",
+          "Real estate"
+        ],
         "bullets": [
           "Built new apps and maintained existing ones across booking, e-learning, file management and apartment equipment.",
           "Made the apps responsive on iPad, in portrait and landscape.",
@@ -91,6 +109,9 @@
       {
         "title": "Trading & Finance App",
         "meta": "React Native · Team size: 3 mobile devs",
+        "domains": [
+          "Fintech"
+        ],
         "bullets": [
           "Maintained and improved the app UI; implemented charts for trading and financial data."
         ]
