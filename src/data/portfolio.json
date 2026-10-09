@@ -10,6 +10,7 @@
     "Native Android": "android",
     "Flutter": "flutter",
     "React Native": "react",
+    "API Integration": "graphql",
     "Mobile Features": "app-store",
     "Mobile Security": "ios",
     "Mobile Integration": "revenuecat",

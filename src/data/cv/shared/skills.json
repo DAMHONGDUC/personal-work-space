@@ -12,6 +12,10 @@
     "items": "TypeScript, Redux Toolkit, RTK Query, Zustand, TanStack Query"
   },
   {
+    "name": "API Integration",
+    "items": "REST API, GraphQL, Apollo Client"
+  },
+  {
     "name": "Mobile Features",
     "items": "Push notifications, Local storage and databases, Camera, Location, Permissions, Deep links, Deferred deep links with Adjust, App Links, Universal Links, Play Feature Delivery, On-Demand Resources, App Store and Google Play delivery"
   },

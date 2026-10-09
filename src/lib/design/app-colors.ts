@@ -41,6 +41,7 @@ export class AppColors {
     android: "#3DDC84",
     flutter: "#54C5F8",
     react: "#61DAFB",
+    graphql: "#E10098",
     appStore: "#0D96F6",
     revenueCat: "#F25A5A",
     jest: "#C21325",
