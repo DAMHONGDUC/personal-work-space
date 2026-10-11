@@ -5,6 +5,7 @@ import { ReadingProgress } from "@/components/shared/ReadingProgress";
 import { DocBlocks } from "@/components/docs/DocBlocks";
 import { DocHero } from "@/components/docs/DocHero";
 import { LanguageSwitch } from "@/components/docs/LanguageSwitch";
+import { SeriesContents, SeriesPager } from "@/components/docs/SeriesNav";
 import { MobileToc, SidebarToc } from "@/components/policy/PolicyToc";
 import { Prose } from "@/components/policy/Prose";
 import { Section } from "@/components/policy/Section";
@@ -12,6 +13,7 @@ import { useDocLanguage } from "@/hooks/docs/useDocLanguage";
 import {
   type Lang,
   type Doc,
+  type SeriesPage,
 } from "@/lib/docs/doc-model";
 import { AppSpacings } from "@/lib/design/app-spacings";
 import { AppColors } from "@/lib/design/app-colors";
@@ -23,8 +25,17 @@ import { AppTextStyles } from "@/lib/design/app-text-styles";
  * Every language is resolved at build time and shipped together, so switching
  * is a re-render: no request, no navigation, and because section ids are the
  * same in both, the anchor you arrived on still points at the same place.
+ *
+ * A guide that is one page of a series lists the series above its intro and
+ * links the previous and next page below its last section.
  */
-export function DocArticle({ versions }: { versions: Record<Lang, Doc> }) {
+export function DocArticle({
+  versions,
+  series,
+}: {
+  versions: Record<Lang, Doc>;
+  series?: SeriesPage[];
+}) {
   const [lang, setLang] = useDocLanguage(versions.en.defaultLang);
   const doc = versions[lang];
 
@@ -48,6 +59,8 @@ export function DocArticle({ versions }: { versions: Record<Lang, Doc> }) {
 
         <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_13rem] lg:gap-14">
           <div className="flex min-w-0 flex-col gap-14">
+            {series && <SeriesContents pages={series} current={doc.slug} lang={lang} />}
+
             <Prose paragraphs={doc.intro} />
 
             {doc.sections.map((section, index) => (
@@ -70,6 +83,8 @@ export function DocArticle({ versions }: { versions: Record<Lang, Doc> }) {
                 />
               </Section>
             ))}
+
+            {series && <SeriesPager pages={series} current={doc.slug} lang={lang} />}
           </div>
 
           <SidebarToc items={toc} accent={AppColors.DOCS} />

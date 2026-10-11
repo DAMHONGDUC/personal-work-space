@@ -20,6 +20,7 @@ const ALLOWED_KEYS = new Set([
   "icon",
   "topic",
   "defaultLang",
+  "series",
   "tags",
   "readingTime",
   "effectiveDate",
@@ -82,6 +83,7 @@ function skeleton(doc: Doc) {
     icon: doc.icon,
     topic: doc.topic,
     defaultLang: doc.defaultLang,
+    series: doc.series,
     tags: doc.tags,
     effectiveDate: doc.effectiveDate,
     lastUpdated: doc.lastUpdated,
@@ -217,6 +219,23 @@ describe("doc files", () => {
       if (!next || next.versions.en.lastUpdated !== bundle.versions.en.lastUpdated) continue;
 
       expect(bundle.slug.localeCompare(next.slug)).toBeLessThan(0);
+    }
+  });
+
+  it("numbers every series from an overview at 0, with no gaps", () => {
+    const parts = new Map<string, number[]>();
+
+    for (const bundle of bundles) {
+      const series = bundle.versions.en.series;
+      if (!series) continue;
+
+      parts.set(series.id, [...(parts.get(series.id) ?? []), series.part]);
+    }
+
+    for (const [, numbers] of parts) {
+      const sorted = [...numbers].sort((a, b) => a - b);
+
+      expect(sorted).toEqual(sorted.map((_, index) => index));
     }
   });
 

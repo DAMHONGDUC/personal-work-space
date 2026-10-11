@@ -152,6 +152,11 @@ export type DocData = {
    * in English unless they say otherwise; a stored choice always wins.
    */
   defaultLang?: Lang;
+  /**
+   * Set when the guide is one page of a series read in order. Part 0 is the
+   * series' overview and names it; the rest follow by number.
+   */
+  series?: DocSeriesRef;
   /** Product names, left untranslated. */
   tags: string[];
   readingTime: string;
@@ -160,6 +165,12 @@ export type DocData = {
   intro: string[];
   sections: DocSection[];
 };
+
+/** Which series a guide belongs to, and where in it. Same in both languages. */
+export type DocSeriesRef = { id: string; part: number };
+
+/** One page of a series as its navigation needs it: every language's title. */
+export type SeriesPage = { slug: string; part: number; title: Record<Lang, string> };
 
 /** One guide in one language. The slug comes from the filename. */
 export type Doc = DocData & { slug: string };

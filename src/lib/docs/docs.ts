@@ -11,6 +11,7 @@ import {
   type DocBundle,
   type DocData,
   type Lang,
+  type SeriesPage,
 } from "@/lib/docs/doc-model";
 import { ResourceConstant } from "@/lib/resource-constant.mts";
 
@@ -98,6 +99,20 @@ export function getDocBundles(): DocBundle[] {
         // keeps the pages of a series in order when they land on the same day.
         a.slug.localeCompare(b.slug),
     );
+}
+
+/** Every page of one series, in reading order. */
+export function getDocSeries(id: string): SeriesPage[] {
+  return getDocBundles()
+    .filter((bundle) => bundle.versions.en.series?.id === id)
+    .map((bundle) => ({
+      slug: bundle.slug,
+      part: bundle.versions.en.series!.part,
+      title: Object.fromEntries(
+        LANGUAGES.map((lang) => [lang, bundle.versions[lang].title]),
+      ) as Record<Lang, string>,
+    }))
+    .sort((a, b) => a.part - b.part);
 }
 
 export function getDocBundle(slug: string): DocBundle | undefined {

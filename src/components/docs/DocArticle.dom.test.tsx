@@ -3,7 +3,7 @@ import { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { DocArticle } from "./DocArticle";
-import type { Lang, Doc } from "@/lib/docs/doc-model";
+import type { Lang, Doc, SeriesPage } from "@/lib/docs/doc-model";
 
 function version(lang: Lang): Doc {
   const word = lang === "en" ? "English" : "Vietnamese";
@@ -34,12 +34,12 @@ const versions: Record<Lang, Doc> = { en: version("en"), vi: version("vi") };
 let container: HTMLDivElement;
 let root: Root;
 
-function render(guide: Record<Lang, Doc> = versions) {
+function render(guide: Record<Lang, Doc> = versions, series?: SeriesPage[]) {
   container = document.createElement("div");
   document.body.appendChild(container);
   act(() => {
     root = createRoot(container);
-    root.render(<DocArticle versions={guide} />);
+    root.render(<DocArticle versions={guide} series={series} />);
   });
   return container;
 }
@@ -84,6 +84,39 @@ describe("DocArticle", () => {
     };
 
     expect(render(vietnameseFirst).textContent).toContain("English body");
+  });
+
+  describe("as one page of a series", () => {
+    const series: SeriesPage[] = [
+      { slug: "intro", part: 0, title: { en: "The path", vi: "Lộ trình" } },
+      { slug: "guide", part: 1, title: { en: "English title", vi: "Vietnamese title" } },
+      { slug: "last", part: 2, title: { en: "Last step", vi: "Bước cuối" } },
+    ];
+
+    it("lists every page and marks the one being read", () => {
+      const page = render(versions, series);
+      const current = page.querySelector('[aria-current="page"]');
+
+      expect(current?.textContent).toBe("English title");
+      expect(current?.getAttribute("href")).toBe("/docs/guide");
+      expect(page.textContent).toContain("Page 2 of 3");
+    });
+
+    it("links the previous and the next page", () => {
+      const page = render(versions, series);
+
+      expect(page.querySelector('a[rel="prev"]')?.getAttribute("href")).toBe("/docs/intro");
+      expect(page.querySelector('a[rel="next"]')?.getAttribute("href")).toBe("/docs/last");
+    });
+
+    it("names the pages in the language on screen", () => {
+      const page = render(versions, series);
+
+      switchTo("vi");
+
+      expect(page.textContent).toContain("Bước cuối");
+      expect(page.textContent).toContain("Trang tiếp");
+    });
   });
 
   it("swaps every string when the language is switched", () => {

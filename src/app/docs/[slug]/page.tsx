@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { DocArticle } from "@/components/docs/DocArticle";
-import { getDocBundle, getDocBundles } from "@/lib/docs/docs";
+import { getDocBundle, getDocBundles, getDocSeries } from "@/lib/docs/docs";
 import { formatDate } from "@/lib/format";
 import { routes } from "@/lib/routes/routes";
 
@@ -41,5 +41,12 @@ export default async function DocPage(props: PageProps<"/docs/[slug]">) {
     notFound();
   }
 
-  return <DocArticle versions={bundle.versions} />;
+  const seriesId = bundle.versions.en.series?.id;
+
+  return (
+    <DocArticle
+      versions={bundle.versions}
+      series={seriesId ? getDocSeries(seriesId) : undefined}
+    />
+  );
 }
