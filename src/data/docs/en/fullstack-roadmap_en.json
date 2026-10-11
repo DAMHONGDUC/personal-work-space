@@ -16,7 +16,7 @@
     "Node.js",
     "MySQL"
   ],
-  "readingTime": "8 min",
+  "readingTime": "14 min",
   "effectiveDate": "2026-10-11",
   "lastUpdated": "2026-10-11",
   "intro": [
@@ -24,6 +24,246 @@
     "This page is the map. Each page after it goes step by step, from setup to project, with tools current as of 11 October 2026."
   ],
   "sections": [
+    {
+      "id": "how-to-learn",
+      "title": "How to study",
+      "summary": "Read this first: how you study decides whether you finish the path.",
+      "blocks": [
+        {
+          "type": "flow",
+          "caption": "The loop of every lesson. Repeating it is the whole path.",
+          "stages": [
+            {
+              "items": [
+                {
+                  "label": "Watch one lesson",
+                  "detail": "One 5–20 minute video, watched through once for the idea, no typing yet",
+                  "explain": [
+                    "One lesson at a time. Watch five in a row and the first is gone before you type it.",
+                    "1.25x is fine for talking, but drop back to 1x for the coding parts so you catch every character."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Close it, retype it",
+                  "detail": "Retype the code you just watched without looking, and run it to the same result",
+                  "explain": [
+                    "This is where the learning happens. When you cannot recall it, reopen that bit, watch, close, then type on; never type while the video plays.",
+                    "Type by hand, never paste. Your fingers need to learn the brackets, semicolons and function names."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Change one detail",
+                  "detail": "Change something small, guess the result first, then run it to check",
+                  "explain": [
+                    "For example, switch justify-content from center to space-between, or map to filter. A right guess means you understand; a wrong one shows what to study.",
+                    "Break a line on purpose to see what the error looks like. Next time a real one appears, you already know what it says."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Stuck? Search, then ask",
+                  "detail": "Read the error, search, ask an AI; after 30 minutes, ask a person",
+                  "explain": [
+                    "Getting stuck is normal, even after years on the job. The skill to train is getting yourself unstuck, not never getting stuck.",
+                    "Sitting alone with one error for over 30 minutes is a waste. Ask with the template below so others can help at once."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Commit and take notes",
+                  "detail": "End each session by pushing to GitHub and writing three things learned and one question",
+                  "explain": [
+                    "Committing every session turns GitHub into a study diary: look back after a month and see how far you came.",
+                    "The question written down today is often answered a few lessons later. If not, take it to someone."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "heading",
+          "text": "Before you start"
+        },
+        {
+          "type": "table",
+          "columns": [
+            "You need",
+            "At least",
+            "Notes"
+          ],
+          "rows": [
+            [
+              "A computer",
+              "Windows 10/11 or macOS, 8 GB RAM, 20 GB free on an SSD",
+              "16 GB is more comfortable. Phones, tablets and Chromebooks will not do."
+            ],
+            [
+              "Time",
+              "10–14 hours a week, ideally a little every day",
+              "Less still works, just longer than six months. Steadiness beats hours."
+            ],
+            [
+              "English",
+              "Read short sentences, looking words up as needed",
+              "Errors, docs and commands are all in English. Reading is enough; use a translator freely."
+            ],
+            [
+              "Prior knowledge",
+              "Basic computer use: download, install, find files",
+              "No maths needed. Web programming uses logic, not formulas."
+            ],
+            [
+              "Accounts",
+              "An email for GitHub",
+              "Every tool in the path is free and needs no payment card."
+            ]
+          ]
+        },
+        {
+          "type": "heading",
+          "text": "A two-hour session"
+        },
+        {
+          "type": "table",
+          "columns": [
+            "Time",
+            "What to do"
+          ],
+          "rows": [
+            [
+              "10 min",
+              "Review yesterday: retype a piece of code you learned, without looking"
+            ],
+            [
+              "40 min",
+              "Watch 2–3 new lessons using the loop above"
+            ],
+            [
+              "50 min",
+              "Practise alone: exercises on f8.edu.vn, or part of the checklist project"
+            ],
+            [
+              "10 min",
+              "Notes: three things learned, one open question"
+            ],
+            [
+              "10 min",
+              "Commit, push, and mark your progress"
+            ]
+          ]
+        },
+        {
+          "type": "heading",
+          "text": "How to take notes"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Write in your own words, as if explaining to a friend who has not studied it. Copying the video's words does not help you remember.",
+            "Give each concept a short, runnable code example of your own.",
+            "Keep notes in a notes.md inside your study repo, committed with the code and searchable with Ctrl + F.",
+            "Record every error you hit and how you fixed it. That list becomes the most valuable document you write."
+          ]
+        },
+        {
+          "type": "heading",
+          "text": "When you are stuck"
+        },
+        {
+          "type": "steps",
+          "items": [
+            "Read the error from start to end: it usually names the file, the line and the reason.",
+            "Print values with console.log just before the failing spot, and check they are what you think.",
+            "Search the exact error line plus the technology, such as \"react\" or \"express\". English results are usually more plentiful and newer.",
+            "Ask an AI with the code and the error, and ask why rather than just for fixed code.",
+            "Still stuck after 30 minutes? Ask a person, using the template below."
+          ]
+        },
+        {
+          "type": "heading",
+          "text": "Asking so people can help"
+        },
+        {
+          "type": "steps",
+          "items": [
+            "What you are doing: \"I am building the sign-up form from lesson 80 of the basic JavaScript course.\"",
+            "What you expected: \"Pressing Sign up shows an error under the email field.\"",
+            "What actually happened: paste the error word for word, never a summary.",
+            "What you tried: list each attempt and what it did.",
+            "The relevant code: pasted as text, only the part that matters; never a phone photo of the screen."
+          ]
+        },
+        {
+          "type": "heading",
+          "text": "Where to ask"
+        },
+        {
+          "type": "list",
+          "items": [
+            "F8's Facebook group \"Học lập trình web (fullstack.edu.vn)\" and F8's Discord: full of people taking exactly these courses.",
+            "The comments under the video: someone has often asked your question already.",
+            "Stack Overflow: in English; search before asking, since most common errors are answered there.",
+            "A study partner: fixed sessions together and explaining lessons to each other is the surest way to remember."
+          ]
+        },
+        {
+          "type": "heading",
+          "text": "Keeping going"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Every page ends with a checklist: move on only when you can do all of it alone.",
+            "Write the start and finish date of each part in notes.md to see your progress.",
+            "In a busy week, drop to 30 minutes a day but never stop completely. One week off easily becomes quitting.",
+            "Weeks 3–4 are when the excitement usually fades. That is normal; pushing through it is the hardest part of the whole path."
+          ]
+        },
+        {
+          "type": "heading",
+          "text": "Using AI while learning"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Paste the error and the code around it, and ask why it fails. Ask for the reason, not just the fixed code.",
+            "Ask for a concept explained with a different example from the video, such as closures through a counter.",
+            "Write the checklist projects yourself. Letting AI write them skips exactly the part that makes you better.",
+            "Check answers against the official docs: MDN, react.dev, expressjs.com. AI may answer for an older version.",
+            "Turn off automatic code suggestions in VS Code until the end of part 3, so your hands learn the syntax."
+          ]
+        },
+        {
+          "type": "heading",
+          "text": "Common mistakes"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Watching a whole course before coding: by then most of it is forgotten.",
+            "Moving to React with shaky JavaScript: every React bug after that is really a JavaScript bug.",
+            "Copying code from the video without understanding it: change one detail and you cannot fix it.",
+            "Taking several courses on one topic at once: pick one, finish it, then look elsewhere.",
+            "Comparing yourself with people online: everyone starts somewhere different. Compare only with yourself a month ago."
+          ]
+        }
+      ]
+    },
     {
       "id": "overview",
       "title": "Six parts",
@@ -254,53 +494,6 @@
               "MySQL inside WSL, or the 8.4 LTS MSI",
               "5"
             ]
-          ]
-        }
-      ]
-    },
-    {
-      "id": "how-to-learn",
-      "title": "How to study",
-      "summary": "The videos are half of it; the other half is typing it yourself.",
-      "blocks": [
-        {
-          "type": "steps",
-          "items": [
-            "Watch one lesson, close the video, and retype the code from memory before moving on.",
-            "At the end of each part, build the checklist project with no video open. When stuck, read MDN or react.dev before rewatching.",
-            "Commit and push to GitHub after every session, even when the code is unfinished.",
-            "Keep a fixed schedule, say two hours a day. Steady beats cramming at the weekend.",
-            "Stuck for more than 30 minutes? Ask: say what you are doing, paste the exact error, and list what you tried."
-          ]
-        },
-        {
-          "type": "heading",
-          "text": "Common mistakes"
-        },
-        {
-          "type": "list",
-          "items": [
-            "Watching a whole course before coding: by then most of it is forgotten.",
-            "Moving to React with shaky JavaScript: every React bug after that is really a JavaScript bug.",
-            "Copying code from the video without understanding it: change one detail and you cannot fix it.",
-            "Taking several courses on one topic at once: pick one, finish it, then look elsewhere."
-          ]
-        }
-      ]
-    },
-    {
-      "id": "ai",
-      "title": "Using AI while learning",
-      "summary": "AI helps you understand faster, but it cannot do the typing for you.",
-      "blocks": [
-        {
-          "type": "list",
-          "items": [
-            "Paste the error and the code around it, and ask why it fails. Ask for the reason, not just the fixed code.",
-            "Ask for a concept explained with a different example from the video, such as closures through a counter.",
-            "Write the checklist projects yourself. Letting AI write them skips exactly the part that makes you better.",
-            "Check answers against the official docs: MDN, react.dev, expressjs.com. AI may answer for an older version.",
-            "Turn off automatic code suggestions in VS Code until the end of part 3, so your hands learn the syntax."
           ]
         }
       ]

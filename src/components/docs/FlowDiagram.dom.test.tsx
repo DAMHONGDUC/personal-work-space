@@ -109,6 +109,16 @@ describe("FlowDiagram", () => {
     expect(dialog()?.textContent).toContain("forgets everything");
   });
 
+  it("tells the reader the boxes open, in the language of the guide", () => {
+    const page = render();
+
+    expect(page.textContent).toContain("Bấm vào từng ô để đọc giải thích chi tiết");
+    for (const box of boxes()) {
+      expect(box.textContent).toContain("Xem giải thích");
+      expect(box.getAttribute("aria-haspopup")).toBe("dialog");
+    }
+  });
+
   it("states the language of its own text, being outside the article", () => {
     // The dialog is portalled to the end of the body, so it cannot inherit the
     // lang that `main` puts on the guide.

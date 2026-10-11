@@ -16,7 +16,7 @@
     "Node.js",
     "MySQL"
   ],
-  "readingTime": "8 phút",
+  "readingTime": "14 phút",
   "effectiveDate": "2026-10-11",
   "lastUpdated": "2026-10-11",
   "intro": [
@@ -24,6 +24,246 @@
     "Trang này là bản đồ. Mỗi trang sau hướng dẫn từng bước, từ cài đặt tới project, và đã cập nhật công cụ tới ngày 11/10/2026."
   ],
   "sections": [
+    {
+      "id": "how-to-learn",
+      "title": "Cách học",
+      "summary": "Đọc phần này trước: học thế nào quyết định có đi hết lộ trình hay không.",
+      "blocks": [
+        {
+          "type": "flow",
+          "caption": "Vòng lặp của mỗi bài học. Lặp lại vòng này là cả lộ trình.",
+          "stages": [
+            {
+              "items": [
+                {
+                  "label": "Xem một bài",
+                  "detail": "Một video 5–20 phút, xem trọn một lần để nắm ý, chưa cần gõ theo",
+                  "explain": [
+                    "Mỗi lần chỉ một bài. Xem liền năm bài thì bài đầu đã quên trước khi kịp gõ.",
+                    "Tốc độ 1.25x ổn với phần nói, nhưng chỉnh về 1x khi tới đoạn gõ code để kịp nhìn từng ký tự."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Tắt video, gõ lại",
+                  "detail": "Tự gõ lại code vừa xem mà không nhìn video, rồi chạy cho ra cùng kết quả",
+                  "explain": [
+                    "Đây là bước học thật. Nhớ không ra thì mở lại đúng đoạn đó, xem, tắt, rồi gõ tiếp; đừng gõ trong lúc video đang chạy.",
+                    "Gõ tay, không chép dán. Ngón tay cần quen dấu ngoặc, dấu chấm phẩy và tên hàm."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Đổi một chi tiết",
+                  "detail": "Sửa một thứ nhỏ trong code và đoán trước kết quả, rồi chạy để kiểm tra",
+                  "explain": [
+                    "Ví dụ: đổi justify-content từ center sang space-between, đổi map thành filter. Đoán đúng nghĩa là đã hiểu; đoán sai là chỗ cần học thêm.",
+                    "Cố tình làm hỏng một dòng để xem thông báo lỗi trông thế nào. Lần sau gặp lỗi thật, bạn đã biết nó nói gì."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Kẹt thì tìm, rồi hỏi",
+                  "detail": "Đọc lỗi, tìm trên Google, hỏi AI; quá 30 phút thì hỏi người",
+                  "explain": [
+                    "Kẹt là bình thường, kể cả với người đi làm nhiều năm. Kỹ năng cần luyện là tự gỡ được, không phải không bao giờ kẹt.",
+                    "Ngồi một mình quá 30 phút với cùng một lỗi là lãng phí. Hỏi theo mẫu ở mục bên dưới để người khác giúp được ngay."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Commit và ghi chú",
+                  "detail": "Cuối buổi push code lên GitHub, ghi ba điều đã học và một câu còn thắc mắc",
+                  "explain": [
+                    "Commit mỗi buổi biến GitHub thành nhật ký học: nhìn lại sau một tháng sẽ thấy mình đã đi xa thế nào.",
+                    "Câu thắc mắc ghi lại hôm nay thường tự có lời giải sau vài bài nữa. Không có thì mang đi hỏi."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "heading",
+          "text": "Trước khi bắt đầu"
+        },
+        {
+          "type": "table",
+          "columns": [
+            "Cần",
+            "Tối thiểu",
+            "Ghi chú"
+          ],
+          "rows": [
+            [
+              "Máy tính",
+              "Windows 10/11 hoặc macOS, RAM 8 GB, còn trống 20 GB ổ SSD",
+              "16 GB RAM thì thoải mái hơn. Điện thoại, máy tính bảng và Chromebook không đủ."
+            ],
+            [
+              "Thời gian",
+              "10–14 giờ mỗi tuần, tốt nhất là mỗi ngày một ít",
+              "Ít hơn vẫn được, chỉ lâu hơn 6 tháng. Đều đặn quan trọng hơn số giờ."
+            ],
+            [
+              "Tiếng Anh",
+              "Đọc được câu ngắn, tra từ khi cần",
+              "Lỗi, tài liệu và tên lệnh đều bằng tiếng Anh. Không cần nói, chỉ cần đọc; dùng Google Dịch thoải mái."
+            ],
+            [
+              "Kiến thức trước",
+              "Biết dùng máy tính: tải, cài phần mềm, tìm file",
+              "Không cần giỏi toán. Lập trình web dùng logic, không dùng công thức."
+            ],
+            [
+              "Tài khoản",
+              "Một email để đăng ký GitHub",
+              "Mọi công cụ trong lộ trình đều miễn phí, không cần thẻ thanh toán."
+            ]
+          ]
+        },
+        {
+          "type": "heading",
+          "text": "Một buổi học 2 giờ"
+        },
+        {
+          "type": "table",
+          "columns": [
+            "Thời gian",
+            "Làm gì"
+          ],
+          "rows": [
+            [
+              "10 phút",
+              "Ôn bài hôm trước: gõ lại một đoạn code đã học mà không nhìn"
+            ],
+            [
+              "40 phút",
+              "Xem 2–3 bài mới theo vòng lặp ở trên"
+            ],
+            [
+              "50 phút",
+              "Tự làm: bài tập trên f8.edu.vn, hoặc một phần project trong checklist"
+            ],
+            [
+              "10 phút",
+              "Ghi chú: ba điều đã học, một câu còn thắc mắc"
+            ],
+            [
+              "10 phút",
+              "Commit, push, đánh dấu tiến độ"
+            ]
+          ]
+        },
+        {
+          "type": "heading",
+          "text": "Ghi chú thế nào"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Viết bằng lời của mình, như giải thích cho một người bạn chưa học. Chép lại lời video không giúp nhớ.",
+            "Mỗi khái niệm kèm một ví dụ code ngắn tự viết, chạy được.",
+            "Giữ ghi chú trong file notes.md ngay trong repo học, để commit cùng code và tìm lại bằng Ctrl + F.",
+            "Ghi lại mọi lỗi đã gặp và cách sửa. Danh sách đó là tài liệu quý nhất bạn tự tạo ra."
+          ]
+        },
+        {
+          "type": "heading",
+          "text": "Khi bị kẹt"
+        },
+        {
+          "type": "steps",
+          "items": [
+            "Đọc kỹ thông báo lỗi từ đầu tới cuối: nó thường nói đúng file, đúng dòng, và vì sao.",
+            "In giá trị ra bằng console.log ngay trước chỗ lỗi, xem nó có đúng như bạn nghĩ không.",
+            "Chép nguyên dòng lỗi lên Google, thêm tên công nghệ, ví dụ \"react\" hoặc \"express\". Kết quả tiếng Anh thường nhiều và mới hơn.",
+            "Hỏi AI, kèm đoạn code và lỗi, và hỏi vì sao chứ không chỉ xin code đã sửa.",
+            "Quá 30 phút vẫn kẹt: hỏi người, theo mẫu bên dưới."
+          ]
+        },
+        {
+          "type": "heading",
+          "text": "Hỏi thế nào để được giúp"
+        },
+        {
+          "type": "steps",
+          "items": [
+            "Đang làm gì: \"Mình đang làm form đăng ký ở bài 80 khoá JavaScript cơ bản.\"",
+            "Mong đợi gì: \"Bấm Đăng ký thì hiện lỗi dưới ô email.\"",
+            "Thực tế ra gì: dán nguyên văn thông báo lỗi, không tóm tắt.",
+            "Đã thử gì: liệt kê những cách đã làm và kết quả của từng cách.",
+            "Đoạn code liên quan: dán dạng văn bản, chỉ phần cần thiết; không chụp màn hình bằng điện thoại."
+          ]
+        },
+        {
+          "type": "heading",
+          "text": "Hỏi ở đâu"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Nhóm Facebook \"Học lập trình web (fullstack.edu.vn)\" của F8 và Discord của F8: đông người cùng học đúng các khoá trong lộ trình.",
+            "Phần bình luận dưới video: thường đã có người hỏi đúng câu bạn định hỏi.",
+            "Stack Overflow: tiếng Anh, tìm trước rồi mới hỏi; hầu hết lỗi phổ biến đều đã có câu trả lời.",
+            "Một người bạn học cùng: hẹn giờ học chung và giải thích bài cho nhau là cách nhớ lâu nhất."
+          ]
+        },
+        {
+          "type": "heading",
+          "text": "Giữ nhịp"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Mỗi trang có checklist cuối trang: chỉ sang trang tiếp khi tự làm được hết.",
+            "Ghi ngày bắt đầu và ngày xong của từng phần vào notes.md để thấy mình tiến tới đâu.",
+            "Tuần nào bận, giảm còn 30 phút mỗi ngày nhưng đừng nghỉ hẳn. Bỏ một tuần rất dễ thành bỏ luôn.",
+            "Tuần 3–4 thường là lúc hết hứng. Đó là bình thường; đi tiếp qua đoạn đó là phần khó nhất của cả lộ trình."
+          ]
+        },
+        {
+          "type": "heading",
+          "text": "Dùng AI khi học"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Dán thông báo lỗi và đoạn code liên quan, hỏi vì sao lỗi. Hỏi lý do, đừng chỉ xin code đã sửa.",
+            "Nhờ giải thích một khái niệm bằng ví dụ khác video, ví dụ closure qua một bộ đếm.",
+            "Project trong checklist thì tự viết. Nhờ AI viết hộ là bỏ qua đúng phần làm bạn tiến bộ.",
+            "Đối chiếu câu trả lời với tài liệu chính thức: MDN, react.dev, expressjs.com. AI có thể trả lời theo phiên bản cũ.",
+            "Tắt gợi ý code tự động trong VS Code tới hết phần 3, để tay quen gõ cú pháp."
+          ]
+        },
+        {
+          "type": "heading",
+          "text": "Những lỗi hay gặp"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Xem hết khoá rồi mới code: tới lúc code thì đã quên gần hết.",
+            "Sang React khi JavaScript còn lơ mơ: mọi lỗi React sau đó thực ra là lỗi JavaScript.",
+            "Chép code từ video mà không hiểu: đổi một chi tiết là không sửa được.",
+            "Học cùng lúc nhiều khoá cho một chủ đề: chọn một khoá, học hết, rồi mới tìm khoá khác.",
+            "So mình với người khác trên mạng: mỗi người bắt đầu ở một chỗ. Chỉ so với chính mình của tháng trước."
+          ]
+        }
+      ]
+    },
     {
       "id": "overview",
       "title": "Sáu phần",
@@ -254,53 +494,6 @@
               "MySQL trong WSL, hoặc MSI 8.4 LTS",
               "5"
             ]
-          ]
-        }
-      ]
-    },
-    {
-      "id": "how-to-learn",
-      "title": "Cách học",
-      "summary": "Video chỉ là một nửa; nửa còn lại là tự gõ.",
-      "blocks": [
-        {
-          "type": "steps",
-          "items": [
-            "Xem một bài, tắt video, gõ lại code từ trí nhớ. Gõ được rồi mới sang bài tiếp.",
-            "Cuối mỗi phần, làm project trong checklist mà không mở video. Kẹt thì đọc MDN hoặc react.dev trước khi xem lại.",
-            "Commit và push lên GitHub sau mỗi buổi học, kể cả khi code chưa xong.",
-            "Học theo lịch cố định, ví dụ 2 giờ mỗi ngày. Đều đặn quan trọng hơn học dồn cuối tuần.",
-            "Kẹt quá 30 phút thì hỏi: mô tả việc đang làm, dán nguyên thông báo lỗi, nói đã thử những gì."
-          ]
-        },
-        {
-          "type": "heading",
-          "text": "Những lỗi hay gặp"
-        },
-        {
-          "type": "list",
-          "items": [
-            "Xem hết khoá rồi mới code: tới lúc code thì đã quên gần hết.",
-            "Sang React khi JavaScript còn lơ mơ: mọi lỗi React sau đó thực ra là lỗi JavaScript.",
-            "Chép code từ video mà không hiểu: đổi một chi tiết là không sửa được.",
-            "Học cùng lúc nhiều khoá cho một chủ đề: chọn một khoá, học hết, rồi mới tìm khoá khác."
-          ]
-        }
-      ]
-    },
-    {
-      "id": "ai",
-      "title": "Dùng AI khi học",
-      "summary": "AI giúp hiểu nhanh hơn, nhưng không thay được việc tự gõ.",
-      "blocks": [
-        {
-          "type": "list",
-          "items": [
-            "Dán thông báo lỗi và đoạn code liên quan, hỏi vì sao lỗi. Hỏi lý do, đừng chỉ xin code đã sửa.",
-            "Nhờ giải thích một khái niệm bằng ví dụ khác video, ví dụ closure qua một bộ đếm.",
-            "Project trong checklist thì tự viết. Nhờ AI viết hộ là bỏ qua đúng phần làm bạn tiến bộ.",
-            "Đối chiếu câu trả lời với tài liệu chính thức: MDN, react.dev, expressjs.com. AI có thể trả lời theo phiên bản cũ.",
-            "Tắt gợi ý code tự động trong VS Code tới hết phần 3, để tay quen gõ cú pháp."
           ]
         }
       ]

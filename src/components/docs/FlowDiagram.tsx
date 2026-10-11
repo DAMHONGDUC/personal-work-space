@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { PlusIcon } from "lucide-react";
+import { ChevronRight, MousePointerClick } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -25,7 +25,20 @@ import { AppTextStyles } from "@/lib/design/app-text-styles";
  * phrase — and clicking a box opens the step's `explain` points in a dialog, so
  * the picture stays scannable and the reader who stops at one step gets the
  * whole story without leaving the page.
+ *
+ * A box has to look pressable before anyone tries: a line above the diagram
+ * says so, and every box ends in a "read more" link with an arrow, lifts on
+ * hover and shows a pointer — a reader new to the page never guesses.
  */
+/** The words the diagram prints, in the language of the guide around it. */
+const LABELS = {
+  hint: {
+    en: "Press any box to read the full explanation",
+    vi: "Bấm vào từng ô để đọc giải thích chi tiết",
+  },
+  more: { en: "Read more", vi: "Xem giải thích" },
+} satisfies Record<string, Record<Lang, string>>;
+
 export function FlowDiagram({
   block,
   accent,
@@ -48,6 +61,11 @@ export function FlowDiagram({
       style={{ "--flow-accent": accent } as React.CSSProperties}
       className="mt-5 flex max-w-[68ch] flex-col gap-3 rounded-2xl border border-border-soft bg-muted-surface p-5 sm:p-6"
     >
+      <p className={`${AppTextStyles.CAPTION} flex items-center gap-1.5 leading-5`}>
+        <MousePointerClick aria-hidden className="size-3.5 shrink-0" style={{ color: accent }} />
+        {LABELS.hint[lang]}
+      </p>
+
       <div className="flex flex-col items-stretch gap-2">
         {block.stages.map((stage, stageIndex) => (
           <div key={stageIndex} className="flex flex-col items-stretch gap-2">
@@ -62,25 +80,28 @@ export function FlowDiagram({
                 <button
                   key={item.label}
                   type="button"
+                  aria-haspopup="dialog"
                   onClick={() => {
                     setStep(item);
                     setOpen(true);
                   }}
-                  className="group relative flex flex-col gap-1 rounded-xl border border-[color-mix(in_oklab,var(--flow-accent)_30%,transparent)] bg-[color-mix(in_oklab,var(--flow-accent)_6%,var(--surface))] px-4 py-3 text-left transition-colors outline-none hover:bg-[color-mix(in_oklab,var(--flow-accent)_16%,var(--surface))] focus-visible:ring-3 focus-visible:ring-[color-mix(in_oklab,var(--flow-accent)_35%,transparent)]"
+                  className="group relative flex cursor-pointer flex-col gap-1 rounded-xl border border-[color-mix(in_oklab,var(--flow-accent)_30%,transparent)] bg-[color-mix(in_oklab,var(--flow-accent)_6%,var(--surface))] px-4 py-3 text-left shadow-xs transition-[background-color,border-color,box-shadow,translate] outline-none hover:-translate-y-0.5 hover:border-[color-mix(in_oklab,var(--flow-accent)_55%,transparent)] hover:bg-[color-mix(in_oklab,var(--flow-accent)_14%,var(--surface))] hover:shadow-md focus-visible:ring-3 focus-visible:ring-[color-mix(in_oklab,var(--flow-accent)_35%,transparent)] motion-reduce:hover:translate-y-0"
                 >
-                  <span className="pr-5 text-sm font-medium leading-6">
-                    {item.label}
-                  </span>
+                  <span className="text-sm font-medium leading-6">{item.label}</span>
                   <span className={`${AppTextStyles.CAPTION} leading-5`}>{item.detail}</span>
 
-                  {/* The affordance is an icon rather than a word: the dialog
-                      is opened from a guide written in either language, and a
-                      drawn plus needs no translating. */}
-                  <PlusIcon
-                    aria-hidden
-                    className="absolute top-3.5 right-3 size-3.5 opacity-40 transition-opacity group-hover:opacity-100"
+                  {/* Always visible, not only on hover: a touch screen has no
+                      hover, and the reader should know before trying. */}
+                  <span
+                    className="mt-1.5 inline-flex items-center gap-0.5 text-xs font-medium"
                     style={{ color: accent }}
-                  />
+                  >
+                    {LABELS.more[lang]}
+                    <ChevronRight
+                      aria-hidden
+                      className="size-3.5 transition-transform group-hover:translate-x-0.5 motion-reduce:transition-none"
+                    />
+                  </span>
                 </button>
               ))}
             </div>
