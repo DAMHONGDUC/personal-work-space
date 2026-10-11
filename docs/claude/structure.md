@@ -34,6 +34,7 @@
 |---|---|---|
 | Every search filters what the page already shipped | Static export: no endpoint, no build-time index | `useAppSearch`, [doc-search.ts](../../src/lib/docs/doc-search.ts), [effect-search.ts](../../src/lib/effects/effect-search.ts) |
 | Guide search reads diagram dialogs too, and strips Vietnamese diacritics on both sides | Terms are defined there; `ma hoa` must find `mã hoá` | — |
+| The guide index filters by topic too, combined with the search | One shelf at a time | `TopicFilter`, only topics that hold a guide |
 | One `SearchInput` for every search box | Two slightly different boxes read worse | `src/components/shared/SearchInput.tsx` |
 
 ## Never

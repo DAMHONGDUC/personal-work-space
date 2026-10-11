@@ -36,6 +36,8 @@ Every rule is enforced by [doc-data.test.ts](../../tests/doc-data.test.ts).
 | One `topic` from `DOC_TOPICS` in [doc-model.ts](../../src/lib/docs/doc-model.ts) | The index shelves by it; labels live there | Add a topic there, never a label in JSON |
 | Section `id`s are language-independent slugs | Switching language re-renders in place | `create-key` |
 | Commands in a `code` block are identical in both languages | Copy-pasteable | Explanations go in the localized `caption` |
+| A `links` block lists things to open elsewhere; each `url` is identical in both languages and `https` | Same page whatever the language | Label and `source` (the channel) are written per language |
+| A guide opens in English unless it sets `defaultLang` (same in both files) | A reader's stored choice still wins | `fullstack-roadmap` sets `"vi"` |
 
 ## Effects library — `src/data/effects/`
 
