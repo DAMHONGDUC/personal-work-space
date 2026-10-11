@@ -210,6 +210,16 @@ describe("doc files", () => {
     expect(updated).toEqual([...updated].sort().reverse());
   });
 
+  it("orders guides updated the same day by slug", () => {
+    // Directory order differs between machines; the slug keeps a series in order.
+    for (const [index, bundle] of bundles.entries()) {
+      const next = bundles[index + 1];
+      if (!next || next.versions.en.lastUpdated !== bundle.versions.en.lastUpdated) continue;
+
+      expect(bundle.slug.localeCompare(next.slug)).toBeLessThan(0);
+    }
+  });
+
   it("has both languages of every guide on disk", () => {
     // The loader throws on a missing half; this states the rule where a reader
     // of the tests will find it.

@@ -91,8 +91,12 @@ export function getDocBundles(): DocBundle[] {
 
       return { slug, versions: versions as Record<Lang, Doc> };
     })
-    .sort((a, b) =>
-      b.versions.en.lastUpdated.localeCompare(a.versions.en.lastUpdated),
+    .sort(
+      (a, b) =>
+        b.versions.en.lastUpdated.localeCompare(a.versions.en.lastUpdated) ||
+        // The directory order differs between machines; the slug does not, and
+        // keeps the pages of a series in order when they land on the same day.
+        a.slug.localeCompare(b.slug),
     );
 }
 
