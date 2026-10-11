@@ -1,0 +1,449 @@
+{
+  "title": "Lộ trình học web fullstack",
+  "tagline": "Từ con số 0 tới app chạy thật, bằng video tiếng Việt miễn phí.",
+  "icon": "🗺️",
+  "topic": "web",
+  "defaultLang": "vi",
+  "tags": [
+    "HTML",
+    "CSS",
+    "JavaScript",
+    "React",
+    "Node.js",
+    "SQL",
+    "Git"
+  ],
+  "readingTime": "8 phút",
+  "effectiveDate": "2026-10-11",
+  "lastUpdated": "2026-10-11",
+  "intro": [
+    "Sáu chặng, đi từ cách web chạy tới một app fullstack đã deploy. Mọi video đều miễn phí trên YouTube, bằng tiếng Việt, ưu tiên F8.",
+    "Mỗi chặng có playlist để xem và một project để tự làm. Chỉ xem mà không code là cách dễ bỏ cuộc nhất."
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Tổng quan",
+      "summary": "Sáu chặng, mỗi chặng kết thúc bằng một project tự làm.",
+      "blocks": [
+        {
+          "type": "flow",
+          "caption": "Học theo thứ tự: mỗi chặng dùng lại mọi thứ của chặng trước.",
+          "stages": [
+            {
+              "items": [
+                {
+                  "label": "Nhập môn & công cụ",
+                  "detail": "Hiểu web chạy thế nào, dùng terminal và Git trước khi viết dòng code đầu tiên",
+                  "explain": [
+                    "Trình duyệt gửi request tới server, server trả về HTML, CSS và JavaScript. Mọi chặng sau đều là học viết một trong ba thứ đó, hoặc viết server trả chúng về.",
+                    "Terminal là nơi bạn chạy npm, git và server. Trên Windows, cài WSL để gõ lệnh giống hệt macOS và Linux như trong các video.",
+                    "Git lưu lịch sử code: commit sau mỗi buổi học và push lên GitHub. Hết sáu chặng, trang GitHub đó chính là portfolio của bạn."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "HTML & CSS",
+                  "detail": "Dựng giao diện tĩnh, rồi làm nó co giãn đúng trên điện thoại, tablet và desktop",
+                  "explain": [
+                    "HTML nói trang có gì: tiêu đề, đoạn văn, ảnh, form. CSS nói trang trông thế nào: màu, khoảng cách, bố cục bằng flexbox và grid.",
+                    "Responsive là một trang cho nhiều màn hình. Media query đổi bố cục theo chiều rộng, ví dụ 3 cột trên desktop thành 1 cột trên điện thoại.",
+                    "Kết thúc chặng bằng việc tự cắt một trang landing từ ảnh thiết kế, không mở video, cho tới khi trông gần giống bản gốc."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "JavaScript",
+                  "detail": "Làm trang biết phản hồi: xử lý click, form, gọi API và đổi giao diện theo dữ liệu",
+                  "explain": [
+                    "Phần cơ bản: biến, hàm, mảng, object, vòng lặp và DOM. Ví dụ: bấm nút Thêm thì một dòng mới hiện ra trong danh sách việc cần làm.",
+                    "Phần nâng cao: callback, Promise, async/await và fetch. React và Node dùng chúng ở mọi nơi, nên đừng bỏ qua để học framework sớm.",
+                    "Project gợi ý: app thời tiết gọi một API công khai bằng fetch, hiện kết quả và báo lỗi khi gõ sai tên thành phố."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "ReactJS",
+                  "detail": "Chia giao diện thành component, giữ dữ liệu bằng hooks thay vì sửa DOM bằng tay",
+                  "explain": [
+                    "Component là một hàm trả về giao diện, ví dụ ProductCard nhận props name và price. Cả trang được ghép từ những mảnh như vậy.",
+                    "useState giữ dữ liệu thay đổi, useEffect chạy việc phụ như gọi API khi component hiện ra. Hai hook này chiếm phần lớn code React hằng ngày.",
+                    "Tạo project bằng Vite. Create React App trong video cũ đã ngừng phát triển, còn component, props và hooks thì vẫn y như trong khoá."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Node, Express & database",
+                  "detail": "Viết server nhận request, đọc ghi database và trả JSON cho frontend",
+                  "explain": [
+                    "Express nhận request theo route: GET /api/products trả danh sách sản phẩm, POST /api/products tạo sản phẩm mới.",
+                    "Database giữ dữ liệu khi server tắt. MongoDB lưu document giống JSON; MySQL và PostgreSQL lưu bảng và nối bảng bằng JOIN. Nên biết cả hai loại.",
+                    "Đăng nhập: server so mật khẩu với bản đã hash, rồi trả session cookie hoặc JWT để các request sau biết bạn là ai."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Dự án fullstack & deploy",
+                  "detail": "Ghép React với API của chính bạn, có đăng nhập, rồi đưa lên mạng cho người khác dùng",
+                  "explain": [
+                    "Frontend React gọi API Express bằng fetch, API đọc ghi database. Lỗi CORS hay gặp ở lần đầu ghép hai phần chạy trên hai port khác nhau.",
+                    "Deploy frontend lên Vercel hoặc Netlify, backend và database lên Render, Railway hoặc VPS. Biến môi trường giữ mật khẩu database nằm ngoài code.",
+                    "Đây là project để ghi vào CV: một link chạy được, một repo GitHub có README nói app làm gì và chạy thế nào."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "table",
+          "columns": [
+            "Chặng",
+            "Xem gì",
+            "Xong khi"
+          ],
+          "rows": [
+            [
+              "Nhập môn & công cụ",
+              "F8 Nhập môn, Terminal & WSL; Git của Hỏi Dân IT",
+              "Push được code lên GitHub"
+            ],
+            [
+              "HTML & CSS",
+              "F8 HTML CSS Zero tới Hero, Responsive Grid",
+              "Tự cắt được một landing page responsive"
+            ],
+            [
+              "JavaScript",
+              "F8 JavaScript cơ bản và nâng cao",
+              "Todo app và app thời tiết chạy được"
+            ],
+            [
+              "ReactJS",
+              "F8 ReactJS, Clone Tiktok",
+              "Làm lại todo app bằng component"
+            ],
+            [
+              "Node, Express & database",
+              "F8 Node & Express; SQL của TITV",
+              "Có REST API với database và đăng nhập"
+            ],
+            [
+              "Dự án fullstack & deploy",
+              "Fullstack SERN của Hỏi Dân IT; F8 Devops",
+              "App có link chạy thật"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "foundation",
+      "title": "Nhập môn & công cụ",
+      "summary": "Hiểu web chạy thế nào, rồi dựng chỗ làm việc: terminal và Git.",
+      "blocks": [
+        {
+          "type": "links",
+          "items": [
+            {
+              "label": "Kiến Thức Nhập Môn",
+              "source": "F8 Official",
+              "url": "https://www.youtube.com/playlist?list=PL_-VfJajZj0WSVCw3lKo2lYifzXekkv6M"
+            },
+            {
+              "label": "Windows Terminal & WSL",
+              "source": "F8 Official",
+              "url": "https://www.youtube.com/playlist?list=PL_-VfJajZj0XGfh528VqhlgXUfzw1Y0N7"
+            },
+            {
+              "label": "Git Siêu Căn Bản Cho Người Mới Bắt Đầu",
+              "source": "Hỏi Dân IT",
+              "url": "https://www.youtube.com/playlist?list=PLncHg6Kn2JT6nWS9MRjSnt6Z-9Rj0pAlo"
+            }
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "info",
+          "body": [
+            "Các khoá của F8 có bản miễn phí trên fullstack.edu.vn, cùng video nhưng kèm bài tập sau mỗi bài."
+          ]
+        },
+        {
+          "type": "checklist",
+          "items": [
+            "Tạo, đổi tên và di chuyển giữa thư mục chỉ bằng terminal",
+            "Tạo repo trên GitHub, commit và push một file README",
+            "Giải thích bằng lời chuyện gì xảy ra khi gõ một địa chỉ web"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "html-css",
+      "title": "HTML & CSS",
+      "summary": "Khoá dài nhất lộ trình, và là thứ bạn nhìn thấy mỗi ngày.",
+      "blocks": [
+        {
+          "type": "links",
+          "items": [
+            {
+              "label": "HTML, CSS từ Zero Tới Hero",
+              "source": "F8 Official",
+              "url": "https://www.youtube.com/playlist?list=PL_-VfJajZj0U9nEXa4qyfB4U5ZIYCMPlz"
+            },
+            {
+              "label": "Responsive Với Grid System",
+              "source": "F8 Official",
+              "url": "https://www.youtube.com/playlist?list=PL_-VfJajZj0VkWYODGeMuraS8V7xaOZM8"
+            },
+            {
+              "label": "Cắt HTML, CSS Web The Band",
+              "source": "F8 Official",
+              "url": "https://www.youtube.com/playlist?list=PL_-VfJajZj0VD-wR7KbAcpnP286g1eV87"
+            }
+          ]
+        },
+        {
+          "type": "checklist",
+          "items": [
+            "Tự cắt một trang landing từ ảnh thiết kế, không mở video",
+            "Trang hiển thị đúng ở 375px (điện thoại) và 1280px (desktop)",
+            "Bố cục bằng flexbox hoặc grid",
+            "Đưa trang lên GitHub Pages và có link chia sẻ được"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "javascript",
+      "title": "JavaScript",
+      "summary": "Chặng quan trọng nhất: React và Node đều là JavaScript.",
+      "blocks": [
+        {
+          "type": "links",
+          "items": [
+            {
+              "label": "Javascript Cơ Bản",
+              "source": "F8 Official",
+              "url": "https://www.youtube.com/playlist?list=PL_-VfJajZj0VgpFpEVFzS5Z-lkXtBe-x5"
+            },
+            {
+              "label": "Javascript Nâng Cao",
+              "source": "F8 Official",
+              "url": "https://www.youtube.com/playlist?list=PL_-VfJajZj0U1MSx1IMu13oLJq2nM97ac"
+            },
+            {
+              "label": "Cách validate form với Javascript",
+              "source": "F8 Official",
+              "url": "https://www.youtube.com/playlist?list=PL_-VfJajZj0UjLMzxqGXUoE6iqpfbZysn"
+            }
+          ]
+        },
+        {
+          "type": "checklist",
+          "items": [
+            "Todo app: thêm, sửa, xoá, đánh dấu xong, lưu vào localStorage",
+            "Form đăng ký kiểm tra dữ liệu và báo lỗi dưới từng ô",
+            "App thời tiết gọi API bằng fetch và async/await, báo lỗi khi API hỏng"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "react",
+      "title": "ReactJS",
+      "summary": "Thư viện frontend phổ biến nhất, học sau khi đã vững JavaScript.",
+      "blocks": [
+        {
+          "type": "links",
+          "items": [
+            {
+              "label": "ReactJS 2022",
+              "source": "F8 Official",
+              "url": "https://www.youtube.com/playlist?list=PL_-VfJajZj0UXjlKfBwFX73usByw3Ph9Q"
+            },
+            {
+              "label": "Clone Tiktok với ReactJS",
+              "source": "F8 Official",
+              "url": "https://www.youtube.com/playlist?list=PL_-VfJajZj0XHWBAxzGh1bZPACRbjbro3"
+            },
+            {
+              "label": "Tailwind CSS",
+              "source": "F8 Official",
+              "url": "https://www.youtube.com/playlist?list=PL_-VfJajZj0WhWd3jOoNOFy_pgpu4oua-"
+            }
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "warning",
+          "body": [
+            "Khoá quay năm 2022 và tạo project bằng Create React App, công cụ nay đã ngừng phát triển. Tạo project bằng Vite thay thế; phần còn lại của khoá vẫn đúng."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "caption": "Tạo project React bằng Vite.",
+          "code": [
+            "npm create vite@latest my-app -- --template react",
+            "cd my-app",
+            "npm install",
+            "npm run dev"
+          ]
+        },
+        {
+          "type": "checklist",
+          "items": [
+            "Làm lại todo app bằng React, chia thành ít nhất ba component",
+            "Một trang danh sách có tìm kiếm và lọc, dữ liệu từ API công khai",
+            "Hai trang trở lên, chuyển trang bằng React Router"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "backend",
+      "title": "Node, Express & database",
+      "summary": "Phía server: nhận request, lưu dữ liệu, biết ai đang đăng nhập.",
+      "blocks": [
+        {
+          "type": "links",
+          "items": [
+            {
+              "label": "NodeJS & ExpressJS",
+              "source": "F8 Official",
+              "url": "https://www.youtube.com/playlist?list=PL_-VfJajZj0VatBpaXkEHK_UPHL7dW6I3"
+            },
+            {
+              "label": "Học SQL (sử dụng MySQL)",
+              "source": "TITV",
+              "url": "https://www.youtube.com/playlist?list=PLyxSzL3F7487f2BrlHKg87WlUEennWOKu"
+            },
+            {
+              "label": "Session, cookie, CORS, JWT, SSO",
+              "source": "F8 Official",
+              "url": "https://www.youtube.com/playlist?list=PL_-VfJajZj0VaEt6Q1Z_CSg_Ci9aP9oQ1"
+            }
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "info",
+          "body": [
+            "Khoá Node của F8 dùng MongoDB và render HTML trên server bằng Handlebars. Backend cho React thì trả JSON bằng res.json() thay vì res.render(); chặng sau làm đúng việc đó."
+          ]
+        },
+        {
+          "type": "checklist",
+          "items": [
+            "REST API cho một tài nguyên với GET, POST, PUT, DELETE, thử bằng Postman",
+            "Dữ liệu nằm trong MongoDB hoặc MySQL, không mất khi tắt server",
+            "Viết được câu SELECT có WHERE, ORDER BY và JOIN hai bảng",
+            "Route cần đăng nhập trả 401 khi thiếu token hoặc cookie"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fullstack",
+      "title": "Dự án fullstack & deploy",
+      "summary": "Ghép mọi thứ thành một app chạy thật, rồi đưa lên mạng.",
+      "blocks": [
+        {
+          "type": "links",
+          "items": [
+            {
+              "label": "Khóa học Fullstack SERN (SQL, Express.js, React.js, Node.js)",
+              "source": "Hỏi Dân IT",
+              "url": "https://www.youtube.com/playlist?list=PLncHg6Kn2JT6E38Z3kit9Hnif1xC_9VqI"
+            },
+            {
+              "label": "Devops for Engineers",
+              "source": "F8 Official",
+              "url": "https://www.youtube.com/playlist?list=PL_-VfJajZj0WmDVUfn9BRPH4cHLB8RTCk"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "body": [
+            "Xem khoá SERN để thấy hai nửa ghép với nhau thế nào, rồi tự làm app của riêng bạn. Playlist Devops của F8 dạy Docker, nối Express với PostgreSQL và đưa app lên VPS."
+          ]
+        },
+        {
+          "type": "checklist",
+          "items": [
+            "Đăng ký, đăng nhập, đăng xuất; mật khẩu được hash trong database",
+            "Ít nhất một tài nguyên có đủ tạo, xem, sửa, xoá, ví dụ bài viết",
+            "Frontend React gọi API Express của chính bạn, không dùng dữ liệu giả",
+            "Frontend và backend đều đã deploy, mở được từ điện thoại",
+            "README ghi app làm gì, dùng công nghệ gì, chạy ở máy thế nào"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "next-steps",
+      "title": "Học tiếp",
+      "summary": "Sau khi có app đầu tiên, đây là hai thứ nên học kế tiếp.",
+      "blocks": [
+        {
+          "type": "links",
+          "items": [
+            {
+              "label": "Tự Học TypeScript Cơ Bản Từ A đến Z",
+              "source": "Hỏi Dân IT",
+              "url": "https://www.youtube.com/playlist?list=PLncHg6Kn2JT5emvXmG6kgeGkrQjRqxsb4"
+            },
+            {
+              "label": "Tự Học Next.JS Cơ Bản (với React và TypeScript)",
+              "source": "Hỏi Dân IT",
+              "url": "https://www.youtube.com/playlist?list=PLncHg6Kn2JT6zw4JiFOE1z90ghnyrFl5B"
+            }
+          ]
+        },
+        {
+          "type": "list",
+          "items": [
+            "TypeScript thêm kiểu cho JavaScript và bắt lỗi trước khi chạy. Tin tuyển dụng React và Node thường yêu cầu nó.",
+            "Next.js là React có sẵn routing, render phía server và API trong cùng một project."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "how-to-learn",
+      "title": "Cách học",
+      "summary": "Video chỉ là một nửa; nửa còn lại là tự gõ.",
+      "blocks": [
+        {
+          "type": "steps",
+          "items": [
+            "Xem một bài, tắt video, gõ lại code từ trí nhớ. Gõ được rồi mới sang bài tiếp.",
+            "Cuối mỗi chặng, làm project trong checklist mà không mở video. Kẹt thì đọc MDN hoặc react.dev trước khi xem lại.",
+            "Commit và push lên GitHub sau mỗi buổi học, kể cả khi code chưa xong.",
+            "Học theo lịch cố định, ví dụ 1–2 giờ mỗi ngày. Đều đặn quan trọng hơn học dồn cuối tuần.",
+            "Kẹt quá 30 phút thì hỏi: mô tả việc đang làm, dán nguyên thông báo lỗi, nói đã thử những gì."
+          ]
+        }
+      ]
+    }
+  ]
+}

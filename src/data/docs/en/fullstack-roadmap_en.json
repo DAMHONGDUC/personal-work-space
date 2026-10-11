@@ -1,0 +1,449 @@
+{
+  "title": "Full-stack web roadmap",
+  "tagline": "From zero to a live app, with free Vietnamese video courses.",
+  "icon": "🗺️",
+  "topic": "web",
+  "defaultLang": "vi",
+  "tags": [
+    "HTML",
+    "CSS",
+    "JavaScript",
+    "React",
+    "Node.js",
+    "SQL",
+    "Git"
+  ],
+  "readingTime": "8 min",
+  "effectiveDate": "2026-10-11",
+  "lastUpdated": "2026-10-11",
+  "intro": [
+    "Six stages, from how the web works to a deployed full-stack app. Every course is free on YouTube and in Vietnamese, with F8 first wherever it has one.",
+    "Each stage has playlists to watch and a project to build on your own. Watching without coding is the surest way to give up."
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Overview",
+      "summary": "Six stages, each ending in a project you build alone.",
+      "blocks": [
+        {
+          "type": "flow",
+          "caption": "Take them in order: each stage builds on everything before it.",
+          "stages": [
+            {
+              "items": [
+                {
+                  "label": "Basics & tools",
+                  "detail": "Learn how the web works, and use a terminal and Git before writing any code",
+                  "explain": [
+                    "The browser sends a request, and a server answers with HTML, CSS and JavaScript. Every later stage teaches you to write one of those, or the server that sends them.",
+                    "The terminal is where you run npm, git and your server. On Windows, install WSL so the commands match macOS and Linux, as in the videos.",
+                    "Git keeps the history of your code: commit after every session and push to GitHub. After six stages, that GitHub profile is your portfolio."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "HTML & CSS",
+                  "detail": "Build static pages, then make them fit phones, tablets and desktops",
+                  "explain": [
+                    "HTML says what a page holds: headings, paragraphs, images, forms. CSS says how it looks: colour, spacing, and layout with flexbox and grid.",
+                    "Responsive means one page for many screens. A media query changes the layout by width, for example three columns on a desktop and one on a phone.",
+                    "Finish the stage by building a landing page from a design image, with no video open, until it looks close to the original."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "JavaScript",
+                  "detail": "Make pages respond: handle clicks and forms, call APIs, redraw from data",
+                  "explain": [
+                    "The basics: variables, functions, arrays, objects, loops and the DOM. For example, pressing Add puts a new row in a to-do list.",
+                    "The advanced part: callbacks, Promises, async/await and fetch. React and Node use them everywhere, so do not skip ahead to a framework.",
+                    "A project to try: a weather app that calls a public API with fetch, shows the result and reports an error for a misspelt city."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "ReactJS",
+                  "detail": "Split the interface into components and keep data in hooks, not hand-edited DOM",
+                  "explain": [
+                    "A component is a function that returns interface, such as a ProductCard taking name and price props. A whole page is assembled from pieces like it.",
+                    "useState holds data that changes; useEffect runs side work such as an API call when the component appears. These two cover most everyday React.",
+                    "Start projects with Vite. Create React App, used in older videos, is no longer maintained; components, props and hooks are unchanged."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Node, Express & databases",
+                  "detail": "Write a server that takes requests, reads and writes a database, and returns JSON",
+                  "explain": [
+                    "Express answers requests by route: GET /api/products returns the product list and POST /api/products creates a new one.",
+                    "A database keeps data when the server stops. MongoDB stores JSON-like documents; MySQL and PostgreSQL store tables joined with JOIN. Know both kinds.",
+                    "Signing in: the server checks the password against its hash, then returns a session cookie or a JWT so later requests know who you are."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Full-stack project & deploy",
+                  "detail": "Connect React to your own API, add sign-in, and put it online for others to use",
+                  "explain": [
+                    "The React frontend calls the Express API with fetch, and the API reads and writes the database. CORS errors are common the first time the two run on separate ports.",
+                    "Deploy the frontend to Vercel or Netlify, and the backend and database to Render, Railway or a VPS. Environment variables keep the database password out of the code.",
+                    "This is the project for your CV: a working link, and a GitHub repo whose README says what the app does and how to run it."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "table",
+          "columns": [
+            "Stage",
+            "Watch",
+            "Done when"
+          ],
+          "rows": [
+            [
+              "Basics & tools",
+              "F8 basics, Terminal & WSL; Git by Hỏi Dân IT",
+              "You can push code to GitHub"
+            ],
+            [
+              "HTML & CSS",
+              "F8 HTML CSS Zero to Hero, Responsive Grid",
+              "You build a responsive landing page alone"
+            ],
+            [
+              "JavaScript",
+              "F8 JavaScript basic and advanced",
+              "A to-do app and a weather app work"
+            ],
+            [
+              "ReactJS",
+              "F8 ReactJS, TikTok clone",
+              "The to-do app is rebuilt from components"
+            ],
+            [
+              "Node, Express & databases",
+              "F8 Node & Express; SQL by TITV",
+              "A REST API with a database and sign-in"
+            ],
+            [
+              "Full-stack project & deploy",
+              "Full-stack SERN by Hỏi Dân IT; F8 DevOps",
+              "The app has a live link"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "foundation",
+      "title": "Basics & tools",
+      "summary": "How the web works, then the workbench: a terminal and Git.",
+      "blocks": [
+        {
+          "type": "links",
+          "items": [
+            {
+              "label": "Kiến Thức Nhập Môn",
+              "source": "F8 Official",
+              "url": "https://www.youtube.com/playlist?list=PL_-VfJajZj0WSVCw3lKo2lYifzXekkv6M"
+            },
+            {
+              "label": "Windows Terminal & WSL",
+              "source": "F8 Official",
+              "url": "https://www.youtube.com/playlist?list=PL_-VfJajZj0XGfh528VqhlgXUfzw1Y0N7"
+            },
+            {
+              "label": "Git Siêu Căn Bản Cho Người Mới Bắt Đầu",
+              "source": "Hỏi Dân IT",
+              "url": "https://www.youtube.com/playlist?list=PLncHg6Kn2JT6nWS9MRjSnt6Z-9Rj0pAlo"
+            }
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "info",
+          "body": [
+            "F8's courses are also free on fullstack.edu.vn: the same videos, with exercises after each lesson."
+          ]
+        },
+        {
+          "type": "checklist",
+          "items": [
+            "Create, rename and move between folders using only the terminal",
+            "Create a GitHub repo, then commit and push a README",
+            "Explain in words what happens when you type a web address"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "html-css",
+      "title": "HTML & CSS",
+      "summary": "The longest course here, and the part you see every day.",
+      "blocks": [
+        {
+          "type": "links",
+          "items": [
+            {
+              "label": "HTML, CSS từ Zero Tới Hero",
+              "source": "F8 Official",
+              "url": "https://www.youtube.com/playlist?list=PL_-VfJajZj0U9nEXa4qyfB4U5ZIYCMPlz"
+            },
+            {
+              "label": "Responsive Với Grid System",
+              "source": "F8 Official",
+              "url": "https://www.youtube.com/playlist?list=PL_-VfJajZj0VkWYODGeMuraS8V7xaOZM8"
+            },
+            {
+              "label": "Cắt HTML, CSS Web The Band",
+              "source": "F8 Official",
+              "url": "https://www.youtube.com/playlist?list=PL_-VfJajZj0VD-wR7KbAcpnP286g1eV87"
+            }
+          ]
+        },
+        {
+          "type": "checklist",
+          "items": [
+            "Build a landing page from a design image, with no video open",
+            "The page holds up at 375px (phone) and 1280px (desktop)",
+            "Lay it out with flexbox or grid",
+            "Publish it on GitHub Pages with a link you can share"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "javascript",
+      "title": "JavaScript",
+      "summary": "The stage that matters most: React and Node are both JavaScript.",
+      "blocks": [
+        {
+          "type": "links",
+          "items": [
+            {
+              "label": "Javascript Cơ Bản",
+              "source": "F8 Official",
+              "url": "https://www.youtube.com/playlist?list=PL_-VfJajZj0VgpFpEVFzS5Z-lkXtBe-x5"
+            },
+            {
+              "label": "Javascript Nâng Cao",
+              "source": "F8 Official",
+              "url": "https://www.youtube.com/playlist?list=PL_-VfJajZj0U1MSx1IMu13oLJq2nM97ac"
+            },
+            {
+              "label": "Cách validate form với Javascript",
+              "source": "F8 Official",
+              "url": "https://www.youtube.com/playlist?list=PL_-VfJajZj0UjLMzxqGXUoE6iqpfbZysn"
+            }
+          ]
+        },
+        {
+          "type": "checklist",
+          "items": [
+            "A to-do app: add, edit, delete, mark done, saved to localStorage",
+            "A sign-up form that validates and shows an error under each field",
+            "A weather app using fetch and async/await that reports a failing API"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "react",
+      "title": "ReactJS",
+      "summary": "The most widely used frontend library, once JavaScript is solid.",
+      "blocks": [
+        {
+          "type": "links",
+          "items": [
+            {
+              "label": "ReactJS 2022",
+              "source": "F8 Official",
+              "url": "https://www.youtube.com/playlist?list=PL_-VfJajZj0UXjlKfBwFX73usByw3Ph9Q"
+            },
+            {
+              "label": "Clone Tiktok với ReactJS",
+              "source": "F8 Official",
+              "url": "https://www.youtube.com/playlist?list=PL_-VfJajZj0XHWBAxzGh1bZPACRbjbro3"
+            },
+            {
+              "label": "Tailwind CSS",
+              "source": "F8 Official",
+              "url": "https://www.youtube.com/playlist?list=PL_-VfJajZj0WhWd3jOoNOFy_pgpu4oua-"
+            }
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "warning",
+          "body": [
+            "The course dates from 2022 and starts projects with Create React App, which is no longer maintained. Use Vite instead; the rest of the course still holds."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "caption": "Create a React project with Vite.",
+          "code": [
+            "npm create vite@latest my-app -- --template react",
+            "cd my-app",
+            "npm install",
+            "npm run dev"
+          ]
+        },
+        {
+          "type": "checklist",
+          "items": [
+            "Rebuild the to-do app in React, split into at least three components",
+            "A list page with search and filters, fed by a public API",
+            "Two or more pages, navigated with React Router"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "backend",
+      "title": "Node, Express & databases",
+      "summary": "The server side: take requests, store data, know who is signed in.",
+      "blocks": [
+        {
+          "type": "links",
+          "items": [
+            {
+              "label": "NodeJS & ExpressJS",
+              "source": "F8 Official",
+              "url": "https://www.youtube.com/playlist?list=PL_-VfJajZj0VatBpaXkEHK_UPHL7dW6I3"
+            },
+            {
+              "label": "Học SQL (sử dụng MySQL)",
+              "source": "TITV",
+              "url": "https://www.youtube.com/playlist?list=PLyxSzL3F7487f2BrlHKg87WlUEennWOKu"
+            },
+            {
+              "label": "Session, cookie, CORS, JWT, SSO",
+              "source": "F8 Official",
+              "url": "https://www.youtube.com/playlist?list=PL_-VfJajZj0VaEt6Q1Z_CSg_Ci9aP9oQ1"
+            }
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "info",
+          "body": [
+            "F8's Node course uses MongoDB and renders HTML on the server with Handlebars. A backend for React returns JSON with res.json() instead of res.render(); the next stage does exactly that."
+          ]
+        },
+        {
+          "type": "checklist",
+          "items": [
+            "A REST API for one resource with GET, POST, PUT and DELETE, tried in Postman",
+            "Data lives in MongoDB or MySQL and survives a server restart",
+            "Write a SELECT with WHERE, ORDER BY and a JOIN of two tables",
+            "A protected route answers 401 without a token or cookie"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fullstack",
+      "title": "Full-stack project & deploy",
+      "summary": "Put it all together into a real app, then put it online.",
+      "blocks": [
+        {
+          "type": "links",
+          "items": [
+            {
+              "label": "Khóa học Fullstack SERN (SQL, Express.js, React.js, Node.js)",
+              "source": "Hỏi Dân IT",
+              "url": "https://www.youtube.com/playlist?list=PLncHg6Kn2JT6E38Z3kit9Hnif1xC_9VqI"
+            },
+            {
+              "label": "Devops for Engineers",
+              "source": "F8 Official",
+              "url": "https://www.youtube.com/playlist?list=PL_-VfJajZj0WmDVUfn9BRPH4cHLB8RTCk"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "body": [
+            "Watch the SERN course to see the two halves meet, then build an app of your own. F8's DevOps playlist covers Docker, connecting Express to PostgreSQL and deploying to a VPS."
+          ]
+        },
+        {
+          "type": "checklist",
+          "items": [
+            "Sign up, sign in, sign out; passwords are hashed in the database",
+            "At least one resource with full create, read, update and delete, such as posts",
+            "The React frontend calls your own Express API, with no mock data",
+            "Frontend and backend are both deployed and open on a phone",
+            "A README says what the app does, what it uses and how to run it"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "next-steps",
+      "title": "What next",
+      "summary": "With a first app shipped, these are the two to learn next.",
+      "blocks": [
+        {
+          "type": "links",
+          "items": [
+            {
+              "label": "Tự Học TypeScript Cơ Bản Từ A đến Z",
+              "source": "Hỏi Dân IT",
+              "url": "https://www.youtube.com/playlist?list=PLncHg6Kn2JT5emvXmG6kgeGkrQjRqxsb4"
+            },
+            {
+              "label": "Tự Học Next.JS Cơ Bản (với React và TypeScript)",
+              "source": "Hỏi Dân IT",
+              "url": "https://www.youtube.com/playlist?list=PLncHg6Kn2JT6zw4JiFOE1z90ghnyrFl5B"
+            }
+          ]
+        },
+        {
+          "type": "list",
+          "items": [
+            "TypeScript adds types to JavaScript and catches mistakes before the code runs. React and Node job posts often ask for it.",
+            "Next.js is React with routing, server rendering and an API in one project."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "how-to-learn",
+      "title": "How to study",
+      "summary": "The videos are half of it; the other half is typing it yourself.",
+      "blocks": [
+        {
+          "type": "steps",
+          "items": [
+            "Watch one lesson, close the video, and retype the code from memory before moving on.",
+            "At the end of each stage, build the checklist project with no video open. When stuck, read MDN or react.dev before rewatching.",
+            "Commit and push to GitHub after every session, even when the code is unfinished.",
+            "Keep a fixed schedule, say one to two hours a day. Steady beats cramming at the weekend.",
+            "Stuck for more than 30 minutes? Ask: say what you are doing, paste the exact error, and list what you tried."
+          ]
+        }
+      ]
+    }
+  ]
+}
