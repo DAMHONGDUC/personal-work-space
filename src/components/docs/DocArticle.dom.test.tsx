@@ -34,12 +34,12 @@ const versions: Record<Lang, Doc> = { en: version("en"), vi: version("vi") };
 let container: HTMLDivElement;
 let root: Root;
 
-function render() {
+function render(guide: Record<Lang, Doc> = versions) {
   container = document.createElement("div");
   document.body.appendChild(container);
   act(() => {
     root = createRoot(container);
-    root.render(<DocArticle versions={versions} />);
+    root.render(<DocArticle versions={guide} />);
   });
   return container;
 }
@@ -65,6 +65,25 @@ afterEach(() => {
 describe("DocArticle", () => {
   it("starts in English, which is what the prerendered HTML contains", () => {
     expect(render().textContent).toContain("English body");
+  });
+
+  it("starts in the guide's own default language when it names one", () => {
+    const vietnameseFirst: Record<Lang, Doc> = {
+      en: { ...versions.en, defaultLang: "vi" },
+      vi: { ...versions.vi, defaultLang: "vi" },
+    };
+
+    expect(render(vietnameseFirst).textContent).toContain("Vietnamese body");
+  });
+
+  it("lets a stored choice win over the guide's default", () => {
+    window.localStorage.setItem("docs-language", "en");
+    const vietnameseFirst: Record<Lang, Doc> = {
+      en: { ...versions.en, defaultLang: "vi" },
+      vi: { ...versions.vi, defaultLang: "vi" },
+    };
+
+    expect(render(vietnameseFirst).textContent).toContain("English body");
   });
 
   it("swaps every string when the language is switched", () => {

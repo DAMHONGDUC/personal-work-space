@@ -20,8 +20,9 @@ export async function generateMetadata(
   }
 
   // The page carries both languages and picks one in the browser, so there is
-  // one URL to index — described in English, like the rest of the site.
-  const doc = bundle.versions.en;
+  // one URL to index — described in the language its HTML is prerendered in:
+  // English, unless the guide names another default.
+  const doc = bundle.versions[bundle.versions.en.defaultLang ?? "en"];
   const description = `${doc.tagline} Last updated ${formatDate(doc.lastUpdated)}.`;
 
   return {

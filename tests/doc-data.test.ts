@@ -421,6 +421,12 @@ describe.each(bundles.map((bundle) => [bundle.slug, bundle] as const))(
         expect(bad).toEqual([]);
       });
 
+      it("opens in a language the guide is written in", () => {
+        if (doc.defaultLang === undefined) return;
+
+        expect([...LANGUAGES] as string[]).toContain(doc.defaultLang);
+      });
+
       it("uses a note tone the callout has styling for", () => {
         for (const block of blocks) {
           if (block.type !== "note") continue;
