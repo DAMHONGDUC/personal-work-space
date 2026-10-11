@@ -93,6 +93,15 @@ function shelves() {
   return [...container.querySelectorAll("h2")].map((heading) => heading.firstChild?.textContent);
 }
 
+/** A toggle by the text it starts with, so a chip is found without its count. */
+function chip(label: string) {
+  const found = [...container.querySelectorAll("button")].find((button) =>
+    button.firstChild?.textContent === label,
+  );
+  if (!found) throw new Error(`no button ${label}`);
+  return found;
+}
+
 beforeEach(() => {
   window.localStorage.clear();
 });
@@ -148,6 +157,37 @@ describe("DocIndex", () => {
 
     expect(titles()).toEqual([]);
     expect(page.textContent).toContain("kubernetes");
+  });
+
+  it("narrows to one topic, and back to all", () => {
+    const page = render();
+
+    act(() => chip("iOS & Swift").click());
+
+    expect(titles()).toEqual(["Set up a Mac for iOS"]);
+    expect(page.textContent).toContain("1 of 2 guides");
+
+    act(() => chip("All").click());
+
+    expect(titles()).toEqual(["Set up a Mac for iOS", "Set up SSH for git"]);
+  });
+
+  it("combines the topic with the search", () => {
+    const page = render();
+
+    act(() => chip("iOS & Swift").click());
+    type("IdentitiesOnly");
+
+    expect(titles()).toEqual([]);
+    expect(page.textContent).toContain("The other topics do");
+  });
+
+  it("names the topics in the language on screen", () => {
+    render();
+
+    act(() => chip("vi").click());
+
+    expect(chip("Git & công cụ")).toBeDefined();
   });
 
   it("searches the language on screen", () => {

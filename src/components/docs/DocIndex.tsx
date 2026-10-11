@@ -1,14 +1,17 @@
 "use client";
 
+import { useState } from "react";
 import { SearchInput } from "@/components/shared/SearchInput";
 import { DocCard } from "@/components/docs/DocCard";
 import { LanguageSwitch } from "@/components/docs/LanguageSwitch";
+import { TopicFilter } from "@/components/docs/TopicFilter";
 import { useDocLanguage } from "@/hooks/docs/useDocLanguage";
 import { useDocSearch } from "@/hooks/docs/useDocSearch";
 import {
   DOC_TOPICS,
   TOPIC_LABELS,
   type Doc,
+  type DocTopic,
   type Lang,
 } from "@/lib/docs/doc-model";
 import { AppColors } from "@/lib/design/app-colors";
@@ -24,15 +27,22 @@ import { AppTextStyles } from "@/lib/design/app-text-styles";
  *
  * The cards are shelved by topic, in `DOC_TOPICS` order, and a shelf that the
  * search has emptied is left out rather than drawn as a heading over nothing.
+ * The topic filter narrows to one shelf, and combines with the search.
  */
 export function DocIndex({ versions }: { versions: Record<Lang, Doc[]> }) {
   const [lang, setLang] = useDocLanguage();
   const docs = versions[lang];
-  const { query, setQuery, results } = useDocSearch(docs);
+  const { query, setQuery, results: matches } = useDocSearch(docs);
+  const [topic, setTopic] = useState<DocTopic | null>(null);
+
+  const results = topic === null ? matches : matches.filter(({ doc }) => doc.topic === topic);
+  const counts = Object.fromEntries(
+    DOC_TOPICS.map((option) => [option, docs.filter((doc) => doc.topic === option).length]),
+  ) as Record<DocTopic, number>;
 
   return (
     <>
-      <div className="flex flex-col gap-4 pb-6 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col gap-4 pb-4 sm:flex-row sm:items-center sm:justify-between">
         <SearchInput
           value={query}
           onChange={setQuery}
@@ -50,10 +60,16 @@ export function DocIndex({ versions }: { versions: Record<Lang, Doc[]> }) {
         </div>
       </div>
 
+      <div className="pb-8">
+        <TopicFilter topic={topic} onChange={setTopic} counts={counts} lang={lang} />
+      </div>
+
       {results.length === 0 ? (
         <p className={`${AppTextStyles.SMALL} rounded-2xl border border-dashed border-border-soft px-6 py-12 text-center`}>
-          Nothing here matches “{query}”. The other language may — the search
-          reads the guides as they are written, not translations of them.
+          {matches.length > 0
+            ? `Nothing in ${TOPIC_LABELS[topic!][lang]} matches “${query}”. The other topics do.`
+            : <>Nothing here matches “{query}”. The other language may — the search
+              reads the guides as they are written, not translations of them.</>}
         </p>
       ) : (
         <div className="flex flex-col gap-12">
