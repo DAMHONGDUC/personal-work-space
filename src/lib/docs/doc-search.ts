@@ -21,9 +21,10 @@ export type DocMatch = {
 
 /**
  * Fields that name a shape rather than say anything: without this, searching
- * for "note" or "text" matches every guide on the site.
+ * for "note" or "text" matches every guide on the site — and "www" every guide
+ * with a link.
  */
-const STRUCTURAL_KEYS = new Set(["type", "tone", "language"]);
+const STRUCTURAL_KEYS = new Set(["type", "tone", "language", "url"]);
 
 /**
  * Lowercased, and with Vietnamese diacritics removed.

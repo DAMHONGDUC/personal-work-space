@@ -38,6 +38,7 @@ const BLOCK_TYPES = new Set([
   "code",
   "table",
   "note",
+  "links",
   "flow",
 ]);
 
@@ -115,6 +116,9 @@ function blockSkeleton(block: Block) {
         columns: block.columns.length,
         rows: block.rows.map((row) => row.length),
       };
+    case "links":
+      // A link opens the same page whatever language the guide is read in.
+      return { type: block.type, urls: block.items.map((item) => item.url) };
     case "flow":
       return {
         type: block.type,
@@ -345,6 +349,9 @@ describe.each(bundles.map((bundle) => [bundle.slug, bundle] as const))(
               expect(block.columns.length).toBeGreaterThan(0);
               expect(block.rows.length).toBeGreaterThan(0);
               break;
+            case "links":
+              expect(block.items.length).toBeGreaterThan(0);
+              break;
             case "flow":
               expect(block.stages.length).toBeGreaterThan(1);
               break;
@@ -419,6 +426,16 @@ describe.each(bundles.map((bundle) => [bundle.slug, bundle] as const))(
         }
 
         expect(bad).toEqual([]);
+      });
+
+      it("links only to https addresses", () => {
+        for (const block of blocks) {
+          if (block.type !== "links") continue;
+
+          for (const item of block.items) {
+            expect(new URL(item.url).protocol).toBe("https:");
+          }
+        }
       });
 
       it("opens in a language the guide is written in", () => {

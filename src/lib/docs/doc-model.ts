@@ -73,6 +73,12 @@ export type Block =
   | { type: "table"; columns: string[]; rows: string[][] }
   | { type: "note"; tone: "info" | "warning"; body: string[] }
   /**
+   * Things to open elsewhere: a course, a playlist. The URL is the same in
+   * every language, like a command; the label and source are written per
+   * language.
+   */
+  | { type: "links"; items: LinkItem[] }
+  /**
    * A diagram, described as data rather than markup: stages run top to bottom
    * with an arrow between them, and the boxes within one stage sit side by side.
    * One box per stage draws a pipeline; several boxes feeding one draws a join.
@@ -82,6 +88,14 @@ export type Block =
       caption?: string;
       stages: { items: FlowItem[] }[];
     };
+
+/** One link in a `links` block. */
+export type LinkItem = {
+  label: string;
+  /** Who made it, e.g. the channel a playlist is on. */
+  source: string;
+  url: string;
+};
 
 /**
  * One box in a diagram, written at three depths of the same step.
@@ -110,6 +124,7 @@ export type CodeBlock = Extract<Block, { type: "code" }>;
 export type TableBlock = Extract<Block, { type: "table" }>;
 export type NoteBlock = Extract<Block, { type: "note" }>;
 export type FlowBlock = Extract<Block, { type: "flow" }>;
+export type LinksBlock = Extract<Block, { type: "links" }>;
 
 export type DocSection = {
   /**
