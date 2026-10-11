@@ -172,6 +172,27 @@ describe("DocIndex", () => {
     expect(titles()).toEqual(["Set up a Mac for iOS", "Set up SSH for git"]);
   });
 
+  it("shows several topics at once, and All clears them", () => {
+    const page = render();
+
+    act(() => chip("iOS & Swift").click());
+    act(() => chip("Git & tooling").click());
+
+    expect(titles()).toEqual(["Set up a Mac for iOS", "Set up SSH for git"]);
+    expect(chip("iOS & Swift").getAttribute("aria-pressed")).toBe("true");
+    expect(chip("All").getAttribute("aria-pressed")).toBe("false");
+
+    act(() => chip("iOS & Swift").click());
+
+    expect(titles()).toEqual(["Set up SSH for git"]);
+    expect(page.textContent).toContain("1 of 2 guides");
+
+    act(() => chip("All").click());
+
+    expect(chip("Git & tooling").getAttribute("aria-pressed")).toBe("false");
+    expect(page.textContent).toContain("2 guides");
+  });
+
   it("combines the topic with the search", () => {
     const page = render();
 

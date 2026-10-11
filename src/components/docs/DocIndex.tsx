@@ -27,15 +27,16 @@ import { AppTextStyles } from "@/lib/design/app-text-styles";
  *
  * The cards are shelved by topic, in `DOC_TOPICS` order, and a shelf that the
  * search has emptied is left out rather than drawn as a heading over nothing.
- * The topic filter narrows to one shelf, and combines with the search.
+ * The topic filter narrows to the shelves picked, and combines with the search.
  */
 export function DocIndex({ versions }: { versions: Record<Lang, Doc[]> }) {
   const [lang, setLang] = useDocLanguage();
   const docs = versions[lang];
   const { query, setQuery, results: matches } = useDocSearch(docs);
-  const [topic, setTopic] = useState<DocTopic | null>(null);
+  const [topics, setTopics] = useState<DocTopic[]>([]);
 
-  const results = topic === null ? matches : matches.filter(({ doc }) => doc.topic === topic);
+  const results =
+    topics.length === 0 ? matches : matches.filter(({ doc }) => topics.includes(doc.topic));
   const counts = Object.fromEntries(
     DOC_TOPICS.map((option) => [option, docs.filter((doc) => doc.topic === option).length]),
   ) as Record<DocTopic, number>;
@@ -61,13 +62,13 @@ export function DocIndex({ versions }: { versions: Record<Lang, Doc[]> }) {
       </div>
 
       <div className="pb-8">
-        <TopicFilter topic={topic} onChange={setTopic} counts={counts} lang={lang} />
+        <TopicFilter topics={topics} onChange={setTopics} counts={counts} lang={lang} />
       </div>
 
       {results.length === 0 ? (
         <p className={`${AppTextStyles.SMALL} rounded-2xl border border-dashed border-border-soft px-6 py-12 text-center`}>
           {matches.length > 0
-            ? `Nothing in ${TOPIC_LABELS[topic!][lang]} matches “${query}”. The other topics do.`
+            ? `Nothing in ${topics.map((option) => TOPIC_LABELS[option][lang]).join(", ")} matches “${query}”. The other topics do.`
             : <>Nothing here matches “{query}”. The other language may — the search
               reads the guides as they are written, not translations of them.</>}
         </p>
