@@ -19,6 +19,7 @@ const ALLOWED_KEYS = new Set([
   "tagline",
   "icon",
   "topic",
+  "defaultLang",
   "tags",
   "readingTime",
   "effectiveDate",
@@ -79,6 +80,7 @@ function skeleton(doc: Doc) {
   return {
     icon: doc.icon,
     topic: doc.topic,
+    defaultLang: doc.defaultLang,
     tags: doc.tags,
     effectiveDate: doc.effectiveDate,
     lastUpdated: doc.lastUpdated,

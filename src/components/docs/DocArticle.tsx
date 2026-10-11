@@ -25,7 +25,7 @@ import { AppTextStyles } from "@/lib/design/app-text-styles";
  * same in both, the anchor you arrived on still points at the same place.
  */
 export function DocArticle({ versions }: { versions: Record<Lang, Doc> }) {
-  const [lang, setLang] = useDocLanguage();
+  const [lang, setLang] = useDocLanguage(versions.en.defaultLang);
   const doc = versions[lang];
 
   const toc: NavItem[] = doc.sections.map((section) => ({

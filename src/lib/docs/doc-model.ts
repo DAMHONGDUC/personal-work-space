@@ -130,6 +130,11 @@ export type DocData = {
   icon: string;
   /** The shelf the index puts it on. Language-independent, like a section id. */
   topic: DocTopic;
+  /**
+   * The language a reader who has never picked one sees. Optional: guides open
+   * in English unless they say otherwise; a stored choice always wins.
+   */
+  defaultLang?: Lang;
   /** Product names, left untranslated. */
   tags: string[];
   readingTime: string;

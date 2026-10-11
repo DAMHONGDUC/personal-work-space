@@ -23,9 +23,9 @@ function subscribe(listener: () => void) {
   };
 }
 
-function readStored(): Lang {
+function readStored(fallback: Lang): Lang {
   const stored = window.localStorage.getItem(STORAGE_KEY);
-  return isLang(stored) ? stored : "en";
+  return isLang(stored) ? stored : fallback;
 }
 
 /**
@@ -37,8 +37,14 @@ function readStored(): Lang {
  * render, and every switch on the page — index and article alike — stays in step
  * with the others and with the other tabs.
  */
-export function useDocLanguage(): [Lang, (next: Lang) => void] {
-  const lang = useSyncExternalStore(subscribe, readStored, () => "en" as Lang);
+export function useDocLanguage(
+  fallback: Lang = "en",
+): [Lang, (next: Lang) => void] {
+  const lang = useSyncExternalStore(
+    subscribe,
+    () => readStored(fallback),
+    () => fallback,
+  );
 
   const choose = useCallback((next: Lang) => {
     window.localStorage.setItem(STORAGE_KEY, next);
