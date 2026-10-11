@@ -29,6 +29,7 @@ export const LANGUAGE_LABELS: Record<Lang, string> = {
  * looked up here, so a topic is renamed once rather than in every guide.
  */
 export const DOC_TOPICS = [
+  "roadmap",
   "architecture",
   "react-native",
   "flutter",
@@ -43,6 +44,7 @@ export const DOC_TOPICS = [
 export type DocTopic = (typeof DOC_TOPICS)[number];
 
 export const TOPIC_LABELS: Record<DocTopic, Record<Lang, string>> = {
+  roadmap: { en: "Learning paths", vi: "Lộ trình học" },
   architecture: { en: "Architecture", vi: "Kiến trúc" },
   "react-native": { en: "React & React Native", vi: "React & React Native" },
   flutter: { en: "Flutter", vi: "Flutter" },
