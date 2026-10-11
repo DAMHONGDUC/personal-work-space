@@ -1,0 +1,638 @@
+{
+  "title": "Part 1 — Environment & tools",
+  "tagline": "Set up a machine from scratch: terminal, VS Code, Node.js, Git and GitHub.",
+  "icon": "💻",
+  "topic": "roadmap",
+  "defaultLang": "vi",
+  "series": {
+    "id": "fullstack-web",
+    "part": 1
+  },
+  "tags": [
+    "WSL",
+    "Terminal",
+    "VS Code",
+    "Node.js",
+    "Git",
+    "GitHub"
+  ],
+  "readingTime": "20 min",
+  "effectiveDate": "2026-10-11",
+  "lastUpdated": "2026-10-11",
+  "intro": [
+    "Done once, used for the whole path. Type each command, read what it prints, and check it against the step before moving on.",
+    "Windows follows the WSL section, macOS the Command Line Tools section; from VS Code on, both do exactly the same."
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Overview",
+      "summary": "Six steps, about one evening.",
+      "blocks": [
+        {
+          "type": "flow",
+          "caption": "Each step needs the one before it.",
+          "stages": [
+            {
+              "items": [
+                {
+                  "label": "How the web works",
+                  "detail": "The browser asks; a server answers with HTML, CSS and JavaScript",
+                  "explain": [
+                    "Type shopee.vn: DNS turns the name into an IP address, the browser sends an HTTP request there, and the server's HTML is drawn on screen.",
+                    "The frontend runs in the browser (HTML, CSS, JavaScript, React). The backend runs on a server (Node, Express, MySQL). Full-stack does both."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Terminal",
+                  "detail": "Where commands run: npm, git and servers. Windows uses WSL, macOS its Terminal",
+                  "explain": [
+                    "WSL runs a real Ubuntu inside Windows. That way every command in the videos and in this path runs the same as on macOS and Linux.",
+                    "A prompt ending in $ is where you type. For example dong@laptop:~/code$ means user dong, in the folder ~/code."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "VS Code",
+                  "detail": "The editor: it opens folders inside WSL and has its own terminal",
+                  "explain": [
+                    "Type code . in a terminal to open the current folder in VS Code. On Windows, the WSL extension lets it edit files inside Ubuntu.",
+                    "Prettier formats on save, ESLint flags JavaScript mistakes as you type, and Live Server reloads the page when HTML or CSS changes."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Node.js via nvm",
+                  "detail": "Runs JavaScript outside the browser and installs libraries with npm",
+                  "explain": [
+                    "nvm manages Node versions: nvm install --lts installs the newest long-term support release, and nvm use 22 switches to 22 for an older project.",
+                    "npm comes with Node. npm install express downloads the library into node_modules and records it in package.json so others can install it too."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Git & GitHub",
+                  "detail": "Git keeps code history on your machine; GitHub keeps a copy online",
+                  "explain": [
+                    "Each commit is a snapshot of the whole project with a message. Break something and you go back to the previous commit, losing nothing.",
+                    "An SSH key tells GitHub this machine is yours, so pushing needs no password. One key per machine."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "First repo",
+                  "detail": "Make a folder, commit a README and push it to GitHub to test the whole chain",
+                  "explain": [
+                    "The four daily commands: git status shows changes, git add picks files, git commit saves a snapshot, git push sends it to GitHub.",
+                    "Seeing the README on the GitHub repo page means everything in this part works: terminal, Git, SSH and GitHub."
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "videos",
+      "title": "Videos for this part",
+      "summary": "About six hours; watch alongside the steps below.",
+      "blocks": [
+        {
+          "type": "links",
+          "items": [
+            {
+              "label": "Kiến Thức Nhập Môn",
+              "source": "F8 Official · 7 videos, 2.7 h",
+              "url": "https://www.youtube.com/playlist?list=PL_-VfJajZj0WSVCw3lKo2lYifzXekkv6M"
+            },
+            {
+              "label": "Windows Terminal & WSL",
+              "source": "F8 Official · lessons 1–16, 3.2 h",
+              "url": "https://www.youtube.com/playlist?list=PL_-VfJajZj0XGfh528VqhlgXUfzw1Y0N7"
+            },
+            {
+              "label": "Git Siêu Căn Bản Cho Người Mới Bắt Đầu",
+              "source": "Hỏi Dân IT · 8 videos, 2.5 h",
+              "url": "https://www.youtube.com/playlist?list=PLncHg6Kn2JT6nWS9MRjSnt6Z-9Rj0pAlo"
+            }
+          ]
+        },
+        {
+          "type": "table",
+          "columns": [
+            "Playlist",
+            "Lessons",
+            "What it covers"
+          ],
+          "rows": [
+            [
+              "Kiến Thức Nhập Môn",
+              "3–4",
+              "What a domain is, and the client–server model. Must watch."
+            ],
+            [
+              "Kiến Thức Nhập Môn",
+              "1–2, 5–7",
+              "Talks on working in IT and how to study. Watch for motivation."
+            ],
+            [
+              "Windows Terminal & WSL",
+              "1–4",
+              "Install Windows Terminal and Ubuntu through WSL. Skip on a Mac."
+            ],
+            [
+              "Windows Terminal & WSL",
+              "5–13",
+              "Linux commands: ls, cd, mkdir, cp, mv, rm, chmod, grep. For everyone."
+            ],
+            [
+              "Windows Terminal & WSL",
+              "14–16",
+              "Install Node and create projects on WSL. It installs an old Node; follow the nvm section below."
+            ],
+            [
+              "Git Siêu Căn Bản",
+              "1–6",
+              "Create a repo, commit, push, SSH keys, teamwork, resolving conflicts."
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "how-web-works",
+      "title": "How the web works",
+      "summary": "Five ideas you meet again in every later part.",
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            "Domain: a memorable name like f8.edu.vn instead of an IP address such as 104.21.3.10.",
+            "DNS: the Internet's phone book, turning a domain into an IP address.",
+            "Client and server: the browser (client) asks, and the server works out the answer.",
+            "HTTP: the language of requests and answers. GET fetches, POST sends new data, PUT changes it, DELETE removes it.",
+            "HTML, CSS, JavaScript: the three things a browser understands. HTML is content, CSS is looks, JavaScript is behaviour."
+          ]
+        },
+        {
+          "type": "table",
+          "columns": [
+            "Status code",
+            "Meaning",
+            "You see it when"
+          ],
+          "rows": [
+            [
+              "200",
+              "OK",
+              "A page or API returns data normally"
+            ],
+            [
+              "201",
+              "Created",
+              "A POST created a new record"
+            ],
+            [
+              "400",
+              "Bad request",
+              "Data is missing or wrong, such as an empty email"
+            ],
+            [
+              "401",
+              "Unauthorized",
+              "Calling a protected API without a token"
+            ],
+            [
+              "404",
+              "Not found",
+              "A wrong path, or a record that does not exist"
+            ],
+            [
+              "500",
+              "Server error",
+              "Backend code threw; read the log in the server's terminal"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "windows",
+      "title": "Windows: install WSL",
+      "summary": "Ubuntu running inside Windows; skip this on a Mac.",
+      "blocks": [
+        {
+          "type": "steps",
+          "items": [
+            "Press Start, type PowerShell, right-click it and choose Run as administrator.",
+            "Run wsl --install below. It turns on WSL 2 and installs Ubuntu, taking 5–15 minutes.",
+            "Restart when asked.",
+            "Open Ubuntu from Start. The first time it asks for a Linux username and password: pick a short lowercase name, and remember the password, since sudo asks for it.",
+            "Update Ubuntu with the second command below. Typing the password shows nothing on screen: just type it and press Enter.",
+            "Install Windows Terminal from the Microsoft Store if missing, then make Ubuntu the default profile in Settings."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "powershell",
+          "caption": "In an administrator PowerShell. The second line checks: Ubuntu must show VERSION 2.",
+          "code": [
+            "wsl --install",
+            "wsl --list --verbose"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "caption": "In the Ubuntu window: refresh the package list and upgrade.",
+          "code": [
+            "sudo apt update && sudo apt upgrade -y"
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "warning",
+          "body": [
+            "Keep code in Ubuntu's home folder, such as ~/code, not under /mnt/c. npm running on the Windows drive through WSL is far slower.",
+            "Open the Ubuntu folder in File Explorer by typing explorer.exe . in the Ubuntu terminal."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "macos",
+      "title": "macOS: Command Line Tools and Homebrew",
+      "summary": "On a Mac the Terminal is built in; it only needs the command-line tools.",
+      "blocks": [
+        {
+          "type": "steps",
+          "items": [
+            "Open Terminal: press Cmd + Space, type Terminal, press Enter.",
+            "Run xcode-select --install and press Install in the dialog. It brings git, make and a compiler.",
+            "Install Homebrew with the second command. It ends by printing two Next steps commands: copy and run them to put brew on your PATH.",
+            "Check with brew --version and git --version: both printing a version means you are done."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "caption": "Command Line Tools, Homebrew, then a check.",
+          "code": [
+            "xcode-select --install",
+            "/bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\"",
+            "brew --version",
+            "git --version"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "terminal",
+      "title": "Terminal commands to know",
+      "summary": "Ten everyday commands, the same on Ubuntu and macOS.",
+      "blocks": [
+        {
+          "type": "table",
+          "columns": [
+            "Command",
+            "What it does",
+            "Example"
+          ],
+          "rows": [
+            [
+              "pwd",
+              "Prints the current folder",
+              "pwd → /home/dong/code"
+            ],
+            [
+              "ls",
+              "Lists files; ls -la includes hidden ones",
+              "ls -la"
+            ],
+            [
+              "cd",
+              "Changes folder; cd .. goes up, cd ~ goes home",
+              "cd ~/code"
+            ],
+            [
+              "mkdir",
+              "Makes a folder; -p makes parents too",
+              "mkdir -p ~/code/demo"
+            ],
+            [
+              "touch",
+              "Creates an empty file",
+              "touch index.html"
+            ],
+            [
+              "cp",
+              "Copies; -r for folders",
+              "cp index.html backup.html"
+            ],
+            [
+              "mv",
+              "Moves or renames",
+              "mv backup.html old.html"
+            ],
+            [
+              "rm",
+              "Deletes for good, no trash; -r for folders",
+              "rm old.html"
+            ],
+            [
+              "cat",
+              "Prints a file",
+              "cat package.json"
+            ],
+            [
+              "clear",
+              "Clears the screen; Ctrl + C stops a running command",
+              "clear"
+            ]
+          ]
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "caption": "Practice: type them in order and run ls after each to see the change.",
+          "code": [
+            "mkdir -p ~/code/practice",
+            "cd ~/code/practice",
+            "touch notes.txt",
+            "mv notes.txt todo.txt",
+            "cp todo.txt todo-copy.txt",
+            "rm todo-copy.txt",
+            "ls -la"
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "info",
+          "body": [
+            "Tab completes file and folder names, and the up arrow recalls the last command. These two keys save the most time."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "vscode",
+      "title": "Install VS Code",
+      "summary": "One editor for the whole path.",
+      "blocks": [
+        {
+          "type": "steps",
+          "items": [
+            "Download VS Code from code.visualstudio.com and install it as usual. On Windows, keep the Add to PATH option.",
+            "Windows: install the WSL extension, then type code . in the Ubuntu terminal. The bottom-left corner showing WSL: Ubuntu means it worked.",
+            "macOS: open the Command Palette (Cmd + Shift + P) and run Shell Command: Install 'code' command in PATH so the code command works.",
+            "Install the extensions in the table below from the Extensions bar (Ctrl + Shift + X).",
+            "Open the JSON settings (Command Palette → Preferences: Open User Settings (JSON)) and add the snippet below to format on save."
+          ]
+        },
+        {
+          "type": "table",
+          "columns": [
+            "Extension",
+            "What it is for"
+          ],
+          "rows": [
+            [
+              "WSL (Microsoft)",
+              "Windows: edit files inside Ubuntu"
+            ],
+            [
+              "Prettier – Code formatter",
+              "Formats HTML, CSS and JavaScript on save"
+            ],
+            [
+              "ESLint",
+              "Flags JavaScript mistakes as you type"
+            ],
+            [
+              "Live Server",
+              "Opens HTML in the browser and reloads on save"
+            ],
+            [
+              "GitLens",
+              "Shows who changed each line, and when"
+            ]
+          ]
+        },
+        {
+          "type": "code",
+          "language": "json",
+          "caption": "Add to settings.json, keeping the lines already there.",
+          "code": [
+            "{",
+            "  \"editor.formatOnSave\": true,",
+            "  \"editor.defaultFormatter\": \"esbenp.prettier-vscode\",",
+            "  \"editor.tabSize\": 2,",
+            "  \"files.autoSave\": \"onFocusChange\"",
+            "}"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "node",
+      "title": "Install Node.js with nvm",
+      "summary": "The same way on Ubuntu (WSL) and macOS.",
+      "blocks": [
+        {
+          "type": "steps",
+          "items": [
+            "Run the nvm installer (first line below). The latest release on 11 October 2026 is v0.40.8.",
+            "Close and reopen the terminal, or run source ~/.bashrc on Ubuntu and source ~/.zshrc on macOS.",
+            "Install the LTS release: nvm install --lts. It downloads Node 24 and makes it the default.",
+            "Check: node -v prints v24 followed by smaller numbers, and npm -v prints npm's version."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "caption": "Install nvm, reload the shell, install Node LTS and check. On macOS use ~/.zshrc instead of ~/.bashrc.",
+          "code": [
+            "curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.8/install.sh | bash",
+            "source ~/.bashrc",
+            "nvm install --lts",
+            "node -v",
+            "npm -v"
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "info",
+          "body": [
+            "On 11 October 2026 the LTS is Node 24 (Krypton), supported until April 2028. Node 26 is due to become LTS in late October 2026; then run nvm install --lts again.",
+            "Windows: install Node inside Ubuntu as above, not the Windows build, so two different Nodes never get mixed up."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "git",
+      "title": "Install and configure Git",
+      "summary": "Git writes your name on every commit, so configure it first.",
+      "blocks": [
+        {
+          "type": "steps",
+          "items": [
+            "Ubuntu (WSL): install Git with apt (first line). macOS: Git came with the Command Line Tools.",
+            "Set your name and email: use your GitHub account's email so commits show your avatar.",
+            "Make main the default branch and VS Code the editor Git opens.",
+            "Check with git config --list: the user.name and user.email you set must be there."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "caption": "Replace Your Name and you@example.com with your own.",
+          "code": [
+            "sudo apt install -y git",
+            "git config --global user.name \"Your Name\"",
+            "git config --global user.email \"you@example.com\"",
+            "git config --global init.defaultBranch main",
+            "git config --global core.editor \"code --wait\"",
+            "git config --list"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "github-ssh",
+      "title": "Connect to GitHub over SSH",
+      "summary": "Once per machine; after that pushing never asks for a password.",
+      "blocks": [
+        {
+          "type": "steps",
+          "items": [
+            "Create an account at github.com if you have none.",
+            "Create an SSH key with ssh-keygen. Press Enter to keep the default location; setting a passphrase is wise.",
+            "Start ssh-agent and add the key so the passphrase is not asked every time.",
+            "Print the public key with cat and copy the whole line.",
+            "On GitHub: Settings → SSH and GPG keys → New SSH key, paste it and save.",
+            "Test with ssh -T git@github.com: type yes the first time; GitHub greeting you by username means success."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "caption": "Use your GitHub email.",
+          "code": [
+            "ssh-keygen -t ed25519 -C \"you@example.com\"",
+            "eval \"$(ssh-agent -s)\"",
+            "ssh-add ~/.ssh/id_ed25519",
+            "cat ~/.ssh/id_ed25519.pub",
+            "ssh -T git@github.com"
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "info",
+          "body": [
+            "The \"Set up SSH for git\" guide on this site goes deeper: two GitHub accounts on one machine, and keeping the passphrase in the macOS Keychain."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "first-repo",
+      "title": "Your first repo",
+      "summary": "Test the whole chain: terminal, Git, SSH and GitHub.",
+      "blocks": [
+        {
+          "type": "steps",
+          "items": [
+            "On GitHub press New repository, name it hello-git, keep it Public, leave Add a README unticked, and press Create.",
+            "In the terminal make a folder of the same name and a README (first three lines below).",
+            "Initialise Git, add the file and commit.",
+            "Connect to the GitHub repo and push. Replace your-username with your GitHub username.",
+            "Reload the repo page on GitHub: seeing the README means done."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "caption": "From an empty folder to a repo on GitHub.",
+          "code": [
+            "mkdir -p ~/code/hello-git && cd ~/code/hello-git",
+            "echo \"# Hello Git\" > README.md",
+            "git init",
+            "git add README.md",
+            "git commit -m \"Add README\"",
+            "git remote add origin git@github.com:your-username/hello-git.git",
+            "git push -u origin main"
+          ]
+        },
+        {
+          "type": "table",
+          "columns": [
+            "Command",
+            "When"
+          ],
+          "rows": [
+            [
+              "git status",
+              "See what changed and what is not added yet"
+            ],
+            [
+              "git add .",
+              "Stage every change in the folder for the next commit"
+            ],
+            [
+              "git commit -m \"...\"",
+              "Save a snapshot with a short message saying what you did"
+            ],
+            [
+              "git push",
+              "Send new commits to GitHub"
+            ],
+            [
+              "git pull",
+              "Bring new commits from GitHub down"
+            ],
+            [
+              "git log --oneline",
+              "See the commit history, one line each"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "done",
+      "title": "Done when",
+      "summary": "You can do all of it with no video open.",
+      "blocks": [
+        {
+          "type": "checklist",
+          "items": [
+            "Open a terminal, create folders and move between them by command alone",
+            "node -v prints v24 or later",
+            "code . opens the right folder in VS Code",
+            "ssh -T git@github.com greets you by username",
+            "The hello-git repo shows its README on GitHub",
+            "Explain in words what happens when you type a web address"
+          ]
+        }
+      ]
+    }
+  ]
+}

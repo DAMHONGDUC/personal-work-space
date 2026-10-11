@@ -1,0 +1,741 @@
+{
+  "title": "Phần 5 — Node, Express & MySQL",
+  "tagline": "Server Express 5, MySQL cài trên máy, và code chia theo MVC.",
+  "icon": "🗄️",
+  "topic": "roadmap",
+  "defaultLang": "vi",
+  "series": {
+    "id": "fullstack-web",
+    "part": 5
+  },
+  "tags": [
+    "Node.js",
+    "Express 5",
+    "MySQL 8.4",
+    "SQL",
+    "MVC",
+    "mysql2"
+  ],
+  "readingTime": "24 phút",
+  "effectiveDate": "2026-10-11",
+  "lastUpdated": "2026-10-11",
+  "intro": [
+    "Phần này chuyển sang phía server: nhận request, đọc ghi database, trả kết quả. Mọi thứ vẫn là JavaScript, chạy bằng Node từ phần 1.",
+    "Database chính là MySQL. Video Node của F8 dùng MongoDB; học cách làm từ video, rồi áp dụng với MySQL theo các bước ở đây."
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Tổng quan",
+      "summary": "Sáu bước, khoảng 4 tuần.",
+      "blocks": [
+        {
+          "type": "flow",
+          "caption": "Từ server trả một câu chào tới API đọc dữ liệu thật trong MySQL.",
+          "stages": [
+            {
+              "items": [
+                {
+                  "label": "Server Express đầu tiên",
+                  "detail": "Mười dòng code nhận request và trả về chữ hoặc JSON",
+                  "explain": [
+                    "app.get('/api/courses', handler) nghĩa là: khi có GET tới /api/courses thì chạy handler. res.json() trả dữ liệu dạng JSON.",
+                    "node --watch server.js tự chạy lại server mỗi lần lưu file, thay cho nodemon trong video."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Route & MVC",
+                  "detail": "Chia code: route nhận đường dẫn, controller xử lý, model nói chuyện với database",
+                  "explain": [
+                    "Route chỉ nối đường dẫn với hàm. Controller đọc request, gọi model, chọn mã trạng thái. Model là nơi duy nhất viết SQL.",
+                    "Video F8 thêm phần view bằng Handlebars để render HTML trên server. Phần 6 bỏ view, trả JSON cho React thay vào đó."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Cài MySQL",
+                  "detail": "Một máy chủ database chạy trên máy bạn, kèm công cụ xem bảng bằng giao diện",
+                  "explain": [
+                    "Windows cài MySQL bên trong Ubuntu (WSL) bằng apt; macOS cài mysql@8.4 bằng Homebrew. Cả hai tạo một user riêng để code kết nối, không dùng root.",
+                    "DBeaver hoặc MySQL Workbench cho xem bảng, sửa dữ liệu và chạy SQL bằng chuột, tiện khi mới học."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "SQL",
+                  "detail": "Tạo bảng, thêm, đọc, sửa, xoá dữ liệu và nối bảng bằng JOIN",
+                  "explain": [
+                    "Mỗi bảng có khoá chính id. Khoá ngoại nối bảng: products.category_id trỏ tới categories.id, nên mỗi sản phẩm thuộc một danh mục.",
+                    "JOIN ghép hai bảng theo khoá: lấy tên sản phẩm kèm tên danh mục trong một câu SELECT."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Nối Express với MySQL",
+                  "detail": "Thư viện mysql2 chạy câu SQL từ code; mật khẩu nằm trong file .env",
+                  "explain": [
+                    "Truyền giá trị bằng dấu ? thay vì ghép chuỗi: pool.query('… WHERE id = ?', [id]). Ghép chuỗi mở cửa cho SQL injection.",
+                    "node --env-file=.env đọc biến môi trường từ file, thay cho thư viện dotenv. File .env luôn nằm trong .gitignore."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Session & JWT",
+                  "detail": "Hai cách server nhớ ai đang đăng nhập; phần này hiểu, phần 6 làm",
+                  "explain": [
+                    "Session: server giữ danh sách người đã đăng nhập, trình duyệt giữ một cookie mang mã phiên. JWT: server ký một token, client gửi kèm mỗi request.",
+                    "Ba video của F8 về cookie, CORS và JWT giải thích cơ chế; mỗi video dài 40–90 phút, nên xem từng đoạn và ghi chú."
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "videos",
+      "title": "Video của phần này",
+      "summary": "Khoảng 29 giờ; khoá SERN chỉ xem bài #15–#28 ở phần này.",
+      "blocks": [
+        {
+          "type": "links",
+          "items": [
+            {
+              "label": "NodeJS & ExpressJS",
+              "source": "F8 Official · 36 video, 12 giờ",
+              "url": "https://www.youtube.com/playlist?list=PL_-VfJajZj0VatBpaXkEHK_UPHL7dW6I3"
+            },
+            {
+              "label": "Học SQL (sử dụng MySQL)",
+              "source": "TITV · 25 video, 7 giờ",
+              "url": "https://www.youtube.com/playlist?list=PLyxSzL3F7487f2BrlHKg87WlUEennWOKu"
+            },
+            {
+              "label": "Khóa học Fullstack SERN (SQL, Express.js, React.js, Node.js)",
+              "source": "Hỏi Dân IT · phần này xem bài #15–#28, 7 giờ",
+              "url": "https://www.youtube.com/playlist?list=PLncHg6Kn2JT6E38Z3kit9Hnif1xC_9VqI"
+            },
+            {
+              "label": "Session, cookie, CORS, JWT, SSO",
+              "source": "F8 Official · 3 video, 3,3 giờ",
+              "url": "https://www.youtube.com/playlist?list=PL_-VfJajZj0VaEt6Q1Z_CSg_Ci9aP9oQ1"
+            }
+          ]
+        },
+        {
+          "type": "table",
+          "columns": [
+            "Playlist",
+            "Bài",
+            "Học gì"
+          ],
+          "rows": [
+            [
+              "NodeJS & ExpressJS",
+              "1–18",
+              "HTTP, SSR và CSR, cài Express, template Handlebars, GET/POST, mô hình MVC."
+            ],
+            [
+              "NodeJS & ExpressJS",
+              "19 trở đi",
+              "MongoDB, model, CRUD khoá học, xoá mềm, sắp xếp. Học cách làm, database chính vẫn là MySQL."
+            ],
+            [
+              "Học SQL",
+              "1–25",
+              "Thiết kế bảng, khoá chính và khoá ngoại, INSERT, SELECT, WHERE, ORDER BY, hàm gộp, JOIN."
+            ],
+            [
+              "Fullstack SERN",
+              "#15–#28",
+              "Express và MVC lần nữa, MySQL, Sequelize: model, migration, CRUD."
+            ],
+            [
+              "Session, cookie, CORS, JWT, SSO",
+              "1–3",
+              "Ba buổi dài: cookie và session, CORS là gì, JWT hoạt động thế nào."
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "first-server",
+      "title": "Server Express đầu tiên",
+      "summary": "Từ thư mục trống tới API trả JSON.",
+      "blocks": [
+        {
+          "type": "steps",
+          "items": [
+            "Tạo thư mục project, chạy npm init -y để có package.json, rồi npm install express (bản 5).",
+            "Tạo file server.js với nội dung bên dưới.",
+            "Chạy node --watch server.js. Terminal in ra địa chỉ server.",
+            "Mở localhost:3000 và localhost:3000/api/courses trong trình duyệt, hoặc gọi bằng curl trong terminal thứ hai.",
+            "Sửa câu chào trong server.js rồi lưu: server tự chạy lại, tải lại trang là thấy."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "caption": "Tạo project và cài Express.",
+          "code": [
+            "mkdir -p ~/code/shop-api && cd ~/code/shop-api",
+            "npm init -y",
+            "npm install express",
+            "code ."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "javascript",
+          "caption": "server.js: hai route, một trả chữ, một trả JSON.",
+          "code": [
+            "const express = require('express');",
+            "",
+            "const app = express();",
+            "const port = process.env.PORT || 3000;",
+            "",
+            "app.use(express.json());",
+            "",
+            "app.get('/', (req, res) => {",
+            "  res.send('Xin chào từ Express');",
+            "});",
+            "",
+            "app.get('/api/courses', (req, res) => {",
+            "  res.json([",
+            "    { id: 1, name: 'HTML CSS' },",
+            "    { id: 2, name: 'JavaScript' },",
+            "  ]);",
+            "});",
+            "",
+            "app.listen(port, () => {",
+            "  console.log(`Server chạy ở http://localhost:${port}`);",
+            "});"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "caption": "Chạy server có tự khởi động lại, rồi gọi thử từ terminal khác.",
+          "code": [
+            "node --watch server.js",
+            "curl http://localhost:3000/api/courses"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "express5",
+      "title": "Theo video với Express 5 và thư viện mới",
+      "summary": "Video quay với Express 4 năm 2020; đây là các dòng cần sửa.",
+      "blocks": [
+        {
+          "type": "table",
+          "columns": [
+            "Trong video",
+            "Bây giờ",
+            "Sửa thế nào"
+          ],
+          "rows": [
+            [
+              "nodemon",
+              "node --watch có sẵn",
+              "\"start\": \"node --watch src/index.js\" trong package.json"
+            ],
+            [
+              "const handlebars = require('express-handlebars'); handlebars({…})",
+              "express-handlebars 9",
+              "const { engine } = require('express-handlebars'); app.engine('hbs', engine({ extname: '.hbs' }))"
+            ],
+            [
+              "node-sass",
+              "Đã ngừng hỗ trợ",
+              "npm install -D sass, lệnh biên dịch dùng sass thay cho node-sass"
+            ],
+            [
+              "mongoose.connect(uri, { useNewUrlParser, useCreateIndex, … })",
+              "Mongoose 9",
+              "Bỏ hết option, chỉ còn mongoose.connect(uri)"
+            ],
+            [
+              "mongodb://localhost:27017",
+              "Node 17+ có thể đổi localhost thành IPv6",
+              "Dùng mongodb://127.0.0.1:27017 nếu gặp ECONNREFUSED ::1"
+            ],
+            [
+              "app.get('*', …)",
+              "Express 5 bắt đặt tên wildcard",
+              "app.get('/*splat', …); trang 404 thì app.use((req, res) => …) không có đường dẫn"
+            ],
+            [
+              "body-parser",
+              "Có sẵn trong Express",
+              "app.use(express.json()) và app.use(express.urlencoded({ extended: true }))"
+            ],
+            [
+              "Bắt lỗi async bằng try/catch ở mọi route",
+              "Express 5 tự chuyển lỗi của hàm async",
+              "Viết một middleware xử lý lỗi (err, req, res, next) ở cuối app"
+            ]
+          ]
+        },
+        {
+          "type": "code",
+          "language": "javascript",
+          "caption": "Cấu hình Handlebars với express-handlebars 9, theo cấu trúc thư mục của video.",
+          "code": [
+            "const path = require('node:path');",
+            "const { engine } = require('express-handlebars');",
+            "",
+            "app.engine('hbs', engine({ extname: '.hbs' }));",
+            "app.set('view engine', 'hbs');",
+            "app.set('views', path.join(__dirname, 'resources', 'views'));"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mvc",
+      "title": "Chia code theo MVC",
+      "summary": "Mỗi file một việc; thêm tính năng là thêm file, không phình một file.",
+      "blocks": [
+        {
+          "type": "table",
+          "columns": [
+            "Thư mục",
+            "Chứa",
+            "Ví dụ"
+          ],
+          "rows": [
+            [
+              "server.js",
+              "Tạo app, gắn middleware và route, gọi listen",
+              "app.use('/api/products', productRoutes)"
+            ],
+            [
+              "routes/",
+              "Nối đường dẫn và method với hàm controller",
+              "router.get('/:id', controller.show)"
+            ],
+            [
+              "controllers/",
+              "Đọc request, gọi model, trả response và mã trạng thái",
+              "res.status(404).json(…)"
+            ],
+            [
+              "models/",
+              "Nơi duy nhất viết SQL",
+              "SELECT * FROM products WHERE id = ?"
+            ],
+            [
+              "config/db.js",
+              "Kết nối database dùng chung",
+              "mysql.createPool(…)"
+            ]
+          ]
+        },
+        {
+          "type": "code",
+          "language": "javascript",
+          "caption": "routes/products.js: chỉ nối đường dẫn với controller.",
+          "code": [
+            "const express = require('express');",
+            "const controller = require('../controllers/productController');",
+            "",
+            "const router = express.Router();",
+            "",
+            "router.get('/', controller.list);",
+            "router.get('/:id', controller.show);",
+            "",
+            "module.exports = router;"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "javascript",
+          "caption": "controllers/productController.js: quyết định trả gì.",
+          "code": [
+            "const Product = require('../models/product');",
+            "",
+            "exports.list = async (req, res) => {",
+            "  res.json(await Product.findAll());",
+            "};",
+            "",
+            "exports.show = async (req, res) => {",
+            "  const product = await Product.findById(req.params.id);",
+            "  if (!product) return res.status(404).json({ message: 'Không tìm thấy' });",
+            "  res.json(product);",
+            "};"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "javascript",
+          "caption": "models/product.js: câu SQL nằm ở đây và chỉ ở đây.",
+          "code": [
+            "const pool = require('../config/db');",
+            "",
+            "exports.findAll = async () => {",
+            "  const [rows] = await pool.query('SELECT * FROM products ORDER BY id DESC');",
+            "  return rows;",
+            "};",
+            "",
+            "exports.findById = async (id) => {",
+            "  const [rows] = await pool.query('SELECT * FROM products WHERE id = ?', [id]);",
+            "  return rows[0];",
+            "};"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mysql-install",
+      "title": "Cài MySQL",
+      "summary": "Một lần cho cả phần 5 và 6.",
+      "blocks": [
+        {
+          "type": "heading",
+          "text": "Windows: trong Ubuntu (WSL)"
+        },
+        {
+          "type": "steps",
+          "items": [
+            "Mở terminal Ubuntu, cài mysql-server bằng apt.",
+            "Khởi động MySQL, rồi vào bằng sudo mysql (lần đầu không cần mật khẩu).",
+            "Chạy đoạn SQL tạo user ở cuối mục này, gõ exit để thoát."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "caption": "Cài, khởi động và vào MySQL trong Ubuntu.",
+          "code": [
+            "sudo apt update",
+            "sudo apt install -y mysql-server",
+            "sudo service mysql start",
+            "sudo mysql"
+          ]
+        },
+        {
+          "type": "heading",
+          "text": "macOS: Homebrew"
+        },
+        {
+          "type": "steps",
+          "items": [
+            "Cài mysql@8.4, bản hỗ trợ dài hạn (LTS), và cho nó tự chạy cùng máy.",
+            "Thêm thư mục bin của nó vào PATH (Mac chip Intel thay /opt/homebrew bằng /usr/local).",
+            "Vào bằng mysql -u root (bản Homebrew chưa đặt mật khẩu root), chạy đoạn SQL tạo user bên dưới."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "caption": "Cài MySQL 8.4 LTS bằng Homebrew.",
+          "code": [
+            "brew install mysql@8.4",
+            "brew services start mysql@8.4",
+            "echo 'export PATH=\"/opt/homebrew/opt/mysql@8.4/bin:$PATH\"' >> ~/.zshrc",
+            "source ~/.zshrc",
+            "mysql -u root"
+          ]
+        },
+        {
+          "type": "heading",
+          "text": "Tạo user cho code"
+        },
+        {
+          "type": "code",
+          "language": "sql",
+          "caption": "Chạy trong MySQL. Đặt mật khẩu của riêng bạn thay cho dev_password.",
+          "code": [
+            "CREATE USER 'dev'@'localhost' IDENTIFIED BY 'dev_password';",
+            "GRANT ALL PRIVILEGES ON *.* TO 'dev'@'localhost';",
+            "FLUSH PRIVILEGES;"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "caption": "Kiểm tra: đăng nhập bằng user mới, nhập mật khẩu khi được hỏi.",
+          "code": [
+            "mysql -u dev -p"
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "info",
+          "body": [
+            "Muốn xem bảng bằng giao diện: cài DBeaver Community hoặc MySQL Workbench, kết nối tới 127.0.0.1, cổng 3306, user dev.",
+            "Không dùng WSL: tải MySQL Community Server 8.4 LTS dạng MSI ở dev.mysql.com; MySQL Configurator đi kèm sẽ hỏi mật khẩu root. XAMPP trong video SERN cài MariaDB, gần giống MySQL nhưng không phải MySQL."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sql",
+      "title": "SQL cơ bản",
+      "summary": "Một database cửa hàng nhỏ: danh mục và sản phẩm.",
+      "blocks": [
+        {
+          "type": "code",
+          "language": "sql",
+          "caption": "Chạy từng khối trong mysql -u dev -p hoặc trong DBeaver.",
+          "code": [
+            "CREATE DATABASE shop;",
+            "USE shop;",
+            "",
+            "CREATE TABLE categories (",
+            "  id INT AUTO_INCREMENT PRIMARY KEY,",
+            "  name VARCHAR(100) NOT NULL",
+            ");",
+            "",
+            "CREATE TABLE products (",
+            "  id INT AUTO_INCREMENT PRIMARY KEY,",
+            "  name VARCHAR(200) NOT NULL,",
+            "  price INT NOT NULL,",
+            "  category_id INT,",
+            "  FOREIGN KEY (category_id) REFERENCES categories(id)",
+            ");",
+            "",
+            "INSERT INTO categories (name) VALUES ('Áo'), ('Quần');",
+            "INSERT INTO products (name, price, category_id)",
+            "VALUES ('Áo thun', 150000, 1), ('Quần jean', 450000, 2);",
+            "",
+            "SELECT name, price FROM products WHERE price < 300000 ORDER BY price DESC;",
+            "",
+            "SELECT p.name, c.name AS category",
+            "FROM products p",
+            "JOIN categories c ON c.id = p.category_id;",
+            "",
+            "UPDATE products SET price = 120000 WHERE id = 1;",
+            "DELETE FROM products WHERE id = 2;"
+          ]
+        },
+        {
+          "type": "table",
+          "columns": [
+            "Khái niệm",
+            "Nghĩa",
+            "Trong ví dụ"
+          ],
+          "rows": [
+            [
+              "Primary key",
+              "Mã duy nhất của mỗi dòng",
+              "id INT AUTO_INCREMENT PRIMARY KEY"
+            ],
+            [
+              "Foreign key",
+              "Cột trỏ tới khoá chính bảng khác",
+              "products.category_id → categories.id"
+            ],
+            [
+              "WHERE",
+              "Lọc dòng theo điều kiện",
+              "WHERE price < 300000"
+            ],
+            [
+              "JOIN",
+              "Ghép hai bảng theo khoá",
+              "JOIN categories c ON c.id = p.category_id"
+            ],
+            [
+              "UPDATE / DELETE",
+              "Sửa / xoá dòng; luôn có WHERE, thiếu là đổi cả bảng",
+              "WHERE id = 1"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "express-mysql",
+      "title": "Nối Express với MySQL",
+      "summary": "API đọc sản phẩm thật từ database shop.",
+      "blocks": [
+        {
+          "type": "steps",
+          "items": [
+            "Trong shop-api cài mysql2: npm install mysql2.",
+            "Tạo file .env chứa thông tin kết nối, và thêm .env cùng node_modules vào .gitignore.",
+            "Tạo config/db.js tạo một pool kết nối dùng chung.",
+            "Thêm hai route đọc sản phẩm vào server.js, hoặc dùng route và controller ở mục MVC.",
+            "Chạy server với --env-file và mở localhost:3000/api/products: thấy danh sách sản phẩm từ MySQL là xong."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "text",
+          "caption": ".env: thông tin kết nối, không bao giờ commit.",
+          "code": [
+            "DB_HOST=127.0.0.1",
+            "DB_USER=dev",
+            "DB_PASSWORD=dev_password",
+            "DB_NAME=shop",
+            "PORT=3000"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "text",
+          "caption": ".gitignore",
+          "code": [
+            "node_modules",
+            ".env"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "javascript",
+          "caption": "config/db.js: một pool cho cả app.",
+          "code": [
+            "const mysql = require('mysql2/promise');",
+            "",
+            "const pool = mysql.createPool({",
+            "  host: process.env.DB_HOST,",
+            "  user: process.env.DB_USER,",
+            "  password: process.env.DB_PASSWORD,",
+            "  database: process.env.DB_NAME,",
+            "});",
+            "",
+            "module.exports = pool;"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "javascript",
+          "caption": "Thêm vào server.js: đọc tất cả và đọc theo id, giá trị truyền qua dấu ?.",
+          "code": [
+            "const pool = require('./config/db');",
+            "",
+            "app.get('/api/products', async (req, res) => {",
+            "  const [rows] = await pool.query('SELECT * FROM products');",
+            "  res.json(rows);",
+            "});",
+            "",
+            "app.get('/api/products/:id', async (req, res) => {",
+            "  const [rows] = await pool.query('SELECT * FROM products WHERE id = ?', [req.params.id]);",
+            "  if (rows.length === 0) return res.status(404).json({ message: 'Không tìm thấy' });",
+            "  res.json(rows[0]);",
+            "});"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "caption": "Chạy với biến môi trường từ .env và tự khởi động lại khi lưu.",
+          "code": [
+            "node --watch --env-file=.env server.js"
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "warning",
+          "body": [
+            "Không bao giờ ghép giá trị người dùng gửi vào chuỗi SQL, ví dụ 'WHERE id = ' + req.params.id. Luôn dùng dấu ? và truyền mảng giá trị."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sequelize",
+      "title": "Sequelize như khoá SERN",
+      "summary": "Viết JavaScript thay cho SQL; khoá SERN dùng cách này từ bài #20.",
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            "ORM như Sequelize đổi bảng thành class: User.findAll() thay cho SELECT * FROM users.",
+            "Migration là file mô tả thay đổi bảng; chạy db:migrate là mọi máy có cùng cấu trúc database.",
+            "Học SQL thuần trước: khi Sequelize báo lỗi, câu SQL nó in ra mới là chỗ cần đọc."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "caption": "Cài Sequelize và CLI, tạo model User và chạy migration. Sửa config/config.json theo .env trước khi migrate.",
+          "code": [
+            "npm install sequelize mysql2",
+            "npm install -D sequelize-cli",
+            "npx sequelize-cli init",
+            "npx sequelize-cli model:generate --name User --attributes firstName:string,email:string",
+            "npx sequelize-cli db:migrate"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "auth-concepts",
+      "title": "Session và JWT",
+      "summary": "Hiểu khác biệt trước khi tự làm đăng nhập ở phần 6.",
+      "blocks": [
+        {
+          "type": "table",
+          "columns": [
+            "Tiêu chí",
+            "Session cookie",
+            "JWT"
+          ],
+          "rows": [
+            [
+              "Ai giữ trạng thái",
+              "Server giữ danh sách phiên",
+              "Không ai; token tự mang thông tin đã ký"
+            ],
+            [
+              "Client gửi gì",
+              "Cookie có mã phiên, trình duyệt tự gửi",
+              "Header Authorization: Bearer <token>"
+            ],
+            [
+              "Đăng xuất",
+              "Xoá phiên trên server là xong",
+              "Token còn hạn vẫn dùng được; đặt hạn ngắn"
+            ],
+            [
+              "Hợp với",
+              "Web render trên server, như Handlebars",
+              "API cho React, app di động"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "done",
+      "title": "Xong phần này khi",
+      "summary": "Tự làm được hết, không mở video.",
+      "blocks": [
+        {
+          "type": "checklist",
+          "items": [
+            "Tạo server Express mới và trả JSON mà không cần xem hướng dẫn",
+            "MySQL chạy trên máy; đăng nhập được bằng user riêng, không phải root",
+            "Viết được SELECT có WHERE, ORDER BY và JOIN hai bảng",
+            "API đọc dữ liệu từ MySQL, code chia route, controller, model",
+            "Mật khẩu database nằm trong .env, và .env không có trên GitHub",
+            "Giải thích bằng lời session cookie khác JWT thế nào"
+          ]
+        }
+      ]
+    }
+  ]
+}

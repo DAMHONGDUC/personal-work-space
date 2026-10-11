@@ -1,0 +1,729 @@
+{
+  "title": "Part 6 — Full-stack & deploy",
+  "tagline": "A REST API, JWT sign-in, React on top, then online for free.",
+  "icon": "🚀",
+  "topic": "roadmap",
+  "defaultLang": "vi",
+  "series": {
+    "id": "fullstack-web",
+    "part": 6
+  },
+  "tags": [
+    "REST API",
+    "CORS",
+    "bcrypt",
+    "JWT",
+    "Vercel",
+    "Render",
+    "Aiven"
+  ],
+  "readingTime": "26 min",
+  "effectiveDate": "2026-10-11",
+  "lastUpdated": "2026-10-11",
+  "intro": [
+    "The last part joins it all: an Express backend returning JSON, a React frontend calling it, users signing up and in, and all three running online.",
+    "The sample code is a small shop. Follow it once, then rebuild it for an app idea of your own: that is the project for your CV."
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Overview",
+      "summary": "Six steps, about four to six weeks.",
+      "blocks": [
+        {
+          "type": "flow",
+          "caption": "From an API on your machine to an app with a live link.",
+          "stages": [
+            {
+              "items": [
+                {
+                  "label": "Design the REST API",
+                  "detail": "One path per resource; the method says what to do, the status says how it went",
+                  "explain": [
+                    "GET /api/products lists, POST /api/products creates, PUT /api/products/7 updates, DELETE /api/products/7 removes. Paths are nouns; the verb is the method.",
+                    "Return the right code: 201 on create, 400 for bad data, 401 when signed out, 404 when missing. The frontend reads the code to decide what to show."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Try it in Postman",
+                  "detail": "Call the API before any frontend exists, so you know which side a bug is on",
+                  "explain": [
+                    "Postman sends requests with any method, header and body and shows the response. curl in a terminal does the same.",
+                    "Save the requests in a Collection: after every backend change, run the set again to make sure nothing broke."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Connect React to the API",
+                  "detail": "React calls the API with fetch; the server enables CORS for the frontend's address",
+                  "explain": [
+                    "The frontend runs on localhost:5173 and the backend on localhost:3000: a different port is a different origin, so the browser blocks it unless CORS allows it.",
+                    "The API address lives in VITE_API_URL, so it switches from localhost to the Render link without code changes."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Sign-in: bcrypt + JWT",
+                  "detail": "Store hashed passwords, return a token on sign-in, check it on protected routes",
+                  "explain": [
+                    "bcrypt.hash turns a password into a string that cannot be reversed; bcrypt.compare checks a typed password against it. The database never holds the real password.",
+                    "jwt.sign makes a token holding the user id, signed with JWT_SECRET; the requireAuth middleware runs jwt.verify and answers 401 when it is missing or wrong."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Database to the cloud",
+                  "detail": "Free MySQL on Aiven, connected over SSL",
+                  "explain": [
+                    "Aiven's free plan gives one 1 GB MySQL with no time limit. The tables are created with the same SQL you ran locally in part 5.",
+                    "Aiven requires SSL: download the CA certificate from the service page and pass it to mysql2 through an environment variable."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Deploy backend and frontend",
+                  "detail": "Backend on Render, frontend on Vercel, both redeploying on every push",
+                  "explain": [
+                    "Render runs the Node server from the repo's server folder; the Free plan sleeps after 15 idle minutes and takes about a minute to wake.",
+                    "Vercel builds the client folder with Vite and serves the static files. A vercel.json keeps React Router from returning 404 on reloading a sub-page."
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "videos",
+      "title": "Videos for this part",
+      "summary": "About 17 hours, plus the BookingCare part if you want it.",
+      "blocks": [
+        {
+          "type": "links",
+          "items": [
+            {
+              "label": "Khóa học Fullstack SERN (SQL, Express.js, React.js, Node.js)",
+              "source": "Hỏi Dân IT · this part: lessons #29–#43, 12.4 h",
+              "url": "https://www.youtube.com/playlist?list=PLncHg6Kn2JT6E38Z3kit9Hnif1xC_9VqI"
+            },
+            {
+              "label": "Windows Terminal & WSL",
+              "source": "F8 Official · lessons 19–28: deploying to a VPS, 1.5 h",
+              "url": "https://www.youtube.com/playlist?list=PL_-VfJajZj0XGfh528VqhlgXUfzw1Y0N7"
+            },
+            {
+              "label": "Devops for Engineers",
+              "source": "F8 Official · 24 videos, 2.7 h",
+              "url": "https://www.youtube.com/playlist?list=PL_-VfJajZj0WmDVUfn9BRPH4cHLB8RTCk"
+            }
+          ]
+        },
+        {
+          "type": "table",
+          "columns": [
+            "Playlist",
+            "Lessons",
+            "What it covers"
+          ],
+          "rows": [
+            [
+              "Fullstack SERN",
+              "#29",
+              "What an API is, JSON, and Postman for trying APIs."
+            ],
+            [
+              "Fullstack SERN",
+              "#30–#36",
+              "React frontend setup, a sign-in form, a REST API, and sign-in joining React to Node."
+            ],
+            [
+              "Fullstack SERN",
+              "#37–#43",
+              "User CRUD from React: APIs to list, add, edit and delete, with modals."
+            ],
+            [
+              "Fullstack SERN",
+              "#44 on",
+              "A BookingCare clone with Redux, appointments and email. Over 47 hours; optional."
+            ],
+            [
+              "Windows Terminal & WSL",
+              "19–28",
+              "SSH into a server, buy a domain, Nginx, free Cloudflare SSL, deploy React."
+            ],
+            [
+              "Devops for Engineers",
+              "1–24",
+              "Docker, Docker Compose, Express with PostgreSQL, environment variables, a free VPS."
+            ]
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "warning",
+          "body": [
+            "Skip lessons #0–#14 of the SERN course: they cover HTML, SCSS and Git, already done in earlier parts.",
+            "The course's React part uses React 17, class components and Redux connect, unlike part 4's hooks. Watch it for the data flow; write your own app with hooks as below."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "structure",
+      "title": "Project layout",
+      "summary": "One repo, two folders: each half deploys on its own.",
+      "blocks": [
+        {
+          "type": "code",
+          "language": "text",
+          "caption": "The app's folder layout.",
+          "code": [
+            "my-shop/",
+            "├── client/               React (Vite) – deploy lên Vercel",
+            "│   ├── src/",
+            "│   ├── .env              VITE_API_URL=http://localhost:3000",
+            "│   └── vercel.json",
+            "├── server/               Express + MySQL – deploy lên Render",
+            "│   ├── config/db.js",
+            "│   ├── controllers/",
+            "│   ├── middleware/requireAuth.js",
+            "│   ├── models/",
+            "│   ├── routes/",
+            "│   ├── schema.sql",
+            "│   ├── server.js",
+            "│   └── .env              DB_*, JWT_SECRET, CLIENT_URL",
+            "├── .gitignore            node_modules, .env, dist",
+            "└── README.md"
+          ]
+        },
+        {
+          "type": "steps",
+          "items": [
+            "Create a my-shop folder and run git init in it.",
+            "Create the client with npm create vite@latest client -- --template react.",
+            "Copy part 5's shop-api project in as the server folder.",
+            "Create a root .gitignore with node_modules, .env and dist, then make the first commit."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rest",
+      "title": "Designing the REST API",
+      "summary": "Five routes per resource, enough for any CRUD screen.",
+      "blocks": [
+        {
+          "type": "table",
+          "columns": [
+            "Method",
+            "Path",
+            "Does",
+            "Returns"
+          ],
+          "rows": [
+            [
+              "GET",
+              "/api/products",
+              "List",
+              "200 + an array"
+            ],
+            [
+              "GET",
+              "/api/products/:id",
+              "Read one",
+              "200 + the product, or 404"
+            ],
+            [
+              "POST",
+              "/api/products",
+              "Create (signed in)",
+              "201 + the new product, or 400 / 401"
+            ],
+            [
+              "PUT",
+              "/api/products/:id",
+              "Update (signed in)",
+              "200 + the updated product, or 404"
+            ],
+            [
+              "DELETE",
+              "/api/products/:id",
+              "Delete (signed in)",
+              "204 with no body, or 404"
+            ]
+          ]
+        },
+        {
+          "type": "code",
+          "language": "javascript",
+          "caption": "server/server.js: CORS, JSON, routes, a 404 and one error handler.",
+          "code": [
+            "const express = require('express');",
+            "const cors = require('cors');",
+            "",
+            "const app = express();",
+            "",
+            "app.use(cors({ origin: process.env.CLIENT_URL }));",
+            "app.use(express.json());",
+            "",
+            "app.use('/api/auth', require('./routes/auth'));",
+            "app.use('/api/products', require('./routes/products'));",
+            "",
+            "app.use((req, res) => res.status(404).json({ message: 'Not found' }));",
+            "",
+            "app.use((err, req, res, next) => {",
+            "  console.error(err);",
+            "  res.status(500).json({ message: 'Server error' });",
+            "});",
+            "",
+            "const port = process.env.PORT || 3000;",
+            "app.listen(port, () => console.log(`API on port ${port}`));"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "caption": "Install this part's libraries, in the server folder.",
+          "code": [
+            "npm install cors bcrypt jsonwebtoken"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "postman",
+      "title": "Trying the API in Postman",
+      "summary": "Know the API works before writing any React.",
+      "blocks": [
+        {
+          "type": "steps",
+          "items": [
+            "Install Postman from postman.com/downloads, or the Postman extension in VS Code.",
+            "Create a GET to localhost:3000/api/products and press Send: a JSON array and status 200 must come back.",
+            "Create a POST; in the Body tab choose raw and JSON, type a product, and Send.",
+            "Save the requests in a my-shop Collection to rerun after each backend change."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "caption": "The same two requests with curl, nothing to install.",
+          "code": [
+            "curl http://localhost:3000/api/products",
+            "curl -X POST http://localhost:3000/api/products \\",
+            "  -H \"Content-Type: application/json\" \\",
+            "  -H \"Authorization: Bearer <token>\" \\",
+            "  -d '{\"name\":\"Mũ lưỡi trai\",\"price\":90000,\"category_id\":1}'"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "auth",
+      "title": "Sign-up and sign-in with bcrypt and JWT",
+      "summary": "A users table, two routes, one middleware.",
+      "blocks": [
+        {
+          "type": "steps",
+          "items": [
+            "Add a users table to the shop database with the SQL below, and save it in server/schema.sql.",
+            "Generate a random JWT_SECRET with the node command below and paste it into server/.env.",
+            "Create routes/auth.js with the register and login routes.",
+            "Create middleware/requireAuth.js and add it to the create, update and delete product routes.",
+            "Test in Postman: sign up, sign in for a token, then POST /api/products with and without it: you must see 201 and 401."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "sql",
+          "caption": "server/schema.sql: a unique email, and only the hashed password stored.",
+          "code": [
+            "CREATE TABLE users (",
+            "  id INT AUTO_INCREMENT PRIMARY KEY,",
+            "  email VARCHAR(255) NOT NULL UNIQUE,",
+            "  password_hash VARCHAR(255) NOT NULL,",
+            "  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP",
+            ");"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "caption": "Print a 64-character secret for JWT_SECRET.",
+          "code": [
+            "node -e \"console.log(require('node:crypto').randomBytes(32).toString('hex'))\""
+          ]
+        },
+        {
+          "type": "code",
+          "language": "javascript",
+          "caption": "server/routes/auth.js: sign-up hashes the password, sign-in returns a one-hour token.",
+          "code": [
+            "const express = require('express');",
+            "const bcrypt = require('bcrypt');",
+            "const jwt = require('jsonwebtoken');",
+            "const pool = require('../config/db');",
+            "",
+            "const router = express.Router();",
+            "",
+            "router.post('/register', async (req, res) => {",
+            "  const { email, password } = req.body;",
+            "  if (!email || !password || password.length < 8) {",
+            "    return res.status(400).json({ message: 'Cần email và mật khẩu từ 8 ký tự' });",
+            "  }",
+            "",
+            "  const hash = await bcrypt.hash(password, 10);",
+            "  try {",
+            "    await pool.query('INSERT INTO users (email, password_hash) VALUES (?, ?)', [email, hash]);",
+            "  } catch (err) {",
+            "    if (err.code === 'ER_DUP_ENTRY') return res.status(409).json({ message: 'Email đã được dùng' });",
+            "    throw err;",
+            "  }",
+            "  res.status(201).json({ message: 'Đã tạo tài khoản' });",
+            "});",
+            "",
+            "router.post('/login', async (req, res) => {",
+            "  const { email, password } = req.body;",
+            "  const [rows] = await pool.query('SELECT * FROM users WHERE email = ?', [email]);",
+            "  const user = rows[0];",
+            "",
+            "  if (!user || !(await bcrypt.compare(password, user.password_hash))) {",
+            "    return res.status(401).json({ message: 'Sai email hoặc mật khẩu' });",
+            "  }",
+            "",
+            "  const token = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET, {",
+            "    expiresIn: '1h',",
+            "  });",
+            "  res.json({ token });",
+            "});",
+            "",
+            "module.exports = router;"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "javascript",
+          "caption": "server/middleware/requireAuth.js: a missing or bad token gets a 401.",
+          "code": [
+            "const jwt = require('jsonwebtoken');",
+            "",
+            "module.exports = function requireAuth(req, res, next) {",
+            "  const token = req.headers.authorization?.split(' ')[1];",
+            "  if (!token) return res.status(401).json({ message: 'Chưa đăng nhập' });",
+            "",
+            "  try {",
+            "    req.user = jwt.verify(token, process.env.JWT_SECRET);",
+            "    next();",
+            "  } catch {",
+            "    res.status(401).json({ message: 'Token không hợp lệ hoặc đã hết hạn' });",
+            "  }",
+            "};"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "javascript",
+          "caption": "Add it to the protected routes in routes/products.js.",
+          "code": [
+            "const requireAuth = require('../middleware/requireAuth');",
+            "",
+            "router.post('/', requireAuth, controller.create);",
+            "router.put('/:id', requireAuth, controller.update);",
+            "router.delete('/:id', requireAuth, controller.remove);"
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "warning",
+          "body": [
+            "Never store real passwords, never commit JWT_SECRET, and never put sensitive data in a token: anyone holding it can read its contents.",
+            "If npm install bcrypt fails to build, use bcryptjs: the same hash and compare functions, in plain JavaScript with nothing to compile."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "connect-react",
+      "title": "Connecting React to the API",
+      "summary": "One shared api() function for every call.",
+      "blocks": [
+        {
+          "type": "steps",
+          "items": [
+            "In server/.env add CLIENT_URL=http://localhost:5173 so CORS lets the frontend in.",
+            "In client, create a .env with VITE_API_URL pointing at the backend.",
+            "Create client/src/api.js: it attaches the token to the header and throws with the server's message.",
+            "Use api() in components: load the list in useEffect, submit the sign-in form and keep the token.",
+            "Run two terminals: node --watch --env-file=.env server.js in server, and npm run dev in client."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "text",
+          "caption": "client/.env: only variables starting with VITE_ reach React code.",
+          "code": [
+            "VITE_API_URL=http://localhost:3000"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "javascript",
+          "caption": "client/src/api.js: one place for the URL, token and errors.",
+          "code": [
+            "const API_URL = import.meta.env.VITE_API_URL;",
+            "",
+            "export async function api(path, options = {}) {",
+            "  const token = localStorage.getItem('token');",
+            "  const res = await fetch(`${API_URL}${path}`, {",
+            "    ...options,",
+            "    headers: {",
+            "      'Content-Type': 'application/json',",
+            "      ...(token && { Authorization: `Bearer ${token}` }),",
+            "      ...options.headers,",
+            "    },",
+            "  });",
+            "",
+            "  const data = res.status === 204 ? null : await res.json().catch(() => null);",
+            "  if (!res.ok) throw new Error(data?.message ?? `HTTP ${res.status}`);",
+            "  return data;",
+            "}"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "javascript",
+          "caption": "Sign in: keep the token, and later calls send it automatically.",
+          "code": [
+            "import { api } from './api';",
+            "",
+            "async function login(email, password) {",
+            "  const { token } = await api('/api/auth/login', {",
+            "    method: 'POST',",
+            "    body: JSON.stringify({ email, password }),",
+            "  });",
+            "  localStorage.setItem('token', token);",
+            "}",
+            "",
+            "async function loadProducts() {",
+            "  return api('/api/products');",
+            "}"
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "info",
+          "body": [
+            "Keeping the token in localStorage is the simple way to learn. Real apps often use an httpOnly cookie so stray JavaScript on the page cannot read it."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "database-cloud",
+      "title": "The database on Aiven",
+      "summary": "Free MySQL with no time limit.",
+      "blocks": [
+        {
+          "type": "steps",
+          "items": [
+            "Sign up at console.aiven.io and create a project.",
+            "Create service → MySQL → choose the Free plan → Create. Wait for the status to turn Running.",
+            "On the service's Overview page, copy Host, Port, User, Password and Database, and download the CA certificate (ca.pem).",
+            "Create the tables: run schema.sql with the mysql command below, or connect with DBeaver with SSL on.",
+            "Update config/db.js to take a port and SSL as below; locally it keeps using your own MySQL because DB_CA_CERT is empty."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "caption": "Load the schema into Aiven. Replace HOST, PORT and the database name with yours; enter the password when asked.",
+          "code": [
+            "mysql --host=HOST --port=PORT --user=avnadmin --password --ssl-mode=REQUIRED defaultdb < schema.sql"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "javascript",
+          "caption": "server/config/db.js: SSL turns on when DB_CA_CERT is set.",
+          "code": [
+            "const mysql = require('mysql2/promise');",
+            "",
+            "const pool = mysql.createPool({",
+            "  host: process.env.DB_HOST,",
+            "  port: Number(process.env.DB_PORT || 3306),",
+            "  user: process.env.DB_USER,",
+            "  password: process.env.DB_PASSWORD,",
+            "  database: process.env.DB_NAME,",
+            "  ssl: process.env.DB_CA_CERT ? { ca: process.env.DB_CA_CERT } : undefined,",
+            "});",
+            "",
+            "module.exports = pool;"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "deploy-backend",
+      "title": "Deploying the backend to Render",
+      "summary": "The Node server online, redeploying on every push.",
+      "blocks": [
+        {
+          "type": "steps",
+          "items": [
+            "Add engines to server/package.json so Render uses Node 24, then push the repo to GitHub.",
+            "Sign in to render.com with GitHub → New → Web Service → pick the my-shop repo.",
+            "Root Directory: server · Runtime: Node · Build Command: npm install · Start Command: node server.js · Instance Type: Free.",
+            "Under Environment add Aiven's DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME, DB_CA_CERT (the whole ca.pem), JWT_SECRET, and leave CLIENT_URL empty for now.",
+            "Press Create Web Service. Once deployed, open the link like your-app.onrender.com/api/products: JSON means the backend runs."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "json",
+          "caption": "Add to server/package.json, beside the existing fields.",
+          "code": [
+            "{",
+            "  \"engines\": { \"node\": \"24.x\" },",
+            "  \"scripts\": {",
+            "    \"start\": \"node server.js\",",
+            "    \"dev\": \"node --watch --env-file=.env server.js\"",
+            "  }",
+            "}"
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "info",
+          "body": [
+            "The server must listen on process.env.PORT: Render picks the port. The REST API section's code already does."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "deploy-frontend",
+      "title": "Deploying the frontend to Vercel",
+      "summary": "React built into static files, served over HTTPS.",
+      "blocks": [
+        {
+          "type": "steps",
+          "items": [
+            "Add client/vercel.json below so every path returns index.html for React Router to handle.",
+            "Sign in to vercel.com with GitHub → Add New → Project → Import the my-shop repo.",
+            "Root Directory: client. The Framework Preset detects Vite: Build Command npm run build, Output Directory dist.",
+            "Under Environment Variables add VITE_API_URL = the Render link, such as https://your-app.onrender.com, then press Deploy.",
+            "Back on Render, set CLIENT_URL = the Vercel link (such as https://my-shop.vercel.app) and redeploy so CORS lets the frontend in.",
+            "Open the Vercel link on a phone, sign up, sign in, add a product: if it works, the path is done."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "json",
+          "caption": "client/vercel.json: reloading /products/7 still opens the right page.",
+          "code": [
+            "{",
+            "  \"rewrites\": [{ \"source\": \"/(.*)\", \"destination\": \"/index.html\" }]",
+            "}"
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "warning",
+          "body": [
+            "VITE_ variables are baked in at build time, so changing VITE_API_URL needs a redeploy. Every VITE_ variable is visible in the browser: never put passwords or secret keys there."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "free-limits",
+      "title": "Free plan limits",
+      "summary": "Enough for a portfolio; know them up front.",
+      "blocks": [
+        {
+          "type": "table",
+          "columns": [
+            "Service",
+            "Free gives you",
+            "Watch out"
+          ],
+          "rows": [
+            [
+              "Vercel Hobby",
+              "Static frontend, HTTPS, a .vercel.app domain",
+              "For personal, non-commercial projects"
+            ],
+            [
+              "Render Free",
+              "A Node web service, 750 hours a month",
+              "Sleeps after 15 idle minutes; the first call takes about a minute"
+            ],
+            [
+              "Aiven Free MySQL",
+              "1 GB storage, 1 GB RAM, no time limit",
+              "May be powered off when unused for long (with notice); no SLA"
+            ]
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "info",
+          "body": [
+            "Limits were read from each service's pages on 11 October 2026 and may change. Check the pricing page again before choosing."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "vps",
+      "title": "Another way: a VPS with Nginx",
+      "summary": "Running your own Linux server, as in F8's videos.",
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            "The WSL playlist, lessons 19–28: SSH into a server, point a domain at its IP, install Nginx, free SSL through Cloudflare, deploy React.",
+            "The DevOps playlist: package the app with Docker and run Express with a database through Docker Compose.",
+            "Worth learning after deploying with Render and Vercel: you see what those services were doing for you."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "done",
+      "title": "Done when",
+      "summary": "You can do all of it with no video open.",
+      "blocks": [
+        {
+          "type": "checklist",
+          "items": [
+            "A REST API with all five routes for a resource, all tried in Postman",
+            "Sign-up and sign-in, with passwords stored hashed",
+            "The create, update and delete routes answer 401 without a token",
+            "The React frontend calls your own API, with no mock data",
+            "Database on Aiven, backend on Render, frontend on Vercel, all working from a phone",
+            "No password or JWT_SECRET anywhere in the GitHub repo",
+            "A README with what the app does, its stack, the live link and how to run it"
+          ]
+        }
+      ]
+    }
+  ]
+}

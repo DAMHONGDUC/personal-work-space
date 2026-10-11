@@ -1,0 +1,558 @@
+{
+  "title": "Phần 2 — HTML & CSS",
+  "tagline": "Từ thẻ HTML đầu tiên tới một trang responsive có link trên mạng.",
+  "icon": "🎨",
+  "topic": "roadmap",
+  "defaultLang": "vi",
+  "series": {
+    "id": "fullstack-web",
+    "part": 2
+  },
+  "tags": [
+    "HTML",
+    "CSS",
+    "Flexbox",
+    "Responsive",
+    "BEM",
+    "GitHub Pages"
+  ],
+  "readingTime": "18 phút",
+  "effectiveDate": "2026-10-11",
+  "lastUpdated": "2026-10-11",
+  "intro": [
+    "Phần dài nhất về số giờ video, nhưng là phần thấy kết quả nhanh nhất: sửa một dòng CSS, lưu, trang đổi ngay.",
+    "Cần xong phần 1 trước: VS Code, terminal và Git đều được dùng từ bước đầu tiên."
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Tổng quan",
+      "summary": "Sáu bước, khoảng 5–6 tuần.",
+      "blocks": [
+        {
+          "type": "flow",
+          "caption": "Mỗi bước là một kỹ năng; project ở bước 4 dùng hết các bước trước.",
+          "stages": [
+            {
+              "items": [
+                {
+                  "label": "Trang HTML đầu tiên",
+                  "detail": "Khung trang bằng thẻ: tiêu đề, đoạn văn, ảnh, link, form",
+                  "explain": [
+                    "Thẻ mở và thẻ đóng bọc nội dung: <p>Xin chào</p>. Thuộc tính thêm thông tin cho thẻ: <a href=\"https://f8.edu.vn\">F8</a>.",
+                    "Trong VS Code gõ ! rồi Tab để có khung HTML đầy đủ; Live Server mở trang và tự tải lại mỗi lần lưu."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "CSS & box model",
+                  "detail": "Chọn phần tử bằng selector, đổi màu, cỡ chữ, khoảng cách",
+                  "explain": [
+                    "Mỗi phần tử là một hộp gồm content, padding, border, margin. box-sizing: border-box làm width tính luôn padding và border, dễ canh hơn nhiều.",
+                    "Selector càng cụ thể càng thắng: #id thắng .class, .class thắng thẻ. Gặp CSS không ăn, mở DevTools xem dòng nào bị gạch."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Bố cục flexbox",
+                  "detail": "Xếp phần tử theo hàng hoặc cột, canh giữa, chia đều khoảng trống",
+                  "explain": [
+                    "display: flex trên thẻ cha biến con thành một hàng. justify-content canh theo chiều ngang, align-items theo chiều dọc, gap đặt khoảng cách giữa các con.",
+                    "Menu, thẻ sản phẩm, footer trong project Shopee đều là flexbox. Nắm 6 thuộc tính trong bảng bên dưới là làm được 90% bố cục."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "BEM & project",
+                  "detail": "Đặt tên class có quy tắc, rồi dựng The Band và Shopee theo video",
+                  "explain": [
+                    "BEM đặt tên theo block__element--modifier: card, card__title, card--featured. Đọc tên class là biết nó thuộc khối nào, nên CSS ít đè lên nhau.",
+                    "Làm theo video một lần, rồi xoá và tự dựng lại một khối, ví dụ header, mà không xem. Phần tự dựng mới là phần học."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Responsive",
+                  "detail": "Cùng một trang hiển thị đúng trên điện thoại, tablet và desktop",
+                  "explain": [
+                    "Thẻ meta viewport bắt điện thoại hiển thị đúng kích thước. Media query đổi CSS khi màn hình rộng hơn một mốc, ví dụ từ 768px trở lên.",
+                    "Thử bằng DevTools: Ctrl + Shift + M (Cmd + Shift + M trên Mac) bật chế độ thiết bị, chọn iPhone hoặc kéo chiều rộng."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "GitHub Pages",
+                  "detail": "Đưa trang lên mạng miễn phí, có link gửi cho người khác",
+                  "explain": [
+                    "Push code lên GitHub, bật Pages trong Settings, chọn nhánh main. Một phút sau trang chạy ở your-username.github.io/ten-repo.",
+                    "Mỗi lần push, GitHub Pages tự cập nhật. Đây là link đầu tiên cho portfolio."
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "videos",
+      "title": "Video của phần này",
+      "summary": "Khoảng 38 giờ; hai project đã nằm sẵn trong khoá HTML CSS.",
+      "blocks": [
+        {
+          "type": "links",
+          "items": [
+            {
+              "label": "HTML, CSS từ Zero Tới Hero",
+              "source": "F8 Official · ~31 giờ, gồm cả project The Band và Shopee",
+              "url": "https://www.youtube.com/playlist?list=PL_-VfJajZj0U9nEXa4qyfB4U5ZIYCMPlz"
+            },
+            {
+              "label": "Responsive Với Grid System",
+              "source": "F8 Official · 35 video, 7,2 giờ",
+              "url": "https://www.youtube.com/playlist?list=PL_-VfJajZj0VkWYODGeMuraS8V7xaOZM8"
+            }
+          ]
+        },
+        {
+          "type": "table",
+          "columns": [
+            "Playlist",
+            "Bài",
+            "Học gì"
+          ],
+          "rows": [
+            [
+              "HTML, CSS từ Zero Tới Hero",
+              "1–34",
+              "Thẻ HTML, selector, box model, background, position, flexbox."
+            ],
+            [
+              "HTML, CSS từ Zero Tới Hero",
+              "35–39",
+              "Đặt tên class theo BEM, làm button và toast message."
+            ],
+            [
+              "HTML, CSS từ Zero Tới Hero",
+              "40–81",
+              "Project Shopee: header, form đăng nhập, giỏ hàng, danh sách sản phẩm, footer."
+            ],
+            [
+              "HTML, CSS từ Zero Tới Hero",
+              "83 trở đi",
+              "Project The Band: trang ban nhạc một trang. Nhẹ hơn, làm trước Shopee cũng được."
+            ],
+            [
+              "Responsive Với Grid System",
+              "1–9",
+              "Viewport, media query, breakpoint, menu responsive không cần JavaScript."
+            ],
+            [
+              "Responsive Với Grid System",
+              "10–22",
+              "Tự viết thư viện grid kiểu Bootstrap: grid, row, column, offset."
+            ],
+            [
+              "Responsive Với Grid System",
+              "23–34",
+              "Làm responsive cho project Shopee ở khoá trước, xem trên điện thoại thật."
+            ]
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "info",
+          "body": [
+            "Các khoá miễn phí của F8 cũng có trên f8.edu.vn: cùng video nhưng chia chương, lưu tiến độ và cấp chứng chỉ khi học xong."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "first-page",
+      "title": "Trang web đầu tiên",
+      "summary": "Mười phút từ thư mục trống tới trang mở trong trình duyệt.",
+      "blocks": [
+        {
+          "type": "steps",
+          "items": [
+            "Tạo thư mục và mở bằng VS Code (hai dòng lệnh bên dưới).",
+            "Trong VS Code tạo file index.html, gõ ! rồi bấm Tab: VS Code điền sẵn khung HTML.",
+            "Sửa cho giống đoạn HTML mẫu bên dưới, và tạo thêm file style.css cạnh nó.",
+            "Chuột phải vào index.html, chọn Open with Live Server. Trình duyệt mở trang ở địa chỉ 127.0.0.1:5500.",
+            "Đổi màu trong style.css rồi lưu: trang tự đổi theo. Commit và push thư mục này lên GitHub như phần 1."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "caption": "Tạo thư mục project và mở VS Code.",
+          "code": [
+            "mkdir -p ~/code/my-first-page && cd ~/code/my-first-page",
+            "code ."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "html",
+          "caption": "index.html: thẻ meta viewport là bắt buộc để trang hiển thị đúng trên điện thoại.",
+          "code": [
+            "<!doctype html>",
+            "<html lang=\"vi\">",
+            "  <head>",
+            "    <meta charset=\"UTF-8\" />",
+            "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />",
+            "    <title>Trang đầu tiên</title>",
+            "    <link rel=\"stylesheet\" href=\"style.css\" />",
+            "  </head>",
+            "  <body>",
+            "    <h1>Xin chào</h1>",
+            "    <p>Đây là trang web đầu tiên của tôi.</p>",
+            "    <a href=\"https://f8.edu.vn\">Học ở F8</a>",
+            "  </body>",
+            "</html>"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "css",
+          "caption": "style.css: reset box-sizing và đặt biến màu dùng lại cho cả trang.",
+          "code": [
+            ":root {",
+            "  --primary: #ee4d2d;",
+            "  --text: #222;",
+            "}",
+            "",
+            "*,",
+            "*::before,",
+            "*::after {",
+            "  box-sizing: border-box;",
+            "}",
+            "",
+            "body {",
+            "  margin: 0;",
+            "  font-family: system-ui, sans-serif;",
+            "  color: var(--text);",
+            "}",
+            "",
+            "h1 {",
+            "  color: var(--primary);",
+            "}"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "html-tags",
+      "title": "Thẻ HTML hay dùng",
+      "summary": "Chọn thẻ theo ý nghĩa, không theo giao diện.",
+      "blocks": [
+        {
+          "type": "table",
+          "columns": [
+            "Thẻ",
+            "Dùng cho"
+          ],
+          "rows": [
+            [
+              "h1 … h6",
+              "Tiêu đề; mỗi trang một h1"
+            ],
+            [
+              "p",
+              "Đoạn văn"
+            ],
+            [
+              "a href",
+              "Link sang trang khác hoặc một mục trong trang"
+            ],
+            [
+              "img src alt",
+              "Ảnh; alt mô tả ảnh cho người không xem được"
+            ],
+            [
+              "ul, ol, li",
+              "Danh sách không đánh số và có đánh số"
+            ],
+            [
+              "header, nav, main, section, footer",
+              "Các vùng lớn của trang, giúp trình đọc màn hình và SEO"
+            ],
+            [
+              "div, span",
+              "Hộp không mang nghĩa, dùng để nhóm và trang trí"
+            ],
+            [
+              "form, label, input, button",
+              "Form: label gắn với input qua for và id"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "css-core",
+      "title": "CSS cốt lõi",
+      "summary": "Tám khái niệm giải thích gần hết lỗi CSS của người mới.",
+      "blocks": [
+        {
+          "type": "table",
+          "columns": [
+            "Khái niệm",
+            "Hiểu ngắn",
+            "Ví dụ"
+          ],
+          "rows": [
+            [
+              "Selector",
+              "Chọn phần tử cần trang trí",
+              ".card, #logo, nav a"
+            ],
+            [
+              "Box model",
+              "content + padding + border + margin",
+              "padding: 16px; margin: 0 auto"
+            ],
+            [
+              "box-sizing",
+              "border-box: width tính luôn padding và border",
+              "* { box-sizing: border-box }"
+            ],
+            [
+              "display",
+              "block chiếm cả dòng, inline nằm trong dòng, flex xếp con",
+              "display: flex"
+            ],
+            [
+              "position",
+              "relative làm mốc, absolute bám vào mốc gần nhất",
+              "badge góc trên ảnh"
+            ],
+            [
+              "Đơn vị",
+              "px cố định, rem theo cỡ chữ gốc, % theo thẻ cha",
+              "font-size: 1.25rem"
+            ],
+            [
+              "Độ ưu tiên",
+              "id > class > thẻ; cùng mức thì dòng sau thắng",
+              "#nav a thắng .link"
+            ],
+            [
+              "Biến CSS",
+              "Khai báo một lần, dùng nhiều nơi",
+              "color: var(--primary)"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "flexbox",
+      "title": "Flexbox",
+      "summary": "Sáu thuộc tính cho 90% bố cục.",
+      "blocks": [
+        {
+          "type": "table",
+          "columns": [
+            "Thuộc tính (trên thẻ cha)",
+            "Làm gì"
+          ],
+          "rows": [
+            [
+              "display: flex",
+              "Biến các con thành một hàng"
+            ],
+            [
+              "flex-direction: column",
+              "Xếp con theo cột thay vì hàng"
+            ],
+            [
+              "justify-content",
+              "Canh theo chiều chính: flex-start, center, space-between"
+            ],
+            [
+              "align-items",
+              "Canh theo chiều phụ: stretch, center, flex-end"
+            ],
+            [
+              "gap",
+              "Khoảng cách giữa các con, thay cho margin từng con"
+            ],
+            [
+              "flex-wrap: wrap",
+              "Cho con xuống dòng khi hết chỗ"
+            ]
+          ]
+        },
+        {
+          "type": "code",
+          "language": "css",
+          "caption": "Thanh menu: logo bên trái, các link bên phải, canh giữa theo chiều dọc.",
+          "code": [
+            ".navbar {",
+            "  display: flex;",
+            "  justify-content: space-between;",
+            "  align-items: center;",
+            "  padding: 12px 24px;",
+            "}",
+            "",
+            ".navbar__links {",
+            "  display: flex;",
+            "  gap: 16px;",
+            "}"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "responsive",
+      "title": "Responsive từng bước",
+      "summary": "Viết cho điện thoại trước, rồi mở rộng lên màn hình lớn.",
+      "blocks": [
+        {
+          "type": "steps",
+          "items": [
+            "Kiểm tra thẻ meta viewport đã có trong head (khung ! của VS Code có sẵn).",
+            "Viết CSS cho màn hình hẹp trước: mọi thứ một cột, chữ đủ to để đọc.",
+            "Thêm media query min-width cho từng mốc lớn hơn, ví dụ 768px cho tablet và 1024px cho desktop.",
+            "Thử trong DevTools bằng chế độ thiết bị (Ctrl + Shift + M), kéo chiều rộng từ 320px tới 1440px xem chỗ nào vỡ.",
+            "Mở trên điện thoại thật: cùng mạng Wi-Fi, vào địa chỉ IP máy tính kèm cổng của Live Server, ví dụ 192.168.1.5:5500."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "css",
+          "caption": "Mobile-first: 1 cột mặc định, 2 cột từ 768px, 4 cột từ 1024px.",
+          "code": [
+            ".products {",
+            "  display: grid;",
+            "  grid-template-columns: 1fr;",
+            "  gap: 16px;",
+            "}",
+            "",
+            "@media (min-width: 768px) {",
+            "  .products {",
+            "    grid-template-columns: repeat(2, 1fr);",
+            "  }",
+            "}",
+            "",
+            "@media (min-width: 1024px) {",
+            "  .products {",
+            "    grid-template-columns: repeat(4, 1fr);",
+            "  }",
+            "}"
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "info",
+          "body": [
+            "WSL: Live Server chạy trong Ubuntu nên điện thoại có thể không vào được bằng IP. Khi đó thử trên điện thoại sau khi đưa trang lên GitHub Pages."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "modern-css",
+      "title": "CSS mới hơn video",
+      "summary": "Video vẫn đúng; đây là những thứ trình duyệt hiện nay hỗ trợ thêm.",
+      "blocks": [
+        {
+          "type": "table",
+          "columns": [
+            "Tính năng",
+            "Thay cho",
+            "Ví dụ"
+          ],
+          "rows": [
+            [
+              "CSS Grid",
+              "Thư viện grid tự viết bằng flex",
+              "grid-template-columns: repeat(4, 1fr)"
+            ],
+            [
+              "gap trên flex",
+              "margin cho từng phần tử con",
+              ".row { display: flex; gap: 16px }"
+            ],
+            [
+              "clamp()",
+              "Nhiều media query chỉ để đổi cỡ chữ",
+              "font-size: clamp(1rem, 2vw, 1.5rem)"
+            ],
+            [
+              "CSS nesting",
+              "Viết SCSS chỉ để lồng selector",
+              ".card { & h3 { margin: 0 } }"
+            ],
+            [
+              ":has()",
+              "JavaScript để trang trí thẻ cha theo thẻ con",
+              "label:has(input:checked)"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "github-pages",
+      "title": "Đưa lên GitHub Pages",
+      "summary": "Miễn phí, có link ngay, tự cập nhật mỗi lần push.",
+      "blocks": [
+        {
+          "type": "steps",
+          "items": [
+            "Tạo repo trên GitHub, ví dụ my-landing-page, và push code lên như phần 1. File chính phải tên index.html.",
+            "Trên trang repo: Settings → Pages.",
+            "Ở Build and deployment chọn Source: Deploy from a branch, Branch: main, thư mục / (root), bấm Save.",
+            "Đợi khoảng một phút, tải lại trang Settings → Pages: link your-username.github.io/my-landing-page hiện ra.",
+            "Sửa code, commit, push: trang trên mạng tự cập nhật sau ít phút."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "caption": "Mỗi lần sửa xong: ba lệnh này đưa thay đổi lên mạng.",
+          "code": [
+            "git add .",
+            "git commit -m \"Update landing page\"",
+            "git push"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "done",
+      "title": "Xong phần này khi",
+      "summary": "Tự làm được hết, không mở video.",
+      "blocks": [
+        {
+          "type": "checklist",
+          "items": [
+            "Tự cắt một trang landing từ ảnh thiết kế, không mở video",
+            "Trang hiển thị đúng ở 375px (điện thoại) và 1280px (desktop)",
+            "Bố cục bằng flexbox hoặc grid, class đặt tên theo BEM",
+            "Trang có link GitHub Pages chạy được",
+            "Dùng DevTools tìm được vì sao một dòng CSS không có tác dụng"
+          ]
+        }
+      ]
+    }
+  ]
+}

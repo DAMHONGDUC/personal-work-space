@@ -1,0 +1,729 @@
+{
+  "title": "Phần 6 — Fullstack & deploy",
+  "tagline": "REST API, đăng nhập bằng JWT, nối React, rồi đưa lên mạng miễn phí.",
+  "icon": "🚀",
+  "topic": "roadmap",
+  "defaultLang": "vi",
+  "series": {
+    "id": "fullstack-web",
+    "part": 6
+  },
+  "tags": [
+    "REST API",
+    "CORS",
+    "bcrypt",
+    "JWT",
+    "Vercel",
+    "Render",
+    "Aiven"
+  ],
+  "readingTime": "26 phút",
+  "effectiveDate": "2026-10-11",
+  "lastUpdated": "2026-10-11",
+  "intro": [
+    "Phần cuối ghép mọi thứ: backend Express trả JSON, frontend React gọi API, người dùng đăng ký và đăng nhập, rồi cả ba phần chạy trên mạng.",
+    "Code mẫu là một cửa hàng nhỏ. Làm theo một lần, rồi làm lại cho ý tưởng app của riêng bạn: đó là project ghi vào CV."
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Tổng quan",
+      "summary": "Sáu bước, khoảng 4–6 tuần.",
+      "blocks": [
+        {
+          "type": "flow",
+          "caption": "Từ API trên máy tới app có link chạy thật.",
+          "stages": [
+            {
+              "items": [
+                {
+                  "label": "Thiết kế REST API",
+                  "detail": "Mỗi tài nguyên một đường dẫn; method nói làm gì, mã trạng thái nói kết quả",
+                  "explain": [
+                    "GET /api/products lấy danh sách, POST /api/products tạo mới, PUT /api/products/7 sửa, DELETE /api/products/7 xoá. Đường dẫn là danh từ, động từ nằm ở method.",
+                    "Trả đúng mã: 201 khi tạo xong, 400 khi dữ liệu sai, 401 khi chưa đăng nhập, 404 khi không có. Frontend dựa vào mã để biết hiện gì."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Thử bằng Postman",
+                  "detail": "Gọi API trước khi có frontend, để biết lỗi nằm ở backend hay frontend",
+                  "explain": [
+                    "Postman gửi request với method, header và body tuỳ ý rồi hiện response. curl trong terminal làm được việc tương tự.",
+                    "Lưu các request vào một Collection: mỗi lần sửa backend, bấm chạy lại cả bộ để chắc không hỏng gì."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Nối React với API",
+                  "detail": "React gọi API bằng fetch; server bật CORS cho địa chỉ của frontend",
+                  "explain": [
+                    "Frontend chạy ở localhost:5173, backend ở localhost:3000: khác cổng là khác origin, nên trình duyệt chặn nếu server không cho phép bằng CORS.",
+                    "Địa chỉ API đặt trong biến VITE_API_URL, để đổi từ localhost sang link Render mà không sửa code."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Đăng nhập: bcrypt + JWT",
+                  "detail": "Lưu mật khẩu đã hash, đăng nhập đúng thì trả token, route cần đăng nhập thì kiểm token",
+                  "explain": [
+                    "bcrypt.hash biến mật khẩu thành chuỗi không đảo ngược được; bcrypt.compare kiểm tra mật khẩu nhập vào có khớp không. Database không bao giờ giữ mật khẩu gốc.",
+                    "jwt.sign tạo token chứa id người dùng, ký bằng JWT_SECRET; middleware requireAuth dùng jwt.verify và trả 401 nếu token thiếu hoặc sai."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Database lên cloud",
+                  "detail": "MySQL miễn phí trên Aiven, kết nối có SSL",
+                  "explain": [
+                    "Gói miễn phí của Aiven cho một MySQL 1 GB, không giới hạn thời gian. Bảng tạo bằng cùng câu SQL đã chạy trên máy ở phần 5.",
+                    "Aiven bắt buộc SSL: tải CA certificate trong trang service và đưa vào cấu hình mysql2 qua biến môi trường."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Deploy backend và frontend",
+                  "detail": "Backend lên Render, frontend lên Vercel, cả hai tự deploy lại mỗi lần push",
+                  "explain": [
+                    "Render chạy server Node từ thư mục server của repo; gói Free ngủ sau 15 phút không có request và mất khoảng một phút để thức dậy.",
+                    "Vercel build thư mục client bằng Vite và phục vụ file tĩnh. Cần file vercel.json để React Router không trả 404 khi tải lại trang con."
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "videos",
+      "title": "Video của phần này",
+      "summary": "Khoảng 17 giờ, cộng thêm phần BookingCare nếu muốn.",
+      "blocks": [
+        {
+          "type": "links",
+          "items": [
+            {
+              "label": "Khóa học Fullstack SERN (SQL, Express.js, React.js, Node.js)",
+              "source": "Hỏi Dân IT · phần này xem bài #29–#43, 12,4 giờ",
+              "url": "https://www.youtube.com/playlist?list=PLncHg6Kn2JT6E38Z3kit9Hnif1xC_9VqI"
+            },
+            {
+              "label": "Windows Terminal & WSL",
+              "source": "F8 Official · bài 19–28: deploy lên VPS, 1,5 giờ",
+              "url": "https://www.youtube.com/playlist?list=PL_-VfJajZj0XGfh528VqhlgXUfzw1Y0N7"
+            },
+            {
+              "label": "Devops for Engineers",
+              "source": "F8 Official · 24 video, 2,7 giờ",
+              "url": "https://www.youtube.com/playlist?list=PL_-VfJajZj0WmDVUfn9BRPH4cHLB8RTCk"
+            }
+          ]
+        },
+        {
+          "type": "table",
+          "columns": [
+            "Playlist",
+            "Bài",
+            "Học gì"
+          ],
+          "rows": [
+            [
+              "Fullstack SERN",
+              "#29",
+              "API là gì, JSON, cài Postman để thử API."
+            ],
+            [
+              "Fullstack SERN",
+              "#30–#36",
+              "Dựng frontend React, form đăng nhập, viết REST API, đăng nhập nối React với Node."
+            ],
+            [
+              "Fullstack SERN",
+              "#37–#43",
+              "CRUD người dùng từ React: API lấy, thêm, sửa, xoá và modal."
+            ],
+            [
+              "Fullstack SERN",
+              "#44 trở đi",
+              "Clone BookingCare với Redux, đặt lịch khám, gửi email. Hơn 47 giờ, tuỳ chọn."
+            ],
+            [
+              "Windows Terminal & WSL",
+              "19–28",
+              "SSH vào server, mua tên miền, Nginx, SSL miễn phí của Cloudflare, deploy React."
+            ],
+            [
+              "Devops for Engineers",
+              "1–24",
+              "Docker, Docker Compose, Express nối PostgreSQL, biến môi trường, VPS miễn phí."
+            ]
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "warning",
+          "body": [
+            "Bỏ qua bài #0–#14 của khoá SERN: đó là HTML, SCSS và Git, đã học ở các phần trước.",
+            "Phần React của khoá dùng React 17, class component và Redux connect, khác cách viết hooks ở phần 4. Xem để hiểu luồng dữ liệu; app của bạn thì viết bằng hooks như các mục dưới đây."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "structure",
+      "title": "Cấu trúc project",
+      "summary": "Một repo, hai thư mục: dễ deploy riêng từng phần.",
+      "blocks": [
+        {
+          "type": "code",
+          "language": "text",
+          "caption": "Cấu trúc thư mục của app.",
+          "code": [
+            "my-shop/",
+            "├── client/               React (Vite) – deploy lên Vercel",
+            "│   ├── src/",
+            "│   ├── .env              VITE_API_URL=http://localhost:3000",
+            "│   └── vercel.json",
+            "├── server/               Express + MySQL – deploy lên Render",
+            "│   ├── config/db.js",
+            "│   ├── controllers/",
+            "│   ├── middleware/requireAuth.js",
+            "│   ├── models/",
+            "│   ├── routes/",
+            "│   ├── schema.sql",
+            "│   ├── server.js",
+            "│   └── .env              DB_*, JWT_SECRET, CLIENT_URL",
+            "├── .gitignore            node_modules, .env, dist",
+            "└── README.md"
+          ]
+        },
+        {
+          "type": "steps",
+          "items": [
+            "Tạo thư mục my-shop, git init ở đó.",
+            "Tạo client bằng npm create vite@latest client -- --template react.",
+            "Chép project shop-api ở phần 5 vào thành thư mục server.",
+            "Tạo .gitignore ở thư mục gốc gồm node_modules, .env và dist, rồi commit lần đầu."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rest",
+      "title": "Thiết kế REST API",
+      "summary": "Năm route cho một tài nguyên, đủ cho mọi màn hình CRUD.",
+      "blocks": [
+        {
+          "type": "table",
+          "columns": [
+            "Method",
+            "Đường dẫn",
+            "Làm gì",
+            "Trả về"
+          ],
+          "rows": [
+            [
+              "GET",
+              "/api/products",
+              "Lấy danh sách",
+              "200 + mảng sản phẩm"
+            ],
+            [
+              "GET",
+              "/api/products/:id",
+              "Lấy một sản phẩm",
+              "200 + sản phẩm, hoặc 404"
+            ],
+            [
+              "POST",
+              "/api/products",
+              "Tạo mới (cần đăng nhập)",
+              "201 + sản phẩm mới, hoặc 400 / 401"
+            ],
+            [
+              "PUT",
+              "/api/products/:id",
+              "Sửa (cần đăng nhập)",
+              "200 + sản phẩm đã sửa, hoặc 404"
+            ],
+            [
+              "DELETE",
+              "/api/products/:id",
+              "Xoá (cần đăng nhập)",
+              "204 không có body, hoặc 404"
+            ]
+          ]
+        },
+        {
+          "type": "code",
+          "language": "javascript",
+          "caption": "server/server.js: CORS, JSON, route, 404 và một chỗ xử lý lỗi duy nhất.",
+          "code": [
+            "const express = require('express');",
+            "const cors = require('cors');",
+            "",
+            "const app = express();",
+            "",
+            "app.use(cors({ origin: process.env.CLIENT_URL }));",
+            "app.use(express.json());",
+            "",
+            "app.use('/api/auth', require('./routes/auth'));",
+            "app.use('/api/products', require('./routes/products'));",
+            "",
+            "app.use((req, res) => res.status(404).json({ message: 'Not found' }));",
+            "",
+            "app.use((err, req, res, next) => {",
+            "  console.error(err);",
+            "  res.status(500).json({ message: 'Server error' });",
+            "});",
+            "",
+            "const port = process.env.PORT || 3000;",
+            "app.listen(port, () => console.log(`API on port ${port}`));"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "caption": "Cài thêm thư viện cho phần này, trong thư mục server.",
+          "code": [
+            "npm install cors bcrypt jsonwebtoken"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "postman",
+      "title": "Thử API bằng Postman",
+      "summary": "Biết API chạy đúng trước khi viết dòng React nào.",
+      "blocks": [
+        {
+          "type": "steps",
+          "items": [
+            "Cài Postman từ postman.com/downloads, hoặc tiện ích Postman trong VS Code.",
+            "Tạo request GET tới localhost:3000/api/products, bấm Send: phải thấy mảng JSON và mã 200.",
+            "Tạo request POST, tab Body chọn raw và JSON, gõ dữ liệu sản phẩm, Send.",
+            "Lưu các request vào một Collection tên my-shop để chạy lại sau mỗi lần sửa backend."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "caption": "Cùng hai request bằng curl, không cần cài thêm gì.",
+          "code": [
+            "curl http://localhost:3000/api/products",
+            "curl -X POST http://localhost:3000/api/products \\",
+            "  -H \"Content-Type: application/json\" \\",
+            "  -H \"Authorization: Bearer <token>\" \\",
+            "  -d '{\"name\":\"Mũ lưỡi trai\",\"price\":90000,\"category_id\":1}'"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "auth",
+      "title": "Đăng ký và đăng nhập với bcrypt và JWT",
+      "summary": "Bảng users, hai route, một middleware.",
+      "blocks": [
+        {
+          "type": "steps",
+          "items": [
+            "Thêm bảng users vào database shop bằng câu SQL bên dưới, và lưu nó vào server/schema.sql.",
+            "Tạo JWT_SECRET ngẫu nhiên bằng lệnh node bên dưới, dán vào server/.env.",
+            "Tạo routes/auth.js với hai route register và login.",
+            "Tạo middleware/requireAuth.js và gắn vào các route tạo, sửa, xoá sản phẩm.",
+            "Thử bằng Postman: đăng ký, đăng nhập lấy token, gọi POST /api/products có và không có token: phải thấy 201 và 401."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "sql",
+          "caption": "server/schema.sql: email duy nhất, chỉ lưu mật khẩu đã hash.",
+          "code": [
+            "CREATE TABLE users (",
+            "  id INT AUTO_INCREMENT PRIMARY KEY,",
+            "  email VARCHAR(255) NOT NULL UNIQUE,",
+            "  password_hash VARCHAR(255) NOT NULL,",
+            "  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP",
+            ");"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "caption": "In ra một chuỗi bí mật 64 ký tự cho JWT_SECRET.",
+          "code": [
+            "node -e \"console.log(require('node:crypto').randomBytes(32).toString('hex'))\""
+          ]
+        },
+        {
+          "type": "code",
+          "language": "javascript",
+          "caption": "server/routes/auth.js: đăng ký hash mật khẩu, đăng nhập trả token hạn một giờ.",
+          "code": [
+            "const express = require('express');",
+            "const bcrypt = require('bcrypt');",
+            "const jwt = require('jsonwebtoken');",
+            "const pool = require('../config/db');",
+            "",
+            "const router = express.Router();",
+            "",
+            "router.post('/register', async (req, res) => {",
+            "  const { email, password } = req.body;",
+            "  if (!email || !password || password.length < 8) {",
+            "    return res.status(400).json({ message: 'Cần email và mật khẩu từ 8 ký tự' });",
+            "  }",
+            "",
+            "  const hash = await bcrypt.hash(password, 10);",
+            "  try {",
+            "    await pool.query('INSERT INTO users (email, password_hash) VALUES (?, ?)', [email, hash]);",
+            "  } catch (err) {",
+            "    if (err.code === 'ER_DUP_ENTRY') return res.status(409).json({ message: 'Email đã được dùng' });",
+            "    throw err;",
+            "  }",
+            "  res.status(201).json({ message: 'Đã tạo tài khoản' });",
+            "});",
+            "",
+            "router.post('/login', async (req, res) => {",
+            "  const { email, password } = req.body;",
+            "  const [rows] = await pool.query('SELECT * FROM users WHERE email = ?', [email]);",
+            "  const user = rows[0];",
+            "",
+            "  if (!user || !(await bcrypt.compare(password, user.password_hash))) {",
+            "    return res.status(401).json({ message: 'Sai email hoặc mật khẩu' });",
+            "  }",
+            "",
+            "  const token = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET, {",
+            "    expiresIn: '1h',",
+            "  });",
+            "  res.json({ token });",
+            "});",
+            "",
+            "module.exports = router;"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "javascript",
+          "caption": "server/middleware/requireAuth.js: thiếu hoặc sai token thì trả 401.",
+          "code": [
+            "const jwt = require('jsonwebtoken');",
+            "",
+            "module.exports = function requireAuth(req, res, next) {",
+            "  const token = req.headers.authorization?.split(' ')[1];",
+            "  if (!token) return res.status(401).json({ message: 'Chưa đăng nhập' });",
+            "",
+            "  try {",
+            "    req.user = jwt.verify(token, process.env.JWT_SECRET);",
+            "    next();",
+            "  } catch {",
+            "    res.status(401).json({ message: 'Token không hợp lệ hoặc đã hết hạn' });",
+            "  }",
+            "};"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "javascript",
+          "caption": "Gắn vào route cần đăng nhập trong routes/products.js.",
+          "code": [
+            "const requireAuth = require('../middleware/requireAuth');",
+            "",
+            "router.post('/', requireAuth, controller.create);",
+            "router.put('/:id', requireAuth, controller.update);",
+            "router.delete('/:id', requireAuth, controller.remove);"
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "warning",
+          "body": [
+            "Không bao giờ lưu mật khẩu gốc, không commit JWT_SECRET, và không đưa thông tin nhạy cảm vào token: ai có token cũng đọc được phần nội dung của nó.",
+            "Nếu npm install bcrypt lỗi khi build, dùng bcryptjs: cùng hàm hash và compare, viết thuần JavaScript nên không cần biên dịch."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "connect-react",
+      "title": "Nối React với API",
+      "summary": "Một hàm api() dùng chung cho mọi lời gọi.",
+      "blocks": [
+        {
+          "type": "steps",
+          "items": [
+            "Trong server/.env thêm CLIENT_URL=http://localhost:5173 để CORS cho phép frontend.",
+            "Trong client tạo file .env với VITE_API_URL trỏ tới backend.",
+            "Tạo client/src/api.js: tự gắn token vào header và ném lỗi kèm message của server.",
+            "Dùng api() trong component: tải danh sách trong useEffect, gửi form đăng nhập rồi lưu token.",
+            "Chạy hai terminal: node --watch --env-file=.env server.js trong server, npm run dev trong client."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "text",
+          "caption": "client/.env: chỉ biến bắt đầu bằng VITE_ mới tới được code React.",
+          "code": [
+            "VITE_API_URL=http://localhost:3000"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "javascript",
+          "caption": "client/src/api.js: một chỗ cho URL, token và lỗi.",
+          "code": [
+            "const API_URL = import.meta.env.VITE_API_URL;",
+            "",
+            "export async function api(path, options = {}) {",
+            "  const token = localStorage.getItem('token');",
+            "  const res = await fetch(`${API_URL}${path}`, {",
+            "    ...options,",
+            "    headers: {",
+            "      'Content-Type': 'application/json',",
+            "      ...(token && { Authorization: `Bearer ${token}` }),",
+            "      ...options.headers,",
+            "    },",
+            "  });",
+            "",
+            "  const data = res.status === 204 ? null : await res.json().catch(() => null);",
+            "  if (!res.ok) throw new Error(data?.message ?? `HTTP ${res.status}`);",
+            "  return data;",
+            "}"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "javascript",
+          "caption": "Đăng nhập: lưu token, rồi các lời gọi sau tự gửi kèm.",
+          "code": [
+            "import { api } from './api';",
+            "",
+            "async function login(email, password) {",
+            "  const { token } = await api('/api/auth/login', {",
+            "    method: 'POST',",
+            "    body: JSON.stringify({ email, password }),",
+            "  });",
+            "  localStorage.setItem('token', token);",
+            "}",
+            "",
+            "async function loadProducts() {",
+            "  return api('/api/products');",
+            "}"
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "info",
+          "body": [
+            "Lưu token trong localStorage là cách đơn giản để học. App thật thường dùng cookie httpOnly để JavaScript lạ trên trang không đọc được token."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "database-cloud",
+      "title": "Database lên Aiven",
+      "summary": "MySQL miễn phí, không giới hạn thời gian.",
+      "blocks": [
+        {
+          "type": "steps",
+          "items": [
+            "Đăng ký ở console.aiven.io và tạo một project.",
+            "Create service → MySQL → chọn gói Free → Create. Đợi trạng thái chuyển sang Running.",
+            "Ở trang Overview của service, chép Host, Port, User, Password, Database và bấm tải CA certificate (file ca.pem).",
+            "Tạo bảng: chạy schema.sql bằng lệnh mysql bên dưới, hoặc kết nối bằng DBeaver với SSL bật.",
+            "Sửa config/db.js nhận thêm port và SSL như đoạn code bên dưới; trên máy vẫn chạy với MySQL local vì DB_CA_CERT để trống."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "caption": "Chạy file schema lên Aiven. Thay HOST, PORT và tên database bằng thông tin của bạn; nhập password khi được hỏi.",
+          "code": [
+            "mysql --host=HOST --port=PORT --user=avnadmin --password --ssl-mode=REQUIRED defaultdb < schema.sql"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "javascript",
+          "caption": "server/config/db.js: có DB_CA_CERT thì bật SSL.",
+          "code": [
+            "const mysql = require('mysql2/promise');",
+            "",
+            "const pool = mysql.createPool({",
+            "  host: process.env.DB_HOST,",
+            "  port: Number(process.env.DB_PORT || 3306),",
+            "  user: process.env.DB_USER,",
+            "  password: process.env.DB_PASSWORD,",
+            "  database: process.env.DB_NAME,",
+            "  ssl: process.env.DB_CA_CERT ? { ca: process.env.DB_CA_CERT } : undefined,",
+            "});",
+            "",
+            "module.exports = pool;"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "deploy-backend",
+      "title": "Deploy backend lên Render",
+      "summary": "Server Node chạy trên mạng, tự deploy lại mỗi lần push.",
+      "blocks": [
+        {
+          "type": "steps",
+          "items": [
+            "Thêm engines vào server/package.json để Render dùng Node 24, rồi push cả repo lên GitHub.",
+            "Đăng nhập render.com bằng GitHub → New → Web Service → chọn repo my-shop.",
+            "Root Directory: server · Runtime: Node · Build Command: npm install · Start Command: node server.js · Instance Type: Free.",
+            "Ở mục Environment thêm DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME của Aiven, DB_CA_CERT (dán cả nội dung ca.pem), JWT_SECRET, và tạm để CLIENT_URL trống.",
+            "Bấm Create Web Service. Deploy xong, mở link dạng ten-app.onrender.com/api/products: thấy JSON là backend đã chạy."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "json",
+          "caption": "Thêm vào server/package.json, cạnh các trường đã có.",
+          "code": [
+            "{",
+            "  \"engines\": { \"node\": \"24.x\" },",
+            "  \"scripts\": {",
+            "    \"start\": \"node server.js\",",
+            "    \"dev\": \"node --watch --env-file=.env server.js\"",
+            "  }",
+            "}"
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "info",
+          "body": [
+            "Server phải nghe ở process.env.PORT: Render tự đặt cổng. Code ở mục REST API đã làm việc này."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "deploy-frontend",
+      "title": "Deploy frontend lên Vercel",
+      "summary": "React build thành file tĩnh, phục vụ qua HTTPS.",
+      "blocks": [
+        {
+          "type": "steps",
+          "items": [
+            "Thêm file client/vercel.json bên dưới để mọi đường dẫn trả về index.html, cho React Router xử lý.",
+            "Đăng nhập vercel.com bằng GitHub → Add New → Project → Import repo my-shop.",
+            "Root Directory: client. Framework Preset tự nhận Vite: Build Command npm run build, Output Directory dist.",
+            "Ở Environment Variables thêm VITE_API_URL = link Render, ví dụ https://ten-app.onrender.com, rồi bấm Deploy.",
+            "Quay lại Render, đặt CLIENT_URL = link Vercel (ví dụ https://my-shop.vercel.app) và deploy lại để CORS cho phép frontend.",
+            "Mở link Vercel trên điện thoại, đăng ký, đăng nhập, thêm một sản phẩm: chạy được là xong lộ trình."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "json",
+          "caption": "client/vercel.json: tải lại /products/7 vẫn mở đúng trang.",
+          "code": [
+            "{",
+            "  \"rewrites\": [{ \"source\": \"/(.*)\", \"destination\": \"/index.html\" }]",
+            "}"
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "warning",
+          "body": [
+            "Biến VITE_ được gắn vào code lúc build, nên đổi VITE_API_URL xong phải deploy lại. Mọi biến VITE_ đều lộ ra trình duyệt: không bao giờ đặt mật khẩu hay khoá bí mật vào đó."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "free-limits",
+      "title": "Giới hạn của các gói miễn phí",
+      "summary": "Đủ cho portfolio; biết trước để không bất ngờ.",
+      "blocks": [
+        {
+          "type": "table",
+          "columns": [
+            "Dịch vụ",
+            "Miễn phí được gì",
+            "Cần biết"
+          ],
+          "rows": [
+            [
+              "Vercel Hobby",
+              "Frontend tĩnh, HTTPS, tên miền .vercel.app",
+              "Dành cho dự án cá nhân, phi thương mại"
+            ],
+            [
+              "Render Free",
+              "Một web service Node, 750 giờ mỗi tháng",
+              "Ngủ sau 15 phút không có request; lần gọi đầu mất khoảng 1 phút"
+            ],
+            [
+              "Aiven Free MySQL",
+              "1 GB lưu trữ, 1 GB RAM, không giới hạn thời gian",
+              "Có thể bị tắt nếu lâu không dùng (có báo trước); không có SLA"
+            ]
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "info",
+          "body": [
+            "Giới hạn đọc từ trang của từng dịch vụ ngày 11/10/2026 và có thể đổi. Kiểm tra lại trang pricing trước khi chọn."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "vps",
+      "title": "Cách khác: VPS với Nginx",
+      "summary": "Tự quản một máy chủ Linux, như video của F8.",
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            "Playlist WSL bài 19–28: SSH vào server, trỏ tên miền về IP, cài Nginx, bật SSL miễn phí qua Cloudflare, deploy React.",
+            "Playlist Devops: đóng gói app bằng Docker, chạy Express cùng database bằng Docker Compose.",
+            "Đáng học sau khi đã deploy được bằng Render và Vercel: hiểu những gì các dịch vụ đó làm hộ bạn."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "done",
+      "title": "Xong phần này khi",
+      "summary": "Tự làm được hết, không mở video.",
+      "blocks": [
+        {
+          "type": "checklist",
+          "items": [
+            "REST API đủ năm route cho một tài nguyên, thử hết bằng Postman",
+            "Đăng ký, đăng nhập; mật khẩu lưu dạng hash",
+            "Route tạo, sửa, xoá trả 401 khi không có token",
+            "Frontend React gọi API của chính bạn, không dùng dữ liệu giả",
+            "Database trên Aiven, backend trên Render, frontend trên Vercel, mở được từ điện thoại",
+            "Không có mật khẩu hay JWT_SECRET nào trong repo GitHub",
+            "README ghi app làm gì, dùng công nghệ gì, link chạy thật và cách chạy ở máy"
+          ]
+        }
+      ]
+    }
+  ]
+}

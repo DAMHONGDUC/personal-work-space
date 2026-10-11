@@ -1,0 +1,638 @@
+{
+  "title": "Phần 1 — Môi trường & công cụ",
+  "tagline": "Dựng máy từ con số 0: terminal, VS Code, Node.js, Git và GitHub.",
+  "icon": "💻",
+  "topic": "roadmap",
+  "defaultLang": "vi",
+  "series": {
+    "id": "fullstack-web",
+    "part": 1
+  },
+  "tags": [
+    "WSL",
+    "Terminal",
+    "VS Code",
+    "Node.js",
+    "Git",
+    "GitHub"
+  ],
+  "readingTime": "20 phút",
+  "effectiveDate": "2026-10-11",
+  "lastUpdated": "2026-10-11",
+  "intro": [
+    "Làm một lần, dùng cho cả lộ trình. Gõ từng lệnh, đọc kết quả in ra, khớp với kết quả ghi trong bước rồi mới sang bước sau.",
+    "Windows đi theo mục WSL, macOS đi theo mục Command Line Tools; từ mục VS Code trở đi hai bên làm giống hệt nhau."
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Tổng quan",
+      "summary": "Sáu bước, mất khoảng một buổi tối.",
+      "blocks": [
+        {
+          "type": "flow",
+          "caption": "Mỗi bước cần bước trước đã xong.",
+          "stages": [
+            {
+              "items": [
+                {
+                  "label": "Web chạy thế nào",
+                  "detail": "Trình duyệt hỏi, server trả lời bằng HTML, CSS và JavaScript",
+                  "explain": [
+                    "Gõ shopee.vn: DNS đổi tên miền thành địa chỉ IP, trình duyệt gửi request HTTP tới máy đó, server trả về HTML và trình duyệt vẽ trang.",
+                    "Frontend là phần chạy trong trình duyệt (HTML, CSS, JavaScript, React). Backend là phần chạy trên server (Node, Express, MySQL). Fullstack làm cả hai."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Terminal",
+                  "detail": "Nơi gõ lệnh: chạy npm, git và server. Windows dùng WSL, macOS dùng Terminal",
+                  "explain": [
+                    "WSL chạy Ubuntu thật bên trong Windows. Nhờ vậy mọi lệnh trong video và trong lộ trình chạy giống hệt trên macOS và Linux.",
+                    "Prompt kết thúc bằng $ là chỗ gõ lệnh. Ví dụ dong@laptop:~/code$ nghĩa là người dùng dong, đang ở thư mục ~/code."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "VS Code",
+                  "detail": "Trình soạn code, mở được thư mục nằm trong WSL và có terminal riêng",
+                  "explain": [
+                    "Gõ code . trong terminal để mở thư mục hiện tại bằng VS Code. Trên Windows, tiện ích WSL cho VS Code sửa file ngay trong Ubuntu.",
+                    "Prettier tự canh lề khi lưu, ESLint báo lỗi JavaScript ngay khi gõ, Live Server tự tải lại trang khi sửa HTML và CSS."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Node.js qua nvm",
+                  "detail": "Chạy JavaScript ngoài trình duyệt và cài thư viện bằng npm",
+                  "explain": [
+                    "nvm là trình quản lý phiên bản Node: nvm install --lts cài bản hỗ trợ dài hạn mới nhất, nvm use 22 đổi sang bản 22 cho một project cũ.",
+                    "npm đi kèm Node. npm install express tải thư viện vào node_modules và ghi tên nó vào package.json để người khác cài lại được."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Git & GitHub",
+                  "detail": "Git lưu lịch sử code trên máy; GitHub giữ bản sao trên mạng",
+                  "explain": [
+                    "Mỗi commit là một ảnh chụp toàn bộ project kèm lời nhắn. Code hỏng thì quay lại commit trước, không mất gì.",
+                    "SSH key cho GitHub biết máy này là của bạn, nên push không phải gõ mật khẩu. Mỗi máy một key."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Repo đầu tiên",
+                  "detail": "Tạo thư mục, commit một file README rồi push lên GitHub để thử cả chuỗi",
+                  "explain": [
+                    "Bốn lệnh làm hằng ngày: git status xem đã đổi gì, git add chọn file, git commit lưu ảnh chụp, git push gửi lên GitHub.",
+                    "Thấy README hiện trên trang repo GitHub là mọi thứ trong phần này đã chạy đúng: terminal, Git, SSH và GitHub."
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "videos",
+      "title": "Video của phần này",
+      "summary": "Khoảng 6 giờ; xem song song với các bước bên dưới.",
+      "blocks": [
+        {
+          "type": "links",
+          "items": [
+            {
+              "label": "Kiến Thức Nhập Môn",
+              "source": "F8 Official · 7 video, 2,7 giờ",
+              "url": "https://www.youtube.com/playlist?list=PL_-VfJajZj0WSVCw3lKo2lYifzXekkv6M"
+            },
+            {
+              "label": "Windows Terminal & WSL",
+              "source": "F8 Official · bài 1–16, 3,2 giờ",
+              "url": "https://www.youtube.com/playlist?list=PL_-VfJajZj0XGfh528VqhlgXUfzw1Y0N7"
+            },
+            {
+              "label": "Git Siêu Căn Bản Cho Người Mới Bắt Đầu",
+              "source": "Hỏi Dân IT · 8 video, 2,5 giờ",
+              "url": "https://www.youtube.com/playlist?list=PLncHg6Kn2JT6nWS9MRjSnt6Z-9Rj0pAlo"
+            }
+          ]
+        },
+        {
+          "type": "table",
+          "columns": [
+            "Playlist",
+            "Bài",
+            "Học gì"
+          ],
+          "rows": [
+            [
+              "Kiến Thức Nhập Môn",
+              "3–4",
+              "Domain là gì, mô hình client – server. Bắt buộc xem."
+            ],
+            [
+              "Kiến Thức Nhập Môn",
+              "1–2, 5–7",
+              "Chia sẻ về nghề IT và cách học. Xem khi cần động lực."
+            ],
+            [
+              "Windows Terminal & WSL",
+              "1–4",
+              "Cài Windows Terminal và Ubuntu qua WSL. Máy Mac bỏ qua."
+            ],
+            [
+              "Windows Terminal & WSL",
+              "5–13",
+              "Lệnh Linux: ls, cd, mkdir, cp, mv, rm, chmod, grep. Ai cũng nên xem."
+            ],
+            [
+              "Windows Terminal & WSL",
+              "14–16",
+              "Cài Node, tạo project trên WSL. Video cài Node bản cũ; làm theo mục nvm bên dưới."
+            ],
+            [
+              "Git Siêu Căn Bản",
+              "1–6",
+              "Tạo repo, commit, push, SSH key, làm việc nhóm, giải quyết conflict."
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "how-web-works",
+      "title": "Web chạy thế nào",
+      "summary": "Năm khái niệm gặp lại ở mọi phần sau.",
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            "Tên miền (domain): tên dễ nhớ như f8.edu.vn, thay cho địa chỉ IP dạng 104.21.3.10.",
+            "DNS: danh bạ của Internet, đổi tên miền thành địa chỉ IP.",
+            "Client – server: trình duyệt (client) gửi yêu cầu, máy chủ (server) xử lý rồi trả lời.",
+            "HTTP: ngôn ngữ của yêu cầu và trả lời. GET để lấy dữ liệu, POST để gửi dữ liệu mới, PUT để sửa, DELETE để xoá.",
+            "HTML, CSS, JavaScript: ba thứ trình duyệt hiểu. HTML là nội dung, CSS là giao diện, JavaScript là hành vi."
+          ]
+        },
+        {
+          "type": "table",
+          "columns": [
+            "Mã trạng thái",
+            "Nghĩa",
+            "Gặp khi"
+          ],
+          "rows": [
+            [
+              "200",
+              "Thành công",
+              "Trang hoặc API trả dữ liệu bình thường"
+            ],
+            [
+              "201",
+              "Đã tạo",
+              "POST tạo bản ghi mới thành công"
+            ],
+            [
+              "400",
+              "Yêu cầu sai",
+              "Gửi thiếu hoặc sai dữ liệu, ví dụ email trống"
+            ],
+            [
+              "401",
+              "Chưa đăng nhập",
+              "Gọi API cần đăng nhập mà không có token"
+            ],
+            [
+              "404",
+              "Không tìm thấy",
+              "Gõ sai đường dẫn hoặc bản ghi không tồn tại"
+            ],
+            [
+              "500",
+              "Lỗi server",
+              "Code backend ném lỗi; xem log ở terminal chạy server"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "windows",
+      "title": "Windows: cài WSL",
+      "summary": "Ubuntu chạy bên trong Windows; máy Mac bỏ qua mục này.",
+      "blocks": [
+        {
+          "type": "steps",
+          "items": [
+            "Bấm Start, gõ PowerShell, chuột phải chọn Run as administrator.",
+            "Chạy lệnh wsl --install bên dưới. Lệnh bật WSL 2 và cài Ubuntu, mất 5–15 phút.",
+            "Khởi động lại máy khi được yêu cầu.",
+            "Mở Ubuntu từ Start. Lần đầu nó hỏi username và password cho Linux: chọn tên ngắn, viết thường, và nhớ password vì lệnh sudo sẽ hỏi.",
+            "Cập nhật Ubuntu bằng lệnh thứ hai bên dưới. Khi gõ password, màn hình không hiện ký tự nào: cứ gõ rồi Enter.",
+            "Cài Windows Terminal từ Microsoft Store nếu máy chưa có, rồi chọn Ubuntu làm profile mặc định trong Settings."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "powershell",
+          "caption": "Trong PowerShell chạy bằng quyền admin. Dòng thứ hai kiểm tra: Ubuntu phải có VERSION 2.",
+          "code": [
+            "wsl --install",
+            "wsl --list --verbose"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "caption": "Trong cửa sổ Ubuntu: cập nhật danh sách gói và nâng cấp chúng.",
+          "code": [
+            "sudo apt update && sudo apt upgrade -y"
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "warning",
+          "body": [
+            "Để code trong thư mục nhà của Ubuntu, ví dụ ~/code, đừng để trong /mnt/c. npm chạy trên ổ Windows qua WSL chậm hơn nhiều.",
+            "Mở thư mục Ubuntu từ File Explorer bằng cách gõ explorer.exe . trong terminal Ubuntu."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "macos",
+      "title": "macOS: Command Line Tools và Homebrew",
+      "summary": "Trên Mac, Terminal có sẵn; chỉ cần thêm công cụ dòng lệnh.",
+      "blocks": [
+        {
+          "type": "steps",
+          "items": [
+            "Mở Terminal: bấm Cmd + Space, gõ Terminal, Enter.",
+            "Chạy xcode-select --install và bấm Install trong hộp thoại. Gói này có sẵn git, make và trình biên dịch.",
+            "Cài Homebrew bằng lệnh thứ hai. Cuối quá trình nó in ra hai lệnh Next steps: chép và chạy chúng để thêm brew vào PATH.",
+            "Kiểm tra bằng brew --version và git --version: cả hai in ra số phiên bản là xong."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "caption": "Command Line Tools, Homebrew, rồi kiểm tra.",
+          "code": [
+            "xcode-select --install",
+            "/bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\"",
+            "brew --version",
+            "git --version"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "terminal",
+      "title": "Lệnh terminal cần biết",
+      "summary": "Mười lệnh dùng hằng ngày, giống nhau trên Ubuntu và macOS.",
+      "blocks": [
+        {
+          "type": "table",
+          "columns": [
+            "Lệnh",
+            "Làm gì",
+            "Ví dụ"
+          ],
+          "rows": [
+            [
+              "pwd",
+              "In thư mục đang đứng",
+              "pwd → /home/dong/code"
+            ],
+            [
+              "ls",
+              "Liệt kê file; ls -la hiện cả file ẩn",
+              "ls -la"
+            ],
+            [
+              "cd",
+              "Đổi thư mục; cd .. lên một cấp, cd ~ về nhà",
+              "cd ~/code"
+            ],
+            [
+              "mkdir",
+              "Tạo thư mục; -p tạo cả thư mục cha",
+              "mkdir -p ~/code/demo"
+            ],
+            [
+              "touch",
+              "Tạo file rỗng",
+              "touch index.html"
+            ],
+            [
+              "cp",
+              "Sao chép; -r cho thư mục",
+              "cp index.html backup.html"
+            ],
+            [
+              "mv",
+              "Di chuyển hoặc đổi tên",
+              "mv backup.html old.html"
+            ],
+            [
+              "rm",
+              "Xoá vĩnh viễn, không qua thùng rác; -r cho thư mục",
+              "rm old.html"
+            ],
+            [
+              "cat",
+              "In nội dung file",
+              "cat package.json"
+            ],
+            [
+              "clear",
+              "Xoá màn hình; Ctrl + C dừng lệnh đang chạy",
+              "clear"
+            ]
+          ]
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "caption": "Bài tập: gõ lần lượt, sau mỗi lệnh chạy ls để xem thay đổi.",
+          "code": [
+            "mkdir -p ~/code/practice",
+            "cd ~/code/practice",
+            "touch notes.txt",
+            "mv notes.txt todo.txt",
+            "cp todo.txt todo-copy.txt",
+            "rm todo-copy.txt",
+            "ls -la"
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "info",
+          "body": [
+            "Phím Tab tự điền tên file và thư mục, mũi tên lên gọi lại lệnh vừa gõ. Hai phím này tiết kiệm nhiều thời gian nhất."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "vscode",
+      "title": "Cài VS Code",
+      "summary": "Một trình soạn code cho cả lộ trình.",
+      "blocks": [
+        {
+          "type": "steps",
+          "items": [
+            "Tải VS Code từ code.visualstudio.com và cài như phần mềm bình thường. Trên Windows, giữ tuỳ chọn Add to PATH.",
+            "Windows: cài tiện ích WSL trong VS Code, rồi từ terminal Ubuntu gõ code . để mở thư mục. Góc trái dưới hiện WSL: Ubuntu là đúng.",
+            "macOS: mở Command Palette (Cmd + Shift + P), chạy Shell Command: Install 'code' command in PATH để dùng được lệnh code.",
+            "Cài các tiện ích trong bảng bên dưới từ thanh Extensions (Ctrl + Shift + X).",
+            "Mở Settings dạng JSON (Command Palette → Preferences: Open User Settings (JSON)) và thêm đoạn cấu hình bên dưới để tự format khi lưu."
+          ]
+        },
+        {
+          "type": "table",
+          "columns": [
+            "Tiện ích",
+            "Dùng để"
+          ],
+          "rows": [
+            [
+              "WSL (Microsoft)",
+              "Windows: sửa file trong Ubuntu"
+            ],
+            [
+              "Prettier – Code formatter",
+              "Tự canh lề HTML, CSS, JavaScript khi lưu"
+            ],
+            [
+              "ESLint",
+              "Báo lỗi JavaScript ngay khi gõ"
+            ],
+            [
+              "Live Server",
+              "Mở HTML trong trình duyệt, tự tải lại khi lưu"
+            ],
+            [
+              "GitLens",
+              "Xem ai sửa dòng nào, khi nào"
+            ]
+          ]
+        },
+        {
+          "type": "code",
+          "language": "json",
+          "caption": "Thêm vào settings.json, giữ nguyên các dòng đã có.",
+          "code": [
+            "{",
+            "  \"editor.formatOnSave\": true,",
+            "  \"editor.defaultFormatter\": \"esbenp.prettier-vscode\",",
+            "  \"editor.tabSize\": 2,",
+            "  \"files.autoSave\": \"onFocusChange\"",
+            "}"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "node",
+      "title": "Cài Node.js bằng nvm",
+      "summary": "Cùng một cách trên Ubuntu (WSL) và macOS.",
+      "blocks": [
+        {
+          "type": "steps",
+          "items": [
+            "Chạy lệnh cài nvm (dòng đầu bên dưới). Bản mới nhất ngày 11/10/2026 là v0.40.8.",
+            "Đóng terminal rồi mở lại, hoặc chạy source ~/.bashrc trên Ubuntu, source ~/.zshrc trên macOS.",
+            "Cài bản LTS: nvm install --lts. Lệnh tải Node 24 và đặt nó làm mặc định.",
+            "Kiểm tra: node -v in ra v24 và một số nhỏ phía sau, npm -v in ra số phiên bản npm."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "caption": "Cài nvm, nạp lại shell, cài Node LTS và kiểm tra. Trên macOS thay ~/.bashrc bằng ~/.zshrc.",
+          "code": [
+            "curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.8/install.sh | bash",
+            "source ~/.bashrc",
+            "nvm install --lts",
+            "node -v",
+            "npm -v"
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "info",
+          "body": [
+            "Ngày 11/10/2026, LTS là Node 24 (Krypton), được hỗ trợ tới tháng 4/2028. Node 26 dự kiến lên LTS cuối tháng 10/2026; khi đó chạy lại nvm install --lts.",
+            "Windows: cài Node bên trong Ubuntu như trên, không cài bản Windows, để khỏi có hai Node khác phiên bản chạy lẫn nhau."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "git",
+      "title": "Cài và cấu hình Git",
+      "summary": "Git ghi tên bạn vào mỗi commit, nên cấu hình trước khi dùng.",
+      "blocks": [
+        {
+          "type": "steps",
+          "items": [
+            "Ubuntu (WSL): cài Git bằng apt (dòng đầu). macOS: Git đã có sau bước Command Line Tools.",
+            "Đặt tên và email: dùng đúng email của tài khoản GitHub để commit hiện avatar của bạn.",
+            "Đặt nhánh mặc định là main và VS Code làm trình soạn thảo cho Git.",
+            "Kiểm tra bằng git config --list: phải thấy user.name và user.email vừa đặt."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "caption": "Thay Your Name và you@example.com bằng thông tin của bạn.",
+          "code": [
+            "sudo apt install -y git",
+            "git config --global user.name \"Your Name\"",
+            "git config --global user.email \"you@example.com\"",
+            "git config --global init.defaultBranch main",
+            "git config --global core.editor \"code --wait\"",
+            "git config --list"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "github-ssh",
+      "title": "Kết nối GitHub bằng SSH",
+      "summary": "Làm một lần mỗi máy; sau đó push không hỏi mật khẩu.",
+      "blocks": [
+        {
+          "type": "steps",
+          "items": [
+            "Tạo tài khoản ở github.com nếu chưa có.",
+            "Tạo SSH key bằng ssh-keygen. Khi được hỏi nơi lưu thì Enter để giữ mặc định; passphrase nên đặt.",
+            "Bật ssh-agent và thêm key vào agent để khỏi gõ passphrase mỗi lần.",
+            "In public key bằng cat, chép toàn bộ dòng in ra.",
+            "Trên GitHub: Settings → SSH and GPG keys → New SSH key, dán vào và lưu.",
+            "Kiểm tra bằng ssh -T git@github.com: gõ yes ở lần đầu; GitHub chào bằng username của bạn là thành công."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "caption": "Thay email bằng email GitHub của bạn.",
+          "code": [
+            "ssh-keygen -t ed25519 -C \"you@example.com\"",
+            "eval \"$(ssh-agent -s)\"",
+            "ssh-add ~/.ssh/id_ed25519",
+            "cat ~/.ssh/id_ed25519.pub",
+            "ssh -T git@github.com"
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "info",
+          "body": [
+            "Guide \"Set up SSH cho git\" trên trang này giải thích kỹ hơn: hai tài khoản GitHub trên một máy, lưu passphrase vào Keychain trên macOS."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "first-repo",
+      "title": "Repo đầu tiên",
+      "summary": "Thử cả chuỗi: terminal, Git, SSH và GitHub.",
+      "blocks": [
+        {
+          "type": "steps",
+          "items": [
+            "Trên GitHub bấm New repository, đặt tên hello-git, để Public, không tick Add a README, bấm Create.",
+            "Trong terminal tạo thư mục cùng tên và một file README (ba dòng đầu bên dưới).",
+            "Khởi tạo Git, thêm file và commit.",
+            "Nối với repo trên GitHub và push. Thay your-username bằng username GitHub của bạn.",
+            "Tải lại trang repo trên GitHub: thấy README là xong."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "caption": "Từ thư mục trống tới repo trên GitHub.",
+          "code": [
+            "mkdir -p ~/code/hello-git && cd ~/code/hello-git",
+            "echo \"# Hello Git\" > README.md",
+            "git init",
+            "git add README.md",
+            "git commit -m \"Add README\"",
+            "git remote add origin git@github.com:your-username/hello-git.git",
+            "git push -u origin main"
+          ]
+        },
+        {
+          "type": "table",
+          "columns": [
+            "Lệnh",
+            "Dùng khi"
+          ],
+          "rows": [
+            [
+              "git status",
+              "Xem file nào đã đổi, file nào chưa add"
+            ],
+            [
+              "git add .",
+              "Chọn mọi thay đổi trong thư mục cho commit tới"
+            ],
+            [
+              "git commit -m \"...\"",
+              "Lưu ảnh chụp kèm lời nhắn ngắn nói đã làm gì"
+            ],
+            [
+              "git push",
+              "Gửi các commit mới lên GitHub"
+            ],
+            [
+              "git pull",
+              "Lấy commit mới từ GitHub về máy"
+            ],
+            [
+              "git log --oneline",
+              "Xem lịch sử commit, mỗi commit một dòng"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "done",
+      "title": "Xong phần này khi",
+      "summary": "Tự làm được hết, không mở video.",
+      "blocks": [
+        {
+          "type": "checklist",
+          "items": [
+            "Mở terminal, tạo và di chuyển giữa thư mục chỉ bằng lệnh",
+            "node -v in ra v24 trở lên",
+            "code . mở đúng thư mục trong VS Code",
+            "ssh -T git@github.com chào đúng username của bạn",
+            "Repo hello-git có README trên GitHub",
+            "Giải thích bằng lời chuyện gì xảy ra khi gõ một địa chỉ web"
+          ]
+        }
+      ]
+    }
+  ]
+}

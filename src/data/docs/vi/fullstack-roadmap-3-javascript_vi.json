@@ -1,0 +1,610 @@
+{
+  "title": "Phần 3 — JavaScript",
+  "tagline": "Cú pháp, DOM, gọi API và ba project tự làm trước khi sang React.",
+  "icon": "⚡",
+  "topic": "roadmap",
+  "defaultLang": "vi",
+  "series": {
+    "id": "fullstack-web",
+    "part": 3
+  },
+  "tags": [
+    "JavaScript",
+    "DOM",
+    "Promise",
+    "fetch",
+    "async/await",
+    "ES6+"
+  ],
+  "readingTime": "22 phút",
+  "effectiveDate": "2026-10-11",
+  "lastUpdated": "2026-10-11",
+  "intro": [
+    "Phần quan trọng nhất của lộ trình: React là JavaScript, Node là JavaScript. Học chắc ở đây thì hai phần sau nhẹ đi một nửa.",
+    "Mỗi mục có code chạy được: chép vào file, chạy, rồi đổi một chi tiết để xem kết quả khác thế nào."
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Tổng quan",
+      "summary": "Sáu bước, khoảng 5 tuần.",
+      "blocks": [
+        {
+          "type": "flow",
+          "caption": "Từ dòng code đầu tiên tới trang tự gọi API.",
+          "stages": [
+            {
+              "items": [
+                {
+                  "label": "Chạy JavaScript ở đâu",
+                  "detail": "Console của trình duyệt, file .js gắn vào HTML, hoặc node trong terminal",
+                  "explain": [
+                    "Console (F12 → Console) chạy từng dòng ngay lập tức, hợp để thử. File .js gắn bằng thẻ script dùng cho trang thật.",
+                    "node app.js chạy cùng ngôn ngữ ngoài trình duyệt: không có document hay window, nhưng có file và mạng. Phần 5 dùng đúng cách này."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Cú pháp nền tảng",
+                  "detail": "Biến, kiểu dữ liệu, toán tử, if, vòng lặp",
+                  "explain": [
+                    "const cho giá trị không gán lại, let khi cần gán lại; không dùng var. So sánh bằng === để không bị đổi kiểu ngầm: 1 == '1' là true, 1 === '1' là false.",
+                    "Template string ghép chuỗi gọn hơn: `Xin chào ${name}` thay cho 'Xin chào ' + name."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Mảng, object, hàm",
+                  "detail": "Dữ liệu dạng danh sách và bản ghi, biến đổi bằng map, filter, reduce",
+                  "explain": [
+                    "Object gom thông tin của một thứ: { name: 'Áo', price: 150000 }. Mảng giữ nhiều object: danh sách sản phẩm.",
+                    "map biến từng phần tử, filter giữ phần tử thoả điều kiện, reduce gộp cả mảng thành một giá trị, ví dụ tổng tiền giỏ hàng.",
+                    "Callback là hàm truyền vào hàm khác để gọi sau. map, filter và addEventListener đều nhận callback."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "DOM & sự kiện",
+                  "detail": "Tìm phần tử trên trang, đổi nội dung, phản hồi click và submit",
+                  "explain": [
+                    "DOM là cây phần tử trình duyệt dựng từ HTML. document.querySelector('.todo-list') lấy một phần tử; element.textContent đổi chữ bên trong.",
+                    "addEventListener('click', handler) chạy handler mỗi lần bấm. Với form, gọi event.preventDefault() để trang không tải lại khi submit."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Bất đồng bộ: Promise, fetch",
+                  "detail": "Gọi API mà trang không bị treo trong lúc chờ kết quả",
+                  "explain": [
+                    "fetch trả về Promise: một lời hứa sẽ có kết quả sau. await đợi lời hứa đó trong hàm async, nên code đọc từ trên xuống như bình thường.",
+                    "Luôn kiểm tra response.ok: fetch không ném lỗi khi server trả 404 hay 500, chỉ ném khi mất mạng.",
+                    "JSON là định dạng dữ liệu API trả về. response.json() đổi chuỗi JSON thành object JavaScript."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Nâng cao: scope, closure, this",
+                  "detail": "Những thứ giải thích vì sao code chạy khác điều bạn nghĩ",
+                  "explain": [
+                    "Scope quyết định biến nhìn thấy ở đâu. Closure là hàm nhớ biến của nơi nó được tạo, kể cả khi nơi đó đã chạy xong.",
+                    "this phụ thuộc cách hàm được gọi, không phải nơi viết. Arrow function không có this riêng, nên hay dùng trong callback."
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "videos",
+      "title": "Video của phần này",
+      "summary": "Khoảng 34 giờ; form validation đã nằm sẵn trong khoá cơ bản.",
+      "blocks": [
+        {
+          "type": "links",
+          "items": [
+            {
+              "label": "Javascript Cơ Bản",
+              "source": "F8 Official · ~29 giờ, gồm cả form validation",
+              "url": "https://www.youtube.com/playlist?list=PL_-VfJajZj0VgpFpEVFzS5Z-lkXtBe-x5"
+            },
+            {
+              "label": "Javascript Nâng Cao",
+              "source": "F8 Official · 14 video, 5,1 giờ",
+              "url": "https://www.youtube.com/playlist?list=PL_-VfJajZj0U1MSx1IMu13oLJq2nM97ac"
+            }
+          ]
+        },
+        {
+          "type": "table",
+          "columns": [
+            "Playlist",
+            "Bài",
+            "Học gì"
+          ],
+          "rows": [
+            [
+              "Javascript Cơ Bản",
+              "5–48",
+              "Biến, toán tử, kiểu dữ liệu, chuỗi, mảng, hàm, object, if/switch, vòng lặp."
+            ],
+            [
+              "Javascript Cơ Bản",
+              "49–62",
+              "map, reduce, callback; tự viết lại forEach, filter, some, every; đệ quy."
+            ],
+            [
+              "Javascript Cơ Bản",
+              "63–79",
+              "DOM: lấy element, sửa nội dung và class, xử lý sự kiện."
+            ],
+            [
+              "Javascript Cơ Bản",
+              "80–86",
+              "Project form validation, làm theo hai cách."
+            ],
+            [
+              "Javascript Cơ Bản",
+              "87–92",
+              "JSON, Promise và chuỗi Promise."
+            ],
+            [
+              "Javascript Cơ Bản",
+              "93 trở đi",
+              "ES6: let/const, arrow function, class, destructuring; rồi fetch và Postman."
+            ],
+            [
+              "Javascript Nâng Cao",
+              "2–13",
+              "IIFE, scope, closure, hoisting, strict mode, this, bind/call/apply, tham trị và tham chiếu."
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "run-js",
+      "title": "Chạy JavaScript ở đâu",
+      "summary": "Ba chỗ, dùng cả ba trong phần này.",
+      "blocks": [
+        {
+          "type": "steps",
+          "items": [
+            "Thử nhanh: mở trang bất kỳ, bấm F12, chọn tab Console, gõ 2 + 3 rồi Enter.",
+            "Trên trang của bạn: tạo app.js cạnh index.html và gắn bằng thẻ script có defer, để code chạy sau khi HTML đã dựng xong.",
+            "Trong terminal: node app.js chạy file không cần trình duyệt. Dùng cho bài tập thuần logic như tính tổng hay lọc mảng."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "html",
+          "caption": "Gắn app.js vào trang; defer chờ HTML dựng xong mới chạy.",
+          "code": [
+            "<script src=\"app.js\" defer></script>"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "caption": "Chạy file JavaScript bằng Node.",
+          "code": [
+            "echo \"console.log('Xin chào từ Node')\" > hello.js",
+            "node hello.js"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "basics",
+      "title": "Nền tảng",
+      "summary": "Những gì phải gõ được không cần tra.",
+      "blocks": [
+        {
+          "type": "table",
+          "columns": [
+            "Khái niệm",
+            "Ví dụ",
+            "Ghi nhớ"
+          ],
+          "rows": [
+            [
+              "Biến",
+              "const price = 150000",
+              "const mặc định, let khi cần gán lại"
+            ],
+            [
+              "Kiểu dữ liệu",
+              "string, number, boolean, null, undefined, object",
+              "typeof x cho biết kiểu"
+            ],
+            [
+              "So sánh",
+              "a === b, a !== b",
+              "Không dùng == và !="
+            ],
+            [
+              "Chuỗi",
+              "`Tổng: ${total}đ`",
+              "Template string thay cho dấu +"
+            ],
+            [
+              "Điều kiện",
+              "if (age >= 18) { … } else { … }",
+              "Toán tử 3 ngôi cho trường hợp ngắn"
+            ],
+            [
+              "Vòng lặp",
+              "for (const item of items) { … }",
+              "for…of cho mảng, for…in cho key object"
+            ],
+            [
+              "Hàm",
+              "const add = (a, b) => a + b",
+              "Arrow function cho hàm ngắn và callback"
+            ],
+            [
+              "Object",
+              "user.name, user['email']",
+              "Destructuring: const { name } = user"
+            ]
+          ]
+        },
+        {
+          "type": "code",
+          "language": "javascript",
+          "caption": "Chạy bằng node để thấy kết quả của từng dòng.",
+          "code": [
+            "const product = { name: 'Áo thun', price: 150000, inStock: true };",
+            "",
+            "const { name, price } = product;",
+            "const label = product.inStock ? 'Còn hàng' : 'Hết hàng';",
+            "",
+            "console.log(`${name}: ${price.toLocaleString('vi-VN')}đ, ${label}`);",
+            "",
+            "function discount(amount, percent = 10) {",
+            "  return amount - (amount * percent) / 100;",
+            "}",
+            "",
+            "console.log(discount(price));",
+            "console.log(discount(price, 25));"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "arrays",
+      "title": "Mảng: map, filter, reduce",
+      "summary": "Ba hàm dùng nhiều nhất, cả trong React lẫn Node.",
+      "blocks": [
+        {
+          "type": "table",
+          "columns": [
+            "Hàm",
+            "Trả về",
+            "Ví dụ"
+          ],
+          "rows": [
+            [
+              "map",
+              "Mảng mới, mỗi phần tử đã biến đổi",
+              "prices.map(p => p * 2)"
+            ],
+            [
+              "filter",
+              "Mảng mới chỉ gồm phần tử thoả điều kiện",
+              "items.filter(i => i.inStock)"
+            ],
+            [
+              "find",
+              "Phần tử đầu tiên thoả điều kiện, hoặc undefined",
+              "users.find(u => u.id === 3)"
+            ],
+            [
+              "some / every",
+              "true nếu ít nhất một / tất cả thoả",
+              "items.some(i => i.price > 1e6)"
+            ],
+            [
+              "reduce",
+              "Một giá trị gộp từ cả mảng",
+              "cart.reduce((s, i) => s + i.price, 0)"
+            ],
+            [
+              "toSorted",
+              "Mảng mới đã sắp xếp, không đụng mảng cũ",
+              "items.toSorted((a, b) => a.price - b.price)"
+            ]
+          ]
+        },
+        {
+          "type": "code",
+          "language": "javascript",
+          "caption": "Giỏ hàng: lọc hàng còn, tính tổng, in danh sách tên.",
+          "code": [
+            "const cart = [",
+            "  { name: 'Áo', price: 150000, inStock: true },",
+            "  { name: 'Quần', price: 300000, inStock: false },",
+            "  { name: 'Mũ', price: 90000, inStock: true },",
+            "];",
+            "",
+            "const available = cart.filter((item) => item.inStock);",
+            "const total = available.reduce((sum, item) => sum + item.price, 0);",
+            "const names = available.map((item) => item.name);",
+            "",
+            "console.log(names.join(', '), total);"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dom",
+      "title": "DOM và sự kiện",
+      "summary": "Todo list nhỏ nhất: gõ, bấm Thêm, dòng mới hiện ra.",
+      "blocks": [
+        {
+          "type": "steps",
+          "items": [
+            "Tạo index.html có một form gồm input và nút, cùng một ul trống (đoạn HTML bên dưới).",
+            "Trong app.js lấy form, input và ul bằng querySelector.",
+            "Nghe sự kiện submit của form, chặn tải lại trang bằng preventDefault.",
+            "Tạo thẻ li mới, gán chữ từ input, gắn vào ul, rồi xoá trống input.",
+            "Mở rộng: bấm vào một dòng để gạch ngang bằng classList.toggle, lưu danh sách vào localStorage."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "html",
+          "caption": "index.html: form và danh sách.",
+          "code": [
+            "<form class=\"todo-form\">",
+            "  <input name=\"task\" placeholder=\"Việc cần làm\" required />",
+            "  <button>Thêm</button>",
+            "</form>",
+            "<ul class=\"todo-list\"></ul>",
+            "<script src=\"app.js\" defer></script>"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "javascript",
+          "caption": "app.js: thêm việc khi submit, gạch ngang khi bấm vào.",
+          "code": [
+            "const form = document.querySelector('.todo-form');",
+            "const list = document.querySelector('.todo-list');",
+            "",
+            "form.addEventListener('submit', (event) => {",
+            "  event.preventDefault();",
+            "  const task = form.elements.task.value.trim();",
+            "  if (!task) return;",
+            "",
+            "  const item = document.createElement('li');",
+            "  item.textContent = task;",
+            "  list.append(item);",
+            "  form.reset();",
+            "});",
+            "",
+            "list.addEventListener('click', (event) => {",
+            "  if (event.target.matches('li')) event.target.classList.toggle('done');",
+            "});"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "async",
+      "title": "Promise, async/await và fetch",
+      "summary": "Cách gọi API; React và Node dùng y như vậy.",
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            "Promise là kết quả sẽ có sau: thành công (resolve) hoặc thất bại (reject).",
+            "async đặt trước hàm cho phép dùng await bên trong; await dừng hàm đó tới khi Promise xong, trang vẫn chạy bình thường.",
+            "try/catch bắt lỗi của await: mất mạng, JSON hỏng, hoặc lỗi bạn tự ném khi response.ok là false.",
+            "localStorage lưu chuỗi trong trình duyệt: JSON.stringify trước khi lưu, JSON.parse khi đọc ra."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "javascript",
+          "caption": "Lấy nhiệt độ hiện tại ở TP.HCM từ Open-Meteo, một API miễn phí không cần key.",
+          "code": [
+            "async function getTemperature(latitude, longitude) {",
+            "  const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m`;",
+            "",
+            "  try {",
+            "    const response = await fetch(url);",
+            "    if (!response.ok) throw new Error(`HTTP ${response.status}`);",
+            "",
+            "    const data = await response.json();",
+            "    return data.current.temperature_2m;",
+            "  } catch (error) {",
+            "    console.error('Không lấy được thời tiết:', error.message);",
+            "    return null;",
+            "  }",
+            "}",
+            "",
+            "getTemperature(10.82, 106.63).then((temp) => console.log(`${temp}°C`));"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "modern",
+      "title": "Module và cú pháp hiện đại",
+      "summary": "Thứ React và Node dùng ở mọi file.",
+      "blocks": [
+        {
+          "type": "table",
+          "columns": [
+            "Cú pháp",
+            "Ví dụ",
+            "Dùng khi"
+          ],
+          "rows": [
+            [
+              "export / import",
+              "export function sum() {} · import { sum } from './math.js'",
+              "Chia code ra nhiều file"
+            ],
+            [
+              "Optional chaining",
+              "user?.address?.city",
+              "Đọc sâu mà không lỗi khi giữa chừng là undefined"
+            ],
+            [
+              "Nullish coalescing",
+              "const page = query.page ?? 1",
+              "Giá trị mặc định khi null hoặc undefined"
+            ],
+            [
+              "Spread",
+              "const next = { ...user, name: 'Lan' }",
+              "Tạo bản sao có sửa, không đụng bản gốc"
+            ],
+            [
+              "Destructuring",
+              "const [first, ...rest] = items",
+              "Lấy phần tử hoặc thuộc tính ra biến"
+            ]
+          ]
+        },
+        {
+          "type": "code",
+          "language": "html",
+          "caption": "Dùng import/export trong trình duyệt: thêm type=\"module\" (module tự defer).",
+          "code": [
+            "<script type=\"module\" src=\"app.js\"></script>"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "debug",
+      "title": "Đọc lỗi và debug",
+      "summary": "Thông báo lỗi nói đúng chỗ hỏng, nếu đọc kỹ.",
+      "blocks": [
+        {
+          "type": "table",
+          "columns": [
+            "Lỗi",
+            "Thường do",
+            "Sửa"
+          ],
+          "rows": [
+            [
+              "TypeError: Cannot read properties of undefined",
+              "Đọc thuộc tính của thứ chưa có, ví dụ data.user.name khi user chưa về",
+              "In biến ra trước dòng lỗi; dùng ?. khi dữ liệu có thể thiếu"
+            ],
+            [
+              "ReferenceError: x is not defined",
+              "Gõ sai tên biến, hoặc dùng ngoài scope",
+              "So tên từng ký tự; kiểm tra biến khai báo ở đâu"
+            ],
+            [
+              "SyntaxError: Unexpected token",
+              "Thiếu ngoặc, dấu phẩy, hoặc dấu nháy",
+              "Xem dòng được báo và dòng ngay trên nó"
+            ],
+            [
+              "Uncaught (in promise)",
+              "Promise bị reject mà không có catch",
+              "Bọc await trong try/catch"
+            ],
+            [
+              "null khi querySelector",
+              "Script chạy trước khi HTML dựng xong, hoặc sai selector",
+              "Thêm defer vào thẻ script; kiểm tra tên class"
+            ]
+          ]
+        },
+        {
+          "type": "steps",
+          "items": [
+            "Đọc dòng lỗi đỏ trong Console và bấm vào tên file bên phải để nhảy tới đúng dòng.",
+            "Đặt console.log ngay trước dòng lỗi để xem giá trị thật của biến.",
+            "Dùng breakpoint: tab Sources, bấm vào số dòng; trang dừng ở đó và cho xem mọi biến lúc ấy.",
+            "Chép nguyên văn dòng lỗi lên Google hoặc hỏi AI, kèm đoạn code liên quan."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "projects",
+      "title": "Ba project tự làm",
+      "summary": "Làm theo thứ tự, không mở video; kẹt thì đọc MDN.",
+      "blocks": [
+        {
+          "type": "table",
+          "columns": [
+            "Project",
+            "Tính năng",
+            "Dùng kiến thức"
+          ],
+          "rows": [
+            [
+              "Todo app",
+              "Thêm, sửa, xoá, đánh dấu xong, lọc việc chưa xong, lưu vào localStorage",
+              "DOM, sự kiện, mảng, filter, JSON"
+            ],
+            [
+              "Form đăng ký",
+              "Kiểm tra email, mật khẩu ≥ 8 ký tự, nhập lại khớp; báo lỗi dưới từng ô",
+              "Sự kiện input và submit, chuỗi, regex đơn giản"
+            ],
+            [
+              "App thời tiết",
+              "Gõ tên thành phố, tìm toạ độ, hiện nhiệt độ và trạng thái tải, báo lỗi khi không tìm thấy",
+              "fetch, async/await, try/catch, DOM"
+            ]
+          ]
+        },
+        {
+          "type": "code",
+          "language": "javascript",
+          "caption": "Gợi ý cho app thời tiết: API geocoding của Open-Meteo đổi tên thành phố thành toạ độ.",
+          "code": [
+            "const response = await fetch('https://geocoding-api.open-meteo.com/v1/search?name=Hanoi&count=1');",
+            "const { results } = await response.json();",
+            "const { latitude, longitude } = results[0];"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "done",
+      "title": "Xong phần này khi",
+      "summary": "Tự làm được hết, không mở video.",
+      "blocks": [
+        {
+          "type": "checklist",
+          "items": [
+            "Viết được map, filter, reduce không cần tra",
+            "Todo app chạy được và giữ dữ liệu khi tải lại trang",
+            "Form đăng ký báo lỗi đúng ô, không tải lại trang",
+            "App thời tiết gọi API bằng async/await và báo lỗi khi API hỏng",
+            "Giải thích bằng ví dụ closure là gì",
+            "Cả ba project có trên GitHub, kèm link GitHub Pages"
+          ]
+        }
+      ]
+    }
+  ]
+}

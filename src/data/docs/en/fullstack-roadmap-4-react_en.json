@@ -1,0 +1,650 @@
+{
+  "title": "Part 4 — ReactJS",
+  "tagline": "React 19 with Vite 8 and React Router 8, following F8's videos without the tooling drifting.",
+  "icon": "⚛️",
+  "topic": "roadmap",
+  "defaultLang": "vi",
+  "series": {
+    "id": "fullstack-web",
+    "part": 4
+  },
+  "tags": [
+    "React 19",
+    "Vite 8",
+    "Hooks",
+    "React Router 8",
+    "Tailwind 4"
+  ],
+  "readingTime": "22 min",
+  "effectiveDate": "2026-10-11",
+  "lastUpdated": "2026-10-11",
+  "intro": [
+    "F8's React course dates from 2022 and uses Create React App, now unmaintained. The ideas still hold; this page shows how to do the same with October 2026 tools.",
+    "Start only once part 3's checklist is done. Nine times out of ten, a strange React bug is a JavaScript bug."
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Overview",
+      "summary": "Six steps, about four weeks.",
+      "blocks": [
+        {
+          "type": "flow",
+          "caption": "From an empty project to a TikTok clone.",
+          "stages": [
+            {
+              "items": [
+                {
+                  "label": "Create a project with Vite",
+                  "detail": "One command makes a working React project that reloads on save",
+                  "explain": [
+                    "npm create vite@latest asks for a name and a template; pick React and JavaScript. npm run dev serves it at localhost:5173.",
+                    "Vite replaces the video's Create React App: it starts fast, reloads instantly, and is the first tool react.dev lists for building a React app from scratch."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Components & JSX",
+                  "detail": "Each piece of interface is a function returning JSX, assembled into a page",
+                  "explain": [
+                    "JSX looks like HTML but is JavaScript: className instead of class, {price} inserts a variable, and each component returns exactly one root.",
+                    "Component names start with a capital, like ProductCard; lowercase names are read as HTML tags."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Props & state",
+                  "detail": "Props come down from the parent; state is data the component holds and changes",
+                  "explain": [
+                    "useState returns [value, setter]. Calling the setter makes React redraw; assigning the variable directly changes nothing on screen.",
+                    "Change arrays or objects in state with a new copy: setTodos([...todos, newTodo]), never todos.push."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "useEffect for APIs",
+                  "detail": "Run side work after drawing: call APIs, set timers, listen to window events",
+                  "explain": [
+                    "The dependency array decides when it reruns: [] runs once on mount, [userId] reruns whenever userId changes.",
+                    "In development, StrictMode runs effects twice to expose missing cleanup. Seeing an API called twice in dev is normal."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "React Router 8",
+                  "detail": "Many pages in one app, changing the URL without a reload",
+                  "explain": [
+                    "Install react-router (version 8). The video uses react-router-dom 6, but BrowserRouter, Routes, Route, Link and useParams are written the same; only the import changes.",
+                    "Route path=\"/products/:id\" matches any /products/42; useParams() returns { id: '42' }."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "The TikTok project",
+                  "detail": "Build the layout, a header with API search, and a sidebar, with F8's videos",
+                  "explain": [
+                    "Build it with Vite instead of CRA. The customize-cra and babel-plugin-module-resolver lessons become a few lines of resolve.alias in vite.config.js.",
+                    "The video's libraries still install with React 19: axios, clsx, Font Awesome, Tippy. @tippyjs/react, though, has not been updated since 2022; see the note below."
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "videos",
+      "title": "Videos for this part",
+      "summary": "About 28 hours; Tailwind is optional.",
+      "blocks": [
+        {
+          "type": "links",
+          "items": [
+            {
+              "label": "ReactJS 2022",
+              "source": "F8 Official · 83 videos, 27.5 h, TikTok project included",
+              "url": "https://www.youtube.com/playlist?list=PL_-VfJajZj0UXjlKfBwFX73usByw3Ph9Q"
+            },
+            {
+              "label": "Tailwind CSS",
+              "source": "F8 Official · 20 videos, 5.3 h · optional",
+              "url": "https://www.youtube.com/playlist?list=PL_-VfJajZj0WhWd3jOoNOFy_pgpu4oua-"
+            }
+          ]
+        },
+        {
+          "type": "table",
+          "columns": [
+            "Playlist",
+            "Lessons",
+            "What it covers"
+          ],
+          "rows": [
+            [
+              "ReactJS 2022",
+              "1–8",
+              "SPA versus MPA, and an ES6 refresher: arrow functions, modules, spread, destructuring."
+            ],
+            [
+              "ReactJS 2022",
+              "9–27",
+              "React elements, JSX, props, components. The Webpack and CRA setup (lessons 21–27) is replaced by the Vite section below."
+            ],
+            [
+              "ReactJS 2022",
+              "28–49",
+              "Hooks: useState, useEffect, useRef, memo, useCallback, useMemo, useReducer, useContext."
+            ],
+            [
+              "ReactJS 2022",
+              "50–54",
+              "CSS modules, clsx, SCSS, and React Router v6."
+            ],
+            [
+              "ReactJS 2022",
+              "55–83",
+              "TikTok clone project: layouts, header, search calling an API with axios, sidebar."
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "create",
+      "title": "Create a project with Vite",
+      "summary": "Five minutes from the first command to React running in the browser.",
+      "blocks": [
+        {
+          "type": "steps",
+          "items": [
+            "Go to your code folder and run the create command below. Vite 8 needs Node 20.19 or 22.12+; part 1's Node 24 is enough.",
+            "Enter the project folder and run npm install to download the libraries into node_modules.",
+            "Run npm run dev and open localhost:5173. Change text in src/App.jsx and save: the page updates without losing state.",
+            "Stop the server with Ctrl + C. Commit the project to GitHub; node_modules is already in .gitignore."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "caption": "Create, install and run a React project with Vite.",
+          "code": [
+            "cd ~/code",
+            "npm create vite@latest my-react-app -- --template react",
+            "cd my-react-app",
+            "npm install",
+            "npm run dev"
+          ]
+        },
+        {
+          "type": "table",
+          "columns": [
+            "File",
+            "Role"
+          ],
+          "rows": [
+            [
+              "index.html",
+              "The only page; React draws everything into div#root"
+            ],
+            [
+              "src/main.jsx",
+              "The entry point: createRoot mounts App into div#root"
+            ],
+            [
+              "src/App.jsx",
+              "The root component, where you start writing"
+            ],
+            [
+              "src/*.css",
+              "CSS, imported straight into components"
+            ],
+            [
+              "public/",
+              "Static files served as-is, such as the favicon"
+            ],
+            [
+              "package.json",
+              "The library list and the npm run scripts"
+            ],
+            [
+              "vite.config.js",
+              "Vite's config: plugins, aliases"
+            ]
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "warning",
+          "body": [
+            "Files containing JSX need the .jsx extension. The video uses .js for components, which Vite rejects with a syntax error, so rename files when copying."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "jsx",
+      "title": "Components and JSX",
+      "summary": "One component taking props, one assembling a list.",
+      "blocks": [
+        {
+          "type": "code",
+          "language": "jsx",
+          "caption": "src/App.jsx: ProductCard takes props; App draws the list with map, each item with its own key.",
+          "code": [
+            "function ProductCard({ name, price }) {",
+            "  return (",
+            "    <article className=\"card\">",
+            "      <h3>{name}</h3>",
+            "      <p>{price.toLocaleString('vi-VN')}đ</p>",
+            "    </article>",
+            "  );",
+            "}",
+            "",
+            "const products = [",
+            "  { id: 1, name: 'Áo thun', price: 150000 },",
+            "  { id: 2, name: 'Quần jean', price: 450000 },",
+            "];",
+            "",
+            "export default function App() {",
+            "  return (",
+            "    <main>",
+            "      {products.map((product) => (",
+            "        <ProductCard key={product.id} name={product.name} price={product.price} />",
+            "      ))}",
+            "    </main>",
+            "  );",
+            "}"
+          ]
+        },
+        {
+          "type": "list",
+          "items": [
+            "className instead of class, htmlFor instead of for.",
+            "Braces {} insert any JavaScript expression: a variable, a calculation, a function call.",
+            "Every list item needs a stable key, usually an id. Avoid the array index when the list can be added to, removed from or sorted.",
+            "To return several sibling tags, wrap them in <>…</> (a Fragment)."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "state",
+      "title": "State and events",
+      "summary": "The to-do app rewritten in React: compare with part 3 to see the difference.",
+      "blocks": [
+        {
+          "type": "code",
+          "language": "jsx",
+          "caption": "The input is controlled by state; the list changes through new copies.",
+          "code": [
+            "import { useState } from 'react';",
+            "",
+            "export default function TodoApp() {",
+            "  const [todos, setTodos] = useState([]);",
+            "  const [text, setText] = useState('');",
+            "",
+            "  function handleSubmit(event) {",
+            "    event.preventDefault();",
+            "    if (!text.trim()) return;",
+            "    setTodos((prev) => [...prev, { id: crypto.randomUUID(), text, done: false }]);",
+            "    setText('');",
+            "  }",
+            "",
+            "  function toggle(id) {",
+            "    setTodos((prev) => prev.map((t) => (t.id === id ? { ...t, done: !t.done } : t)));",
+            "  }",
+            "",
+            "  return (",
+            "    <>",
+            "      <form onSubmit={handleSubmit}>",
+            "        <input value={text} onChange={(e) => setText(e.target.value)} />",
+            "        <button>Thêm</button>",
+            "      </form>",
+            "      <ul>",
+            "        {todos.map((t) => (",
+            "          <li key={t.id} onClick={() => toggle(t.id)} className={t.done ? 'done' : ''}>",
+            "            {t.text}",
+            "          </li>",
+            "        ))}",
+            "      </ul>",
+            "    </>",
+            "  );",
+            "}"
+          ]
+        },
+        {
+          "type": "list",
+          "items": [
+            "Never mutate state: todos.push(x) changes nothing on screen; setTodos([...todos, x]) does.",
+            "When the new value comes from the old one, pass a function: setCount((c) => c + 1).",
+            "Events are camelCase and take a function: onClick={handleClick}, not onclick=\"handleClick()\"."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "effect",
+      "title": "useEffect and calling APIs",
+      "summary": "Three states every API screen has: loading, error, data.",
+      "blocks": [
+        {
+          "type": "code",
+          "language": "jsx",
+          "caption": "Fetch users from JSONPlaceholder, a free fake API for practice.",
+          "code": [
+            "import { useEffect, useState } from 'react';",
+            "",
+            "export default function Users() {",
+            "  const [users, setUsers] = useState([]);",
+            "  const [loading, setLoading] = useState(true);",
+            "  const [error, setError] = useState(null);",
+            "",
+            "  useEffect(() => {",
+            "    let ignore = false;",
+            "",
+            "    fetch('https://jsonplaceholder.typicode.com/users')",
+            "      .then((res) => {",
+            "        if (!res.ok) throw new Error(`HTTP ${res.status}`);",
+            "        return res.json();",
+            "      })",
+            "      .then((data) => !ignore && setUsers(data))",
+            "      .catch((err) => !ignore && setError(err.message))",
+            "      .finally(() => !ignore && setLoading(false));",
+            "",
+            "    return () => {",
+            "      ignore = true;",
+            "    };",
+            "  }, []);",
+            "",
+            "  if (loading) return <p>Đang tải…</p>;",
+            "  if (error) return <p>Lỗi: {error}</p>;",
+            "  return <ul>{users.map((u) => <li key={u.id}>{u.name}</li>)}</ul>;",
+            "}"
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "info",
+          "body": [
+            "The function returned from useEffect is the cleanup. The ignore flag drops an old call's result when the component has left or rerun."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "router",
+      "title": "Pages with React Router 8",
+      "summary": "Three files to touch, and the app has pages.",
+      "blocks": [
+        {
+          "type": "steps",
+          "items": [
+            "Install it: npm install react-router.",
+            "In src/main.jsx wrap App in BrowserRouter.",
+            "In App declare Routes: each Route ties a path to a component; path=\"*\" catches everything else.",
+            "Use Link instead of an a tag to change pages without a reload; read URL parameters with useParams."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "jsx",
+          "caption": "src/main.jsx: wrap App in BrowserRouter.",
+          "code": [
+            "import { StrictMode } from 'react';",
+            "import { createRoot } from 'react-dom/client';",
+            "import { BrowserRouter } from 'react-router';",
+            "import App from './App.jsx';",
+            "",
+            "createRoot(document.getElementById('root')).render(",
+            "  <StrictMode>",
+            "    <BrowserRouter>",
+            "      <App />",
+            "    </BrowserRouter>",
+            "  </StrictMode>,",
+            ");"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "jsx",
+          "caption": "src/App.jsx: three pages and a 404.",
+          "code": [
+            "import { Link, Route, Routes, useParams } from 'react-router';",
+            "",
+            "function Home() {",
+            "  return <h1>Trang chủ</h1>;",
+            "}",
+            "",
+            "function Product() {",
+            "  const { id } = useParams();",
+            "  return <h1>Sản phẩm {id}</h1>;",
+            "}",
+            "",
+            "export default function App() {",
+            "  return (",
+            "    <>",
+            "      <nav>",
+            "        <Link to=\"/\">Trang chủ</Link> <Link to=\"/products/42\">Sản phẩm 42</Link>",
+            "      </nav>",
+            "      <Routes>",
+            "        <Route path=\"/\" element={<Home />} />",
+            "        <Route path=\"/products/:id\" element={<Product />} />",
+            "        <Route path=\"*\" element={<h1>Không tìm thấy trang</h1>} />",
+            "      </Routes>",
+            "    </>",
+            "  );",
+            "}"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "f8-2026",
+      "title": "Following F8's videos with 2026 tools",
+      "summary": "Every place the video differs from today, and what to do now.",
+      "blocks": [
+        {
+          "type": "table",
+          "columns": [
+            "In the video",
+            "Now",
+            "What to do"
+          ],
+          "rows": [
+            [
+              "Create React App",
+              "Vite 8",
+              "npm create vite@latest, as above"
+            ],
+            [
+              "ReactDOM.render (React 17)",
+              "Removed in React 19",
+              "createRoot, already in Vite's main.jsx"
+            ],
+            [
+              "react-router-dom 6",
+              "react-router 8",
+              "npm install react-router; change the import, keep the code"
+            ],
+            [
+              "customize-cra, babel-plugin-module-resolver",
+              "Vite's resolve.alias",
+              "See the TikTok section below"
+            ],
+            [
+              "PropTypes",
+              "React 19 ignores propTypes",
+              "Still allowed but no longer warns; check types with TypeScript later"
+            ],
+            [
+              "node-sass",
+              "sass",
+              "npm install -D sass, then import .scss files as in the video"
+            ],
+            [
+              "Components named .js",
+              ".jsx",
+              "Rename files that contain JSX"
+            ],
+            [
+              "process.env.REACT_APP_…",
+              "import.meta.env.VITE_…",
+              "Environment variables must start with VITE_"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tiktok-vite",
+      "title": "Build the TikTok project with Vite",
+      "summary": "Replace the two CRA setup lessons (57–58) with these steps; follow the video for the rest.",
+      "blocks": [
+        {
+          "type": "steps",
+          "items": [
+            "Create the project with Vite as above, naming it tiktok-ui.",
+            "Install the libraries the video uses: the npm install line below.",
+            "Edit vite.config.js so ~ points at src, like the video's alias.",
+            "Create jsconfig.json so VS Code understands the ~ alias and completes paths.",
+            "From lesson 59 on, follow the video; remember .jsx for files with JSX."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "caption": "The libraries the TikTok project uses.",
+          "code": [
+            "npm install react-router axios clsx @tippyjs/react tippy.js @fortawesome/react-fontawesome @fortawesome/fontawesome-svg-core @fortawesome/free-solid-svg-icons",
+            "npm install -D sass"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "javascript",
+          "caption": "vite.config.js: the ~ alias points at src.",
+          "code": [
+            "import { defineConfig } from 'vite';",
+            "import react from '@vitejs/plugin-react';",
+            "import { fileURLToPath, URL } from 'node:url';",
+            "",
+            "export default defineConfig({",
+            "  plugins: [react()],",
+            "  resolve: {",
+            "    alias: {",
+            "      '~': fileURLToPath(new URL('./src', import.meta.url)),",
+            "    },",
+            "  },",
+            "});"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "json",
+          "caption": "jsconfig.json at the project root.",
+          "code": [
+            "{",
+            "  \"compilerOptions\": {",
+            "    \"paths\": { \"~/*\": [\"./src/*\"] }",
+            "  }",
+            "}"
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "warning",
+          "body": [
+            "@tippyjs/react has not been updated since 2022. It still installs with React 19; if the console reports ref errors, build the dropdown in CSS or use @floating-ui/react instead."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tailwind",
+      "title": "Tailwind CSS 4 (optional)",
+      "summary": "CSS written as utility classes; version 4 installs much more simply.",
+      "blocks": [
+        {
+          "type": "steps",
+          "items": [
+            "Install tailwindcss and its Vite plugin.",
+            "Add the tailwindcss() plugin to vite.config.js, next to react().",
+            "Replace src/index.css with the single line @import \"tailwindcss\".",
+            "Use classes in JSX, for example className=\"p-4 text-lg font-bold\"."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "caption": "Install Tailwind 4 for Vite.",
+          "code": [
+            "npm install tailwindcss @tailwindcss/vite"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "javascript",
+          "caption": "vite.config.js: add Tailwind's plugin.",
+          "code": [
+            "import { defineConfig } from 'vite';",
+            "import react from '@vitejs/plugin-react';",
+            "import tailwindcss from '@tailwindcss/vite';",
+            "",
+            "export default defineConfig({",
+            "  plugins: [react(), tailwindcss()],",
+            "});"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "css",
+          "caption": "src/index.css: one line is all it takes.",
+          "code": [
+            "@import \"tailwindcss\";"
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "info",
+          "body": [
+            "A video with tailwind.config.js and the three @tailwind base, components, utilities lines shows version 3's setup. Version 4 replaces it with the steps above; class names barely change."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "done",
+      "title": "Done when",
+      "summary": "You can do all of it with no video open.",
+      "blocks": [
+        {
+          "type": "checklist",
+          "items": [
+            "Create and run a new Vite project without the instructions",
+            "The to-do app rebuilt in React, split into at least three components",
+            "A list page calling an API, with loading and error states",
+            "Two or more pages with React Router, plus a 404 page",
+            "Explain why state must never be mutated",
+            "The TikTok project runs locally, with its code on GitHub"
+          ]
+        }
+      ]
+    }
+  ]
+}

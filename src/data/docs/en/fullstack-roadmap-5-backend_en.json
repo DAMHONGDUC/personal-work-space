@@ -1,0 +1,741 @@
+{
+  "title": "Part 5 — Node, Express & MySQL",
+  "tagline": "An Express 5 server, MySQL on your machine, and code split into MVC.",
+  "icon": "🗄️",
+  "topic": "roadmap",
+  "defaultLang": "vi",
+  "series": {
+    "id": "fullstack-web",
+    "part": 5
+  },
+  "tags": [
+    "Node.js",
+    "Express 5",
+    "MySQL 8.4",
+    "SQL",
+    "MVC",
+    "mysql2"
+  ],
+  "readingTime": "24 min",
+  "effectiveDate": "2026-10-11",
+  "lastUpdated": "2026-10-11",
+  "intro": [
+    "This part moves to the server: take requests, read and write a database, send results back. It is still JavaScript, run by part 1's Node.",
+    "MySQL is the main database. F8's Node video uses MongoDB; learn the moves from it, then apply them to MySQL with the steps here."
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Overview",
+      "summary": "Six steps, about four weeks.",
+      "blocks": [
+        {
+          "type": "flow",
+          "caption": "From a server that says hello to an API reading real data from MySQL.",
+          "stages": [
+            {
+              "items": [
+                {
+                  "label": "First Express server",
+                  "detail": "Ten lines that take a request and answer with text or JSON",
+                  "explain": [
+                    "app.get('/api/courses', handler) means: on a GET to /api/courses, run handler. res.json() answers with JSON.",
+                    "node --watch server.js restarts the server on every save, replacing the video's nodemon."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Routes & MVC",
+                  "detail": "Split code: routes take paths, controllers do the work, models talk to the database",
+                  "explain": [
+                    "A route only ties a path to a function. The controller reads the request, calls the model and picks the status. The model is the only place with SQL.",
+                    "F8's video adds Handlebars views to render HTML on the server. Part 6 drops the views and returns JSON to React instead."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Install MySQL",
+                  "detail": "A database server on your machine, with a visual tool for browsing tables",
+                  "explain": [
+                    "Windows installs MySQL inside Ubuntu (WSL) with apt; macOS installs mysql@8.4 with Homebrew. Both create a separate user for code, never root.",
+                    "DBeaver or MySQL Workbench let you browse tables, edit rows and run SQL with the mouse, handy while learning."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "SQL",
+                  "detail": "Create tables, insert, read, update and delete rows, and join tables",
+                  "explain": [
+                    "Each table has a primary key id. A foreign key links tables: products.category_id points at categories.id, so each product has a category.",
+                    "JOIN combines two tables by key: product names with their category names in a single SELECT."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Connect Express to MySQL",
+                  "detail": "The mysql2 library runs SQL from code; the password lives in a .env file",
+                  "explain": [
+                    "Pass values through ? instead of joining strings: pool.query('… WHERE id = ?', [id]). Joining strings opens the door to SQL injection.",
+                    "node --env-file=.env loads environment variables from the file, replacing the dotenv library. .env always goes in .gitignore."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Sessions & JWT",
+                  "detail": "Two ways a server remembers who is signed in; understand here, build in part 6",
+                  "explain": [
+                    "Sessions: the server keeps the signed-in list and the browser holds a cookie with the session id. JWT: the server signs a token the client sends with each request.",
+                    "F8's three videos on cookies, CORS and JWT explain the mechanics; each runs 40–90 minutes, so watch in pieces and take notes."
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "videos",
+      "title": "Videos for this part",
+      "summary": "About 29 hours; only lessons #15–#28 of the SERN course here.",
+      "blocks": [
+        {
+          "type": "links",
+          "items": [
+            {
+              "label": "NodeJS & ExpressJS",
+              "source": "F8 Official · 36 videos, 12 h",
+              "url": "https://www.youtube.com/playlist?list=PL_-VfJajZj0VatBpaXkEHK_UPHL7dW6I3"
+            },
+            {
+              "label": "Học SQL (sử dụng MySQL)",
+              "source": "TITV · 25 videos, 7 h",
+              "url": "https://www.youtube.com/playlist?list=PLyxSzL3F7487f2BrlHKg87WlUEennWOKu"
+            },
+            {
+              "label": "Khóa học Fullstack SERN (SQL, Express.js, React.js, Node.js)",
+              "source": "Hỏi Dân IT · this part: lessons #15–#28, 7 h",
+              "url": "https://www.youtube.com/playlist?list=PLncHg6Kn2JT6E38Z3kit9Hnif1xC_9VqI"
+            },
+            {
+              "label": "Session, cookie, CORS, JWT, SSO",
+              "source": "F8 Official · 3 videos, 3.3 h",
+              "url": "https://www.youtube.com/playlist?list=PL_-VfJajZj0VaEt6Q1Z_CSg_Ci9aP9oQ1"
+            }
+          ]
+        },
+        {
+          "type": "table",
+          "columns": [
+            "Playlist",
+            "Lessons",
+            "What it covers"
+          ],
+          "rows": [
+            [
+              "NodeJS & ExpressJS",
+              "1–18",
+              "HTTP, SSR and CSR, installing Express, Handlebars templates, GET/POST, MVC."
+            ],
+            [
+              "NodeJS & ExpressJS",
+              "19 on",
+              "MongoDB, models, course CRUD, soft delete, sorting. Learn the moves; MySQL stays the main database."
+            ],
+            [
+              "Học SQL",
+              "1–25",
+              "Table design, primary and foreign keys, INSERT, SELECT, WHERE, ORDER BY, aggregates, JOIN."
+            ],
+            [
+              "Fullstack SERN",
+              "#15–#28",
+              "Express and MVC again, MySQL, Sequelize: models, migrations, CRUD."
+            ],
+            [
+              "Session, cookie, CORS, JWT, SSO",
+              "1–3",
+              "Three long talks: cookies and sessions, what CORS is, how JWT works."
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "first-server",
+      "title": "Your first Express server",
+      "summary": "From an empty folder to an API returning JSON.",
+      "blocks": [
+        {
+          "type": "steps",
+          "items": [
+            "Make a project folder, run npm init -y for a package.json, then npm install express (version 5).",
+            "Create server.js with the code below.",
+            "Run node --watch server.js. The terminal prints the server's address.",
+            "Open localhost:3000 and localhost:3000/api/courses in the browser, or call them with curl from a second terminal.",
+            "Change the greeting in server.js and save: the server restarts, and a reload shows it."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "caption": "Create the project and install Express.",
+          "code": [
+            "mkdir -p ~/code/shop-api && cd ~/code/shop-api",
+            "npm init -y",
+            "npm install express",
+            "code ."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "javascript",
+          "caption": "server.js: two routes, one answering text, one JSON.",
+          "code": [
+            "const express = require('express');",
+            "",
+            "const app = express();",
+            "const port = process.env.PORT || 3000;",
+            "",
+            "app.use(express.json());",
+            "",
+            "app.get('/', (req, res) => {",
+            "  res.send('Xin chào từ Express');",
+            "});",
+            "",
+            "app.get('/api/courses', (req, res) => {",
+            "  res.json([",
+            "    { id: 1, name: 'HTML CSS' },",
+            "    { id: 2, name: 'JavaScript' },",
+            "  ]);",
+            "});",
+            "",
+            "app.listen(port, () => {",
+            "  console.log(`Server chạy ở http://localhost:${port}`);",
+            "});"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "caption": "Run the server with auto-restart, then call it from another terminal.",
+          "code": [
+            "node --watch server.js",
+            "curl http://localhost:3000/api/courses"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "express5",
+      "title": "Following the video with Express 5 and current libraries",
+      "summary": "The video uses Express 4 from 2020; these are the lines to change.",
+      "blocks": [
+        {
+          "type": "table",
+          "columns": [
+            "In the video",
+            "Now",
+            "How to fix it"
+          ],
+          "rows": [
+            [
+              "nodemon",
+              "node --watch, built in",
+              "\"start\": \"node --watch src/index.js\" in package.json"
+            ],
+            [
+              "const handlebars = require('express-handlebars'); handlebars({…})",
+              "express-handlebars 9",
+              "const { engine } = require('express-handlebars'); app.engine('hbs', engine({ extname: '.hbs' }))"
+            ],
+            [
+              "node-sass",
+              "No longer supported",
+              "npm install -D sass, and compile with sass instead of node-sass"
+            ],
+            [
+              "mongoose.connect(uri, { useNewUrlParser, useCreateIndex, … })",
+              "Mongoose 9",
+              "Drop every option: just mongoose.connect(uri)"
+            ],
+            [
+              "mongodb://localhost:27017",
+              "Node 17+ may resolve localhost to IPv6",
+              "Use mongodb://127.0.0.1:27017 if you hit ECONNREFUSED ::1"
+            ],
+            [
+              "app.get('*', …)",
+              "Express 5 needs named wildcards",
+              "app.get('/*splat', …); for a 404 page, app.use((req, res) => …) with no path"
+            ],
+            [
+              "body-parser",
+              "Built into Express",
+              "app.use(express.json()) and app.use(express.urlencoded({ extended: true }))"
+            ],
+            [
+              "try/catch around every async route",
+              "Express 5 forwards async errors itself",
+              "Write one error middleware (err, req, res, next) at the end of the app"
+            ]
+          ]
+        },
+        {
+          "type": "code",
+          "language": "javascript",
+          "caption": "Handlebars set up with express-handlebars 9, using the video's folder layout.",
+          "code": [
+            "const path = require('node:path');",
+            "const { engine } = require('express-handlebars');",
+            "",
+            "app.engine('hbs', engine({ extname: '.hbs' }));",
+            "app.set('view engine', 'hbs');",
+            "app.set('views', path.join(__dirname, 'resources', 'views'));"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mvc",
+      "title": "Splitting code into MVC",
+      "summary": "One job per file; a new feature adds files instead of growing one.",
+      "blocks": [
+        {
+          "type": "table",
+          "columns": [
+            "Folder",
+            "Holds",
+            "Example"
+          ],
+          "rows": [
+            [
+              "server.js",
+              "Creates the app, mounts middleware and routes, listens",
+              "app.use('/api/products', productRoutes)"
+            ],
+            [
+              "routes/",
+              "Ties paths and methods to controller functions",
+              "router.get('/:id', controller.show)"
+            ],
+            [
+              "controllers/",
+              "Reads the request, calls the model, sends the response and status",
+              "res.status(404).json(…)"
+            ],
+            [
+              "models/",
+              "The only place with SQL",
+              "SELECT * FROM products WHERE id = ?"
+            ],
+            [
+              "config/db.js",
+              "The shared database connection",
+              "mysql.createPool(…)"
+            ]
+          ]
+        },
+        {
+          "type": "code",
+          "language": "javascript",
+          "caption": "routes/products.js: just paths to controller functions.",
+          "code": [
+            "const express = require('express');",
+            "const controller = require('../controllers/productController');",
+            "",
+            "const router = express.Router();",
+            "",
+            "router.get('/', controller.list);",
+            "router.get('/:id', controller.show);",
+            "",
+            "module.exports = router;"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "javascript",
+          "caption": "controllers/productController.js: decides what to answer.",
+          "code": [
+            "const Product = require('../models/product');",
+            "",
+            "exports.list = async (req, res) => {",
+            "  res.json(await Product.findAll());",
+            "};",
+            "",
+            "exports.show = async (req, res) => {",
+            "  const product = await Product.findById(req.params.id);",
+            "  if (!product) return res.status(404).json({ message: 'Không tìm thấy' });",
+            "  res.json(product);",
+            "};"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "javascript",
+          "caption": "models/product.js: the SQL lives here and only here.",
+          "code": [
+            "const pool = require('../config/db');",
+            "",
+            "exports.findAll = async () => {",
+            "  const [rows] = await pool.query('SELECT * FROM products ORDER BY id DESC');",
+            "  return rows;",
+            "};",
+            "",
+            "exports.findById = async (id) => {",
+            "  const [rows] = await pool.query('SELECT * FROM products WHERE id = ?', [id]);",
+            "  return rows[0];",
+            "};"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mysql-install",
+      "title": "Install MySQL",
+      "summary": "Once, for parts 5 and 6.",
+      "blocks": [
+        {
+          "type": "heading",
+          "text": "Windows: inside Ubuntu (WSL)"
+        },
+        {
+          "type": "steps",
+          "items": [
+            "Open the Ubuntu terminal and install mysql-server with apt.",
+            "Start MySQL, then enter with sudo mysql (no password the first time).",
+            "Run the create-user SQL at the end of this section, then type exit."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "caption": "Install, start and enter MySQL in Ubuntu.",
+          "code": [
+            "sudo apt update",
+            "sudo apt install -y mysql-server",
+            "sudo service mysql start",
+            "sudo mysql"
+          ]
+        },
+        {
+          "type": "heading",
+          "text": "macOS: Homebrew"
+        },
+        {
+          "type": "steps",
+          "items": [
+            "Install mysql@8.4, the long-term support release, and have it start with the machine.",
+            "Add its bin folder to PATH (on an Intel Mac, use /usr/local instead of /opt/homebrew).",
+            "Enter with mysql -u root (Homebrew leaves root without a password) and run the create-user SQL below."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "caption": "Install MySQL 8.4 LTS with Homebrew.",
+          "code": [
+            "brew install mysql@8.4",
+            "brew services start mysql@8.4",
+            "echo 'export PATH=\"/opt/homebrew/opt/mysql@8.4/bin:$PATH\"' >> ~/.zshrc",
+            "source ~/.zshrc",
+            "mysql -u root"
+          ]
+        },
+        {
+          "type": "heading",
+          "text": "Create a user for your code"
+        },
+        {
+          "type": "code",
+          "language": "sql",
+          "caption": "Run inside MySQL. Use your own password instead of dev_password.",
+          "code": [
+            "CREATE USER 'dev'@'localhost' IDENTIFIED BY 'dev_password';",
+            "GRANT ALL PRIVILEGES ON *.* TO 'dev'@'localhost';",
+            "FLUSH PRIVILEGES;"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "caption": "Check: sign in as the new user, entering the password when asked.",
+          "code": [
+            "mysql -u dev -p"
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "info",
+          "body": [
+            "To browse tables visually, install DBeaver Community or MySQL Workbench and connect to 127.0.0.1, port 3306, user dev.",
+            "Not using WSL: download the MySQL Community Server 8.4 LTS MSI from dev.mysql.com; the bundled MySQL Configurator asks for a root password. The XAMPP in the SERN video installs MariaDB, close to MySQL but not it."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sql",
+      "title": "SQL basics",
+      "summary": "A small shop database: categories and products.",
+      "blocks": [
+        {
+          "type": "code",
+          "language": "sql",
+          "caption": "Run each block in mysql -u dev -p or in DBeaver.",
+          "code": [
+            "CREATE DATABASE shop;",
+            "USE shop;",
+            "",
+            "CREATE TABLE categories (",
+            "  id INT AUTO_INCREMENT PRIMARY KEY,",
+            "  name VARCHAR(100) NOT NULL",
+            ");",
+            "",
+            "CREATE TABLE products (",
+            "  id INT AUTO_INCREMENT PRIMARY KEY,",
+            "  name VARCHAR(200) NOT NULL,",
+            "  price INT NOT NULL,",
+            "  category_id INT,",
+            "  FOREIGN KEY (category_id) REFERENCES categories(id)",
+            ");",
+            "",
+            "INSERT INTO categories (name) VALUES ('Áo'), ('Quần');",
+            "INSERT INTO products (name, price, category_id)",
+            "VALUES ('Áo thun', 150000, 1), ('Quần jean', 450000, 2);",
+            "",
+            "SELECT name, price FROM products WHERE price < 300000 ORDER BY price DESC;",
+            "",
+            "SELECT p.name, c.name AS category",
+            "FROM products p",
+            "JOIN categories c ON c.id = p.category_id;",
+            "",
+            "UPDATE products SET price = 120000 WHERE id = 1;",
+            "DELETE FROM products WHERE id = 2;"
+          ]
+        },
+        {
+          "type": "table",
+          "columns": [
+            "Concept",
+            "Meaning",
+            "In the example"
+          ],
+          "rows": [
+            [
+              "Primary key",
+              "Each row's unique id",
+              "id INT AUTO_INCREMENT PRIMARY KEY"
+            ],
+            [
+              "Foreign key",
+              "A column pointing at another table's key",
+              "products.category_id → categories.id"
+            ],
+            [
+              "WHERE",
+              "Filters rows by a condition",
+              "WHERE price < 300000"
+            ],
+            [
+              "JOIN",
+              "Combines two tables by key",
+              "JOIN categories c ON c.id = p.category_id"
+            ],
+            [
+              "UPDATE / DELETE",
+              "Change / remove rows; always with WHERE, or the whole table changes",
+              "WHERE id = 1"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "express-mysql",
+      "title": "Connect Express to MySQL",
+      "summary": "An API reading real products from the shop database.",
+      "blocks": [
+        {
+          "type": "steps",
+          "items": [
+            "In shop-api, install mysql2: npm install mysql2.",
+            "Create a .env with the connection details, and add .env and node_modules to .gitignore.",
+            "Create config/db.js with one shared connection pool.",
+            "Add two product routes to server.js, or use the MVC section's route and controller.",
+            "Run the server with --env-file and open localhost:3000/api/products: the product list from MySQL means done."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "text",
+          "caption": ".env: connection details, never committed.",
+          "code": [
+            "DB_HOST=127.0.0.1",
+            "DB_USER=dev",
+            "DB_PASSWORD=dev_password",
+            "DB_NAME=shop",
+            "PORT=3000"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "text",
+          "caption": ".gitignore",
+          "code": [
+            "node_modules",
+            ".env"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "javascript",
+          "caption": "config/db.js: one pool for the whole app.",
+          "code": [
+            "const mysql = require('mysql2/promise');",
+            "",
+            "const pool = mysql.createPool({",
+            "  host: process.env.DB_HOST,",
+            "  user: process.env.DB_USER,",
+            "  password: process.env.DB_PASSWORD,",
+            "  database: process.env.DB_NAME,",
+            "});",
+            "",
+            "module.exports = pool;"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "javascript",
+          "caption": "Add to server.js: read all and read by id, with values passed through ?.",
+          "code": [
+            "const pool = require('./config/db');",
+            "",
+            "app.get('/api/products', async (req, res) => {",
+            "  const [rows] = await pool.query('SELECT * FROM products');",
+            "  res.json(rows);",
+            "});",
+            "",
+            "app.get('/api/products/:id', async (req, res) => {",
+            "  const [rows] = await pool.query('SELECT * FROM products WHERE id = ?', [req.params.id]);",
+            "  if (rows.length === 0) return res.status(404).json({ message: 'Không tìm thấy' });",
+            "  res.json(rows[0]);",
+            "});"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "caption": "Run with the .env variables and restart on save.",
+          "code": [
+            "node --watch --env-file=.env server.js"
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "warning",
+          "body": [
+            "Never join user input into an SQL string, like 'WHERE id = ' + req.params.id. Always use ? with an array of values."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sequelize",
+      "title": "Sequelize, as in the SERN course",
+      "summary": "JavaScript instead of SQL; the SERN course works this way from lesson #20.",
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            "An ORM like Sequelize turns tables into classes: User.findAll() instead of SELECT * FROM users.",
+            "A migration is a file describing a table change; running db:migrate gives every machine the same schema.",
+            "Learn plain SQL first: when Sequelize fails, the SQL it prints is what you need to read."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "caption": "Install Sequelize and its CLI, generate a User model and migrate. Update config/config.json from your .env first.",
+          "code": [
+            "npm install sequelize mysql2",
+            "npm install -D sequelize-cli",
+            "npx sequelize-cli init",
+            "npx sequelize-cli model:generate --name User --attributes firstName:string,email:string",
+            "npx sequelize-cli db:migrate"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "auth-concepts",
+      "title": "Sessions and JWT",
+      "summary": "Know the difference before building sign-in in part 6.",
+      "blocks": [
+        {
+          "type": "table",
+          "columns": [
+            "Aspect",
+            "Session cookie",
+            "JWT"
+          ],
+          "rows": [
+            [
+              "Who holds state",
+              "The server keeps the sessions",
+              "No one; the token carries signed claims"
+            ],
+            [
+              "What the client sends",
+              "A cookie with the session id, sent by the browser",
+              "An Authorization: Bearer <token> header"
+            ],
+            [
+              "Signing out",
+              "Delete the server's session and it is over",
+              "A token works until it expires; keep expiry short"
+            ],
+            [
+              "Suits",
+              "Server-rendered sites, like Handlebars",
+              "APIs for React and mobile apps"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "done",
+      "title": "Done when",
+      "summary": "You can do all of it with no video open.",
+      "blocks": [
+        {
+          "type": "checklist",
+          "items": [
+            "Start a new Express server returning JSON without the instructions",
+            "MySQL runs locally and you sign in as your own user, not root",
+            "Write a SELECT with WHERE, ORDER BY and a JOIN of two tables",
+            "An API reading from MySQL, split into routes, controllers and models",
+            "The database password is in .env, and .env is not on GitHub",
+            "Explain in words how a session cookie differs from a JWT"
+          ]
+        }
+      ]
+    }
+  ]
+}

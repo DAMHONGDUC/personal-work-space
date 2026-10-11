@@ -1,0 +1,610 @@
+{
+  "title": "Part 3 — JavaScript",
+  "tagline": "Syntax, the DOM, calling APIs, and three projects of your own before React.",
+  "icon": "⚡",
+  "topic": "roadmap",
+  "defaultLang": "vi",
+  "series": {
+    "id": "fullstack-web",
+    "part": 3
+  },
+  "tags": [
+    "JavaScript",
+    "DOM",
+    "Promise",
+    "fetch",
+    "async/await",
+    "ES6+"
+  ],
+  "readingTime": "22 min",
+  "effectiveDate": "2026-10-11",
+  "lastUpdated": "2026-10-11",
+  "intro": [
+    "The most important part of the path: React is JavaScript and so is Node. Learn it well here and the next two parts get half as hard.",
+    "Every section has runnable code: copy it into a file, run it, then change one detail and see what differs."
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Overview",
+      "summary": "Six steps, about five weeks.",
+      "blocks": [
+        {
+          "type": "flow",
+          "caption": "From the first line of code to a page that calls an API.",
+          "stages": [
+            {
+              "items": [
+                {
+                  "label": "Where JavaScript runs",
+                  "detail": "The browser console, a .js file in HTML, or node in a terminal",
+                  "explain": [
+                    "The console (F12 → Console) runs a line at once, good for trying things. A .js file loaded by a script tag is for real pages.",
+                    "node app.js runs the same language outside the browser: no document or window, but files and the network. Part 5 works this way."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "The basics",
+                  "detail": "Variables, types, operators, if, loops",
+                  "explain": [
+                    "const for values never reassigned, let when you must; never var. Compare with === to avoid hidden conversion: 1 == '1' is true, 1 === '1' is false.",
+                    "Template strings join text more neatly: `Hello ${name}` instead of 'Hello ' + name."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Arrays, objects, functions",
+                  "detail": "Data as lists and records, transformed with map, filter, reduce",
+                  "explain": [
+                    "An object groups facts about one thing: { name: 'Shirt', price: 150000 }. An array holds many: a product list.",
+                    "map transforms each item, filter keeps matching ones, reduce folds the array into one value, such as a cart total.",
+                    "A callback is a function handed to another to call later. map, filter and addEventListener all take one."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "The DOM & events",
+                  "detail": "Find elements on the page, change them, respond to clicks and submits",
+                  "explain": [
+                    "The DOM is the tree the browser builds from HTML. document.querySelector('.todo-list') fetches an element; element.textContent changes its text.",
+                    "addEventListener('click', handler) runs handler on every click. On a form, call event.preventDefault() so submitting does not reload the page."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Async: Promises, fetch",
+                  "detail": "Call APIs without freezing the page while waiting",
+                  "explain": [
+                    "fetch returns a Promise: a result that arrives later. await waits for it inside an async function, so the code reads top to bottom as usual.",
+                    "Always check response.ok: fetch does not throw on a 404 or 500 from the server, only when the network fails.",
+                    "JSON is the format APIs answer in. response.json() turns a JSON string into a JavaScript object."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Advanced: scope, closures, this",
+                  "detail": "What explains code behaving differently from what you expected",
+                  "explain": [
+                    "Scope decides where a variable is visible. A closure is a function that remembers the variables where it was made, even after that code has finished.",
+                    "this depends on how a function is called, not where it is written. Arrow functions have no this of their own, which suits callbacks."
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "videos",
+      "title": "Videos for this part",
+      "summary": "About 34 hours; form validation is inside the basic course.",
+      "blocks": [
+        {
+          "type": "links",
+          "items": [
+            {
+              "label": "Javascript Cơ Bản",
+              "source": "F8 Official · ~29 h, form validation included",
+              "url": "https://www.youtube.com/playlist?list=PL_-VfJajZj0VgpFpEVFzS5Z-lkXtBe-x5"
+            },
+            {
+              "label": "Javascript Nâng Cao",
+              "source": "F8 Official · 14 videos, 5.1 h",
+              "url": "https://www.youtube.com/playlist?list=PL_-VfJajZj0U1MSx1IMu13oLJq2nM97ac"
+            }
+          ]
+        },
+        {
+          "type": "table",
+          "columns": [
+            "Playlist",
+            "Lessons",
+            "What it covers"
+          ],
+          "rows": [
+            [
+              "Javascript Cơ Bản",
+              "5–48",
+              "Variables, operators, types, strings, arrays, functions, objects, if/switch, loops."
+            ],
+            [
+              "Javascript Cơ Bản",
+              "49–62",
+              "map, reduce, callbacks; rewriting forEach, filter, some, every; recursion."
+            ],
+            [
+              "Javascript Cơ Bản",
+              "63–79",
+              "The DOM: selecting elements, changing content and classes, handling events."
+            ],
+            [
+              "Javascript Cơ Bản",
+              "80–86",
+              "Form validation project, built two ways."
+            ],
+            [
+              "Javascript Cơ Bản",
+              "87–92",
+              "JSON, Promises and Promise chains."
+            ],
+            [
+              "Javascript Cơ Bản",
+              "93 on",
+              "ES6: let/const, arrow functions, classes, destructuring; then fetch and Postman."
+            ],
+            [
+              "Javascript Nâng Cao",
+              "2–13",
+              "IIFE, scope, closures, hoisting, strict mode, this, bind/call/apply, value and reference."
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "run-js",
+      "title": "Where to run JavaScript",
+      "summary": "Three places, all used in this part.",
+      "blocks": [
+        {
+          "type": "steps",
+          "items": [
+            "Quick tries: open any page, press F12, pick the Console tab, type 2 + 3 and press Enter.",
+            "On your own page: create app.js next to index.html and load it with a deferred script tag, so it runs after the HTML is built.",
+            "In a terminal: node app.js runs a file without a browser. Use it for pure logic exercises such as sums or filtering."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "html",
+          "caption": "Load app.js; defer waits until the HTML is built.",
+          "code": [
+            "<script src=\"app.js\" defer></script>"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "caption": "Run a JavaScript file with Node.",
+          "code": [
+            "echo \"console.log('Xin chào từ Node')\" > hello.js",
+            "node hello.js"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "basics",
+      "title": "The basics",
+      "summary": "What you must type without looking up.",
+      "blocks": [
+        {
+          "type": "table",
+          "columns": [
+            "Concept",
+            "Example",
+            "Remember"
+          ],
+          "rows": [
+            [
+              "Variables",
+              "const price = 150000",
+              "const by default, let when reassigning"
+            ],
+            [
+              "Types",
+              "string, number, boolean, null, undefined, object",
+              "typeof x tells you the type"
+            ],
+            [
+              "Comparison",
+              "a === b, a !== b",
+              "Avoid == and !="
+            ],
+            [
+              "Strings",
+              "`Total: ${total}`",
+              "Template strings instead of +"
+            ],
+            [
+              "Conditions",
+              "if (age >= 18) { … } else { … }",
+              "The ternary for short cases"
+            ],
+            [
+              "Loops",
+              "for (const item of items) { … }",
+              "for…of for arrays, for…in for object keys"
+            ],
+            [
+              "Functions",
+              "const add = (a, b) => a + b",
+              "Arrows for short functions and callbacks"
+            ],
+            [
+              "Objects",
+              "user.name, user['email']",
+              "Destructuring: const { name } = user"
+            ]
+          ]
+        },
+        {
+          "type": "code",
+          "language": "javascript",
+          "caption": "Run it with node to see each line's result.",
+          "code": [
+            "const product = { name: 'Áo thun', price: 150000, inStock: true };",
+            "",
+            "const { name, price } = product;",
+            "const label = product.inStock ? 'Còn hàng' : 'Hết hàng';",
+            "",
+            "console.log(`${name}: ${price.toLocaleString('vi-VN')}đ, ${label}`);",
+            "",
+            "function discount(amount, percent = 10) {",
+            "  return amount - (amount * percent) / 100;",
+            "}",
+            "",
+            "console.log(discount(price));",
+            "console.log(discount(price, 25));"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "arrays",
+      "title": "Arrays: map, filter, reduce",
+      "summary": "The three most used functions, in React and Node alike.",
+      "blocks": [
+        {
+          "type": "table",
+          "columns": [
+            "Method",
+            "Returns",
+            "Example"
+          ],
+          "rows": [
+            [
+              "map",
+              "A new array, each item transformed",
+              "prices.map(p => p * 2)"
+            ],
+            [
+              "filter",
+              "A new array of the matching items",
+              "items.filter(i => i.inStock)"
+            ],
+            [
+              "find",
+              "The first matching item, or undefined",
+              "users.find(u => u.id === 3)"
+            ],
+            [
+              "some / every",
+              "true if at least one / all match",
+              "items.some(i => i.price > 1e6)"
+            ],
+            [
+              "reduce",
+              "One value folded from the whole array",
+              "cart.reduce((s, i) => s + i.price, 0)"
+            ],
+            [
+              "toSorted",
+              "A new sorted array, leaving the old one alone",
+              "items.toSorted((a, b) => a.price - b.price)"
+            ]
+          ]
+        },
+        {
+          "type": "code",
+          "language": "javascript",
+          "caption": "A cart: keep what is in stock, total it, list the names.",
+          "code": [
+            "const cart = [",
+            "  { name: 'Áo', price: 150000, inStock: true },",
+            "  { name: 'Quần', price: 300000, inStock: false },",
+            "  { name: 'Mũ', price: 90000, inStock: true },",
+            "];",
+            "",
+            "const available = cart.filter((item) => item.inStock);",
+            "const total = available.reduce((sum, item) => sum + item.price, 0);",
+            "const names = available.map((item) => item.name);",
+            "",
+            "console.log(names.join(', '), total);"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dom",
+      "title": "The DOM and events",
+      "summary": "The smallest to-do list: type, press Add, a new row appears.",
+      "blocks": [
+        {
+          "type": "steps",
+          "items": [
+            "Create index.html with a form holding an input and a button, plus an empty ul (the HTML below).",
+            "In app.js, grab the form, input and ul with querySelector.",
+            "Listen for the form's submit event and stop the reload with preventDefault.",
+            "Create a new li, set its text from the input, append it to the ul, and clear the input.",
+            "Extend it: click a row to strike it through with classList.toggle, and save the list to localStorage."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "html",
+          "caption": "index.html: the form and the list.",
+          "code": [
+            "<form class=\"todo-form\">",
+            "  <input name=\"task\" placeholder=\"Việc cần làm\" required />",
+            "  <button>Thêm</button>",
+            "</form>",
+            "<ul class=\"todo-list\"></ul>",
+            "<script src=\"app.js\" defer></script>"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "javascript",
+          "caption": "app.js: add a task on submit, strike it through on click.",
+          "code": [
+            "const form = document.querySelector('.todo-form');",
+            "const list = document.querySelector('.todo-list');",
+            "",
+            "form.addEventListener('submit', (event) => {",
+            "  event.preventDefault();",
+            "  const task = form.elements.task.value.trim();",
+            "  if (!task) return;",
+            "",
+            "  const item = document.createElement('li');",
+            "  item.textContent = task;",
+            "  list.append(item);",
+            "  form.reset();",
+            "});",
+            "",
+            "list.addEventListener('click', (event) => {",
+            "  if (event.target.matches('li')) event.target.classList.toggle('done');",
+            "});"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "async",
+      "title": "Promises, async/await and fetch",
+      "summary": "How to call an API; React and Node do it exactly this way.",
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            "A Promise is a result that comes later: success (resolve) or failure (reject).",
+            "async before a function allows await inside it; await pauses that function until the Promise settles, while the page keeps running.",
+            "try/catch catches await's errors: no network, broken JSON, or the error you throw when response.ok is false.",
+            "localStorage stores strings in the browser: JSON.stringify before saving, JSON.parse when reading back."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "javascript",
+          "caption": "Fetch the current temperature in Ho Chi Minh City from Open-Meteo, a free API with no key.",
+          "code": [
+            "async function getTemperature(latitude, longitude) {",
+            "  const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m`;",
+            "",
+            "  try {",
+            "    const response = await fetch(url);",
+            "    if (!response.ok) throw new Error(`HTTP ${response.status}`);",
+            "",
+            "    const data = await response.json();",
+            "    return data.current.temperature_2m;",
+            "  } catch (error) {",
+            "    console.error('Không lấy được thời tiết:', error.message);",
+            "    return null;",
+            "  }",
+            "}",
+            "",
+            "getTemperature(10.82, 106.63).then((temp) => console.log(`${temp}°C`));"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "modern",
+      "title": "Modules and modern syntax",
+      "summary": "What React and Node use in every file.",
+      "blocks": [
+        {
+          "type": "table",
+          "columns": [
+            "Syntax",
+            "Example",
+            "When"
+          ],
+          "rows": [
+            [
+              "export / import",
+              "export function sum() {} · import { sum } from './math.js'",
+              "Splitting code across files"
+            ],
+            [
+              "Optional chaining",
+              "user?.address?.city",
+              "Reading deep without failing on an undefined link"
+            ],
+            [
+              "Nullish coalescing",
+              "const page = query.page ?? 1",
+              "A default when null or undefined"
+            ],
+            [
+              "Spread",
+              "const next = { ...user, name: 'Lan' }",
+              "A changed copy, leaving the original alone"
+            ],
+            [
+              "Destructuring",
+              "const [first, ...rest] = items",
+              "Pulling items or fields into variables"
+            ]
+          ]
+        },
+        {
+          "type": "code",
+          "language": "html",
+          "caption": "To use import/export in the browser, add type=\"module\" (modules defer by themselves).",
+          "code": [
+            "<script type=\"module\" src=\"app.js\"></script>"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "debug",
+      "title": "Reading errors and debugging",
+      "summary": "An error message names the broken spot, if you read it closely.",
+      "blocks": [
+        {
+          "type": "table",
+          "columns": [
+            "Error",
+            "Usually",
+            "Fix"
+          ],
+          "rows": [
+            [
+              "TypeError: Cannot read properties of undefined",
+              "Reading a field of something missing, like data.user.name before user arrives",
+              "Log the variable before that line; use ?. when data may be missing"
+            ],
+            [
+              "ReferenceError: x is not defined",
+              "A misspelt name, or used outside its scope",
+              "Compare the name letter by letter; check where it is declared"
+            ],
+            [
+              "SyntaxError: Unexpected token",
+              "A missing bracket, comma or quote",
+              "Look at the reported line and the one above"
+            ],
+            [
+              "Uncaught (in promise)",
+              "A rejected Promise with no catch",
+              "Wrap the await in try/catch"
+            ],
+            [
+              "null from querySelector",
+              "The script ran before the HTML existed, or a wrong selector",
+              "Add defer to the script tag; check the class name"
+            ]
+          ]
+        },
+        {
+          "type": "steps",
+          "items": [
+            "Read the red line in the Console and click the file name on its right to jump to the line.",
+            "Put a console.log just before the failing line to see the variable's real value.",
+            "Use a breakpoint: in the Sources tab, click a line number; the page stops there and shows every variable.",
+            "Search the exact error line, or ask an AI, with the code around it."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "projects",
+      "title": "Three projects of your own",
+      "summary": "In order, with no video open; when stuck, read MDN.",
+      "blocks": [
+        {
+          "type": "table",
+          "columns": [
+            "Project",
+            "Features",
+            "Uses"
+          ],
+          "rows": [
+            [
+              "To-do app",
+              "Add, edit, delete, mark done, filter open tasks, save to localStorage",
+              "DOM, events, arrays, filter, JSON"
+            ],
+            [
+              "Sign-up form",
+              "Check email, a password of 8+ characters, a matching repeat; an error under each field",
+              "input and submit events, strings, simple regex"
+            ],
+            [
+              "Weather app",
+              "Type a city, look up its coordinates, show the temperature and a loading state, report an unknown city",
+              "fetch, async/await, try/catch, DOM"
+            ]
+          ]
+        },
+        {
+          "type": "code",
+          "language": "javascript",
+          "caption": "A hint for the weather app: Open-Meteo's geocoding API turns a city name into coordinates.",
+          "code": [
+            "const response = await fetch('https://geocoding-api.open-meteo.com/v1/search?name=Hanoi&count=1');",
+            "const { results } = await response.json();",
+            "const { latitude, longitude } = results[0];"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "done",
+      "title": "Done when",
+      "summary": "You can do all of it with no video open.",
+      "blocks": [
+        {
+          "type": "checklist",
+          "items": [
+            "Write map, filter and reduce without looking them up",
+            "The to-do app works and keeps its data on reload",
+            "The sign-up form reports errors per field without a reload",
+            "The weather app uses async/await and reports a failing API",
+            "Explain a closure with an example",
+            "All three projects are on GitHub, with GitHub Pages links"
+          ]
+        }
+      ]
+    }
+  ]
+}

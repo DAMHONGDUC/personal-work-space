@@ -1,0 +1,558 @@
+{
+  "title": "Part 2 — HTML & CSS",
+  "tagline": "From the first HTML tag to a responsive page with a live link.",
+  "icon": "🎨",
+  "topic": "roadmap",
+  "defaultLang": "vi",
+  "series": {
+    "id": "fullstack-web",
+    "part": 2
+  },
+  "tags": [
+    "HTML",
+    "CSS",
+    "Flexbox",
+    "Responsive",
+    "BEM",
+    "GitHub Pages"
+  ],
+  "readingTime": "18 min",
+  "effectiveDate": "2026-10-11",
+  "lastUpdated": "2026-10-11",
+  "intro": [
+    "The longest part in video hours, but the one with the quickest results: change a line of CSS, save, and the page changes.",
+    "Finish part 1 first: VS Code, the terminal and Git are used from the first step."
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Overview",
+      "summary": "Six steps, about five to six weeks.",
+      "blocks": [
+        {
+          "type": "flow",
+          "caption": "Each step is a skill; the step-4 project uses all the ones before.",
+          "stages": [
+            {
+              "items": [
+                {
+                  "label": "First HTML page",
+                  "detail": "A page frame made of tags: headings, paragraphs, images, links, forms",
+                  "explain": [
+                    "Opening and closing tags wrap content: <p>Hello</p>. Attributes add details: <a href=\"https://f8.edu.vn\">F8</a>.",
+                    "In VS Code type ! then Tab for a full HTML skeleton; Live Server opens the page and reloads it on every save."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "CSS & the box model",
+                  "detail": "Pick elements with selectors and change colour, size and spacing",
+                  "explain": [
+                    "Every element is a box of content, padding, border and margin. box-sizing: border-box makes width include padding and border, far easier to size.",
+                    "The more specific selector wins: #id beats .class, .class beats a tag. When CSS does not apply, open DevTools and see which line is struck out."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Flexbox layout",
+                  "detail": "Line elements up in rows or columns, centre them, share out space",
+                  "explain": [
+                    "display: flex on a parent puts its children in a row. justify-content aligns along the row, align-items across it, and gap spaces the children.",
+                    "The menu, product cards and footer in the Shopee project are all flexbox. The six properties in the table below cover 90% of layouts."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "BEM & projects",
+                  "detail": "Name classes by a rule, then build The Band and Shopee with the videos",
+                  "explain": [
+                    "BEM names classes block__element--modifier: card, card__title, card--featured. A class name tells you which block it belongs to, so CSS rarely clashes.",
+                    "Follow the video once, then delete a block such as the header and rebuild it without watching. The rebuilding is the learning."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "Responsive",
+                  "detail": "One page that fits phones, tablets and desktops",
+                  "explain": [
+                    "The viewport meta tag makes phones render at their real width. A media query changes CSS above a breakpoint, for example from 768px up.",
+                    "Test in DevTools: Ctrl + Shift + M (Cmd + Shift + M on a Mac) turns on device mode; pick an iPhone or drag the width."
+                  ]
+                }
+              ]
+            },
+            {
+              "items": [
+                {
+                  "label": "GitHub Pages",
+                  "detail": "Put the page online for free, with a link to share",
+                  "explain": [
+                    "Push to GitHub, turn on Pages in Settings, pick the main branch. A minute later the page runs at your-username.github.io/repo-name.",
+                    "Every push updates GitHub Pages automatically. This is the first link for your portfolio."
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "videos",
+      "title": "Videos for this part",
+      "summary": "About 38 hours; both projects are inside the HTML CSS course.",
+      "blocks": [
+        {
+          "type": "links",
+          "items": [
+            {
+              "label": "HTML, CSS từ Zero Tới Hero",
+              "source": "F8 Official · ~31 h, The Band and Shopee projects included",
+              "url": "https://www.youtube.com/playlist?list=PL_-VfJajZj0U9nEXa4qyfB4U5ZIYCMPlz"
+            },
+            {
+              "label": "Responsive Với Grid System",
+              "source": "F8 Official · 35 videos, 7.2 h",
+              "url": "https://www.youtube.com/playlist?list=PL_-VfJajZj0VkWYODGeMuraS8V7xaOZM8"
+            }
+          ]
+        },
+        {
+          "type": "table",
+          "columns": [
+            "Playlist",
+            "Lessons",
+            "What it covers"
+          ],
+          "rows": [
+            [
+              "HTML, CSS từ Zero Tới Hero",
+              "1–34",
+              "HTML tags, selectors, the box model, backgrounds, position, flexbox."
+            ],
+            [
+              "HTML, CSS từ Zero Tới Hero",
+              "35–39",
+              "BEM class naming, building buttons and a toast message."
+            ],
+            [
+              "HTML, CSS từ Zero Tới Hero",
+              "40–81",
+              "Shopee project: header, sign-in form, cart, product list, footer."
+            ],
+            [
+              "HTML, CSS từ Zero Tới Hero",
+              "83 on",
+              "The Band project: a one-page band site. Lighter; fine to do before Shopee."
+            ],
+            [
+              "Responsive Với Grid System",
+              "1–9",
+              "Viewport, media queries, breakpoints, a responsive menu without JavaScript."
+            ],
+            [
+              "Responsive Với Grid System",
+              "10–22",
+              "Write a Bootstrap-style grid library: grid, row, column, offset."
+            ],
+            [
+              "Responsive Với Grid System",
+              "23–34",
+              "Make the Shopee project responsive and open it on a real phone."
+            ]
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "info",
+          "body": [
+            "F8's free courses are also on f8.edu.vn: the same videos, split into chapters, with saved progress and a certificate at the end."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "first-page",
+      "title": "Your first web page",
+      "summary": "Ten minutes from an empty folder to a page in the browser.",
+      "blocks": [
+        {
+          "type": "steps",
+          "items": [
+            "Create a folder and open it in VS Code (the two commands below).",
+            "In VS Code create index.html, type ! and press Tab: VS Code fills in an HTML skeleton.",
+            "Make it match the sample HTML below, and add a style.css next to it.",
+            "Right-click index.html and choose Open with Live Server. The browser opens the page at 127.0.0.1:5500.",
+            "Change a colour in style.css and save: the page follows. Commit and push the folder to GitHub as in part 1."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "caption": "Make the project folder and open VS Code.",
+          "code": [
+            "mkdir -p ~/code/my-first-page && cd ~/code/my-first-page",
+            "code ."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "html",
+          "caption": "index.html: the viewport meta tag is required for phones to render it properly.",
+          "code": [
+            "<!doctype html>",
+            "<html lang=\"vi\">",
+            "  <head>",
+            "    <meta charset=\"UTF-8\" />",
+            "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />",
+            "    <title>Trang đầu tiên</title>",
+            "    <link rel=\"stylesheet\" href=\"style.css\" />",
+            "  </head>",
+            "  <body>",
+            "    <h1>Xin chào</h1>",
+            "    <p>Đây là trang web đầu tiên của tôi.</p>",
+            "    <a href=\"https://f8.edu.vn\">Học ở F8</a>",
+            "  </body>",
+            "</html>"
+          ]
+        },
+        {
+          "type": "code",
+          "language": "css",
+          "caption": "style.css: reset box-sizing and define colour variables used across the page.",
+          "code": [
+            ":root {",
+            "  --primary: #ee4d2d;",
+            "  --text: #222;",
+            "}",
+            "",
+            "*,",
+            "*::before,",
+            "*::after {",
+            "  box-sizing: border-box;",
+            "}",
+            "",
+            "body {",
+            "  margin: 0;",
+            "  font-family: system-ui, sans-serif;",
+            "  color: var(--text);",
+            "}",
+            "",
+            "h1 {",
+            "  color: var(--primary);",
+            "}"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "html-tags",
+      "title": "Common HTML tags",
+      "summary": "Pick tags by meaning, not by looks.",
+      "blocks": [
+        {
+          "type": "table",
+          "columns": [
+            "Tag",
+            "Used for"
+          ],
+          "rows": [
+            [
+              "h1 … h6",
+              "Headings; one h1 per page"
+            ],
+            [
+              "p",
+              "A paragraph"
+            ],
+            [
+              "a href",
+              "A link to another page or a spot on this one"
+            ],
+            [
+              "img src alt",
+              "An image; alt describes it for people who cannot see it"
+            ],
+            [
+              "ul, ol, li",
+              "Bulleted and numbered lists"
+            ],
+            [
+              "header, nav, main, section, footer",
+              "The page's big regions, for screen readers and SEO"
+            ],
+            [
+              "div, span",
+              "Meaningless boxes for grouping and styling"
+            ],
+            [
+              "form, label, input, button",
+              "Forms: a label ties to its input through for and id"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "css-core",
+      "title": "Core CSS",
+      "summary": "Eight ideas that explain most beginners' CSS bugs.",
+      "blocks": [
+        {
+          "type": "table",
+          "columns": [
+            "Concept",
+            "In short",
+            "Example"
+          ],
+          "rows": [
+            [
+              "Selector",
+              "Picks the elements to style",
+              ".card, #logo, nav a"
+            ],
+            [
+              "Box model",
+              "content + padding + border + margin",
+              "padding: 16px; margin: 0 auto"
+            ],
+            [
+              "box-sizing",
+              "border-box: width includes padding and border",
+              "* { box-sizing: border-box }"
+            ],
+            [
+              "display",
+              "block takes a line, inline sits in one, flex arranges children",
+              "display: flex"
+            ],
+            [
+              "position",
+              "relative sets an anchor; absolute pins to the nearest one",
+              "A badge on an image corner"
+            ],
+            [
+              "Units",
+              "px fixed, rem from the root font size, % from the parent",
+              "font-size: 1.25rem"
+            ],
+            [
+              "Specificity",
+              "id > class > tag; on a tie the later rule wins",
+              "#nav a beats .link"
+            ],
+            [
+              "CSS variables",
+              "Declare once, use everywhere",
+              "color: var(--primary)"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "flexbox",
+      "title": "Flexbox",
+      "summary": "Six properties for 90% of layouts.",
+      "blocks": [
+        {
+          "type": "table",
+          "columns": [
+            "Property (on the parent)",
+            "What it does"
+          ],
+          "rows": [
+            [
+              "display: flex",
+              "Puts the children in a row"
+            ],
+            [
+              "flex-direction: column",
+              "Stacks children in a column instead"
+            ],
+            [
+              "justify-content",
+              "Aligns along the main axis: flex-start, center, space-between"
+            ],
+            [
+              "align-items",
+              "Aligns across it: stretch, center, flex-end"
+            ],
+            [
+              "gap",
+              "Space between children, instead of a margin on each"
+            ],
+            [
+              "flex-wrap: wrap",
+              "Lets children wrap to a new line when space runs out"
+            ]
+          ]
+        },
+        {
+          "type": "code",
+          "language": "css",
+          "caption": "A menu bar: logo on the left, links on the right, vertically centred.",
+          "code": [
+            ".navbar {",
+            "  display: flex;",
+            "  justify-content: space-between;",
+            "  align-items: center;",
+            "  padding: 12px 24px;",
+            "}",
+            "",
+            ".navbar__links {",
+            "  display: flex;",
+            "  gap: 16px;",
+            "}"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "responsive",
+      "title": "Responsive, step by step",
+      "summary": "Write for phones first, then widen for big screens.",
+      "blocks": [
+        {
+          "type": "steps",
+          "items": [
+            "Check the viewport meta tag is in the head (VS Code's ! skeleton includes it).",
+            "Write CSS for narrow screens first: one column, text big enough to read.",
+            "Add a min-width media query for each larger breakpoint, such as 768px for tablets and 1024px for desktops.",
+            "Test in DevTools device mode (Ctrl + Shift + M), dragging the width from 320px to 1440px to find what breaks.",
+            "Open it on a real phone: on the same Wi-Fi, visit your computer's IP with Live Server's port, such as 192.168.1.5:5500."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "css",
+          "caption": "Mobile-first: one column by default, two from 768px, four from 1024px.",
+          "code": [
+            ".products {",
+            "  display: grid;",
+            "  grid-template-columns: 1fr;",
+            "  gap: 16px;",
+            "}",
+            "",
+            "@media (min-width: 768px) {",
+            "  .products {",
+            "    grid-template-columns: repeat(2, 1fr);",
+            "  }",
+            "}",
+            "",
+            "@media (min-width: 1024px) {",
+            "  .products {",
+            "    grid-template-columns: repeat(4, 1fr);",
+            "  }",
+            "}"
+          ]
+        },
+        {
+          "type": "note",
+          "tone": "info",
+          "body": [
+            "WSL: Live Server runs inside Ubuntu, so a phone may not reach it by IP. If so, test on the phone after publishing to GitHub Pages."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "modern-css",
+      "title": "CSS newer than the videos",
+      "summary": "The videos still hold; these are what browsers support on top today.",
+      "blocks": [
+        {
+          "type": "table",
+          "columns": [
+            "Feature",
+            "Replaces",
+            "Example"
+          ],
+          "rows": [
+            [
+              "CSS Grid",
+              "A hand-written flex grid library",
+              "grid-template-columns: repeat(4, 1fr)"
+            ],
+            [
+              "gap on flex",
+              "A margin on every child",
+              ".row { display: flex; gap: 16px }"
+            ],
+            [
+              "clamp()",
+              "Many media queries just to resize text",
+              "font-size: clamp(1rem, 2vw, 1.5rem)"
+            ],
+            [
+              "CSS nesting",
+              "SCSS only for nested selectors",
+              ".card { & h3 { margin: 0 } }"
+            ],
+            [
+              ":has()",
+              "JavaScript to style a parent by its child",
+              "label:has(input:checked)"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "github-pages",
+      "title": "Publish on GitHub Pages",
+      "summary": "Free, a link right away, and updated on every push.",
+      "blocks": [
+        {
+          "type": "steps",
+          "items": [
+            "Create a GitHub repo such as my-landing-page and push to it as in part 1. The main file must be called index.html.",
+            "On the repo page: Settings → Pages.",
+            "Under Build and deployment choose Source: Deploy from a branch, Branch: main, folder / (root), and press Save.",
+            "Wait about a minute and reload Settings → Pages: the link your-username.github.io/my-landing-page appears.",
+            "Edit, commit, push: the live page updates a few minutes later."
+          ]
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "caption": "After every change: these three commands put it online.",
+          "code": [
+            "git add .",
+            "git commit -m \"Update landing page\"",
+            "git push"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "done",
+      "title": "Done when",
+      "summary": "You can do all of it with no video open.",
+      "blocks": [
+        {
+          "type": "checklist",
+          "items": [
+            "Build a landing page from a design image, with no video open",
+            "The page holds up at 375px (phone) and 1280px (desktop)",
+            "Flexbox or grid for layout, classes named with BEM",
+            "The page has a working GitHub Pages link",
+            "Use DevTools to find out why a CSS rule has no effect"
+          ]
+        }
+      ]
+    }
+  ]
+}
