@@ -86,6 +86,90 @@ describe("DocArticle", () => {
     expect(render(vietnameseFirst).textContent).toContain("English body");
   });
 
+  describe("remembering where the reader stopped", () => {
+    function long(lang: Lang): Doc {
+      return {
+        ...version(lang),
+        sections: ["setup", "signing", "release"].map((id) => ({
+          id,
+          title: `${lang === "en" ? "English" : "Vietnamese"} ${id}`,
+          blocks: [{ type: "text" as const, body: [`${id} body`] }],
+        })),
+      };
+    }
+    const longer: Record<Lang, Doc> = { en: long("en"), vi: long("vi") };
+    const store = (value: object) =>
+      window.localStorage.setItem("docs-position:guide", JSON.stringify(value));
+    const bar = () => document.body.querySelector('[role="status"]');
+
+    it("offers to go back to the section the reader was in", () => {
+      store({ section: "release", offset: 120, done: false });
+      render(longer);
+
+      expect(bar()?.textContent).toContain("English release");
+    });
+
+    it("goes back there when asked, and puts the offer away", () => {
+      const scrollIntoView = vi.fn();
+      Element.prototype.scrollIntoView = scrollIntoView as unknown as Element["scrollIntoView"];
+      store({ section: "release", offset: 120, done: false });
+      const page = render(longer);
+
+      const resume = [...bar()!.querySelectorAll("button")].find((button) => button.textContent === "Continue");
+      act(() => resume!.click());
+
+      expect(scrollIntoView.mock.contexts[0]).toBe(page.querySelector("#release"));
+      expect(bar()).toBeNull();
+    });
+
+    it("puts the offer away when dismissed", () => {
+      store({ section: "release", offset: 0, done: false });
+      render(longer);
+
+      act(() => bar()!.querySelector<HTMLButtonElement>('button[aria-label="Dismiss"]')!.click());
+
+      expect(bar()).toBeNull();
+    });
+
+    it("offers nothing for the first section or a guide read to the end", () => {
+      store({ section: "setup", offset: 400, done: false });
+      render(longer);
+      expect(bar()).toBeNull();
+      act(() => root.unmount());
+      container.remove();
+
+      store({ section: "release", offset: 0, done: true });
+      render(longer);
+      expect(bar()).toBeNull();
+    });
+
+    it("saves where the reader is as they scroll", () => {
+      vi.useFakeTimers();
+      try {
+        const page = render(longer);
+        // A long page, not scrolled to its end.
+        Object.defineProperty(document.documentElement, "scrollHeight", { configurable: true, value: 5000 });
+        // "signing" has passed under the header line, 300px ago; "release" has not.
+        page.querySelector<HTMLElement>("#setup")!.getBoundingClientRect = () => ({ top: -900 }) as DOMRect;
+        page.querySelector<HTMLElement>("#signing")!.getBoundingClientRect = () => ({ top: -180 }) as DOMRect;
+        page.querySelector<HTMLElement>("#release")!.getBoundingClientRect = () => ({ top: 700 }) as DOMRect;
+
+        act(() => {
+          window.dispatchEvent(new Event("scroll"));
+          vi.advanceTimersByTime(400);
+        });
+
+        expect(JSON.parse(window.localStorage.getItem("docs-position:guide")!)).toEqual({
+          section: "signing",
+          offset: 300,
+          done: false,
+        });
+      } finally {
+        vi.useRealTimers();
+      }
+    });
+  });
+
   describe("synced from Markdown", () => {
     const english: Doc = {
       ...versions.en,

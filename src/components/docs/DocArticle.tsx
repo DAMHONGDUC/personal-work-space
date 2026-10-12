@@ -6,11 +6,13 @@ import { ReadingProgress } from "@/components/shared/ReadingProgress";
 import { DocBlocks } from "@/components/docs/DocBlocks";
 import { DocHero } from "@/components/docs/DocHero";
 import { LanguageSwitch } from "@/components/docs/LanguageSwitch";
+import { ResumeReading } from "@/components/docs/ResumeReading";
 import { SeriesContents, SeriesPager } from "@/components/docs/SeriesNav";
 import { MobileToc, SidebarToc } from "@/components/policy/PolicyToc";
 import { Prose } from "@/components/policy/Prose";
 import { Section } from "@/components/policy/Section";
 import { useDocLanguage } from "@/hooks/docs/useDocLanguage";
+import { useReadingPosition } from "@/hooks/docs/useReadingPosition";
 import { useSectionLinks } from "@/hooks/scroll/useSectionLinks";
 import {
   type Lang,
@@ -32,7 +34,8 @@ import { AppTextStyles } from "@/lib/design/app-text-styles";
  * (when the guide is one page of a series) above the page's own sections. On
  * smaller screens, which have no panel, the series is a card above the intro
  * and the sections a collapsed list. The previous and next page are linked
- * below the last section.
+ * below the last section. The page remembers where the reader stopped and,
+ * next time, offers to go back there.
  */
 export function DocArticle({
   versions,
@@ -56,6 +59,10 @@ export function DocArticle({
     id: section.id,
     title: section.title,
   }));
+
+  // Where the reader left this guide last time, offered back on arrival.
+  const reading = useReadingPosition(doc.slug, toc.map((item) => item.id));
+  const resumeAt = reading.offer && doc.sections.find((section) => section.id === reading.offer!.section);
 
   return (
     <>
@@ -109,6 +116,15 @@ export function DocArticle({
           </div>
         </div>
       </main>
+
+      {resumeAt && (
+        <ResumeReading
+          section={resumeAt.title}
+          lang={lang}
+          onResume={reading.resume}
+          onDismiss={reading.dismiss}
+        />
+      )}
     </>
   );
 }
