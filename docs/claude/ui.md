@@ -40,7 +40,8 @@ Never write a page-level `pt-*`/`pb-*` by hand; change the constant.
 | Components live in `src/components/ui` (Radix, style `radix-nova`) and are edited in place | They are ours once generated | — |
 | One palette: shadcn names alias the site's colours in `globals.css` | `--muted` means muted **text** here, a surface in shadcn | Never run `shadcn init` over the file |
 | Dark mode: `@custom-variant dark (@media (prefers-color-scheme: dark))` | Correct first paint of a static export | No `.dark` class, no toggle |
-| shadcn for buttons, badges, inputs, tables, alerts, the diagram dialog | Heroes, cards, diagrams, table of contents are hand-written | — |
+| shadcn for buttons, badges, inputs, tables, alerts, the diagram dialog | Heroes, cards, diagrams, table of contents are hand-written |
+| Code blocks: one look everywhere — bar (language + `CopyButton`), Shiki colours from `--shiki-light` / `--shiki-dark` chosen by colour scheme | Styles in globals.css (`.code-block`, `.md-code`, `.shiki`); copying goes through `copyText`, which falls back to select-and-copy | — |
 
 ## Section numbers
 

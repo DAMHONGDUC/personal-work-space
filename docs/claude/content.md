@@ -36,6 +36,7 @@ Every rule is enforced by [doc-data.test.ts](../../tests/doc-data.test.ts).
 | One `topic` from `DOC_TOPICS` in [doc-model.ts](../../src/lib/docs/doc-model.ts) | The index shelves by it; labels live there | Add a topic there, never a label in JSON |
 | Section `id`s are language-independent slugs | Switching language re-renders in place | `create-key` |
 | Commands in a `code` block are identical in both languages | Copy-pasteable | Explanations go in the localized `caption` |
+| A `code` block is coloured when the page is built (`highlightVersions`, Shiki) and drawn with a bar: caption, language, copy button | Reads like a fenced block on GitHub; no highlighter ships to the browser | Language names from `CodeHighlight.LANGUAGES` / `ALIASES` in `code-highlight.mts`; an unknown one shows plain |
 | A `links` block lists things to open elsewhere; each `url` is identical in both languages and `https` | Same page whatever the language | Label and `source` (the channel) are written per language |
 | A guide opens in English unless it sets `defaultLang` (same in both files) | A reader's stored choice still wins | `fullstack-roadmap` sets `"vi"` |
 | A guide can be one page of a series: `series: { id, part }`, same in both files; part 0 is the overview and names the series, parts run 0…n without gaps | Each page lists the series on top and links previous / next at the foot (`SeriesNav`) | `fullstack-web`: `fullstack-roadmap` (0) to `fullstack-roadmap-6-deploy` (6), topic `fullstack` |
@@ -58,6 +59,7 @@ Markdown kept in another repo, published as guide series. Enforced by [synced-do
 | Heading ids are GitHub's; links to another synced file point at its page, other repo files at GitHub, images are copied to `public/synced-docs/` | The docs' own links keep working; test-checked down to the anchor | `../sitelog-specs-00-overview/#d09--…` |
 | A ```mermaid block is drawn to SVG at sync time (mermaid-cli), light and dark, shown as a `<picture>`; a block that does not parse stays code and the sync warns | Diagrams render with no runtime library; unchanged ones are not redrawn | `public/synced-docs/sitelog/diagram-<hash>-dark.svg` |
 | Every synced SVG `<img>` carries its `width` and `height` | The space is held before it loads, so the page never grows under a reader scrolling to a section | Read from the SVG's viewBox |
+| Code is coloured by Shiki at sync time with the same themes as the guides, and framed with the language and a copy button (`.md-code`, answered by `HtmlBlock`) | Every code block on the site looks and copies the same | Languages preloaded: pages render in parallel |
 | A `## Contents` section is dropped | The page draws its own | — |
 
 ## Effects library — `src/data/effects/`
