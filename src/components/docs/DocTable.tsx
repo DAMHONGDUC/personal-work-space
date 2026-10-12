@@ -36,7 +36,9 @@ export function DocTable({
         </TableHeader>
         <TableBody>
           {block.rows.map((row) => (
-            <TableRow key={row[0]}>
+            // Keyed by the whole row: a first cell can repeat, as a playlist
+            // listed once per range of its lessons does.
+            <TableRow key={row.join("\u241f")}>
               {row.map((cell, index) => (
                 <TableCell
                   key={index}
