@@ -203,6 +203,8 @@ export type SeriesPage = {
   seriesName?: string;
   /** Copied from the series ref, so the navigation can group the pages. */
   group?: string;
+  /** The page's first section, where a link from the series list lands. */
+  firstSection?: string;
 };
 
 /** One guide in one language. The slug comes from the filename. */

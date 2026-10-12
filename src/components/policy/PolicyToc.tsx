@@ -25,7 +25,8 @@ export function MobileToc({
 }
 
 /**
- * Sticky sidebar table of contents for wide screens. `children` sit above the
+ * Sticky sidebar table of contents for wide screens, on whichever side the
+ * page places it — the privacy policies on the right, the guides on the left. `children` sit above the
  * contents — a guide's series list — in a box of their own capped at 40% of
  * the window, so a long series never pushes the page's contents out of view;
  * each part scrolls on its own.

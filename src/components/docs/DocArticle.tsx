@@ -28,9 +28,11 @@ import { AppTextStyles } from "@/lib/design/app-text-styles";
  * is a re-render: no request, no navigation, and because section ids are the
  * same in both, the anchor you arrived on still points at the same place.
  *
- * A guide that is one page of a series lists the series above its intro and
- * again in the pinned sidebar, and links the previous and next page below its
- * last section.
+ * The contents panel is pinned on the left on wide screens: the series' pages
+ * (when the guide is one page of a series) above the page's own sections. On
+ * smaller screens, which have no panel, the series is a card above the intro
+ * and the sections a collapsed list. The previous and next page are linked
+ * below the last section.
  */
 export function DocArticle({
   versions,
@@ -65,10 +67,18 @@ export function DocArticle({
 
       {/* The chrome around the guide is English whatever the body is, so the
           body carries its own lang for screen readers and hyphenation. */}
-      <main lang={lang} className={`mx-auto w-full max-w-5xl px-6 ${AppSpacings.AFTER_HERO} ${AppSpacings.PAGE_BOTTOM}`}>
+      <main lang={lang} className={`mx-auto w-full max-w-6xl px-6 ${AppSpacings.AFTER_HERO} ${AppSpacings.PAGE_BOTTOM}`}>
         <MobileToc items={toc} accent={AppColors.DOCS} numbered={numbered} />
 
-        <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_13rem] lg:gap-14">
+        <div className="grid gap-12 lg:grid-cols-[18rem_minmax(0,1fr)] lg:gap-12">
+          {/* Keyed by page, so moving through a series starts the panel at
+              the top, on the new page's first contents entry. */}
+          <SidebarToc key={doc.slug} items={toc} accent={AppColors.DOCS} numbered={numbered}>
+            {series && (
+              <SeriesContents pages={series} current={doc.slug} lang={lang} variant="sidebar" />
+            )}
+          </SidebarToc>
+
           <div ref={body} className="flex min-w-0 flex-col gap-14">
             {series && <SeriesContents pages={series} current={doc.slug} lang={lang} />}
 
@@ -97,12 +107,6 @@ export function DocArticle({
 
             {series && <SeriesPager pages={series} current={doc.slug} lang={lang} />}
           </div>
-
-          <SidebarToc items={toc} accent={AppColors.DOCS} numbered={numbered}>
-            {series && (
-              <SeriesContents pages={series} current={doc.slug} lang={lang} variant="sidebar" />
-            )}
-          </SidebarToc>
         </div>
       </main>
     </>

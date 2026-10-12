@@ -16,6 +16,15 @@ const LABELS = {
   of: { en: "of", vi: "/" },
 } satisfies Record<string, Record<Lang, string>>;
 
+/**
+ * Where a link to a series page goes: straight to its first section, so moving
+ * through the series lands on content and its first contents entry is the one
+ * selected, rather than on the hero above.
+ */
+function pageHref(page: SeriesPage): string {
+  return page.firstSection ? `${routes.doc(page.slug)}#${page.firstSection}` : routes.doc(page.slug);
+}
+
 /** The series' own name when it has one, else the title of its overview, part 0. */
 function seriesName(pages: SeriesPage[], lang: Lang): string {
   return pages[0].seriesName ?? pages[0].title[lang];
@@ -25,10 +34,10 @@ function seriesName(pages: SeriesPage[], lang: Lang): string {
  * The pages of a series: the series is named, and the page being read is
  * marked so the reader sees where they are and how much is left.
  *
- * Drawn twice on a page: as a card above the intro (`card`), the series'
- * table of contents where the reader starts; and on wide screens again in the
- * pinned sidebar (`sidebar`), styled like the contents list beneath it, so the
- * other pages stay in reach however far the reader scrolls.
+ * On wide screens it sits in the pinned contents panel (`sidebar`), styled
+ * like the page's own contents beneath it, so the other pages stay in reach
+ * however far the reader scrolls. Smaller screens have no panel and get it as
+ * a card above the intro (`card`).
  */
 export function SeriesContents({
   pages,
@@ -52,7 +61,7 @@ export function SeriesContents({
     <nav
       aria-label={name}
       data-variant="card"
-      className="rounded-2xl border border-border-soft bg-surface p-5"
+      className="rounded-2xl border border-border-soft bg-surface p-5 lg:hidden"
     >
       <p className={`${AppTextStyles.EYEBROW} flex items-baseline justify-between gap-3`}>
         <span>{name}</span>
@@ -76,7 +85,7 @@ export function SeriesContents({
               )}
               <li className={page.group ? "ml-3" : undefined}>
                 <Link
-                  href={routes.doc(page.slug)}
+                  href={pageHref(page)}
                   aria-current={here ? "page" : undefined}
                   className={`block rounded-lg px-3 py-1.5 text-sm transition-colors ${
                     here ? "font-medium" : "text-muted hover:bg-muted-surface hover:text-foreground"
@@ -155,16 +164,25 @@ function SidebarSeries({
               <li>
                 <Link
                   ref={here ? currentLink : undefined}
-                  href={routes.doc(page.slug)}
+                  href={pageHref(page)}
                   aria-current={here ? "page" : undefined}
-                  className={`-ml-px block border-l py-1 text-sm leading-6 transition-colors ${
+                  className={`-ml-px block rounded-r-md border-l-2 py-1 pr-2 text-sm leading-6 transition-colors ${
                     page.group ? "pl-7" : "pl-4"
                   } ${
                     here
-                      ? "font-medium text-foreground"
+                      ? "font-semibold"
                       : "border-transparent text-muted hover:border-foreground/25 hover:text-foreground"
                   }`}
-                  style={here ? { borderColor: AppColors.DOCS } : undefined}
+                  // The same selected look as the contents list beneath it.
+                  style={
+                    here
+                      ? {
+                          borderColor: AppColors.DOCS,
+                          color: AppColors.DOCS,
+                          backgroundColor: AppColors.tint(AppColors.DOCS, 12),
+                        }
+                      : undefined
+                  }
                 >
                   {page.title[lang]}
                 </Link>
@@ -220,7 +238,7 @@ function PagerLink({
 
   return (
     <Link
-      href={routes.doc(page.slug)}
+      href={pageHref(page)}
       rel={direction === "next" ? "next" : "prev"}
       className={`group/pager flex flex-col gap-1 rounded-2xl border border-border-soft bg-surface px-5 py-4 transition-colors hover:bg-muted-surface ${
         next ? "items-end text-right sm:col-start-2" : ""

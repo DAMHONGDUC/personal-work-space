@@ -178,6 +178,14 @@ describe("DocArticle", () => {
       expect(sidebar?.textContent).toContain("2/3");
     });
 
+    it("opens another page of the series at its first section", () => {
+      const withSections: SeriesPage[] = series.map((entry) => ({ ...entry, firstSection: "overview" }));
+      const page = render(versions, withSections);
+
+      expect(page.querySelector('aside a[href^="/docs/last"]')?.getAttribute("href")).toBe("/docs/last#overview");
+      expect(page.querySelector('a[rel="next"]')?.getAttribute("href")).toBe("/docs/last#overview");
+    });
+
     it("links the previous and the next page", () => {
       const page = render(versions, series);
 
