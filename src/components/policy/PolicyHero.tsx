@@ -38,7 +38,7 @@ export function PolicyHero({ app }: { app: App }) {
         }}
       />
 
-      <div className={`relative mx-auto w-full max-w-5xl px-6 ${AppSpacings.HERO_BOTTOM} ${AppSpacings.PAGE_TOP}`}>
+      <div className={`relative ${AppSpacings.CONTAINER} ${AppSpacings.HERO_BOTTOM} ${AppSpacings.PAGE_TOP}`}>
         <nav className={`${AppTextStyles.SMALL} pb-9`}>
           <Link
             href={routes.apps}
@@ -63,7 +63,7 @@ export function PolicyHero({ app }: { app: App }) {
             <h1 className={AppTextStyles.HERO_TITLE}>
               {app.name} Privacy Policy
             </h1>
-            <p className={`${AppTextStyles.BODY} max-w-[60ch]`}>{app.tagline}</p>
+            <p className={`${AppTextStyles.BODY} max-w-[72ch]`}>{app.tagline}</p>
           </div>
         </div>
 

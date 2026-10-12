@@ -20,7 +20,7 @@ export function DocTable({
   accent: string;
 }) {
   return (
-    <div className="mt-5 max-w-[68ch] overflow-hidden rounded-xl border border-border-soft">
+    <div className="mt-5 max-w-[80ch] overflow-hidden rounded-xl border border-border-soft">
       <Table className="min-w-[34rem]">
         <TableHeader>
           <TableRow className="bg-muted-surface">

@@ -10,7 +10,7 @@ import { AppTextStyles } from "@/lib/design/app-text-styles";
  */
 export function DocLinks({ block, accent }: { block: LinksBlock; accent: string }) {
   return (
-    <ul className="mt-5 flex max-w-[68ch] flex-col gap-2.5">
+    <ul className="mt-5 flex max-w-[80ch] flex-col gap-2.5">
       {block.items.map((item) => (
         <li key={item.url}>
           <a

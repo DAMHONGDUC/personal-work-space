@@ -47,7 +47,7 @@ export function DocHero({
         }}
       />
 
-      <div className={`relative mx-auto w-full max-w-5xl px-6 ${AppSpacings.HERO_BOTTOM} ${AppSpacings.PAGE_TOP}`}>
+      <div className={`relative ${AppSpacings.CONTAINER} ${AppSpacings.HERO_BOTTOM} ${AppSpacings.PAGE_TOP}`}>
         <nav className={`${AppTextStyles.SMALL} pb-9`}>
           <Link href={routes.docs} className="transition-colors hover:text-foreground">
             All guides
@@ -72,7 +72,7 @@ export function DocHero({
             >
               {doc.title}
             </h1>
-            <p lang={lang} className={`${AppTextStyles.BODY} max-w-[60ch]`}>
+            <p lang={lang} className={`${AppTextStyles.BODY} max-w-[72ch]`}>
               {doc.tagline}
             </p>
           </div>

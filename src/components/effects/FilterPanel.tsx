@@ -64,7 +64,7 @@ export function FilterPanel({
       <div className="min-w-0">
         <div
           ref={barRef}
-          className="sticky top-16 z-10 -mx-6 mb-6 border-b border-border-soft bg-background/95 px-6 py-2 backdrop-blur lg:hidden"
+          className="sticky top-16 z-10 -mx-4 mb-6 border-b border-border-soft bg-background/95 px-4 sm:-mx-6 sm:px-6 py-2 backdrop-blur lg:hidden"
         >
           {filters("bar")}
         </div>

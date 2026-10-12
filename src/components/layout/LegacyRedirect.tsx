@@ -15,7 +15,7 @@ export function LegacyRedirect({ href, label }: { href: string; label: string })
   return (
     <>
       <meta httpEquiv="refresh" content={`0; url=${withBasePath(`${href}/`)}`} />
-      <main className={`mx-auto flex w-full max-w-5xl flex-col items-start gap-4 px-6 ${AppSpacings.PAGE_TOP} ${AppSpacings.PAGE_BOTTOM}`}>
+      <main className={`${AppSpacings.CONTAINER} flex flex-col items-start gap-4 ${AppSpacings.PAGE_TOP} ${AppSpacings.PAGE_BOTTOM}`}>
         <p className={AppTextStyles.MONO_LABEL}>This page has moved</p>
         <h1 className={AppTextStyles.COMPACT_TITLE}>
           Redirecting to {label}…

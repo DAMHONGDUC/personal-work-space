@@ -14,7 +14,7 @@ export function ContactCard({ app, email }: { app: App; email: string }) {
       <h2 className={AppTextStyles.CARD_TITLE_SM}>
         Questions about {app.name}?
       </h2>
-      <p className={`${AppTextStyles.BODY} mt-2 max-w-[60ch]`}>
+      <p className={`${AppTextStyles.BODY} mt-2 max-w-[72ch]`}>
         We usually reply within a few business days.
       </p>
       <a

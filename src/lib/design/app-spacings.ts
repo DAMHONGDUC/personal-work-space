@@ -10,6 +10,13 @@
  * can see them in this file.
  */
 export class AppSpacings {
+  /**
+   * The site's content column: its width and side gutters. The header, the
+   * footer, every hero and every page body sit in it, so their edges line up.
+   * Wide enough that a desktop window is not mostly margin; the gutter shrinks
+   * on a phone, where every pixel of width is text.
+   */
+  static readonly CONTAINER = "mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8";
   /** Between the sticky header and the first content of any page or hero. */
   static readonly PAGE_TOP = "pt-6 sm:pt-8";
   /** Between the last content and the footer. */

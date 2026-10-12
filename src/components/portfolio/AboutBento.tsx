@@ -45,7 +45,7 @@ export function AboutBento({ portfolio }: { portfolio: Portfolio }) {
   return (
     <div className="grid gap-4 md:grid-cols-3">
       <GlassCard className="flex flex-col justify-between gap-8 md:col-span-2 md:row-span-3 md:p-8!">
-        <div className="max-w-[60ch]">
+        <div className="max-w-[72ch]">
           <Typewriter
             paragraphs={portfolio.story}
             paragraphClassName={`${AppTextStyles.BODY} first:text-lg first:leading-8 first:text-foreground`}

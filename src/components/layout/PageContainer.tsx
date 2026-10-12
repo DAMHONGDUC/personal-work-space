@@ -31,5 +31,5 @@ export function PageContainer({
   spacing?: PageSpacing;
   children: ReactNode;
 }) {
-  return <main className={`mx-auto w-full max-w-5xl px-6 ${SPACING[spacing]}`}>{children}</main>;
+  return <main className={`${AppSpacings.CONTAINER} ${SPACING[spacing]}`}>{children}</main>;
 }

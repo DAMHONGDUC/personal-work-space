@@ -12,7 +12,7 @@ export function CodeSample({ block }: { block: CodeBlock }) {
   const code = block.code.join("\n");
 
   return (
-    <figure className="code-block mt-5 max-w-[68ch]">
+    <figure className="code-block mt-5 max-w-[80ch]">
       <figcaption className={`${AppTextStyles.CAPTION} code-bar`}>
         <span className="min-w-0 truncate">{block.caption ?? "Terminal"}</span>
         <span className="flex shrink-0 items-center gap-2">

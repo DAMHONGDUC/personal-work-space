@@ -1,5 +1,6 @@
 import { HeaderBrand } from "@/components/layout/HeaderBrand";
 import { HeaderNav } from "@/components/layout/HeaderNav";
+import { AppSpacings } from "@/lib/design/app-spacings";
 
 /**
  * Sticky top bar: `HeaderBrand` on the left, `HeaderNav` on the right. On an
@@ -16,7 +17,7 @@ import { HeaderNav } from "@/components/layout/HeaderNav";
 export function SiteHeader({ publisher }: { publisher: string }) {
   return (
     <header className="site-header sticky top-0 z-20 border-b">
-      <div className="mx-auto flex h-16 w-full max-w-5xl items-center justify-between gap-6 px-6">
+      <div className={`${AppSpacings.CONTAINER} flex h-16 items-center justify-between gap-6`}>
         <HeaderBrand publisher={publisher} />
 
         <HeaderNav />

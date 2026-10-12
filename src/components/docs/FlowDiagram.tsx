@@ -59,7 +59,7 @@ export function FlowDiagram({
       // colour cannot be written inline — so it is handed to CSS once here and
       // the boxes below mix against it.
       style={{ "--flow-accent": accent } as React.CSSProperties}
-      className="mt-5 flex max-w-[68ch] flex-col gap-3 rounded-2xl border border-border-soft bg-muted-surface p-5 sm:p-6"
+      className="mt-5 flex max-w-[80ch] flex-col gap-3 rounded-2xl border border-border-soft bg-muted-surface p-5 sm:p-6"
     >
       <p className={`${AppTextStyles.CAPTION} flex items-center gap-1.5 leading-5`}>
         <MousePointerClick aria-hidden className="size-3.5 shrink-0" style={{ color: accent }} />

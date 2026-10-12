@@ -88,7 +88,7 @@ export function DocBlocks({
  */
 function Checklist({ items, accent }: { items: string[]; accent: string }) {
   return (
-    <ul className="mt-5 flex max-w-[68ch] flex-col gap-2.5">
+    <ul className="mt-5 flex max-w-[80ch] flex-col gap-2.5">
       {items.map((item) => (
         <li key={item} className="flex gap-3 text-base leading-7">
           <span
@@ -106,7 +106,7 @@ function Checklist({ items, accent }: { items: string[]; accent: string }) {
 /** Numbered steps, for the places where the order is the point. */
 function Steps({ items, accent }: { items: string[]; accent: string }) {
   return (
-    <ol className="mt-5 flex max-w-[68ch] flex-col gap-3">
+    <ol className="mt-5 flex max-w-[80ch] flex-col gap-3">
       {items.map((item, index) => (
         <li key={item} className="flex gap-3.5 text-base leading-7">
           <span

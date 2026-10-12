@@ -18,7 +18,7 @@ export function Callout({ block }: { block: NoteBlock }) {
 
   return (
     <Alert
-      className="mt-5 max-w-[68ch] rounded-xl px-4 py-3.5"
+      className="mt-5 max-w-[80ch] rounded-xl px-4 py-3.5"
       style={{
         borderColor: `${AppColors.tint(tone.color, 32)}`,
         backgroundColor: `${AppColors.tint(tone.color, 8)}`,

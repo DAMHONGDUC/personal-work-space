@@ -74,7 +74,7 @@ export function DocArticle({
 
       {/* The chrome around the guide is English whatever the body is, so the
           body carries its own lang for screen readers and hyphenation. */}
-      <main lang={lang} className={`mx-auto w-full max-w-6xl px-6 ${AppSpacings.AFTER_HERO} ${AppSpacings.PAGE_BOTTOM}`}>
+      <main lang={lang} className={`${AppSpacings.CONTAINER} ${AppSpacings.AFTER_HERO} ${AppSpacings.PAGE_BOTTOM}`}>
         <MobileToc items={toc} accent={AppColors.DOCS} numbered={numbered} />
 
         <div className="grid gap-12 lg:grid-cols-[18rem_minmax(0,1fr)] lg:gap-12">
@@ -100,7 +100,7 @@ export function DocArticle({
                 accent={AppColors.DOCS}
               >
                 {section.summary && (
-                  <p className={`${AppTextStyles.BODY} -mt-1 max-w-[68ch]`}>
+                  <p className={`${AppTextStyles.BODY} -mt-1 max-w-[80ch]`}>
                     {section.summary}
                   </p>
                 )}

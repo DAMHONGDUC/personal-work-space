@@ -10,7 +10,7 @@ export function NotCollectedSection({ app, number }: { app: App; number: number 
       title="Data we do not collect"
       accent={app.accent}
     >
-      <p className={`${AppTextStyles.BODY} max-w-[68ch]`}>
+      <p className={`${AppTextStyles.BODY} max-w-[80ch]`}>
         {app.name} never asks for, receives, or stores any of the following:
       </p>
       <ul className="mt-5 grid gap-2 sm:grid-cols-2">

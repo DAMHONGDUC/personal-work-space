@@ -10,7 +10,7 @@ export function ThirdPartiesSection({ app, number }: { app: App; number: number 
       title="Third-party services"
       accent={app.accent}
     >
-      <p className={`${AppTextStyles.BODY} max-w-[68ch]`}>
+      <p className={`${AppTextStyles.BODY} max-w-[80ch]`}>
         {app.name} relies on the services below. Each one handles data under its own
         privacy policy.
       </p>
