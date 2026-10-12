@@ -2,7 +2,7 @@
   "title": "Khởi tạo Next.js bằng một script",
   "tagline": "create-next-app, rồi lint, quy tắc commit, Redux, Ant Design và styled-components được nối sẵn trong một lần chạy.",
   "icon": "⚡",
-  "topic": "web",
+  "topic": "fullstack",
   "tags": [
     "Next.js",
     "Ant Design",

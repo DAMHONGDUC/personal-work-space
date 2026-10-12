@@ -2,7 +2,7 @@
   "title": "F02 — Projects, sessions, locations",
   "tagline": "Projects, sessions, locations end to end: Domain → fake data → view models → real data → tests.",
   "icon": "🛠️",
-  "topic": "sitelog",
+  "topic": "ios",
   "tags": [
     "SwiftUI",
     "iOS",

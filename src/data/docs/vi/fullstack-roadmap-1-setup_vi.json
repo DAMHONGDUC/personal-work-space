@@ -2,7 +2,7 @@
   "title": "Phần 1 — Môi trường & công cụ",
   "tagline": "Dựng máy từ con số 0: terminal, VS Code, Node.js, Git và GitHub.",
   "icon": "💻",
-  "topic": "roadmap",
+  "topic": "fullstack",
   "defaultLang": "vi",
   "series": {
     "id": "fullstack-web",

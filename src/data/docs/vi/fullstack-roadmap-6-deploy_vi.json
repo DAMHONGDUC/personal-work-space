@@ -2,7 +2,7 @@
   "title": "Phần 6 — Fullstack & deploy",
   "tagline": "REST API, đăng nhập bằng JWT, nối React, rồi đưa lên mạng miễn phí.",
   "icon": "🚀",
-  "topic": "roadmap",
+  "topic": "fullstack",
   "defaultLang": "vi",
   "series": {
     "id": "fullstack-web",

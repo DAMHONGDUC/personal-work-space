@@ -2,7 +2,7 @@
   "title": "Part 6 — Full-stack & deploy",
   "tagline": "A REST API, JWT sign-in, React on top, then online for free.",
   "icon": "🚀",
-  "topic": "roadmap",
+  "topic": "fullstack",
   "defaultLang": "vi",
   "series": {
     "id": "fullstack-web",

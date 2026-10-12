@@ -2,7 +2,7 @@
   "title": "F16 — UI finish and App Store",
   "tagline": "take every screen from the ~30% skeleton to Figma, on real logic, then ship to the App Store.",
   "icon": "🛠️",
-  "topic": "sitelog",
+  "topic": "ios",
   "tags": [
     "SwiftUI",
     "iOS",

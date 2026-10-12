@@ -27,35 +27,33 @@ export const LANGUAGE_LABELS: Record<Lang, string> = {
  * A guide sits on exactly one. The id is data and the same in both language
  * files — the test compares it with the rest of the skeleton — and the label is
  * looked up here, so a topic is renamed once rather than in every guide.
+ *
+ * Grouped by what a reader comes for — a framework, a platform, the full-stack
+ * path, interview prep, security, tooling — rather than one shelf per tool; the
+ * search narrows further by any name a guide mentions.
  */
 export const DOC_TOPICS = [
-  "roadmap",
-  "architecture",
   "react-native",
   "flutter",
   "ios",
-  "sitelog",
   "android",
-  "web",
-  "security",
-  "tooling",
+  "fullstack",
   "interview",
+  "mobile-security",
+  "git-tools",
 ] as const;
 
 export type DocTopic = (typeof DOC_TOPICS)[number];
 
 export const TOPIC_LABELS: Record<DocTopic, Record<Lang, string>> = {
-  roadmap: { en: "Learning paths", vi: "Lộ trình học" },
-  architecture: { en: "Architecture", vi: "Kiến trúc" },
-  "react-native": { en: "React & React Native", vi: "React & React Native" },
+  "react-native": { en: "React Native", vi: "React Native" },
   flutter: { en: "Flutter", vi: "Flutter" },
-  ios: { en: "iOS & Swift", vi: "iOS & Swift" },
-  sitelog: { en: "SiteLog: an iOS app, built", vi: "SiteLog: dựng một app iOS" },
+  ios: { en: "iOS", vi: "iOS" },
   android: { en: "Android", vi: "Android" },
-  web: { en: "Web", vi: "Web" },
-  security: { en: "Security", vi: "Bảo mật" },
-  tooling: { en: "Git & tooling", vi: "Git & công cụ" },
-  interview: { en: "Interview prep", vi: "Ôn phỏng vấn" },
+  fullstack: { en: "FullStack", vi: "FullStack" },
+  interview: { en: "Interview", vi: "Phỏng vấn" },
+  "mobile-security": { en: "Mobile Security", vi: "Bảo mật mobile" },
+  "git-tools": { en: "Git & Tools", vi: "Git & công cụ" },
 };
 
 /** The block types a guide is built from. */

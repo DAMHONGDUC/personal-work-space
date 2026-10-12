@@ -2,7 +2,7 @@
   "title": "Đặt tên tag release để lịch sử tự giải thích",
   "tagline": "branch-A.B.C: môi trường nào, giai đoạn nào, bản phát hành nào, bản sửa nào.",
   "icon": "🔖",
-  "topic": "tooling",
+  "topic": "git-tools",
   "tags": [
     "Git",
     "Release",

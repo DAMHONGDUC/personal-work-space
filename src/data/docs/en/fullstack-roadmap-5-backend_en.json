@@ -2,7 +2,7 @@
   "title": "Part 5 — Node, Express & MySQL",
   "tagline": "An Express 5 server, MySQL on your machine, and code split into MVC.",
   "icon": "🗄️",
-  "topic": "roadmap",
+  "topic": "fullstack",
   "defaultLang": "vi",
   "series": {
     "id": "fullstack-web",

@@ -13,7 +13,7 @@ function version(lang: Lang): Doc {
     title: `${word} title`,
     tagline: `${word} tagline`,
     icon: "🛠️",
-    topic: "tooling",
+    topic: "git-tools",
     tags: ["Xcode"],
     readingTime: `${word} 10`,
     effectiveDate: "2026-01-01",

@@ -14,7 +14,7 @@ function guide(lang: Lang): Doc[] {
       title: vi ? "Cài SSH cho git" : "Set up SSH for git",
       tagline: vi ? "Key, agent và config." : "Keys, agent and config.",
       icon: "🔑",
-      topic: "tooling",
+      topic: "git-tools",
       tags: ["Git"],
       readingTime: "6 min",
       effectiveDate: "2026-01-01",
@@ -115,7 +115,7 @@ describe("DocIndex", () => {
   it("lists every guide before anything is typed", () => {
     const page = render();
 
-    // Shelved in topic order, not load order: iOS comes before tooling.
+    // Shelved in topic order, not load order: iOS comes before Git & Tools.
     expect(titles()).toEqual(["Set up a Mac for iOS", "Set up SSH for git"]);
     expect(page.textContent).toContain("2 guides");
   });
@@ -123,11 +123,11 @@ describe("DocIndex", () => {
   it("shelves guides under their topic, and drops a shelf the search empties", () => {
     render();
 
-    expect(shelves()).toEqual(["iOS & Swift", "Git & tooling"]);
+    expect(shelves()).toEqual(["iOS", "Git & Tools"]);
 
     type("xcode");
 
-    expect(shelves()).toEqual(["iOS & Swift"]);
+    expect(shelves()).toEqual(["iOS"]);
   });
 
   it("filters the list, and says how many are left", () => {
@@ -162,7 +162,7 @@ describe("DocIndex", () => {
   it("narrows to one topic, and back to all", () => {
     const page = render();
 
-    act(() => chip("iOS & Swift").click());
+    act(() => chip("iOS").click());
 
     expect(titles()).toEqual(["Set up a Mac for iOS"]);
     expect(page.textContent).toContain("1 of 2 guides");
@@ -175,28 +175,28 @@ describe("DocIndex", () => {
   it("shows several topics at once, and All clears them", () => {
     const page = render();
 
-    act(() => chip("iOS & Swift").click());
-    act(() => chip("Git & tooling").click());
+    act(() => chip("iOS").click());
+    act(() => chip("Git & Tools").click());
 
     expect(titles()).toEqual(["Set up a Mac for iOS", "Set up SSH for git"]);
-    expect(chip("iOS & Swift").getAttribute("aria-pressed")).toBe("true");
+    expect(chip("iOS").getAttribute("aria-pressed")).toBe("true");
     expect(chip("All").getAttribute("aria-pressed")).toBe("false");
 
-    act(() => chip("iOS & Swift").click());
+    act(() => chip("iOS").click());
 
     expect(titles()).toEqual(["Set up SSH for git"]);
     expect(page.textContent).toContain("1 of 2 guides");
 
     act(() => chip("All").click());
 
-    expect(chip("Git & tooling").getAttribute("aria-pressed")).toBe("false");
+    expect(chip("Git & Tools").getAttribute("aria-pressed")).toBe("false");
     expect(page.textContent).toContain("2 guides");
   });
 
   it("combines the topic with the search", () => {
     const page = render();
 
-    act(() => chip("iOS & Swift").click());
+    act(() => chip("iOS").click());
     type("IdentitiesOnly");
 
     expect(titles()).toEqual([]);

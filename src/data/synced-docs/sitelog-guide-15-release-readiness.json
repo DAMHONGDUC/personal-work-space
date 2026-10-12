@@ -2,7 +2,7 @@
   "title": "F15 — Accessibility and performance",
   "tagline": "Accessibility and performance end to end: Domain → fake data → view models → real data → tests.",
   "icon": "🛠️",
-  "topic": "sitelog",
+  "topic": "ios",
   "tags": [
     "SwiftUI",
     "iOS",

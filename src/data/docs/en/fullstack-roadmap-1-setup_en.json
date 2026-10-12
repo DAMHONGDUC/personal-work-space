@@ -2,7 +2,7 @@
   "title": "Part 1 — Environment & tools",
   "tagline": "Set up a machine from scratch: terminal, VS Code, Node.js, Git and GitHub.",
   "icon": "💻",
-  "topic": "roadmap",
+  "topic": "fullstack",
   "defaultLang": "vi",
   "series": {
     "id": "fullstack-web",

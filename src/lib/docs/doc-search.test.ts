@@ -7,7 +7,7 @@ function doc(overrides: Partial<Doc> & Pick<Doc, "slug">): Doc {
     title: "Set up SSH for git",
     tagline: "Keys, agent and config.",
     icon: "🔑",
-    topic: "tooling",
+    topic: "git-tools",
     tags: ["Git", "SSH"],
     readingTime: "6 min",
     effectiveDate: "2026-01-01",

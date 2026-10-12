@@ -38,7 +38,7 @@ Every rule is enforced by [doc-data.test.ts](../../tests/doc-data.test.ts).
 | Commands in a `code` block are identical in both languages | Copy-pasteable | Explanations go in the localized `caption` |
 | A `links` block lists things to open elsewhere; each `url` is identical in both languages and `https` | Same page whatever the language | Label and `source` (the channel) are written per language |
 | A guide opens in English unless it sets `defaultLang` (same in both files) | A reader's stored choice still wins | `fullstack-roadmap` sets `"vi"` |
-| A guide can be one page of a series: `series: { id, part }`, same in both files; part 0 is the overview and names the series, parts run 0…n without gaps | Each page lists the series on top and links previous / next at the foot (`SeriesNav`) | `fullstack-web`: `fullstack-roadmap` (0) to `fullstack-roadmap-6-deploy` (6), topic `roadmap` |
+| A guide can be one page of a series: `series: { id, part }`, same in both files; part 0 is the overview and names the series, parts run 0…n without gaps | Each page lists the series on top and links previous / next at the foot (`SeriesNav`) | `fullstack-web`: `fullstack-roadmap` (0) to `fullstack-roadmap-6-deploy` (6), topic `fullstack` |
 | Guides updated the same day sort by slug | Directory order differs between machines; a series stays in order | Name series pages `<overview-slug>-<n>-<topic>` |
 
 ## Synced guides — `src/data/synced-docs/`

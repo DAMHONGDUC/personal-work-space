@@ -2,7 +2,7 @@
   "title": "Name release tags so the history explains itself",
   "tagline": "branch-A.B.C: which environment, which phase, which release, which fix.",
   "icon": "🔖",
-  "topic": "tooling",
+  "topic": "git-tools",
   "tags": [
     "Git",
     "Release",

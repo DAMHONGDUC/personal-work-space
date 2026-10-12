@@ -2,7 +2,7 @@
   "title": "F08 — Floor plans and pins",
   "tagline": "Floor plans and pins end to end: Domain → fake data → view models → real data → tests.",
   "icon": "🛠️",
-  "topic": "sitelog",
+  "topic": "ios",
   "tags": [
     "SwiftUI",
     "iOS",

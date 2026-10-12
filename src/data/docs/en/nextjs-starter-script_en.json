@@ -2,7 +2,7 @@
   "title": "A one-script Next.js starter",
   "tagline": "create-next-app, then linting, commit rules, Redux, Ant Design and styled-components wired in one go.",
   "icon": "⚡",
-  "topic": "web",
+  "topic": "fullstack",
   "tags": [
     "Next.js",
     "Ant Design",

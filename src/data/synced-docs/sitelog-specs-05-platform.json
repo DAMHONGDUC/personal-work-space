@@ -2,7 +2,7 @@
   "title": "Platform",
   "tagline": "Everything around the features: dev tooling, diagnostics, testing, release pipeline, notifications and deep links, profiling.",
   "icon": "📐",
-  "topic": "sitelog",
+  "topic": "ios",
   "tags": [
     "SwiftUI",
     "iOS",

@@ -2,7 +2,7 @@
   "title": "F01 — Access and app lock",
   "tagline": "A2 sign in, A1 Face ID lock, A3 passcode, privacy overlay, re-lock after Lock after, S4 app lock and S5 set passcode — first on a fake repository, then on Keychain + Face ID.",
   "icon": "🛠️",
-  "topic": "sitelog",
+  "topic": "ios",
   "tags": [
     "SwiftUI",
     "iOS",
