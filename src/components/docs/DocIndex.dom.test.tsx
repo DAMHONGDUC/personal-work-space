@@ -111,6 +111,54 @@ afterEach(() => {
   container.remove();
 });
 
+describe("DocIndex with a series", () => {
+  function page(slug: string, title: string, part: number, word: string): Doc {
+    return {
+      ...guide("en")[0],
+      slug,
+      title,
+      topic: "ios",
+      series: { id: "sitelog", part },
+      sections: [{ id: "overview", title: "Overview", blocks: [{ type: "list", items: [word] }] }],
+    };
+  }
+
+  const pages = [
+    page("sitelog-roadmap", "SiteLog roadmap", 0, "features"),
+    page("sitelog-guide-03-capture", "F03 — Capture", 1, "AVCaptureSession"),
+  ];
+  const withSeries: Record<Lang, Doc[]> = {
+    en: [...guide("en"), ...pages],
+    vi: [...guide("vi"), ...pages],
+  };
+
+  function renderSeries() {
+    container = document.createElement("div");
+    document.body.appendChild(container);
+    act(() => {
+      root = createRoot(container);
+      root.render(<DocIndex versions={withSeries} />);
+    });
+    return container;
+  }
+
+  it("shows a series as one card, its first page, with the page count", () => {
+    const page = renderSeries();
+
+    expect(titles()).toEqual(["Set up a Mac for iOS", "SiteLog roadmap", "Set up SSH for git"]);
+    expect(page.textContent).toContain("2 pages");
+    expect(page.textContent).toContain("3 guides");
+  });
+
+  it("finds a page inside the series once a search is typed", () => {
+    renderSeries();
+
+    type("AVCaptureSession");
+
+    expect(titles()).toEqual(["F03 — Capture"]);
+  });
+});
+
 describe("DocIndex", () => {
   it("lists every guide before anything is typed", () => {
     const page = render();

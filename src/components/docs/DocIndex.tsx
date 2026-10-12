@@ -7,6 +7,7 @@ import { LanguageSwitch } from "@/components/docs/LanguageSwitch";
 import { TopicFilter } from "@/components/docs/TopicFilter";
 import { useDocLanguage } from "@/hooks/docs/useDocLanguage";
 import { useDocSearch } from "@/hooks/docs/useDocSearch";
+import { isListed, seriesSizes } from "@/lib/docs/doc-listing";
 import {
   DOC_TOPICS,
   TOPIC_LABELS,
@@ -28,17 +29,26 @@ import { AppTextStyles } from "@/lib/design/app-text-styles";
  * The cards are shelved by topic, in `DOC_TOPICS` order, and a shelf that the
  * search has emptied is left out rather than drawn as a heading over nothing.
  * The topic filter narrows to one shelf, and combines with the search.
+ *
+ * A series shows as one card, its first page, until a search is typed; then
+ * any page that matches is listed in its own right.
  */
 export function DocIndex({ versions }: { versions: Record<Lang, Doc[]> }) {
   const [lang, setLang] = useDocLanguage();
   const docs = versions[lang];
-  const { query, setQuery, results: matches } = useDocSearch(docs);
+  const { query, setQuery, results: found } = useDocSearch(docs);
   const [topic, setTopic] = useState<DocTopic | null>(null);
 
+  const searching = query.trim() !== "";
+  const listed = docs.filter(isListed);
+  const pages = seriesSizes(docs);
+  const pool = searching ? docs : listed;
+
+  const matches = searching ? found : found.filter(({ doc }) => isListed(doc));
   const results =
     topic === null ? matches : matches.filter(({ doc }) => doc.topic === topic);
   const counts = Object.fromEntries(
-    DOC_TOPICS.map((option) => [option, docs.filter((doc) => doc.topic === option).length]),
+    DOC_TOPICS.map((option) => [option, listed.filter((doc) => doc.topic === option).length]),
   ) as Record<DocTopic, number>;
 
   return (
@@ -53,9 +63,9 @@ export function DocIndex({ versions }: { versions: Record<Lang, Doc[]> }) {
 
         <div className="flex items-center gap-4">
           <p className={AppTextStyles.SMALL}>
-            {results.length === docs.length
-              ? `${docs.length} ${docs.length === 1 ? "guide" : "guides"}`
-              : `${results.length} of ${docs.length} guides`}
+            {results.length === pool.length
+              ? `${pool.length} ${pool.length === 1 ? "guide" : "guides"}`
+              : `${results.length} of ${pool.length} guides`}
           </p>
           <LanguageSwitch lang={lang} onChange={setLang} accent={AppColors.DOCS} />
         </div>
@@ -91,7 +101,13 @@ export function DocIndex({ versions }: { versions: Record<Lang, Doc[]> }) {
                   </span>
                 </h2>
                 {shelf.map(({ doc, sections }) => (
-                  <DocCard key={doc.slug} doc={doc} lang={lang} sections={sections} />
+                  <DocCard
+                    key={doc.slug}
+                    doc={doc}
+                    lang={lang}
+                    sections={sections}
+                    pages={doc.series && isListed(doc) ? pages.get(doc.series.id) : undefined}
+                  />
                 ))}
               </section>
             );

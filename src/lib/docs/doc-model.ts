@@ -190,6 +190,8 @@ export type DocSeriesRef = {
   part: number;
   /** The series' name, when part 0 is not an overview whose title can name it. */
   name?: string;
+  /** A heading the series navigation groups this page under, e.g. "Build guide". */
+  group?: string;
 };
 
 /** One page of a series as its navigation needs it: every language's title. */
@@ -199,6 +201,8 @@ export type SeriesPage = {
   title: Record<Lang, string>;
   /** Copied from the series ref, so the navigation can name the series. */
   seriesName?: string;
+  /** Copied from the series ref, so the navigation can group the pages. */
+  group?: string;
 };
 
 /** One guide in one language. The slug comes from the filename. */

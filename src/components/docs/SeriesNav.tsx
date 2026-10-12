@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import type { Lang, SeriesPage } from "@/lib/docs/doc-model";
@@ -47,26 +48,36 @@ export function SeriesContents({
         </span>
       </p>
       <ol className="mt-3 flex flex-col gap-1">
-        {pages.map((page) => {
+        {pages.map((page, index) => {
           const here = page.slug === current;
+          // A group's name heads its first page, and the group's pages sit one
+          // small step in from it, so a long series reads in parts.
+          const group = page.group && page.group !== pages[index - 1]?.group ? page.group : null;
 
           return (
-            <li key={page.slug}>
-              <Link
-                href={routes.doc(page.slug)}
-                aria-current={here ? "page" : undefined}
-                className={`block rounded-lg px-3 py-1.5 text-sm transition-colors ${
-                  here ? "font-medium" : "text-muted hover:bg-muted-surface hover:text-foreground"
-                }`}
-                style={
-                  here
-                    ? { backgroundColor: `${AppColors.tint(AppColors.DOCS, 14)}`, color: AppColors.DOCS }
-                    : undefined
-                }
-              >
-                {page.title[lang]}
-              </Link>
-            </li>
+            <Fragment key={page.slug}>
+              {group && (
+                <li role="presentation" className={`${AppTextStyles.EYEBROW} px-3 pt-3 pb-1`}>
+                  {group}
+                </li>
+              )}
+              <li className={page.group ? "ml-3" : undefined}>
+                <Link
+                  href={routes.doc(page.slug)}
+                  aria-current={here ? "page" : undefined}
+                  className={`block rounded-lg px-3 py-1.5 text-sm transition-colors ${
+                    here ? "font-medium" : "text-muted hover:bg-muted-surface hover:text-foreground"
+                  }`}
+                  style={
+                    here
+                      ? { backgroundColor: `${AppColors.tint(AppColors.DOCS, 14)}`, color: AppColors.DOCS }
+                      : undefined
+                  }
+                >
+                  {page.title[lang]}
+                </Link>
+              </li>
+            </Fragment>
           );
         })}
       </ol>

@@ -24,10 +24,13 @@ export function DocCard({
   doc,
   lang,
   sections = doc.sections,
+  pages,
 }: {
   doc: Doc;
   lang: Lang;
   sections?: DocSection[];
+  /** Set on a series' first page: how many pages the series has. */
+  pages?: number;
 }) {
   return (
     <article className="relative overflow-hidden rounded-2xl border border-border-soft bg-surface">
@@ -94,6 +97,7 @@ export function DocCard({
         </div>
 
         <p className={`${AppTextStyles.CAPTION} relative`}>
+          {pages !== undefined && `${pages} pages · `}
           {doc.sections.length} sections · {doc.readingTime} · Updated{" "}
           {formatDate(doc.lastUpdated)}
         </p>

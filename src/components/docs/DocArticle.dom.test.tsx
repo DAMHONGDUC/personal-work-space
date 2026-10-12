@@ -152,6 +152,21 @@ describe("DocArticle", () => {
       expect(page.querySelector('a[rel="next"]')?.getAttribute("href")).toBe("/docs/last");
     });
 
+    it("heads each group of pages with its name", () => {
+      const grouped: SeriesPage[] = [
+        series[0],
+        { ...series[1], group: "Build guide" },
+        { ...series[2], group: "Build guide" },
+      ];
+      const page = render(versions, grouped);
+      const headings = [...page.querySelectorAll('nav li[role="presentation"]')];
+
+      expect(headings.map((heading) => heading.textContent)).toEqual(["Build guide"]);
+      // The group's pages step in under its name; the overview above it does not.
+      const items = [...page.querySelectorAll('nav[aria-label="The path"] ol > li:not([role])')];
+      expect(items.map((item) => item.className)).toEqual(["", "ml-3", "ml-3"]);
+    });
+
     it("names the pages in the language on screen", () => {
       const page = render(versions, series);
 
