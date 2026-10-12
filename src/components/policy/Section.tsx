@@ -25,7 +25,7 @@ export function Section({
   children: React.ReactNode;
 }) {
   return (
-    <section id={id} className="scroll-mt-24">
+    <section id={id}>
       <h2 className={`${AppTextStyles.CARD_TITLE} flex items-baseline gap-2.5 pb-5`}>
         {number !== undefined && (
           <span className="tabular-nums" style={{ color: accent }}>

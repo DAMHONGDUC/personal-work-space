@@ -403,7 +403,6 @@ html {
   color: var(--foreground);
   font-weight: 600;
   line-height: 1.4;
-  scroll-margin-top: 6rem;
 }
 
 .md-body h3 {
