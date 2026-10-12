@@ -1,0 +1,25 @@
+{
+  "topic": "sitelog",
+  "series": [
+    {
+      "id": "sitelog-specs",
+      "name": "SiteLog: feature specs",
+      "github": "DAMHONGDUC/site-log-ios",
+      "branch": "main",
+      "localPath": "../../SwiftUI/site-log-ios",
+      "dir": "docs/feature-docs",
+      "icon": "📐",
+      "tags": ["SwiftUI", "iOS", "Architecture", "Specs"]
+    },
+    {
+      "id": "sitelog-guide",
+      "name": "SiteLog: build guide",
+      "github": "DAMHONGDUC/site-log-ios",
+      "branch": "main",
+      "localPath": "../../SwiftUI/site-log-ios",
+      "dir": "docs/feature-guide",
+      "icon": "🛠️",
+      "tags": ["SwiftUI", "iOS", "Step by step"]
+    }
+  ]
+}
