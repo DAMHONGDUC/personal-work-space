@@ -98,6 +98,15 @@ describe("PolicyNav", () => {
     expect(scrollIntoView).toHaveBeenCalledTimes(1);
   });
 
+  it("marks the clicked section as selected at once", () => {
+    render();
+
+    act(() => link("2. Market").click());
+
+    expect(link("2. Market").getAttribute("aria-current")).toBe("location");
+    expect(link("1. Product").getAttribute("aria-current")).toBeNull();
+  });
+
   it("leaves a modified click to the browser", () => {
     render();
 

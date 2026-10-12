@@ -38,9 +38,10 @@ function atBottom(): boolean {
 /**
  * Scrolls to the element with `id` and puts `#id` in the address, as the link
  * would have. Returns false when there is no such element, so the caller can
- * let the link behave normally.
+ * let the link behave normally. `onSettled` runs once the page has come to
+ * rest there, or the reader took over.
  */
-export function scrollToSection(id: string): boolean {
+export function scrollToSection(id: string, onSettled?: () => void): boolean {
   const target = document.getElementById(id);
   if (!target) return false;
 
@@ -57,6 +58,7 @@ export function scrollToSection(id: string): boolean {
   const stop = () => {
     window.clearTimeout(timer);
     for (const type of READER_INPUT) window.removeEventListener(type, stop);
+    onSettled?.();
   };
   for (const type of READER_INPUT) window.addEventListener(type, stop, { passive: true });
 
@@ -70,9 +72,9 @@ export function scrollToSection(id: string): boolean {
       return;
     }
 
-    stop();
     const off = Math.abs(target.getBoundingClientRect().top - restingTop(target)) > TOLERANCE;
     if (off && !atBottom()) target.scrollIntoView({ behavior: "instant", block: "start" });
+    stop();
   };
   timer = window.setTimeout(check, POLL_MS);
 
