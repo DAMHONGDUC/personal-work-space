@@ -41,6 +41,21 @@ Every rule is enforced by [doc-data.test.ts](../../tests/doc-data.test.ts).
 | A guide can be one page of a series: `series: { id, part }`, same in both files; part 0 is the overview and names the series, parts run 0…n without gaps | Each page lists the series on top and links previous / next at the foot (`SeriesNav`) | `fullstack-web`: `fullstack-roadmap` (0) to `fullstack-roadmap-6-deploy` (6), topic `roadmap` |
 | Guides updated the same day sort by slug | Directory order differs between machines; a series stays in order | Name series pages `<overview-slug>-<n>-<topic>` |
 
+## Synced guides — `src/data/synced-docs/`
+
+Markdown kept in another repo, published as guide series. Enforced by [synced-docs.test.ts](../../tests/synced-docs.test.ts).
+
+| Rule | Reason | Example |
+|---|---|---|
+| Written by `npm run docs:sync`; never hand-edited | The Markdown is the source; the next sync overwrites any edit | — |
+| Which folders sync, and each series' name, icon and tags, live in `src/data/synced-docs.json` | One place to add a series | `sitelog-specs` ← `site-log-ios/docs/feature-docs` |
+| The sync reads a local clone (`localPath`); the build never touches the other repo | Static export, reproducible CI | `../../SwiftUI/site-log-ios` |
+| One file per Markdown file: slug `<series>-<file>`, part = position in the folder | A series is the folder, in order | `sitelog-guide-03-capture` |
+| English only (`languages: ["en"]`), titles keep their own numbers (`numbered: false`) | The Markdown is English and numbered; no switch, no second number | `0. Entry point (done)` |
+| Rendered to HTML at sync time, drawn by `HtmlBlock` with the `.md-body` styles in globals.css; `text` holds the same words for search | The site ships no Markdown parser | `<details>` hints stay collapsible |
+| Heading ids are GitHub's; links to another synced file point at its page, other repo files at GitHub, images are copied to `public/synced-docs/` | The docs' own links keep working; test-checked down to the anchor | `../sitelog-specs-00-overview/#d09--…` |
+| A `## Contents` section is dropped | The page draws its own | — |
+
 ## Effects library — `src/data/effects/`
 
 | Rule | Reason | Example |
