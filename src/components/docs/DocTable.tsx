@@ -21,13 +21,13 @@ export function DocTable({
 }) {
   return (
     <div className="mt-5 max-w-[80ch] overflow-hidden rounded-xl border border-border-soft">
-      <Table className="min-w-[34rem]">
+      <Table className="min-w-[34rem] text-[0.9375rem] sm:text-base">
         <TableHeader>
           <TableRow className="bg-muted-surface">
             {block.columns.map((column) => (
               <TableHead
                 key={column}
-                className="text-xs font-medium uppercase tracking-wider"
+                className="text-[0.8125rem] font-medium uppercase tracking-wider"
               >
                 {column}
               </TableHead>

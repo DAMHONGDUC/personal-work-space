@@ -166,7 +166,7 @@ function SidebarSeries({
                   ref={here ? currentLink : undefined}
                   href={pageHref(page)}
                   aria-current={here ? "page" : undefined}
-                  className={`-ml-px block rounded-r-md border-l-2 py-1 pr-2 text-sm leading-6 transition-colors ${
+                  className={`-ml-px block rounded-r-md border-l-2 py-1 pr-2 text-[0.9375rem] leading-6 transition-colors ${
                     page.group ? "pl-7" : "pl-4"
                   } ${
                     here

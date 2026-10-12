@@ -90,7 +90,7 @@ function Checklist({ items, accent }: { items: string[]; accent: string }) {
   return (
     <ul className="mt-5 flex max-w-[80ch] flex-col gap-2.5">
       {items.map((item) => (
-        <li key={item} className="flex gap-3 text-base leading-7">
+        <li key={item} className="flex gap-3 text-[1.0625rem] leading-7 sm:text-lg sm:leading-8">
           <span
             aria-hidden
             className="mt-1.5 size-4 shrink-0 rounded-[0.3rem] border"
@@ -108,7 +108,7 @@ function Steps({ items, accent }: { items: string[]; accent: string }) {
   return (
     <ol className="mt-5 flex max-w-[80ch] flex-col gap-3">
       {items.map((item, index) => (
-        <li key={item} className="flex gap-3.5 text-base leading-7">
+        <li key={item} className="flex gap-3.5 text-[1.0625rem] leading-7 sm:text-lg sm:leading-8">
           <span
             aria-hidden
             className="mt-1 flex size-5 shrink-0 items-center justify-center rounded-full text-xs font-medium"

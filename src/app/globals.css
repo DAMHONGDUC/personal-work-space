@@ -369,10 +369,17 @@ html {
  * accent and the file-tag colours arrive as variables from HtmlBlock.
  */
 .md-body {
-  font-size: 0.9375rem;
+  font-size: 1.0625rem;
   line-height: 1.75;
   color: var(--muted-foreground);
   overflow-wrap: anywhere;
+}
+
+/* The same size as a guide's own body text (AppTextStyles.BODY) from `sm` up. */
+@media (min-width: 40rem) {
+  .md-body {
+    font-size: 1.125rem;
+  }
 }
 
 .md-body > * + *,
@@ -407,13 +414,13 @@ html {
 
 .md-body h3 {
   margin-top: 2.25rem;
-  font-size: 1.0625rem;
+  font-size: 1.25rem;
 }
 
 .md-body h4,
 .md-body h5 {
   margin-top: 1.75rem;
-  font-size: 0.9375rem;
+  font-size: 1.0625rem;
 }
 
 .md-body strong,
@@ -467,7 +474,7 @@ html {
   border-radius: 0.75rem;
   background: var(--muted-surface);
   padding: 0.875rem 1rem;
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   line-height: 1.6;
 }
 
@@ -489,7 +496,7 @@ html {
 .md-body table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.875rem;
+  font-size: 0.9375rem;
   line-height: 1.6;
 }
 
@@ -668,7 +675,7 @@ html {
   background: transparent !important;
   padding: 0.875rem 1rem;
   font-family: var(--font-mono), ui-monospace, monospace;
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   line-height: 1.6;
 }
 

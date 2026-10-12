@@ -87,13 +87,13 @@ export function FlowDiagram({
                   }}
                   className="group relative flex cursor-pointer flex-col gap-1 rounded-xl border border-[color-mix(in_oklab,var(--flow-accent)_30%,transparent)] bg-[color-mix(in_oklab,var(--flow-accent)_6%,var(--surface))] px-4 py-3 text-left shadow-xs transition-[background-color,border-color,box-shadow,translate] outline-none hover:-translate-y-0.5 hover:border-[color-mix(in_oklab,var(--flow-accent)_55%,transparent)] hover:bg-[color-mix(in_oklab,var(--flow-accent)_14%,var(--surface))] hover:shadow-md focus-visible:ring-3 focus-visible:ring-[color-mix(in_oklab,var(--flow-accent)_35%,transparent)] motion-reduce:hover:translate-y-0"
                 >
-                  <span className="text-sm font-medium leading-6">{item.label}</span>
-                  <span className={`${AppTextStyles.CAPTION} leading-5`}>{item.detail}</span>
+                  <span className="text-base font-medium leading-6">{item.label}</span>
+                  <span className={`${AppTextStyles.SMALL} leading-6`}>{item.detail}</span>
 
                   {/* Always visible, not only on hover: a touch screen has no
                       hover, and the reader should know before trying. */}
                   <span
-                    className="mt-1.5 inline-flex items-center gap-0.5 text-xs font-medium"
+                    className="mt-1.5 inline-flex items-center gap-0.5 text-[0.8125rem] font-medium"
                     style={{ color: accent }}
                   >
                     {LABELS.more[lang]}
@@ -137,7 +137,7 @@ export function FlowDiagram({
               <div className="mx-auto w-full rounded-xl border border-[color-mix(in_oklab,var(--flow-accent)_22%,transparent)] bg-[color-mix(in_oklab,var(--flow-accent)_8%,var(--muted-surface))] px-5 py-4 sm:px-6 sm:py-5">
                 <ul className="flex flex-col gap-3">
                   {step.explain.map((point) => (
-                    <li key={point} className="flex gap-3 text-sm leading-6">
+                    <li key={point} className="flex gap-3 text-base leading-7">
                       <span
                         aria-hidden
                         className="mt-2 size-1.5 shrink-0 rounded-full"

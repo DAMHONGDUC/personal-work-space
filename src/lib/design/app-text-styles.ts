@@ -24,27 +24,27 @@ export class AppTextStyles {
   /** The h1 of a reference tool's one-line header. */
   static readonly COMPACT_TITLE = "text-2xl font-semibold tracking-tight";
   /** A large card's title, e.g. a guide in the index. */
-  static readonly CARD_TITLE = "text-xl font-semibold tracking-tight";
+  static readonly CARD_TITLE = "text-xl font-semibold tracking-tight sm:text-2xl";
   /** A small card's title, e.g. a hub card or a job. */
-  static readonly CARD_TITLE_SM = "text-lg font-semibold tracking-tight";
+  static readonly CARD_TITLE_SM = "text-lg font-semibold tracking-tight sm:text-xl";
 
   // Running text.
 
   /** The paragraph under a page title. */
-  static readonly LEAD = "text-lg leading-8 text-muted";
+  static readonly LEAD = "text-lg leading-8 text-muted sm:text-xl sm:leading-9";
   /** Body copy in a secondary voice. */
-  static readonly BODY = "text-base leading-7 text-muted";
+  static readonly BODY = "text-[1.0625rem] leading-7 text-muted sm:text-lg sm:leading-8";
   /** A card's description. */
-  static readonly BODY_SM = "text-sm leading-6 text-muted";
+  static readonly BODY_SM = "text-[0.9375rem] leading-6 text-muted sm:text-base sm:leading-7";
   /** A short secondary line: a count, a hint, a nav link. */
-  static readonly SMALL = "text-sm text-muted";
+  static readonly SMALL = "text-[0.9375rem] text-muted";
   /** Metadata: dates, counts, the footer line of a card. */
-  static readonly CAPTION = "text-xs text-muted";
+  static readonly CAPTION = "text-[0.8125rem] text-muted";
 
   // Labels.
 
   /** The uppercase label above a group: "Jump to a section", a shelf name. */
-  static readonly EYEBROW = "text-xs font-medium uppercase tracking-wider text-muted";
+  static readonly EYEBROW = "text-[0.8125rem] font-medium uppercase tracking-wider text-muted";
   /** A code-like label: an error code, a project's index number. */
   static readonly MONO_LABEL = "font-mono text-sm text-muted";
 

@@ -28,7 +28,7 @@ export function Callout({ block }: { block: NoteBlock }) {
       <span className="sr-only">{tone.label}: </span>
       <AlertDescription className="text-foreground">
         {block.body.map((paragraph, index) => (
-          <p key={index} className="text-sm leading-6">
+          <p key={index} className="text-base leading-7">
             {paragraph}
           </p>
         ))}
