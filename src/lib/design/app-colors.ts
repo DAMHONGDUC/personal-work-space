@@ -66,6 +66,17 @@ export class AppColors {
   } as const;
 
   /**
+   * The tag a synced guide's file path is drawn in, on each task's "File" line:
+   * yellow, the colour of a file to open. The text takes a dark shade on a
+   * light page and a light one on a dark page, so it reads on both.
+   */
+  static readonly MARKDOWN_FILE = {
+    base: "#eab308",
+    textOnLight: "#854d0e",
+    textOnDark: "#fde047",
+  } as const;
+
+  /**
    * `color` at `percent` strength over transparent — how every tint, wash and
    * tinted border on the site is made, so they all mix the same way.
    *

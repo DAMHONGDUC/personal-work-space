@@ -62,6 +62,9 @@ export function HtmlBlock({ block, accent }: { block: HtmlBlockData; accent: str
           "--md-tag-edit": AppColors.MARKDOWN_TAGS.edit,
           "--md-tag-replace": AppColors.MARKDOWN_TAGS.replace,
           "--md-tag-check": AppColors.MARKDOWN_TAGS.check,
+          "--md-file": AppColors.MARKDOWN_FILE.base,
+          "--md-file-text": AppColors.MARKDOWN_FILE.textOnLight,
+          "--md-file-text-dark": AppColors.MARKDOWN_FILE.textOnDark,
         } as React.CSSProperties
       }
       dangerouslySetInnerHTML={{ __html: block.html }}

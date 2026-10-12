@@ -89,6 +89,53 @@ describe.each(docs.map((doc) => [doc.slug, doc] as const))("%s", (slug, doc) => 
     }
   });
 
+  it("letters every task's parts from a. File, and shows its path as a tag", () => {
+    const wrong: string[] = [];
+
+    for (const section of doc.sections) {
+      for (const block of section.blocks) {
+        if (block.type !== "html") continue;
+
+        // The body is read by lookahead, so it does not swallow the next step's heading.
+        const steps = [
+          ...block.html.matchAll(
+            /<p class="md-step"><span class="md-step-letter">(\w)\.<\/span><span class="md-step-name">(\w+)<\/span>[\s\S]*?<\/p><div class="md-step-body">(?=([\s\S]{0,400}))/g,
+          ),
+        ];
+        let expected = 0;
+        for (const [, letter, name, body] of steps) {
+          if (name === "File") expected = 0;
+          if (letter !== "abcdefghijklmnopqrstuvwxyz"[expected++]) wrong.push(`${section.id}: ${letter}. ${name}`);
+          if (name === "File" && body.includes("<code") && !/^\s*<p><code class="md-file">/.test(body)) {
+            wrong.push(`${section.id}: File path not tagged`);
+          }
+        }
+        // No task label is left as a plain bold paragraph.
+        if (/<p><b>(File|Explain|Think|Try)<\/b>/.test(block.html)) wrong.push(`${section.id}: unlettered part`);
+      }
+    }
+
+    expect(wrong).toEqual([]);
+  });
+
+  it("folds nothing but a task's code", () => {
+    const folds: string[] = [];
+
+    for (const section of doc.sections) {
+      for (const block of section.blocks) {
+        if (block.type !== "html") continue;
+
+        for (const [details] of block.html.matchAll(/<details[^>]*>\s*<summary>[^<]*/g)) {
+          if (!/class="md-code-fold"/.test(details) || /\sopen/.test(details) || !details.endsWith("Show code")) {
+            folds.push(`${section.id}: ${details.slice(0, 80)}`);
+          }
+        }
+      }
+    }
+
+    expect(folds).toEqual([]);
+  });
+
   it("drops the Markdown's own table of contents", () => {
     expect(doc.sections.map((section) => section.title)).not.toContain("Contents");
   });

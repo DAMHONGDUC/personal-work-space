@@ -519,11 +519,19 @@ html {
   border-bottom: 0;
 }
 
-.md-body details {
+.md-body details,
+.md-body .md-panel {
   border: 1px solid var(--border);
   border-radius: 0.75rem;
   background: var(--surface);
   padding: 0.75rem 1rem;
+}
+
+/* A fold the sync opened for good (unfoldDetails): its title, with no toggle. */
+.md-body .md-panel-title {
+  margin-bottom: 0.75rem;
+  color: var(--foreground);
+  font-weight: 500;
 }
 
 .md-body summary {
@@ -690,4 +698,52 @@ html {
   .shiki span {
     color: var(--shiki-dark);
   }
+}
+
+/* The file path on a synced task's "File ·" line, drawn as a yellow tag. */
+.md-body code.md-file {
+  border: 1px solid color-mix(in oklab, var(--md-file) 45%, transparent);
+  border-radius: 0.375rem;
+  background: color-mix(in oklab, var(--md-file) 16%, transparent);
+  padding: 0.1em 0.5em;
+  font-weight: 500;
+  color: var(--md-file-text);
+}
+
+@media (prefers-color-scheme: dark) {
+  .md-body code.md-file {
+    color: var(--md-file-text-dark);
+  }
+}
+
+/*
+ * A synced task's parts as lettered steps (stepTasks in the sync): "a. File
+ * [Edit]", "b. Explain" … each a heading with its content one small step in.
+ */
+.md-body .md-step {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+  color: var(--foreground);
+  font-weight: 600;
+}
+
+.md-body dd > .md-step:first-child,
+.md-body hr + .md-step {
+  margin-top: 0;
+}
+
+.md-body .md-step-letter {
+  color: var(--md-accent);
+  font-variant-numeric: tabular-nums;
+}
+
+.md-body .md-step-body {
+  margin-top: 0.5rem;
+  padding-left: 1.25rem;
+}
+
+.md-body .md-step-body > * + * {
+  margin-top: 0.75rem;
 }

@@ -24,6 +24,11 @@
  *   unchanged diagram is not drawn again.
  * - Code is coloured with Shiki, as the site's own code blocks are, and given
  *   a bar naming the language with a copy button (wired up by HtmlBlock).
+ * - The file path on a task's "File ·" line is marked to show as a tag, and a
+ *   task's parts become lettered steps: a. File, b. Explain, c. Think, d. Code,
+ *   e. Try.
+ * - Every <details> but a task's Code becomes a framed block that is always
+ *   shown; the Code fold stays, closed.
  * - A `## Contents` section is dropped: the page draws its own.
  *
  * Run by hand — `make site-log-docs-sync` — and commit the result. The build
@@ -385,6 +390,149 @@ function flattenRoots() {
   };
 }
 
+/**
+ * A guide's task names its file on a line of its own — `File · Edit ·
+ * \`project.yml\` → \`packages:\`` — and the first code on that line is the
+ * path. It gets the `md-file` class, which draws it as a tag; anything after
+ * it on the line is a place inside the file and stays plain code.
+ */
+function markFilePaths() {
+  return (tree: HastRoot) => {
+    visit(tree, "element", (node: Element) => {
+      if (node.tagName !== "p") return;
+      const first = node.children.find((child) => child.type === "element" || (child.type === "text" && child.value.trim()));
+      if (first?.type !== "element" || first.tagName !== "b" || toText(first).trim() !== "File") return;
+
+      const path = node.children.find((child): child is Element => child.type === "element" && child.tagName === "code");
+      if (path) path.properties = { ...path.properties, className: ["md-file"] };
+    });
+  };
+}
+
+/** The labels a guide's task is written in, in order, each made a lettered step. */
+const STEP_LABELS = new Set(["File", "Explain", "Think", "Code", "Try"]);
+const STEP_LETTERS = "abcdefghijklmnopqrstuvwxyz";
+
+/** The bold label a task part starts with: a paragraph's first word, or a Code block's summary. */
+function stepLabel(node: ElementContent): string | null {
+  if (node.type !== "element") return null;
+
+  if (node.tagName === "p") {
+    const first = node.children.find((child) => child.type === "element" || (child.type === "text" && child.value.trim()));
+    if (first?.type === "element" && first.tagName === "b") {
+      const label = toText(first).trim();
+      return STEP_LABELS.has(label) ? label : null;
+    }
+  }
+
+  if (node.tagName === "details") {
+    const summary = node.children.find((child): child is Element => child.type === "element" && child.tagName === "summary");
+    return summary && toText(summary).trim() === "Code" ? "Code" : null;
+  }
+
+  return null;
+}
+
+/** A paragraph's children after its label: the " · " separators gone. */
+function afterLabel(children: ElementContent[]): ElementContent[] {
+  const rest = [...children];
+  const dropSeparator = () => {
+    while (rest[0]?.type === "text" && /^\s*·?\s*$/.test(rest[0].value)) rest.shift();
+    if (rest[0]?.type === "text") rest[0] = { ...rest[0], value: rest[0].value.replace(/^\s*·\s*/, "") };
+  };
+
+  rest.shift(); // the <b> label
+  dropSeparator();
+  return rest;
+}
+
+function element(tagName: string, className: string, children: ElementContent[]): Element {
+  return { type: "element", tagName, properties: { className: [className] }, children };
+}
+
+/**
+ * Turns each task — `File · Edit · path`, `Explain · …`, `Think`, the hints, a
+ * `Code` block and `Try` — into lettered steps: a heading "a. File  Edit", the
+ * part's content beneath it in a body indented one small step. Letters start
+ * again at each task's File line. The hints belong to Think, whose questions
+ * they help with; the Code block keeps its fold, under its own heading.
+ */
+function stepTasks() {
+  return (tree: HastRoot) => {
+    visit(tree, "element", (container: Element) => {
+      if (!container.children.some((child) => stepLabel(child))) return;
+
+      const out: ElementContent[] = [];
+      let body: Element | null = null;
+      let count = 0;
+
+      for (const node of container.children) {
+        const label = stepLabel(node);
+
+        if (!label) {
+          // A rule between tasks ends the step it follows.
+          if (node.type === "element" && node.tagName === "hr") body = null;
+          (body ? body.children : out).push(node);
+          continue;
+        }
+
+        if (label === "File") count = 0;
+        const heading = element("p", "md-step", [
+          element("span", "md-step-letter", [{ type: "text", value: `${STEP_LETTERS[count++] ?? "·"}.` }]),
+          element("span", "md-step-name", [{ type: "text", value: label }]),
+        ]);
+        body = element("div", "md-step-body", []);
+        out.push(heading, body);
+
+        const part = node as Element;
+        if (label === "Code") {
+          const summary = part.children.find((child): child is Element => child.type === "element" && child.tagName === "summary");
+          if (summary) summary.children = [{ type: "text", value: "Show code" }];
+          // The one fold left on the page (see unfoldDetails), and closed.
+          part.properties = { ...part.properties, className: ["md-code-fold"], open: undefined };
+          body.children.push(part);
+        } else if (label === "File" || label === "Explain") {
+          let rest = afterLabel(part.children);
+          // File names its kind of change next — New, Edit, Replace — which joins the heading.
+          const tag = rest[0];
+          if (label === "File" && tag?.type === "element" && tag.tagName === "b") {
+            heading.children.push({ type: "text", value: " " }, tag);
+            rest = afterLabel(rest);
+          }
+          if (rest.length > 0) body.children.push({ ...part, children: rest });
+        }
+      }
+
+      container.children = out;
+    });
+  };
+}
+
+/**
+ * Every fold but a task's Code becomes a plain framed block, always shown: the
+ * hints, a task's group, "Adding files" and the like are read in passing, and
+ * a click to open each one only slows that down. The Code fold stays — it
+ * holds the answer, to be checked after trying.
+ */
+function unfoldDetails() {
+  return (tree: HastRoot) => {
+    visit(tree, "element", (node: Element) => {
+      if (node.tagName !== "details") return;
+      const classes = node.properties?.className;
+      if (Array.isArray(classes) && classes.includes("md-code-fold")) return;
+
+      node.tagName = "div";
+      node.properties = { className: ["md-panel"] };
+      for (const child of node.children) {
+        if (child.type === "element" && child.tagName === "summary") {
+          child.tagName = "div";
+          child.properties = { className: ["md-panel-title"] };
+        }
+      }
+    });
+  };
+}
+
 /** Markdown to HTML, code coloured: what the page shows and what search reads. */
 const toHast = unified()
   .use(remarkRehype, { allowDangerousHtml: true })
@@ -401,7 +549,13 @@ const toHast = unified()
   })
   .use(flattenRoots);
 /** The frames, wrappers and link targets, added after the text is read for search. */
-const decorate = unified().use(frameCode).use(wrapTables).use(externalLinks);
+const decorate = unified()
+  .use(frameCode)
+  .use(markFilePaths)
+  .use(stepTasks)
+  .use(unfoldDetails)
+  .use(wrapTables)
+  .use(externalLinks);
 const stringify = unified().use(rehypeStringify, { allowDangerousHtml: true });
 
 async function render(nodes: RootContent[]): Promise<{ html: string; text: string }> {
