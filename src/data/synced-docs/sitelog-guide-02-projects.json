@@ -1,0 +1,116 @@
+{
+  "title": "F02 — Projects, sessions, locations",
+  "tagline": "Projects, sessions, locations end to end: Domain → fake data → view models → real data → tests.",
+  "icon": "🛠️",
+  "topic": "sitelog",
+  "tags": [
+    "SwiftUI",
+    "iOS",
+    "Step by step"
+  ],
+  "readingTime": "4 min",
+  "languages": [
+    "en"
+  ],
+  "numbered": false,
+  "series": {
+    "id": "sitelog-guide",
+    "part": 2,
+    "name": "SiteLog: build guide"
+  },
+  "intro": [
+    "F02 · 31h · skeleton guide — full code is added when this feature starts."
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Overview",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul>\n<li><strong>Goal:</strong> Projects, sessions, locations end to end: Domain → fake data → view models → real data → tests.</li>\n<li><strong>Demo:</strong> project → 80 generated locations → walkthrough, all offline and kept after relaunch.</li>\n<li><strong>Spec:</strong> <a href=\"../sitelog-specs-01-field-work/#01-projects-sessions-locations\">01</a>, <a href=\"../sitelog-specs-00-overview/#3-data-model\">00 §3 Data model</a></li>\n<li><strong>Starts from:</strong> the skeleton screens (~30% of Figma) that read <code>App/Fakes/FakeData.swift</code>.</li>\n<li><strong>Fakes:</strong> only in <code>Packages/DataLayer/Sources/DataLayer/Fakes/</code>, registered in <code>AppDependencies</code>; the dev menu seeds / clears them through <code>FakeDevDataActions</code>.</li>\n<li><strong>File tags:</strong> <b class=\"tag-new\">New</b> create the file · <b class=\"tag-edit\">Edit</b> change only the part shown.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Step</th><th>Layer</th><th>Hours</th><th>Status</th><th>What</th></tr></thead><tbody><tr><td><a href=\"#1-domain--entities-protocols-use-cases\">1</a></td><td>Domain</td><td>4h</td><td>not start</td><td>Entities, protocols, use cases</td></tr><tr><td><a href=\"#2-fake-data--in-memory-repositories\">2</a></td><td>Fake data</td><td>2h</td><td>not start</td><td>In-memory repositories</td></tr><tr><td><a href=\"#3-view-models--wire-the-projects-screens\">3</a></td><td>View models</td><td>10h</td><td>not start</td><td>Wire the Projects screens</td></tr><tr><td><a href=\"#4-real-data--swiftdata\">4</a></td><td>Real data</td><td>15h</td><td>not start</td><td>SwiftData</td></tr></tbody></table></div>\n<details open>\n<summary><strong>Order</strong></summary>\n<dl><dd>\n<ul>\n<li>Steps run top to bottom; the app runs after every step.</li>\n<li>Real data changes only registrations in <code>AppDependencies</code>, never views or view models.</li>\n<li>Tests come last, once the feature works end to end.</li>\n</ul>\n</dd></dl>\n</details>\n</dd></dl>",
+          "text": "Goal: Projects, sessions, locations end to end: Domain → fake data → view models → real data → tests. Demo: project → 80 generated locations → walkthrough, all offline and kept after relaunch. Spec: 01, 00 §3 Data model Starts from: the skeleton screens (~30% of Figma) that read App/Fakes/FakeData.swift. Fakes: only in Packages/DataLayer/Sources/DataLayer/Fakes/, registered in AppDependencies; the dev menu seeds / clears them through FakeDevDataActions. File tags: New create the file · Edit change only the part shown. Step Layer Hours Status What1 Domain 4h not start Entities, protocols, use cases 2 Fake data 2h not start In-memory repositories 3 View models 10h not start Wire the Projects screens 4 Real data 15h not start SwiftData Order Steps run top to bottom; the app runs after every step. Real data changes only registrations in AppDependencies, never views or view models. Tests come last, once the feature works end to end."
+        }
+      ]
+    },
+    {
+      "id": "target-structure",
+      "title": "Target structure",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<pre><code class=\"language-text\">Packages/\n├── DomainLayer/Sources/DomainLayer/Projects/                             # 1: Project, Session, Location, Capture, protocols, use cases\n├── DataLayer/Sources/DataLayer/Fakes/                          # 2: InMemoryProjectRepository (+ session, location)\n├── DataLayer/Sources/DataLayer/Repositories/                   # 4: SwiftData*Repository, mappers\n└── DataLayer/Sources/DataLayer/DataSources/Local/Persistence/  # 4: @Model types, SchemaV1, migration plan\nSiteLog/\n└── Presentation/Projects/                                      # 3: ProjectList, NewProject, ProjectDetail, StartSession,\n                                                                #    Survey, Room, BulkLocations, CloneTree, EndSession\n</code></pre>\n</dd></dl>",
+          "text": "Packages/ ├── DomainLayer/Sources/DomainLayer/Projects/ # 1: Project, Session, Location, Capture, protocols, use cases ├── DataLayer/Sources/DataLayer/Fakes/ # 2: InMemoryProjectRepository (+ session, location) ├── DataLayer/Sources/DataLayer/Repositories/ # 4: SwiftData*Repository, mappers └── DataLayer/Sources/DataLayer/DataSources/Local/Persistence/ # 4: @Model types, SchemaV1, migration plan SiteLog/ └── Presentation/Projects/ # 3: ProjectList, NewProject, ProjectDetail, StartSession, # Survey, Room, BulkLocations, CloneTree, EndSession"
+        }
+      ]
+    },
+    {
+      "id": "1-domain--entities-protocols-use-cases",
+      "title": "1. Domain — Entities, protocols, use cases",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Action</th><th>File</th><th>Holds</th></tr></thead><tbody><tr><td><b class=\"tag-new\">New</b></td><td><code>Packages/DomainLayer/Sources/DomainLayer/Projects/Entities.swift</code></td><td><code>Project</code>, <code>Session</code> (state machine), <code>Location</code> (depth ≤ 3), <code>Capture</code> (frozen fields)</td></tr><tr><td><b class=\"tag-new\">New</b></td><td><code>Packages/DomainLayer/Sources/DomainLayer/Projects/*Repository.swift</code></td><td>One protocol per aggregate: project, session, location, capture</td></tr><tr><td><b class=\"tag-new\">New</b></td><td><code>Packages/DomainLayer/Sources/DomainLayer/Projects/UseCases/</code></td><td><code>CreateProjectUseCase</code>, <code>StartSessionUseCase</code>, <code>GenerateLocationsUseCase</code>, <code>CloneLocationTreeUseCase</code>, …</td></tr></tbody></table></div>\n<h4 id=\"steps\">Steps</h4>\n<dl><dd>\n<ol>\n<li>Entities are plain <code>Sendable</code> structs; no SwiftData in Domain.</li>\n<li>Protocols use <code>async throws</code>.</li>\n<li><code>GenerateLocationsUseCase</code> is pure: template <code>\"{floor}-{unit:02}\"</code> → preview (first 5, last 3, total); cap <code>maxGeneratedPerBatch</code> 2000, <code>maxDepth</code> 3; duplicates rejected.</li>\n<li>List rows (<code>LocationRow</code>) get their counts from one batched call.</li>\n</ol>\n</dd></dl>\n</dd></dl>",
+          "text": "Action File HoldsNew Packages/DomainLayer/Sources/DomainLayer/Projects/Entities.swift Project, Session (state machine), Location (depth ≤ 3), Capture (frozen fields) New Packages/DomainLayer/Sources/DomainLayer/Projects/*Repository.swift One protocol per aggregate: project, session, location, capture New Packages/DomainLayer/Sources/DomainLayer/Projects/UseCases/ CreateProjectUseCase, StartSessionUseCase, GenerateLocationsUseCase, CloneLocationTreeUseCase, … Steps Entities are plain Sendable structs; no SwiftData in Domain. Protocols use async throws. GenerateLocationsUseCase is pure: template \"{floor}-{unit:02}\" → preview (first 5, last 3, total); cap maxGeneratedPerBatch 2000, maxDepth 3; duplicates rejected. List rows (LocationRow) get their counts from one batched call."
+        }
+      ]
+    },
+    {
+      "id": "2-fake-data--in-memory-repositories",
+      "title": "2. Fake data — In-memory repositories",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Action</th><th>File</th><th>Holds</th></tr></thead><tbody><tr><td><b class=\"tag-new\">New</b></td><td><code>Packages/DataLayer/Sources/DataLayer/Fakes/InMemoryProjectRepository.swift</code></td><td>Projects, sessions, locations in memory (one actor per aggregate is fine)</td></tr><tr><td><b class=\"tag-edit\">Edit</b></td><td><code>SiteLog/App/AppDependencies.swift</code></td><td>Registers the fake; the real step only changes this line</td></tr></tbody></table></div>\n<h4 id=\"steps-1\">Steps</h4>\n<dl><dd>\n<ol>\n<li>Implement the Domain protocol as an <code>actor</code> that keeps everything in memory.</li>\n<li>Seed it with “Riverside Tower B”, 37 of 82 rooms, 4 sessions — move the values out of <code>App/Fakes/FakeData.swift</code>.</li>\n<li>Add <code>reset()</code> (empty) and <code>seed()</code>; <code>FakeDevDataActions</code> calls them from the dev menu.</li>\n<li>Register it in <code>AppDependencies</code>.</li>\n</ol>\n</dd></dl>\n</dd></dl>",
+          "text": "Action File HoldsNew Packages/DataLayer/Sources/DataLayer/Fakes/InMemoryProjectRepository.swift Projects, sessions, locations in memory (one actor per aggregate is fine) Edit SiteLog/App/AppDependencies.swift Registers the fake; the real step only changes this line Steps Implement the Domain protocol as an actor that keeps everything in memory. Seed it with “Riverside Tower B”, 37 of 82 rooms, 4 sessions — move the values out of App/Fakes/FakeData.swift. Add reset() (empty) and seed(); FakeDevDataActions calls them from the dev menu. Register it in AppDependencies."
+        }
+      ]
+    },
+    {
+      "id": "3-view-models--wire-the-projects-screens",
+      "title": "3. View models — Wire the Projects screens",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Action</th><th>Skeleton folder</th><th>View model work</th></tr></thead><tbody><tr><td><b class=\"tag-new\">New</b> view model · <b class=\"tag-edit\">Edit</b> view</td><td><code>Presentation/Projects/ProjectList/</code></td><td>P1: projects + walkthrough in progress</td></tr><tr><td><b class=\"tag-new\">New</b> view model · <b class=\"tag-edit\">Edit</b> view</td><td><code>Presentation/Projects/NewProject/</code></td><td>P2: create through <code>CreateProjectUseCase</code></td></tr><tr><td><b class=\"tag-new\">New</b> view model · <b class=\"tag-edit\">Edit</b> view</td><td><code>Presentation/Projects/ProjectDetail/</code></td><td>P3: Sessions · Locations tabs, sentence summary</td></tr><tr><td><b class=\"tag-new\">New</b> view model · <b class=\"tag-edit\">Edit</b> view</td><td><code>Presentation/Projects/StartSession/</code></td><td>P4: start through <code>StartSessionUseCase</code></td></tr><tr><td><b class=\"tag-new\">New</b> view model · <b class=\"tag-edit\">Edit</b> view</td><td><code>Presentation/Projects/Survey/</code></td><td>P5: rooms per unit, filter chips, badge counts</td></tr><tr><td><b class=\"tag-new\">New</b> view model · <b class=\"tag-edit\">Edit</b> view</td><td><code>Presentation/Projects/Room/</code></td><td>P7: room detail, photos, checklist row</td></tr><tr><td><b class=\"tag-new\">New</b> view model · <b class=\"tag-edit\">Edit</b> view</td><td><code>Presentation/Projects/BulkLocations/</code></td><td>P6: template form + preview from the use case</td></tr><tr><td><b class=\"tag-new\">New</b> view model · <b class=\"tag-edit\">Edit</b> view</td><td><code>Presentation/Projects/CloneTree/</code></td><td>Copy a location tree</td></tr><tr><td><b class=\"tag-new\">New</b> view model · <b class=\"tag-edit\">Edit</b> view</td><td><code>Presentation/Projects/EndSession/</code></td><td>R1: session summary</td></tr></tbody></table></div>\n<h4 id=\"steps-2\">Steps</h4>\n<dl><dd>\n<ol>\n<li>Add <code>&#x3C;Screen>ViewModel.swift</code> next to the view: <code>@MainActor @Observable</code>, use cases through <code>@Injected</code>.</li>\n<li>In the view, replace <code>FakeData…</code> with view-model state; keep the layout (visual finish is F16).</li>\n<li>Loading, empty (<code>SDEmptyState</code>) and error states; previews for each.</li>\n<li>Delete this feature's <code>Fake*</code> types from <code>App/Fakes/FakeData.swift</code> once nothing uses them.</li>\n<li>Summaries are sentences (“14 open issues, 2 of them overdue”).</li>\n<li>A 500-row survey list stays at 60 fps.</li>\n</ol>\n</dd></dl>\n</dd></dl>",
+          "text": "Action Skeleton folder View model workNew view model · Edit view Presentation/Projects/ProjectList/ P1: projects + walkthrough in progress New view model · Edit view Presentation/Projects/NewProject/ P2: create through CreateProjectUseCase New view model · Edit view Presentation/Projects/ProjectDetail/ P3: Sessions · Locations tabs, sentence summary New view model · Edit view Presentation/Projects/StartSession/ P4: start through StartSessionUseCase New view model · Edit view Presentation/Projects/Survey/ P5: rooms per unit, filter chips, badge counts New view model · Edit view Presentation/Projects/Room/ P7: room detail, photos, checklist row New view model · Edit view Presentation/Projects/BulkLocations/ P6: template form + preview from the use case New view model · Edit view Presentation/Projects/CloneTree/ Copy a location tree New view model · Edit view Presentation/Projects/EndSession/ R1: session summary Steps Add <Screen>ViewModel.swift next to the view: @MainActor @Observable, use cases through @Injected. In the view, replace FakeData… with view-model state; keep the layout (visual finish is F16). Loading, empty (SDEmptyState) and error states; previews for each. Delete this feature's Fake* types from App/Fakes/FakeData.swift once nothing uses them. Summaries are sentences (“14 open issues, 2 of them overdue”). A 500-row survey list stays at 60 fps."
+        }
+      ]
+    },
+    {
+      "id": "4-real-data--swiftdata",
+      "title": "4. Real data — SwiftData",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<details open>\n<summary><strong>4.1 SwiftData schema and repositories</strong></summary>\n<dl><dd>\n<ul>\n<li><strong>Goal:</strong> SwiftData models in <code>Packages/DataLayer/Sources/DataLayer/DataSources/Local/Persistence/</code> and repository implementations in <code>Packages/DataLayer/Sources/DataLayer/Repositories/</code>.</li>\n<li><strong>Spec:</strong> <a href=\"../sitelog-specs-00-overview/#34-schema-versioning\">00 §3.4</a></li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Action</th><th>File</th><th>Holds</th></tr></thead><tbody><tr><td><b class=\"tag-new\">New</b></td><td><code>Packages/DataLayer/Sources/DataLayer/DataSources/Local/Persistence/</code></td><td><code>@Model</code> types, <code>#Unique</code>/<code>#Index</code> (location code per project, sha256 per project)</td></tr><tr><td><b class=\"tag-new\">New</b></td><td><code>Packages/DataLayer/Sources/DataLayer/Repositories/SwiftData*Repository.swift</code></td><td>Implements the step 1 protocols; mappers model ↔ entity</td></tr></tbody></table></div>\n<h4 id=\"steps-3\">Steps</h4>\n<dl><dd>\n<ol>\n<li>Create the folder <code>Packages/DataLayer/Sources/DataLayer/DataSources/Local/Persistence/</code>; mark what the app uses <code>public</code>.</li>\n<li>Write models mirroring the entities; store relative file paths.</li>\n<li>Write repositories with a <code>@ModelActor</code> for writes.</li>\n<li>Cascade delete project → sessions, locations, plans.</li>\n</ol>\n</dd></dl>\n</dd></dl></details>\n<details open>\n<summary><strong>4.2 Schema versioning and migrations</strong></summary>\n<dl><dd>\n<ul>\n<li><strong>Goal:</strong> <code>VersionedSchema</code> + <code>SchemaMigrationPlan</code> from day one.</li>\n<li><strong>Spec:</strong> <a href=\"../sitelog-specs-00-overview/#34-schema-versioning\">00 §3.4</a></li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Action</th><th>File</th><th>Holds</th></tr></thead><tbody><tr><td><b class=\"tag-new\">New</b></td><td><code>Persistence/Schema/SchemaV1.swift</code></td><td>First versioned schema</td></tr><tr><td><b class=\"tag-new\">New</b></td><td><code>Persistence/Schema/MigrationPlan.swift</code></td><td>Stages list (empty until V2)</td></tr><tr><td><b class=\"tag-new\">New</b></td><td><code>Persistence/Tests/Fixtures/</code></td><td>A 100-location <code>SchemaV1</code> store</td></tr></tbody></table></div>\n</dd></dl>\n<h4 id=\"steps-4\">Steps</h4>\n<dl><dd>\n<ol>\n<li>Wrap models in <code>SchemaV1</code>.</li>\n<li>Add the startup step <code>DatabaseStep</code> (blocks launch) to <code>StartupSequence</code>.</li>\n<li>Commit a fixture store for migration tests.</li>\n</ol>\n</dd></dl>\n</details>\n</dd></dl>",
+          "text": "4.1 SwiftData schema and repositories Goal: SwiftData models in Packages/DataLayer/Sources/DataLayer/DataSources/Local/Persistence/ and repository implementations in Packages/DataLayer/Sources/DataLayer/Repositories/. Spec: 00 §3.4 Action File HoldsNew Packages/DataLayer/Sources/DataLayer/DataSources/Local/Persistence/ @Model types, #Unique/#Index (location code per project, sha256 per project) New Packages/DataLayer/Sources/DataLayer/Repositories/SwiftData*Repository.swift Implements the step 1 protocols; mappers model ↔ entity Steps Create the folder Packages/DataLayer/Sources/DataLayer/DataSources/Local/Persistence/; mark what the app uses public. Write models mirroring the entities; store relative file paths. Write repositories with a @ModelActor for writes. Cascade delete project → sessions, locations, plans. 4.2 Schema versioning and migrations Goal: VersionedSchema + SchemaMigrationPlan from day one. Spec: 00 §3.4 Action File HoldsNew Persistence/Schema/SchemaV1.swift First versioned schema New Persistence/Schema/MigrationPlan.swift Stages list (empty until V2) New Persistence/Tests/Fixtures/ A 100-location SchemaV1 store Steps Wrap models in SchemaV1. Add the startup step DatabaseStep (blocks launch) to StartupSequence. Commit a fixture store for migration tests."
+        }
+      ]
+    },
+    {
+      "id": "tests-after-the-feature-works",
+      "title": "Tests (after the feature works)",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<p><strong>1. Domain — Entities, protocols, use cases</strong></p>\n<ul>\n<li>Session state: <code>closed</code> rejects <code>addCapture</code>; <code>exported</code> read-only</li>\n<li>Location depth 4 rejected</li>\n<li>Generate: 1 floor, 1 unit, collisions, batch cap</li>\n</ul>\n<p><strong>3. View models — Wire the Projects screens</strong></p>\n<ul>\n<li>View models against the fakes (<code>@Suite(.container)</code>)</li>\n<li>Bulk preview shows first 5 / last 3 / total</li>\n</ul>\n<p><strong>4. Real data — SwiftData</strong></p>\n<ul>\n<li>Repositories over an in-memory <code>ModelContainer</code></li>\n<li>Cascade delete leaves no orphans</li>\n<li>Uniques reject duplicates</li>\n<li>Open the fixture store with the current plan</li>\n<li>Store file has <code>.complete</code> protection</li>\n</ul>\n</dd></dl>",
+          "text": "1. Domain — Entities, protocols, use cases Session state: closed rejects addCapture; exported read-only Location depth 4 rejected Generate: 1 floor, 1 unit, collisions, batch cap 3. View models — Wire the Projects screens View models against the fakes (@Suite(.container)) Bulk preview shows first 5 / last 3 / total 4. Real data — SwiftData Repositories over an in-memory ModelContainer Cascade delete leaves no orphans Uniques reject duplicates Open the fixture store with the current plan Store file has .complete protection"
+        }
+      ]
+    },
+    {
+      "id": "feature-done",
+      "title": "Feature done",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Check</th><th>How</th></tr></thead><tbody><tr><td>Demo</td><td>Airplane mode: project → 80 locations → walkthrough; relaunch keeps everything</td></tr><tr><td>Tests</td><td><code>bundle exec fastlane test</code> green</td></tr><tr><td>Roadmap</td><td>F02 steps ticked</td></tr></tbody></table></div>\n</dd></dl>",
+          "text": "Check HowDemo Airplane mode: project → 80 locations → walkthrough; relaunch keeps everything Tests bundle exec fastlane test green Roadmap F02 steps ticked"
+        }
+      ]
+    }
+  ],
+  "effectiveDate": "2026-10-08",
+  "lastUpdated": "2026-10-10"
+}

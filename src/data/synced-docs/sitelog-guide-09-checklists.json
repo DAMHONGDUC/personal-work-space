@@ -1,0 +1,116 @@
+{
+  "title": "F09 — Checklists",
+  "tagline": "Checklists end to end: Domain → fake data → view models → real data → tests.",
+  "icon": "🛠️",
+  "topic": "sitelog",
+  "tags": [
+    "SwiftUI",
+    "iOS",
+    "Step by step"
+  ],
+  "readingTime": "2 min",
+  "languages": [
+    "en"
+  ],
+  "numbered": false,
+  "series": {
+    "id": "sitelog-guide",
+    "part": 9,
+    "name": "SiteLog: build guide"
+  },
+  "intro": [
+    "F09 · 10h · skeleton guide — full code is added when this feature starts."
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Overview",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul>\n<li><strong>Goal:</strong> Checklists end to end: Domain → fake data → view models → real data → tests.</li>\n<li><strong>Demo:</strong> checklist run in a room; a Fail creates one prefilled issue.</li>\n<li><strong>Spec:</strong> <a href=\"../sitelog-specs-01-field-work/#13-checklist-templates\">13</a></li>\n<li><strong>Starts from:</strong> the skeleton screens (~30% of Figma) that read <code>App/Fakes/FakeData.swift</code>.</li>\n<li><strong>Fakes:</strong> only in <code>Packages/DataLayer/Sources/DataLayer/Fakes/</code>, registered in <code>AppDependencies</code>; the dev menu seeds / clears them through <code>FakeDevDataActions</code>.</li>\n<li><strong>File tags:</strong> <b class=\"tag-new\">New</b> create the file · <b class=\"tag-edit\">Edit</b> change only the part shown.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Step</th><th>Layer</th><th>Hours</th><th>Status</th><th>What</th></tr></thead><tbody><tr><td><a href=\"#1-domain--checklist-types\">1</a></td><td>Domain</td><td>1h</td><td>not start</td><td>Checklist types</td></tr><tr><td><a href=\"#2-fake-data--in-memory-checklists\">2</a></td><td>Fake data</td><td>1h</td><td>not start</td><td>In-memory checklists</td></tr><tr><td><a href=\"#3-view-models--wire-the-checklists-screens\">3</a></td><td>View models</td><td>4h</td><td>not start</td><td>Wire the Checklists screens</td></tr><tr><td><a href=\"#4-real-data--templates-and-results\">4</a></td><td>Real data</td><td>4h</td><td>not start</td><td>Templates and results</td></tr></tbody></table></div>\n<details open>\n<summary><strong>Order</strong></summary>\n<dl><dd>\n<ul>\n<li>Steps run top to bottom; the app runs after every step.</li>\n<li>Real data changes only registrations in <code>AppDependencies</code>, never views or view models.</li>\n<li>Tests come last, once the feature works end to end.</li>\n</ul>\n</dd></dl>\n</details>\n</dd></dl>",
+          "text": "Goal: Checklists end to end: Domain → fake data → view models → real data → tests. Demo: checklist run in a room; a Fail creates one prefilled issue. Spec: 13 Starts from: the skeleton screens (~30% of Figma) that read App/Fakes/FakeData.swift. Fakes: only in Packages/DataLayer/Sources/DataLayer/Fakes/, registered in AppDependencies; the dev menu seeds / clears them through FakeDevDataActions. File tags: New create the file · Edit change only the part shown. Step Layer Hours Status What1 Domain 1h not start Checklist types 2 Fake data 1h not start In-memory checklists 3 View models 4h not start Wire the Checklists screens 4 Real data 4h not start Templates and results Order Steps run top to bottom; the app runs after every step. Real data changes only registrations in AppDependencies, never views or view models. Tests come last, once the feature works end to end."
+        }
+      ]
+    },
+    {
+      "id": "target-structure",
+      "title": "Target structure",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<pre><code class=\"language-text\">Packages/\n├── DomainLayer/Sources/DomainLayer/Checklists/          # 1: template, item, run, result\n├── DataLayer/Sources/DataLayer/Fakes/         # 2: InMemoryChecklistRepository with built-in templates\n└── DataLayer/Sources/DataLayer/Repositories/  # 4: seeded templates, run results\nSiteLog/\n└── Presentation/Checklists/                   # 3: TemplatePicker, ChecklistRun, ChecklistDone\n</code></pre>\n</dd></dl>",
+          "text": "Packages/ ├── DomainLayer/Sources/DomainLayer/Checklists/ # 1: template, item, run, result ├── DataLayer/Sources/DataLayer/Fakes/ # 2: InMemoryChecklistRepository with built-in templates └── DataLayer/Sources/DataLayer/Repositories/ # 4: seeded templates, run results SiteLog/ └── Presentation/Checklists/ # 3: TemplatePicker, ChecklistRun, ChecklistDone"
+        }
+      ]
+    },
+    {
+      "id": "1-domain--checklist-types",
+      "title": "1. Domain — Checklist types",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Action</th><th>File</th><th>Holds</th></tr></thead><tbody><tr><td><b class=\"tag-new\">New</b></td><td><code>Packages/DomainLayer/Sources/DomainLayer/Checklists/</code></td><td>Template, item, run, result; answer use case (Fail → issue through F05)</td></tr></tbody></table></div>\n</dd></dl>",
+          "text": "Action File HoldsNew Packages/DomainLayer/Sources/DomainLayer/Checklists/ Template, item, run, result; answer use case (Fail → issue through F05)"
+        }
+      ]
+    },
+    {
+      "id": "2-fake-data--in-memory-checklists",
+      "title": "2. Fake data — In-memory checklists",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Action</th><th>File</th><th>Holds</th></tr></thead><tbody><tr><td><b class=\"tag-new\">New</b></td><td><code>Packages/DataLayer/Sources/DataLayer/Fakes/InMemoryChecklistRepository.swift</code></td><td>Templates and runs</td></tr><tr><td><b class=\"tag-edit\">Edit</b></td><td><code>SiteLog/App/AppDependencies.swift</code></td><td>Registers the fake; the real step only changes this line</td></tr></tbody></table></div>\n<h4 id=\"steps\">Steps</h4>\n<dl><dd>\n<ol>\n<li>Implement the Domain protocol as an <code>actor</code> that keeps everything in memory.</li>\n<li>Seed it with “Finishing handover” (22 items) and 5 other templates — move the values out of <code>App/Fakes/FakeData.swift</code>.</li>\n<li>Add <code>reset()</code> (empty) and <code>seed()</code>; <code>FakeDevDataActions</code> calls them from the dev menu.</li>\n<li>Register it in <code>AppDependencies</code>.</li>\n</ol>\n</dd></dl>\n</dd></dl>",
+          "text": "Action File HoldsNew Packages/DataLayer/Sources/DataLayer/Fakes/InMemoryChecklistRepository.swift Templates and runs Edit SiteLog/App/AppDependencies.swift Registers the fake; the real step only changes this line Steps Implement the Domain protocol as an actor that keeps everything in memory. Seed it with “Finishing handover” (22 items) and 5 other templates — move the values out of App/Fakes/FakeData.swift. Add reset() (empty) and seed(); FakeDevDataActions calls them from the dev menu. Register it in AppDependencies."
+        }
+      ]
+    },
+    {
+      "id": "3-view-models--wire-the-checklists-screens",
+      "title": "3. View models — Wire the Checklists screens",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Action</th><th>Skeleton folder</th><th>View model work</th></tr></thead><tbody><tr><td><b class=\"tag-new\">New</b> view model · <b class=\"tag-edit\">Edit</b> view</td><td><code>Presentation/Checklists/TemplatePicker/</code></td><td>K1: resume, recent, all</td></tr><tr><td><b class=\"tag-new\">New</b> view model · <b class=\"tag-edit\">Edit</b> view</td><td><code>Presentation/Checklists/ChecklistRun/</code></td><td>K2: one tap per item, “14 of 22”</td></tr><tr><td><b class=\"tag-new\">New</b> view model · <b class=\"tag-edit\">Edit</b> view</td><td><code>Presentation/Checklists/ChecklistDone/</code></td><td>K4: result sentence, issues sent</td></tr></tbody></table></div>\n<h4 id=\"steps-1\">Steps</h4>\n<dl><dd>\n<ol>\n<li>Add <code>&#x3C;Screen>ViewModel.swift</code> next to the view: <code>@MainActor @Observable</code>, use cases through <code>@Injected</code>.</li>\n<li>In the view, replace <code>FakeData…</code> with view-model state; keep the layout (visual finish is F16).</li>\n<li>Loading, empty (<code>SDEmptyState</code>) and error states; previews for each.</li>\n<li>Delete this feature's <code>Fake*</code> types from <code>App/Fakes/FakeData.swift</code> once nothing uses them.</li>\n</ol>\n</dd></dl>\n</dd></dl>",
+          "text": "Action Skeleton folder View model workNew view model · Edit view Presentation/Checklists/TemplatePicker/ K1: resume, recent, all New view model · Edit view Presentation/Checklists/ChecklistRun/ K2: one tap per item, “14 of 22” New view model · Edit view Presentation/Checklists/ChecklistDone/ K4: result sentence, issues sent Steps Add <Screen>ViewModel.swift next to the view: @MainActor @Observable, use cases through @Injected. In the view, replace FakeData… with view-model state; keep the layout (visual finish is F16). Loading, empty (SDEmptyState) and error states; previews for each. Delete this feature's Fake* types from App/Fakes/FakeData.swift once nothing uses them."
+        }
+      ]
+    },
+    {
+      "id": "4-real-data--templates-and-results",
+      "title": "4. Real data — Templates and results",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul>\n<li><strong>Goal:</strong> seeded built-ins; runs keep their own results; fail → prefilled issue.</li>\n<li><strong>Spec:</strong> <a href=\"../sitelog-specs-01-field-work/#13-checklist-templates\">13</a></li>\n</ul>\n<h4 id=\"steps-2\">Steps</h4>\n<dl><dd>\n<ol>\n<li>Built-ins fork on edit; JSON import validated.</li>\n</ol>\n</dd></dl>\n</dd></dl>",
+          "text": "Goal: seeded built-ins; runs keep their own results; fail → prefilled issue. Spec: 13 Steps Built-ins fork on edit; JSON import validated."
+        }
+      ]
+    },
+    {
+      "id": "tests-after-the-feature-works",
+      "title": "Tests (after the feature works)",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<p><strong>4. Real data — Templates and results</strong></p>\n<ul>\n<li>Fail creates one issue</li>\n<li>Template edit leaves completed runs unchanged</li>\n</ul>\n</dd></dl>",
+          "text": "4. Real data — Templates and results Fail creates one issue Template edit leaves completed runs unchanged"
+        }
+      ]
+    },
+    {
+      "id": "feature-done",
+      "title": "Feature done",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Check</th><th>How</th></tr></thead><tbody><tr><td>Demo</td><td>Checklist run; Fail creates one issue</td></tr><tr><td>Tests</td><td><code>bundle exec fastlane test</code> green</td></tr><tr><td>Roadmap</td><td>F09 steps ticked</td></tr></tbody></table></div>\n</dd></dl>",
+          "text": "Check HowDemo Checklist run; Fail creates one issue Tests bundle exec fastlane test green Roadmap F09 steps ticked"
+        }
+      ]
+    }
+  ],
+  "effectiveDate": "2026-10-08",
+  "lastUpdated": "2026-10-10"
+}

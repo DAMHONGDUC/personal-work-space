@@ -1,0 +1,116 @@
+{
+  "title": "F08 — Floor plans and pins",
+  "tagline": "Floor plans and pins end to end: Domain → fake data → view models → real data → tests.",
+  "icon": "🛠️",
+  "topic": "sitelog",
+  "tags": [
+    "SwiftUI",
+    "iOS",
+    "Step by step"
+  ],
+  "readingTime": "2 min",
+  "languages": [
+    "en"
+  ],
+  "numbered": false,
+  "series": {
+    "id": "sitelog-guide",
+    "part": 8,
+    "name": "SiteLog: build guide"
+  },
+  "intro": [
+    "F08 · 16h · skeleton guide — full code is added when this feature starts."
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Overview",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul>\n<li><strong>Goal:</strong> Floor plans and pins end to end: Domain → fake data → view models → real data → tests.</li>\n<li><strong>Demo:</strong> real PDF plan imported, issues pinned, pins survive relaunch.</li>\n<li><strong>Spec:</strong> <a href=\"../sitelog-specs-01-field-work/#11-floor-plans-and-issue-pins\">11</a></li>\n<li><strong>Starts from:</strong> the skeleton screens (~30% of Figma) that read <code>App/Fakes/FakeData.swift</code>.</li>\n<li><strong>Fakes:</strong> only in <code>Packages/DataLayer/Sources/DataLayer/Fakes/</code>, registered in <code>AppDependencies</code>; the dev menu seeds / clears them through <code>FakeDevDataActions</code>.</li>\n<li><strong>File tags:</strong> <b class=\"tag-new\">New</b> create the file · <b class=\"tag-edit\">Edit</b> change only the part shown.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Step</th><th>Layer</th><th>Hours</th><th>Status</th><th>What</th></tr></thead><tbody><tr><td><a href=\"#1-domain--plan-types\">1</a></td><td>Domain</td><td>1h</td><td>not start</td><td>Plan types</td></tr><tr><td><a href=\"#2-fake-data--in-memory-plans\">2</a></td><td>Fake data</td><td>1h</td><td>not start</td><td>In-memory plans</td></tr><tr><td><a href=\"#3-view-models--wire-the-plans-screens\">3</a></td><td>View models</td><td>5h</td><td>not start</td><td>Wire the Plans screens</td></tr><tr><td><a href=\"#4-real-data--import-and-pins\">4</a></td><td>Real data</td><td>9h</td><td>not start</td><td>Import and pins</td></tr></tbody></table></div>\n<details open>\n<summary><strong>Order</strong></summary>\n<dl><dd>\n<ul>\n<li>Steps run top to bottom; the app runs after every step.</li>\n<li>Real data changes only registrations in <code>AppDependencies</code>, never views or view models.</li>\n<li>Tests come last, once the feature works end to end.</li>\n</ul>\n</dd></dl>\n</details>\n</dd></dl>",
+          "text": "Goal: Floor plans and pins end to end: Domain → fake data → view models → real data → tests. Demo: real PDF plan imported, issues pinned, pins survive relaunch. Spec: 11 Starts from: the skeleton screens (~30% of Figma) that read App/Fakes/FakeData.swift. Fakes: only in Packages/DataLayer/Sources/DataLayer/Fakes/, registered in AppDependencies; the dev menu seeds / clears them through FakeDevDataActions. File tags: New create the file · Edit change only the part shown. Step Layer Hours Status What1 Domain 1h not start Plan types 2 Fake data 1h not start In-memory plans 3 View models 5h not start Wire the Plans screens 4 Real data 9h not start Import and pins Order Steps run top to bottom; the app runs after every step. Real data changes only registrations in AppDependencies, never views or view models. Tests come last, once the feature works end to end."
+        }
+      ]
+    },
+    {
+      "id": "target-structure",
+      "title": "Target structure",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<pre><code class=\"language-text\">Packages/\n├── DomainLayer/Sources/DomainLayer/Plans/                          # 1: PlanSheet, pin as NormalizedPoint\n├── DataLayer/Sources/DataLayer/Fakes/                    # 2: InMemoryPlanRepository\n└── DataLayer/Sources/DataLayer/DataSources/Local/Plans/  # 4: PDFKit + CATiledLayer, tile cache\nSiteLog/\n└── Presentation/Plans/                                   # 3: PlanList, PlanViewer, PinPreview, PlanImport\n</code></pre>\n</dd></dl>",
+          "text": "Packages/ ├── DomainLayer/Sources/DomainLayer/Plans/ # 1: PlanSheet, pin as NormalizedPoint ├── DataLayer/Sources/DataLayer/Fakes/ # 2: InMemoryPlanRepository └── DataLayer/Sources/DataLayer/DataSources/Local/Plans/ # 4: PDFKit + CATiledLayer, tile cache SiteLog/ └── Presentation/Plans/ # 3: PlanList, PlanViewer, PinPreview, PlanImport"
+        }
+      ]
+    },
+    {
+      "id": "1-domain--plan-types",
+      "title": "1. Domain — Plan types",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Action</th><th>File</th><th>Holds</th></tr></thead><tbody><tr><td><b class=\"tag-new\">New</b></td><td><code>Packages/DomainLayer/Sources/DomainLayer/Plans/</code></td><td><code>PlanSheet</code>, <code>Pin</code> (<code>NormalizedPoint</code>), import / pin / move use cases</td></tr></tbody></table></div>\n</dd></dl>",
+          "text": "Action File HoldsNew Packages/DomainLayer/Sources/DomainLayer/Plans/ PlanSheet, Pin (NormalizedPoint), import / pin / move use cases"
+        }
+      ]
+    },
+    {
+      "id": "2-fake-data--in-memory-plans",
+      "title": "2. Fake data — In-memory plans",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Action</th><th>File</th><th>Holds</th></tr></thead><tbody><tr><td><b class=\"tag-new\">New</b></td><td><code>Packages/DataLayer/Sources/DataLayer/Fakes/InMemoryPlanRepository.swift</code></td><td>Plan sheets and pins</td></tr><tr><td><b class=\"tag-edit\">Edit</b></td><td><code>SiteLog/App/AppDependencies.swift</code></td><td>Registers the fake; the real step only changes this line</td></tr></tbody></table></div>\n<h4 id=\"steps\">Steps</h4>\n<dl><dd>\n<ol>\n<li>Implement the Domain protocol as an <code>actor</code> that keeps everything in memory.</li>\n<li>Seed it with 4 sheets, 6 pins — move the values out of <code>App/Fakes/FakeData.swift</code>.</li>\n<li>Add <code>reset()</code> (empty) and <code>seed()</code>; <code>FakeDevDataActions</code> calls them from the dev menu.</li>\n<li>Register it in <code>AppDependencies</code>.</li>\n</ol>\n</dd></dl>\n</dd></dl>",
+          "text": "Action File HoldsNew Packages/DataLayer/Sources/DataLayer/Fakes/InMemoryPlanRepository.swift Plan sheets and pins Edit SiteLog/App/AppDependencies.swift Registers the fake; the real step only changes this line Steps Implement the Domain protocol as an actor that keeps everything in memory. Seed it with 4 sheets, 6 pins — move the values out of App/Fakes/FakeData.swift. Add reset() (empty) and seed(); FakeDevDataActions calls them from the dev menu. Register it in AppDependencies."
+        }
+      ]
+    },
+    {
+      "id": "3-view-models--wire-the-plans-screens",
+      "title": "3. View models — Wire the Plans screens",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Action</th><th>Skeleton folder</th><th>View model work</th></tr></thead><tbody><tr><td><b class=\"tag-new\">New</b> view model · <b class=\"tag-edit\">Edit</b> view</td><td><code>Presentation/Plans/PlanList/</code></td><td>M3: sheets of a project</td></tr><tr><td><b class=\"tag-new\">New</b> view model · <b class=\"tag-edit\">Edit</b> view</td><td><code>Presentation/Plans/PlanViewer/</code></td><td>M4: pins and clusters; long-press drops a pin</td></tr><tr><td><b class=\"tag-new\">New</b> view model · <b class=\"tag-edit\">Edit</b> view</td><td><code>Presentation/Plans/PinPreview/</code></td><td>M5: issue summary, move, open</td></tr><tr><td><b class=\"tag-new\">New</b> view model · <b class=\"tag-edit\">Edit</b> view</td><td><code>Presentation/Plans/PlanImport/</code></td><td>Files / photo import</td></tr></tbody></table></div>\n<h4 id=\"steps-1\">Steps</h4>\n<dl><dd>\n<ol>\n<li>Add <code>&#x3C;Screen>ViewModel.swift</code> next to the view: <code>@MainActor @Observable</code>, use cases through <code>@Injected</code>.</li>\n<li>In the view, replace <code>FakeData…</code> with view-model state; keep the layout (visual finish is F16).</li>\n<li>Loading, empty (<code>SDEmptyState</code>) and error states; previews for each.</li>\n<li>Delete this feature's <code>Fake*</code> types from <code>App/Fakes/FakeData.swift</code> once nothing uses them.</li>\n</ol>\n</dd></dl>\n</dd></dl>",
+          "text": "Action Skeleton folder View model workNew view model · Edit view Presentation/Plans/PlanList/ M3: sheets of a project New view model · Edit view Presentation/Plans/PlanViewer/ M4: pins and clusters; long-press drops a pin New view model · Edit view Presentation/Plans/PinPreview/ M5: issue summary, move, open New view model · Edit view Presentation/Plans/PlanImport/ Files / photo import Steps Add <Screen>ViewModel.swift next to the view: @MainActor @Observable, use cases through @Injected. In the view, replace FakeData… with view-model state; keep the layout (visual finish is F16). Loading, empty (SDEmptyState) and error states; previews for each. Delete this feature's Fake* types from App/Fakes/FakeData.swift once nothing uses them."
+        }
+      ]
+    },
+    {
+      "id": "4-real-data--import-and-pins",
+      "title": "4. Real data — Import and pins",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<details open>\n<summary><strong>4.1 Floor plan import and storage</strong></summary>\n<dl><dd>\n<ul>\n<li><strong>Goal:</strong> import PDF/image plans, hashed, tiled on demand.</li>\n<li><strong>Spec:</strong> <a href=\"../sitelog-specs-01-field-work/#11-floor-plans-and-issue-pins\">11</a></li>\n</ul>\n<h4 id=\"steps-2\">Steps</h4>\n<dl><dd>\n<ol>\n<li>Multi-page PDF → one <code>PlanSheet</code> per chosen page.</li>\n<li>Reject encrypted / oversized files with a reason.</li>\n</ol>\n</dd></dl>\n</dd></dl></details>\n<details open>\n<summary><strong>4.2 Pin coordinates and persistence</strong></summary>\n<dl><dd>\n<ul>\n<li><strong>Goal:</strong> one pin per issue in 0…1 coordinates; moves audited.</li>\n<li><strong>Spec:</strong> <a href=\"../sitelog-specs-01-field-work/#11-floor-plans-and-issue-pins\">11</a></li>\n</ul>\n</dd></dl>\n</details>\n</dd></dl>",
+          "text": "4.1 Floor plan import and storage Goal: import PDF/image plans, hashed, tiled on demand. Spec: 11 Steps Multi-page PDF → one PlanSheet per chosen page. Reject encrypted / oversized files with a reason. 4.2 Pin coordinates and persistence Goal: one pin per issue in 0…1 coordinates; moves audited. Spec: 11"
+        }
+      ]
+    },
+    {
+      "id": "tests-after-the-feature-works",
+      "title": "Tests (after the feature works)",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<p><strong>3. View models — Wire the Plans screens</strong></p>\n<ul>\n<li>60 fps pan / zoom with 50 pins</li>\n</ul>\n<p><strong>4. Real data — Import and pins</strong></p>\n<ul>\n<li>Oversized and encrypted imports rejected</li>\n<li>A0 peak memory under 150 MB</li>\n<li><code>planPoint</code> round-trip through zoom / pan</li>\n<li>Sheet delete blocked while pins exist</li>\n</ul>\n</dd></dl>",
+          "text": "3. View models — Wire the Plans screens 60 fps pan / zoom with 50 pins 4. Real data — Import and pins Oversized and encrypted imports rejected A0 peak memory under 150 MB planPoint round-trip through zoom / pan Sheet delete blocked while pins exist"
+        }
+      ]
+    },
+    {
+      "id": "feature-done",
+      "title": "Feature done",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Check</th><th>How</th></tr></thead><tbody><tr><td>Demo</td><td>Pins on a real floor plan</td></tr><tr><td>Tests</td><td><code>bundle exec fastlane test</code> green</td></tr><tr><td>Roadmap</td><td>F08 steps ticked</td></tr></tbody></table></div>\n</dd></dl>",
+          "text": "Check HowDemo Pins on a real floor plan Tests bundle exec fastlane test green Roadmap F08 steps ticked"
+        }
+      ]
+    }
+  ],
+  "effectiveDate": "2026-10-08",
+  "lastUpdated": "2026-10-10"
+}

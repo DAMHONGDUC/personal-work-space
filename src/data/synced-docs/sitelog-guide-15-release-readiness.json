@@ -1,0 +1,94 @@
+{
+  "title": "F15 — Accessibility and performance",
+  "tagline": "Accessibility and performance end to end: Domain → fake data → view models → real data → tests.",
+  "icon": "🛠️",
+  "topic": "sitelog",
+  "tags": [
+    "SwiftUI",
+    "iOS",
+    "Step by step"
+  ],
+  "readingTime": "1 min",
+  "languages": [
+    "en"
+  ],
+  "numbered": false,
+  "series": {
+    "id": "sitelog-guide",
+    "part": 15,
+    "name": "SiteLog: build guide"
+  },
+  "intro": [
+    "F15 · 14h · skeleton guide — full code is added when this feature starts."
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Overview",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul>\n<li><strong>Goal:</strong> Accessibility and performance end to end: Domain → fake data → view models → real data → tests.</li>\n<li><strong>Demo:</strong> VoiceOver walk unlock → projects → capture → report; every Instruments budget met.</li>\n<li><strong>Spec:</strong> <a href=\"../sitelog-specs-05-platform/#19-performance-profiling-with-instruments\">19 Instruments</a></li>\n<li><strong>Starts from:</strong> the skeleton screens (~30% of Figma) that read <code>App/Fakes/FakeData.swift</code>.</li>\n<li><strong>Fakes:</strong> only in <code>Packages/DataLayer/Sources/DataLayer/Fakes/</code>, registered in <code>AppDependencies</code>; the dev menu seeds / clears them through <code>FakeDevDataActions</code>.</li>\n<li><strong>File tags:</strong> <b class=\"tag-new\">New</b> create the file · <b class=\"tag-edit\">Edit</b> change only the part shown.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Step</th><th>Layer</th><th>Hours</th><th>Status</th><th>What</th></tr></thead><tbody><tr><td><a href=\"#1-polish--accessibility-pass\">1</a></td><td>Polish</td><td>8h</td><td>not start</td><td>Accessibility pass</td></tr><tr><td><a href=\"#2-release--budgets-and-feedback\">2</a></td><td>Release</td><td>6h</td><td>not start</td><td>Budgets and feedback</td></tr></tbody></table></div>\n<details open>\n<summary><strong>Order</strong></summary>\n<dl><dd>\n<ul>\n<li>Steps run top to bottom; the app runs after every step.</li>\n<li>Real data changes only registrations in <code>AppDependencies</code>, never views or view models.</li>\n<li>Tests come last, once the feature works end to end.</li>\n</ul>\n</dd></dl>\n</details>\n</dd></dl>",
+          "text": "Goal: Accessibility and performance end to end: Domain → fake data → view models → real data → tests. Demo: VoiceOver walk unlock → projects → capture → report; every Instruments budget met. Spec: 19 Instruments Starts from: the skeleton screens (~30% of Figma) that read App/Fakes/FakeData.swift. Fakes: only in Packages/DataLayer/Sources/DataLayer/Fakes/, registered in AppDependencies; the dev menu seeds / clears them through FakeDevDataActions. File tags: New create the file · Edit change only the part shown. Step Layer Hours Status What1 Polish 8h not start Accessibility pass 2 Release 6h not start Budgets and feedback Order Steps run top to bottom; the app runs after every step. Real data changes only registrations in AppDependencies, never views or view models. Tests come last, once the feature works end to end."
+        }
+      ]
+    },
+    {
+      "id": "target-structure",
+      "title": "Target structure",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<pre><code class=\"language-text\">SiteLog/PrivacyInfo.xcprivacy    # 2\nSiteLogTests/Snapshots/          # 1: accessibility3 per screen\n</code></pre>\n</dd></dl>",
+          "text": "SiteLog/PrivacyInfo.xcprivacy # 2 SiteLogTests/Snapshots/ # 1: accessibility3 per screen"
+        }
+      ]
+    },
+    {
+      "id": "1-polish--accessibility-pass",
+      "title": "1. Polish — Accessibility pass",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul>\n<li><strong>Goal:</strong> every screen readable with Dynamic Type, VoiceOver and high contrast.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Action</th><th>File</th><th>Holds</th></tr></thead><tbody><tr><td><b class=\"tag-edit\">Edit</b></td><td>Every screen</td><td>Labels, traits, grouping, focus order</td></tr><tr><td><b class=\"tag-new\">New</b></td><td><code>SiteLogTests/Snapshots/</code></td><td><code>accessibility3</code> snapshot per screen</td></tr></tbody></table></div>\n<h4 id=\"steps\">Steps</h4>\n<dl><dd>\n<ol>\n<li>VoiceOver walk: unlock → projects → capture → report.</li>\n<li>Severity readable without colour (shapes already in <code>SDStatusMarker</code>).</li>\n<li>Minimum 44 pt targets.</li>\n</ol>\n</dd></dl>\n</dd></dl>",
+          "text": "Goal: every screen readable with Dynamic Type, VoiceOver and high contrast. Action File HoldsEdit Every screen Labels, traits, grouping, focus order New SiteLogTests/Snapshots/ accessibility3 snapshot per screen Steps VoiceOver walk: unlock → projects → capture → report. Severity readable without colour (shapes already in SDStatusMarker). Minimum 44 pt targets."
+        }
+      ]
+    },
+    {
+      "id": "2-release--budgets-and-feedback",
+      "title": "2. Release — Budgets and feedback",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul>\n<li><strong>Goal:</strong> Instruments budgets met, TestFlight feedback closed. Submission is in F16.</li>\n<li><strong>Spec:</strong> <a href=\"../sitelog-specs-05-platform/#19-performance-profiling-with-instruments\">19</a></li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Action</th><th>File</th><th>Holds</th></tr></thead><tbody><tr><td><b class=\"tag-new\">New</b></td><td><code>SiteLog/PrivacyInfo.xcprivacy</code></td><td>Location, device ID, crash data declared</td></tr></tbody></table></div>\n<h4 id=\"steps-1\">Steps</h4>\n<dl><dd>\n<ol>\n<li>Run scenarios 1–5 of 05 §19 on device, Release build; save traces.</li>\n<li>Close every open TestFlight feedback item.</li>\n</ol>\n</dd></dl>\n<h4 id=\"done-when\">Done when</h4>\n<dl><dd>\n<ul>\n<li>Every budget met with a recorded trace</li>\n<li>No open TestFlight feedback</li>\n</ul>\n</dd></dl>\n</dd></dl>",
+          "text": "Goal: Instruments budgets met, TestFlight feedback closed. Submission is in F16. Spec: 19 Action File HoldsNew SiteLog/PrivacyInfo.xcprivacy Location, device ID, crash data declared Steps Run scenarios 1–5 of 05 §19 on device, Release build; save traces. Close every open TestFlight feedback item. Done when Every budget met with a recorded trace No open TestFlight feedback"
+        }
+      ]
+    },
+    {
+      "id": "tests-after-the-feature-works",
+      "title": "Tests (after the feature works)",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<p><strong>1. Polish — Accessibility pass</strong></p>\n<ul>\n<li>Snapshots at <code>accessibility3</code></li>\n<li>Xcode Accessibility Inspector audit clean</li>\n</ul>\n</dd></dl>",
+          "text": "1. Polish — Accessibility pass Snapshots at accessibility3 Xcode Accessibility Inspector audit clean"
+        }
+      ]
+    },
+    {
+      "id": "feature-done",
+      "title": "Feature done",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Check</th><th>How</th></tr></thead><tbody><tr><td>Demo</td><td>VoiceOver walk; budgets met with traces</td></tr><tr><td>Tests</td><td><code>bundle exec fastlane test</code> green</td></tr><tr><td>Roadmap</td><td>F15 steps ticked</td></tr></tbody></table></div>\n</dd></dl>",
+          "text": "Check HowDemo VoiceOver walk; budgets met with traces Tests bundle exec fastlane test green Roadmap F15 steps ticked"
+        }
+      ]
+    }
+  ],
+  "effectiveDate": "2026-10-08",
+  "lastUpdated": "2026-10-10"
+}

@@ -1,0 +1,116 @@
+{
+  "title": "F11 — Diagnostics · TestFlight #2",
+  "tagline": "Diagnostics end to end: Domain → fake data → view models → real data → tests.",
+  "icon": "🛠️",
+  "topic": "sitelog",
+  "tags": [
+    "SwiftUI",
+    "iOS",
+    "Step by step"
+  ],
+  "readingTime": "2 min",
+  "languages": [
+    "en"
+  ],
+  "numbered": false,
+  "series": {
+    "id": "sitelog-guide",
+    "part": 11,
+    "name": "SiteLog: build guide"
+  },
+  "intro": [
+    "F11 · 17h · skeleton guide — full code is added when this feature starts."
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Overview",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul>\n<li><strong>Goal:</strong> Diagnostics end to end: Domain → fake data → view models → real data → tests.</li>\n<li><strong>Demo:</strong> integrity check, storage cleanup, diagnostic bundle, Crashlytics; second TestFlight build.</li>\n<li><strong>Spec:</strong> <a href=\"../sitelog-specs-05-platform/#09-diagnostics-and-observability\">09</a>, <a href=\"../sitelog-specs-05-platform/#19-performance-profiling-with-instruments\">19 Instruments</a></li>\n<li><strong>Starts from:</strong> the skeleton screens (~30% of Figma) that read <code>App/Fakes/FakeData.swift</code>.</li>\n<li><strong>Fakes:</strong> only in <code>Packages/DataLayer/Sources/DataLayer/Fakes/</code>, registered in <code>AppDependencies</code>; the dev menu seeds / clears them through <code>FakeDevDataActions</code>.</li>\n<li><strong>File tags:</strong> <b class=\"tag-new\">New</b> create the file · <b class=\"tag-edit\">Edit</b> change only the part shown.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Step</th><th>Layer</th><th>Hours</th><th>Status</th><th>What</th></tr></thead><tbody><tr><td><a href=\"#1-domain--fake--diagnostics-snapshot-and-fake\">1</a></td><td>Domain + fake</td><td>1h</td><td>not start</td><td>Diagnostics snapshot and fake</td></tr><tr><td><a href=\"#2-view-models--wire-diagnostics-and-cleanup\">2</a></td><td>View models</td><td>2h</td><td>not start</td><td>Wire diagnostics and cleanup</td></tr><tr><td><a href=\"#3-real-data--storage-bundle-crashlytics\">3</a></td><td>Real data</td><td>8h</td><td>not start</td><td>Storage, bundle, Crashlytics</td></tr><tr><td><a href=\"#4-release--instruments-pass-and-testflight-2\">4</a></td><td>Release</td><td>6h</td><td>not start</td><td>Instruments pass and TestFlight #2</td></tr></tbody></table></div>\n<details open>\n<summary><strong>Order</strong></summary>\n<dl><dd>\n<ul>\n<li>Steps run top to bottom; the app runs after every step.</li>\n<li>Real data changes only registrations in <code>AppDependencies</code>, never views or view models.</li>\n<li>Tests come last, once the feature works end to end.</li>\n</ul>\n</dd></dl>\n</details>\n</dd></dl>",
+          "text": "Goal: Diagnostics end to end: Domain → fake data → view models → real data → tests. Demo: integrity check, storage cleanup, diagnostic bundle, Crashlytics; second TestFlight build. Spec: 09, 19 Instruments Starts from: the skeleton screens (~30% of Figma) that read App/Fakes/FakeData.swift. Fakes: only in Packages/DataLayer/Sources/DataLayer/Fakes/, registered in AppDependencies; the dev menu seeds / clears them through FakeDevDataActions. File tags: New create the file · Edit change only the part shown. Step Layer Hours Status What1 Domain + fake 1h not start Diagnostics snapshot and fake 2 View models 2h not start Wire diagnostics and cleanup 3 Real data 8h not start Storage, bundle, Crashlytics 4 Release 6h not start Instruments pass and TestFlight #2 Order Steps run top to bottom; the app runs after every step. Real data changes only registrations in AppDependencies, never views or view models. Tests come last, once the feature works end to end."
+        }
+      ]
+    },
+    {
+      "id": "target-structure",
+      "title": "Target structure",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<pre><code class=\"language-text\">Packages/\n├── DomainLayer/Sources/DomainLayer/Diagnostics/   # 1: integrity + storage snapshot\n└── DataLayer/Sources/DataLayer/Fakes/   # 1: FakeDiagnosticsRepository\nSiteLog/\n└── Presentation/\n    ├── Diagnostics/DiagnosticExport/   # 2: U3\n    └── Settings/StorageCleanup/        # 2\n</code></pre>\n</dd></dl>",
+          "text": "Packages/ ├── DomainLayer/Sources/DomainLayer/Diagnostics/ # 1: integrity + storage snapshot └── DataLayer/Sources/DataLayer/Fakes/ # 1: FakeDiagnosticsRepository SiteLog/ └── Presentation/ ├── Diagnostics/DiagnosticExport/ # 2: U3 └── Settings/StorageCleanup/ # 2"
+        }
+      ]
+    },
+    {
+      "id": "1-domain--fake--diagnostics-snapshot-and-fake",
+      "title": "1. Domain + fake — Diagnostics snapshot and fake",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Action</th><th>File</th><th>Holds</th></tr></thead><tbody><tr><td><b class=\"tag-new\">New</b></td><td><code>Packages/DomainLayer/Sources/DomainLayer/Diagnostics/</code></td><td>Integrity result, storage breakdown, device flags</td></tr><tr><td><b class=\"tag-new\">New</b></td><td><code>Packages/DataLayer/Sources/DataLayer/Fakes/FakeDiagnosticsRepository.swift</code></td><td>“All 1,284 photos check out”, 4.1 / 1.6 / 12 GB</td></tr></tbody></table></div>\n</dd></dl>",
+          "text": "Action File HoldsNew Packages/DomainLayer/Sources/DomainLayer/Diagnostics/ Integrity result, storage breakdown, device flags New Packages/DataLayer/Sources/DataLayer/Fakes/FakeDiagnosticsRepository.swift “All 1,284 photos check out”, 4.1 / 1.6 / 12 GB"
+        }
+      ]
+    },
+    {
+      "id": "2-view-models--wire-diagnostics-and-cleanup",
+      "title": "2. View models — Wire diagnostics and cleanup",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Action</th><th>Skeleton folder</th><th>View model work</th></tr></thead><tbody><tr><td><b class=\"tag-new\">New</b> view model · <b class=\"tag-edit\">Edit</b> view</td><td><code>Presentation/Diagnostics/DiagnosticExport/</code></td><td>U3: integrity, storage, export</td></tr><tr><td><b class=\"tag-new\">New</b> view model · <b class=\"tag-edit\">Edit</b> view</td><td><code>Presentation/Settings/StorageCleanup/</code></td><td>Synced-only cleanup</td></tr></tbody></table></div>\n<h4 id=\"steps\">Steps</h4>\n<dl><dd>\n<ol>\n<li>Add <code>&#x3C;Screen>ViewModel.swift</code> next to the view: <code>@MainActor @Observable</code>, use cases through <code>@Injected</code>.</li>\n<li>In the view, replace <code>FakeData…</code> with view-model state; keep the layout (visual finish is F16).</li>\n<li>Loading, empty (<code>SDEmptyState</code>) and error states; previews for each.</li>\n<li>Delete this feature's <code>Fake*</code> types from <code>App/Fakes/FakeData.swift</code> once nothing uses them.</li>\n</ol>\n</dd></dl>\n</dd></dl>",
+          "text": "Action Skeleton folder View model workNew view model · Edit view Presentation/Diagnostics/DiagnosticExport/ U3: integrity, storage, export New view model · Edit view Presentation/Settings/StorageCleanup/ Synced-only cleanup Steps Add <Screen>ViewModel.swift next to the view: @MainActor @Observable, use cases through @Injected. In the view, replace FakeData… with view-model state; keep the layout (visual finish is F16). Loading, empty (SDEmptyState) and error states; previews for each. Delete this feature's Fake* types from App/Fakes/FakeData.swift once nothing uses them."
+        }
+      ]
+    },
+    {
+      "id": "3-real-data--storage-bundle-crashlytics",
+      "title": "3. Real data — Storage, bundle, Crashlytics",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<details open>\n<summary><strong>3.1 Storage, cleanup, diagnostic bundle</strong></summary>\n<dl><dd>\n<ul>\n<li><strong>Goal:</strong> integrity checks, synced-only cleanup, redacted bundle.</li>\n<li><strong>Spec:</strong> <a href=\"../sitelog-specs-05-platform/#092-integrity-checks-and-cleanup\">09.2–09.3</a></li>\n</ul>\n<h4 id=\"steps-1\">Steps</h4>\n<dl><dd>\n<ol>\n<li>Cleanup touches <code>synced</code> files only.</li>\n<li>Redact on write.</li>\n</ol>\n</dd></dl>\n</dd></dl></details>\n<details open>\n<summary><strong>3.2 Firebase Crashlytics</strong></summary>\n<dl><dd>\n<ul>\n<li><strong>Goal:</strong> crash and non-fatal reporting, first at launch.</li>\n<li><strong>Spec:</strong> <a href=\"../sitelog-specs-05-platform/#094-app-wide-logging\">09.4</a></li>\n</ul>\n</dd></dl>\n<h4 id=\"steps-2\">Steps</h4>\n<dl><dd>\n<ol>\n<li>Add Firebase via <code>project.yml</code>; <code>GoogleService-Info.plist</code> written by CI, not committed.</li>\n<li>First line of <code>didFinishLaunching</code>.</li>\n</ol>\n</dd></dl>\n<h4 id=\"done-when\">Done when</h4>\n<dl><dd>\n<ul>\n<li>A test non-fatal shows in the Crashlytics console</li>\n</ul>\n</dd></dl>\n</details>\n</dd></dl>",
+          "text": "3.1 Storage, cleanup, diagnostic bundle Goal: integrity checks, synced-only cleanup, redacted bundle. Spec: 09.2–09.3 Steps Cleanup touches synced files only. Redact on write. 3.2 Firebase Crashlytics Goal: crash and non-fatal reporting, first at launch. Spec: 09.4 Steps Add Firebase via project.yml; GoogleService-Info.plist written by CI, not committed. First line of didFinishLaunching. Done when A test non-fatal shows in the Crashlytics console"
+        }
+      ]
+    },
+    {
+      "id": "4-release--instruments-pass-and-testflight-2",
+      "title": "4. Release — Instruments pass and TestFlight #2",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul>\n<li><strong>Goal:</strong> real plans, checklists, DeviceLink, diagnostics; first Instruments pass; TestFlight build.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Action</th><th>File</th><th>Holds</th></tr></thead><tbody><tr><td><b class=\"tag-edit\">Edit</b></td><td><code>SiteLog/App/AppDependencies.swift</code></td><td>Swap the fake registrations for the real ones</td></tr></tbody></table></div>\n<h4 id=\"steps-3\">Steps</h4>\n<dl><dd>\n<ol>\n<li>Register real implementations.</li>\n<li>Run the Instruments scenarios on device (Release).</li>\n<li>Push a <code>v*</code> tag.</li>\n</ol>\n</dd></dl>\n<h4 id=\"done-when-1\">Done when</h4>\n<dl><dd>\n<ul>\n<li>Instruments scenarios 1–5 in 05 §19 within budget</li>\n<li>TestFlight #2 installed</li>\n</ul>\n</dd></dl>\n</dd></dl>",
+          "text": "Goal: real plans, checklists, DeviceLink, diagnostics; first Instruments pass; TestFlight build. Action File HoldsEdit SiteLog/App/AppDependencies.swift Swap the fake registrations for the real ones Steps Register real implementations. Run the Instruments scenarios on device (Release). Push a v* tag. Done when Instruments scenarios 1–5 in 05 §19 within budget TestFlight #2 installed"
+        }
+      ]
+    },
+    {
+      "id": "tests-after-the-feature-works",
+      "title": "Tests (after the feature works)",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<p><strong>3. Real data — Storage, bundle, Crashlytics</strong></p>\n<ul>\n<li>Cleanup never touches pending / failed</li>\n<li>Redaction snapshot</li>\n</ul>\n</dd></dl>",
+          "text": "3. Real data — Storage, bundle, Crashlytics Cleanup never touches pending / failed Redaction snapshot"
+        }
+      ]
+    },
+    {
+      "id": "feature-done",
+      "title": "Feature done",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Check</th><th>How</th></tr></thead><tbody><tr><td>TestFlight #2</td><td>Installed on a real device</td></tr><tr><td>Tests</td><td><code>bundle exec fastlane test</code> green</td></tr><tr><td>Roadmap</td><td>F11 steps ticked</td></tr></tbody></table></div>\n</dd></dl>",
+          "text": "Check HowTestFlight #2 Installed on a real device Tests bundle exec fastlane test green Roadmap F11 steps ticked"
+        }
+      ]
+    }
+  ],
+  "effectiveDate": "2026-10-08",
+  "lastUpdated": "2026-10-10"
+}

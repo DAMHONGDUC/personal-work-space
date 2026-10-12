@@ -1,0 +1,105 @@
+{
+  "title": "F14 — Push and deep links",
+  "tagline": "Push and deep links end to end: Domain → fake data → view models → real data → tests.",
+  "icon": "🛠️",
+  "topic": "sitelog",
+  "tags": [
+    "SwiftUI",
+    "iOS",
+    "Step by step"
+  ],
+  "readingTime": "2 min",
+  "languages": [
+    "en"
+  ],
+  "numbered": false,
+  "series": {
+    "id": "sitelog-guide",
+    "part": 14,
+    "name": "SiteLog: build guide"
+  },
+  "intro": [
+    "F14 · 11h · skeleton guide — full code is added when this feature starts."
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Overview",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul>\n<li><strong>Goal:</strong> Push and deep links end to end: Domain → fake data → view models → real data → tests.</li>\n<li><strong>Demo:</strong> a push opens its target; <code>sitelog://</code> links work after cold launch.</li>\n<li><strong>Spec:</strong> <a href=\"../sitelog-specs-05-platform/#18-push-notifications-and-deep-links\">18</a></li>\n<li><strong>Starts from:</strong> the skeleton screens (~30% of Figma) that read <code>App/Fakes/FakeData.swift</code>.</li>\n<li><strong>Fakes:</strong> only in <code>Packages/DataLayer/Sources/DataLayer/Fakes/</code>, registered in <code>AppDependencies</code>; the dev menu seeds / clears them through <code>FakeDevDataActions</code>.</li>\n<li><strong>File tags:</strong> <b class=\"tag-new\">New</b> create the file · <b class=\"tag-edit\">Edit</b> change only the part shown.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Step</th><th>Layer</th><th>Hours</th><th>Status</th><th>What</th></tr></thead><tbody><tr><td><a href=\"#1-domain--deep-link-parser\">1</a></td><td>Domain</td><td>1h</td><td>not start</td><td>Deep link parser</td></tr><tr><td><a href=\"#2-view-models--notification-permission-and-settings\">2</a></td><td>View models</td><td>2h</td><td>not start</td><td>Notification permission and settings</td></tr><tr><td><a href=\"#3-real-data--push-and-routing\">3</a></td><td>Real data</td><td>8h</td><td>not start</td><td>Push and routing</td></tr></tbody></table></div>\n<details open>\n<summary><strong>Order</strong></summary>\n<dl><dd>\n<ul>\n<li>Steps run top to bottom; the app runs after every step.</li>\n<li>Real data changes only registrations in <code>AppDependencies</code>, never views or view models.</li>\n<li>Tests come last, once the feature works end to end.</li>\n</ul>\n</dd></dl>\n</details>\n</dd></dl>",
+          "text": "Goal: Push and deep links end to end: Domain → fake data → view models → real data → tests. Demo: a push opens its target; sitelog:// links work after cold launch. Spec: 18 Starts from: the skeleton screens (~30% of Figma) that read App/Fakes/FakeData.swift. Fakes: only in Packages/DataLayer/Sources/DataLayer/Fakes/, registered in AppDependencies; the dev menu seeds / clears them through FakeDevDataActions. File tags: New create the file · Edit change only the part shown. Step Layer Hours Status What1 Domain 1h not start Deep link parser 2 View models 2h not start Notification permission and settings 3 Real data 8h not start Push and routing Order Steps run top to bottom; the app runs after every step. Real data changes only registrations in AppDependencies, never views or view models. Tests come last, once the feature works end to end."
+        }
+      ]
+    },
+    {
+      "id": "target-structure",
+      "title": "Target structure",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<pre><code class=\"language-text\">Packages/\n└── DomainLayer/Sources/DomainLayer/DeepLinks/DeepLink.swift  # 1: pure parser\nSiteLog/\n├── App/AppDelegate.swift                           # 3: push token\n└── Presentation/Notifications/, DeepLinks/         # 2–3\n</code></pre>\n</dd></dl>",
+          "text": "Packages/ └── DomainLayer/Sources/DomainLayer/DeepLinks/DeepLink.swift # 1: pure parser SiteLog/ ├── App/AppDelegate.swift # 3: push token └── Presentation/Notifications/, DeepLinks/ # 2–3"
+        }
+      ]
+    },
+    {
+      "id": "1-domain--deep-link-parser",
+      "title": "1. Domain — Deep link parser",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul>\n<li>No fake needed: the parser is pure and push uses <code>xcrun simctl push</code> in the Simulator.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Action</th><th>File</th><th>Holds</th></tr></thead><tbody><tr><td><b class=\"tag-new\">New</b></td><td><code>Packages/DomainLayer/Sources/DomainLayer/DeepLinks/DeepLink.swift</code></td><td><code>sitelog://&#x3C;route>/&#x3C;id></code>; ids are opaque data</td></tr></tbody></table></div>\n</dd></dl>",
+          "text": "No fake needed: the parser is pure and push uses xcrun simctl push in the Simulator. Action File HoldsNew Packages/DomainLayer/Sources/DomainLayer/DeepLinks/DeepLink.swift sitelog://<route>/<id>; ids are opaque data"
+        }
+      ]
+    },
+    {
+      "id": "2-view-models--notification-permission-and-settings",
+      "title": "2. View models — Notification permission and settings",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul>\n<li><strong>Goal:</strong> permission prompt at the right moment; notification row in Settings.</li>\n</ul>\n<h4 id=\"steps\">Steps</h4>\n<dl><dd>\n<ol>\n<li>Explain the benefit before the system prompt.</li>\n</ol>\n</dd></dl>\n</dd></dl>",
+          "text": "Goal: permission prompt at the right moment; notification row in Settings. Steps Explain the benefit before the system prompt."
+        }
+      ]
+    },
+    {
+      "id": "3-real-data--push-and-routing",
+      "title": "3. Real data — Push and routing",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<details open>\n<summary><strong>3.1 Push notifications</strong></summary>\n<dl><dd>\n<ul>\n<li><strong>Goal:</strong> push that carries a destination only; works fully when denied.</li>\n<li><strong>Spec:</strong> <a href=\"../sitelog-specs-05-platform/#18-push-notifications-and-deep-links\">18</a></li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Action</th><th>File</th><th>Holds</th></tr></thead><tbody><tr><td><b class=\"tag-edit\">Edit</b></td><td><code>project.yml</code></td><td>Push capability, <code>aps-environment</code>, <code>remote-notification</code> background mode</td></tr><tr><td><b class=\"tag-edit\">Edit</b></td><td><code>SiteLog/App/AppDelegate.swift</code></td><td>Token registration (logged truncated), re-sent on change</td></tr></tbody></table></div>\n<h4 id=\"steps-1\">Steps</h4>\n<dl><dd>\n<ol>\n<li>Ask for permission at a moment that makes sense, not at first launch.</li>\n<li>Test: <code>xcrun simctl push booted app.dd.site.log payload.json</code>.</li>\n</ol>\n</dd></dl>\n</dd></dl></details>\n<details open>\n<summary><strong>3.2 Deep links</strong></summary>\n<dl><dd>\n<ul>\n<li><strong>Goal:</strong> <code>sitelog://&#x3C;route>/&#x3C;id></code> parsed once, routed after cold launch.</li>\n<li><strong>Spec:</strong> <a href=\"../sitelog-specs-05-platform/#18-push-notifications-and-deep-links\">18</a></li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Action</th><th>File</th><th>Holds</th></tr></thead><tbody><tr><td><b class=\"tag-edit\">Edit</b></td><td><code>Packages/DomainLayer/Sources/DomainLayer/DeepLinks/DeepLink.swift</code></td><td>Pure parser; ids are opaque data</td></tr><tr><td><b class=\"tag-new\">New</b></td><td><code>Presentation/DeepLinks/DeepLinkRouter.swift</code></td><td>Holds the destination until a view consumes it</td></tr></tbody></table></div>\n</dd></dl>\n<h4 id=\"steps-2\">Steps</h4>\n<dl><dd>\n<ol>\n<li>Add the <code>sitelog</code> URL scheme in <code>project.yml</code>.</li>\n<li>Deleted target lands on a safe screen.</li>\n<li>Test: <code>xcrun simctl openurl booted sitelog://session/42</code>.</li>\n</ol>\n</dd></dl>\n</details>\n</dd></dl>",
+          "text": "3.1 Push notifications Goal: push that carries a destination only; works fully when denied. Spec: 18 Action File HoldsEdit project.yml Push capability, aps-environment, remote-notification background mode Edit SiteLog/App/AppDelegate.swift Token registration (logged truncated), re-sent on change Steps Ask for permission at a moment that makes sense, not at first launch. Test: xcrun simctl push booted app.dd.site.log payload.json. 3.2 Deep links Goal: sitelog://<route>/<id> parsed once, routed after cold launch. Spec: 18 Action File HoldsEdit Packages/DomainLayer/Sources/DomainLayer/DeepLinks/DeepLink.swift Pure parser; ids are opaque data New Presentation/DeepLinks/DeepLinkRouter.swift Holds the destination until a view consumes it Steps Add the sitelog URL scheme in project.yml. Deleted target lands on a safe screen. Test: xcrun simctl openurl booted sitelog://session/42."
+        }
+      ]
+    },
+    {
+      "id": "tests-after-the-feature-works",
+      "title": "Tests (after the feature works)",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<p><strong>2. View models — Notification permission and settings</strong></p>\n<ul>\n<li>View model</li>\n<li>Snapshot</li>\n</ul>\n<p><strong>3. Real data — Push and routing</strong></p>\n<ul>\n<li>Payload with / without <code>deepLink</code></li>\n<li>Push for another account ignored</li>\n<li>Parser routes and rejections</li>\n<li>Router holds until consumed</li>\n<li>Cold-launch link survives (UI test)</li>\n</ul>\n</dd></dl>",
+          "text": "2. View models — Notification permission and settings View model Snapshot 3. Real data — Push and routing Payload with / without deepLink Push for another account ignored Parser routes and rejections Router holds until consumed Cold-launch link survives (UI test)"
+        }
+      ]
+    },
+    {
+      "id": "feature-done",
+      "title": "Feature done",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Check</th><th>How</th></tr></thead><tbody><tr><td>Demo</td><td>Push opens the target; deep link from Safari</td></tr><tr><td>Tests</td><td><code>bundle exec fastlane test</code> green</td></tr><tr><td>Roadmap</td><td>F14 steps ticked</td></tr></tbody></table></div>\n</dd></dl>",
+          "text": "Check HowDemo Push opens the target; deep link from Safari Tests bundle exec fastlane test green Roadmap F14 steps ticked"
+        }
+      ]
+    }
+  ],
+  "effectiveDate": "2026-10-08",
+  "lastUpdated": "2026-10-10"
+}

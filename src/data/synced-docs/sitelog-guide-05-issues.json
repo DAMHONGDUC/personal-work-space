@@ -1,0 +1,116 @@
+{
+  "title": "F05 — Issues and before/after",
+  "tagline": "Issues and before/after end to end: Domain → fake data → view models → real data → tests.",
+  "icon": "🛠️",
+  "topic": "sitelog",
+  "tags": [
+    "SwiftUI",
+    "iOS",
+    "Step by step"
+  ],
+  "readingTime": "3 min",
+  "languages": [
+    "en"
+  ],
+  "numbered": false,
+  "series": {
+    "id": "sitelog-guide",
+    "part": 5,
+    "name": "SiteLog: build guide"
+  },
+  "intro": [
+    "F05 · 21h · skeleton guide — full code is added when this feature starts."
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Overview",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul>\n<li><strong>Goal:</strong> Issues and before/after end to end: Domain → fake data → view models → real data → tests.</li>\n<li><strong>Demo:</strong> issue logged from the camera, re-checked next session, closed as a before/after pair.</li>\n<li><strong>Spec:</strong> <a href=\"../sitelog-specs-01-field-work/#03-issues-and-before-after-pairing\">03</a>, <a href=\"../sitelog-specs-01-field-work/#123-dictation-and-voice-notes\">12.3 dictation</a></li>\n<li><strong>Starts from:</strong> the skeleton screens (~30% of Figma) that read <code>App/Fakes/FakeData.swift</code>.</li>\n<li><strong>Fakes:</strong> only in <code>Packages/DataLayer/Sources/DataLayer/Fakes/</code>, registered in <code>AppDependencies</code>; the dev menu seeds / clears them through <code>FakeDevDataActions</code>.</li>\n<li><strong>File tags:</strong> <b class=\"tag-new\">New</b> create the file · <b class=\"tag-edit\">Edit</b> change only the part shown.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Step</th><th>Layer</th><th>Hours</th><th>Status</th><th>What</th></tr></thead><tbody><tr><td><a href=\"#1-domain--issue-entities-and-use-cases\">1</a></td><td>Domain</td><td>2h</td><td>not start</td><td>Issue entities and use cases</td></tr><tr><td><a href=\"#2-fake-data--in-memory-issues\">2</a></td><td>Fake data</td><td>1h</td><td>not start</td><td>In-memory issues</td></tr><tr><td><a href=\"#3-view-models--wire-the-issues-screens\">3</a></td><td>View models</td><td>7h</td><td>not start</td><td>Wire the Issues screens</td></tr><tr><td><a href=\"#4-real-data--issue-logic-and-dictation\">4</a></td><td>Real data</td><td>11h</td><td>not start</td><td>Issue logic and dictation</td></tr></tbody></table></div>\n<details open>\n<summary><strong>Order</strong></summary>\n<dl><dd>\n<ul>\n<li>Steps run top to bottom; the app runs after every step.</li>\n<li>Real data changes only registrations in <code>AppDependencies</code>, never views or view models.</li>\n<li>Tests come last, once the feature works end to end.</li>\n</ul>\n</dd></dl>\n</details>\n</dd></dl>",
+          "text": "Goal: Issues and before/after end to end: Domain → fake data → view models → real data → tests. Demo: issue logged from the camera, re-checked next session, closed as a before/after pair. Spec: 03, 12.3 dictation Starts from: the skeleton screens (~30% of Figma) that read App/Fakes/FakeData.swift. Fakes: only in Packages/DataLayer/Sources/DataLayer/Fakes/, registered in AppDependencies; the dev menu seeds / clears them through FakeDevDataActions. File tags: New create the file · Edit change only the part shown. Step Layer Hours Status What1 Domain 2h not start Issue entities and use cases 2 Fake data 1h not start In-memory issues 3 View models 7h not start Wire the Issues screens 4 Real data 11h not start Issue logic and dictation Order Steps run top to bottom; the app runs after every step. Real data changes only registrations in AppDependencies, never views or view models. Tests come last, once the feature works end to end."
+        }
+      ]
+    },
+    {
+      "id": "target-structure",
+      "title": "Target structure",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<pre><code class=\"language-text\">Packages/\n├── DomainLayer/Sources/DomainLayer/Issues/              # 1: Issue, IssuePairing, PairIssuesUseCase (pure)\n├── DataLayer/Sources/DataLayer/Fakes/         # 2: InMemoryIssueRepository\n└── DataLayer/Sources/DataLayer/Repositories/  # 4: SwiftDataIssueRepository\nSiteLog/\n└── Presentation/Issues/                       # 3: IssueSheet, IssueList, IssueDetail, VerificationCamera, OutcomePicker\n</code></pre>\n</dd></dl>",
+          "text": "Packages/ ├── DomainLayer/Sources/DomainLayer/Issues/ # 1: Issue, IssuePairing, PairIssuesUseCase (pure) ├── DataLayer/Sources/DataLayer/Fakes/ # 2: InMemoryIssueRepository └── DataLayer/Sources/DataLayer/Repositories/ # 4: SwiftDataIssueRepository SiteLog/ └── Presentation/Issues/ # 3: IssueSheet, IssueList, IssueDetail, VerificationCamera, OutcomePicker"
+        }
+      ]
+    },
+    {
+      "id": "1-domain--issue-entities-and-use-cases",
+      "title": "1. Domain — Issue entities and use cases",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Action</th><th>File</th><th>Holds</th></tr></thead><tbody><tr><td><b class=\"tag-new\">New</b></td><td><code>Packages/DomainLayer/Sources/DomainLayer/Issues/</code></td><td><code>Issue</code>, <code>IssuePairing</code>, <code>PairIssuesUseCase</code> (pure), log / close / carry-over use cases</td></tr></tbody></table></div>\n</dd></dl>",
+          "text": "Action File HoldsNew Packages/DomainLayer/Sources/DomainLayer/Issues/ Issue, IssuePairing, PairIssuesUseCase (pure), log / close / carry-over use cases"
+        }
+      ]
+    },
+    {
+      "id": "2-fake-data--in-memory-issues",
+      "title": "2. Fake data — In-memory issues",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Action</th><th>File</th><th>Holds</th></tr></thead><tbody><tr><td><b class=\"tag-new\">New</b></td><td><code>Packages/DataLayer/Sources/DataLayer/Fakes/InMemoryIssueRepository.swift</code></td><td>Issues per project and room</td></tr><tr><td><b class=\"tag-edit\">Edit</b></td><td><code>SiteLog/App/AppDependencies.swift</code></td><td>Registers the fake; the real step only changes this line</td></tr></tbody></table></div>\n<h4 id=\"steps\">Steps</h4>\n<dl><dd>\n<ol>\n<li>Implement the Domain protocol as an <code>actor</code> that keeps everything in memory.</li>\n<li>Seed it with the 5 sample issues (critical, major, minor, one closed) — move the values out of <code>App/Fakes/FakeData.swift</code>.</li>\n<li>Add <code>reset()</code> (empty) and <code>seed()</code>; <code>FakeDevDataActions</code> calls them from the dev menu.</li>\n<li>Register it in <code>AppDependencies</code>.</li>\n</ol>\n</dd></dl>\n</dd></dl>",
+          "text": "Action File HoldsNew Packages/DataLayer/Sources/DataLayer/Fakes/InMemoryIssueRepository.swift Issues per project and room Edit SiteLog/App/AppDependencies.swift Registers the fake; the real step only changes this line Steps Implement the Domain protocol as an actor that keeps everything in memory. Seed it with the 5 sample issues (critical, major, minor, one closed) — move the values out of App/Fakes/FakeData.swift. Add reset() (empty) and seed(); FakeDevDataActions calls them from the dev menu. Register it in AppDependencies."
+        }
+      ]
+    },
+    {
+      "id": "3-view-models--wire-the-issues-screens",
+      "title": "3. View models — Wire the Issues screens",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Action</th><th>Skeleton folder</th><th>View model work</th></tr></thead><tbody><tr><td><b class=\"tag-new\">New</b> view model · <b class=\"tag-edit\">Edit</b> view</td><td><code>Presentation/Issues/IssueSheet/</code></td><td>C2 / K3: severity default Major, assignee, due, phrases</td></tr><tr><td><b class=\"tag-new\">New</b> view model · <b class=\"tag-edit\">Edit</b> view</td><td><code>Presentation/Issues/IssueList/</code></td><td>C5: Open / Closed / All, grouped by level; tab badge count</td></tr><tr><td><b class=\"tag-new\">New</b> view model · <b class=\"tag-edit\">Edit</b> view</td><td><code>Presentation/Issues/IssueDetail/</code></td><td>C6: facts, Mark up, Re-check now</td></tr><tr><td><b class=\"tag-new\">New</b> view model · <b class=\"tag-edit\">Edit</b> view</td><td><code>Presentation/Issues/VerificationCamera/</code></td><td>C3: ghost opacity from <code>IssueDefaults.overlayOpacity</code></td></tr><tr><td><b class=\"tag-new\">New</b> view model · <b class=\"tag-edit\">Edit</b> view</td><td><code>Presentation/Issues/OutcomePicker/</code></td><td>C4: close / keep open / raise</td></tr></tbody></table></div>\n<h4 id=\"steps-1\">Steps</h4>\n<dl><dd>\n<ol>\n<li>Add <code>&#x3C;Screen>ViewModel.swift</code> next to the view: <code>@MainActor @Observable</code>, use cases through <code>@Injected</code>.</li>\n<li>In the view, replace <code>FakeData…</code> with view-model state; keep the layout (visual finish is F16).</li>\n<li>Loading, empty (<code>SDEmptyState</code>) and error states; previews for each.</li>\n<li>Delete this feature's <code>Fake*</code> types from <code>App/Fakes/FakeData.swift</code> once nothing uses them.</li>\n</ol>\n</dd></dl>\n</dd></dl>",
+          "text": "Action Skeleton folder View model workNew view model · Edit view Presentation/Issues/IssueSheet/ C2 / K3: severity default Major, assignee, due, phrases New view model · Edit view Presentation/Issues/IssueList/ C5: Open / Closed / All, grouped by level; tab badge count New view model · Edit view Presentation/Issues/IssueDetail/ C6: facts, Mark up, Re-check now New view model · Edit view Presentation/Issues/VerificationCamera/ C3: ghost opacity from IssueDefaults.overlayOpacity New view model · Edit view Presentation/Issues/OutcomePicker/ C4: close / keep open / raise Steps Add <Screen>ViewModel.swift next to the view: @MainActor @Observable, use cases through @Injected. In the view, replace FakeData… with view-model state; keep the layout (visual finish is F16). Loading, empty (SDEmptyState) and error states; previews for each. Delete this feature's Fake* types from App/Fakes/FakeData.swift once nothing uses them."
+        }
+      ]
+    },
+    {
+      "id": "4-real-data--issue-logic-and-dictation",
+      "title": "4. Real data — Issue logic and dictation",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<details open>\n<summary><strong>4.1 Issue CRUD, carry-over, pairing</strong></summary>\n<dl><dd>\n<ul>\n<li><strong>Goal:</strong> log issues, surface open ones next session, close by verification photo.</li>\n<li><strong>Spec:</strong> <a href=\"../sitelog-specs-01-field-work/#031-flows\">03.1–03.2</a></li>\n</ul>\n<h4 id=\"steps-2\">Steps</h4>\n<dl><dd>\n<ol>\n<li>Closing creates a new <code>.verified</code> issue and links the old one; originals never mutated.</li>\n<li>Upload priority: critical 100 · major 50 · minor 10.</li>\n</ol>\n</dd></dl>\n</dd></dl></details>\n<details open>\n<summary><strong>4.2 Phrase library, dictation, voice notes</strong></summary>\n<dl><dd>\n<ul>\n<li><strong>Goal:</strong> on-device dictation and a usage-sorted phrase library.</li>\n<li><strong>Spec:</strong> <a href=\"../sitelog-specs-01-field-work/#123-dictation-and-voice-notes\">12.3</a></li>\n</ul>\n</dd></dl>\n<h4 id=\"steps-3\">Steps</h4>\n<dl><dd>\n<ol>\n<li><code>SFSpeechRecognizer</code> with <code>requiresOnDeviceRecognition = true</code>; vi + en.</li>\n<li>Voice note = audio <code>Capture</code>.</li>\n</ol>\n</dd></dl>\n</details>\n</dd></dl>",
+          "text": "4.1 Issue CRUD, carry-over, pairing Goal: log issues, surface open ones next session, close by verification photo. Spec: 03.1–03.2 Steps Closing creates a new .verified issue and links the old one; originals never mutated. Upload priority: critical 100 · major 50 · minor 10. 4.2 Phrase library, dictation, voice notes Goal: on-device dictation and a usage-sorted phrase library. Spec: 12.3 Steps SFSpeechRecognizer with requiresOnDeviceRecognition = true; vi + en. Voice note = audio Capture."
+        }
+      ]
+    },
+    {
+      "id": "tests-after-the-feature-works",
+      "title": "Tests (after the feature works)",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<p><strong>1. Domain — Issue entities and use cases</strong></p>\n<ul>\n<li>Pairing with 0 / 1 / n open issues</li>\n</ul>\n<p><strong>4. Real data — Issue logic and dictation</strong></p>\n<ul>\n<li>Closing never mutates prior captures</li>\n<li>Delete-with-open-issues rejected</li>\n<li>Phrase ordering tie-break</li>\n<li>Dictation in airplane mode</li>\n</ul>\n</dd></dl>",
+          "text": "1. Domain — Issue entities and use cases Pairing with 0 / 1 / n open issues 4. Real data — Issue logic and dictation Closing never mutates prior captures Delete-with-open-issues rejected Phrase ordering tie-break Dictation in airplane mode"
+        }
+      ]
+    },
+    {
+      "id": "feature-done",
+      "title": "Feature done",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Check</th><th>How</th></tr></thead><tbody><tr><td>Demo</td><td>Issue → re-check → before/after pair shown on the issue</td></tr><tr><td>Tests</td><td><code>bundle exec fastlane test</code> green</td></tr><tr><td>Roadmap</td><td>F05 steps ticked</td></tr></tbody></table></div>\n</dd></dl>",
+          "text": "Check HowDemo Issue → re-check → before/after pair shown on the issue Tests bundle exec fastlane test green Roadmap F05 steps ticked"
+        }
+      ]
+    }
+  ],
+  "effectiveDate": "2026-10-08",
+  "lastUpdated": "2026-10-10"
+}

@@ -1,0 +1,105 @@
+{
+  "title": "F13 — Realtime progress and verification",
+  "tagline": "Realtime progress and verification end to end: Domain → fake data → view models → real data → tests.",
+  "icon": "🛠️",
+  "topic": "sitelog",
+  "tags": [
+    "SwiftUI",
+    "iOS",
+    "Step by step"
+  ],
+  "readingTime": "2 min",
+  "languages": [
+    "en"
+  ],
+  "numbered": false,
+  "series": {
+    "id": "sitelog-guide",
+    "part": 13,
+    "name": "SiteLog: build guide"
+  },
+  "intro": [
+    "F13 · 20h · skeleton guide — full code is added when this feature starts."
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Overview",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul>\n<li><strong>Goal:</strong> Realtime progress and verification end to end: Domain → fake data → view models → real data → tests.</li>\n<li><strong>Demo:</strong> the Sync tab shows server-confirmed state as events arrive; mismatches are flagged.</li>\n<li><strong>Spec:</strong> <a href=\"../sitelog-specs-02-upload-sync/#10-realtime-progress-channel\">10</a>, <a href=\"../sitelog-specs-03-backend/#8-integrity\">14 §8–9</a></li>\n<li><strong>Starts from:</strong> the skeleton screens (~30% of Figma) that read <code>App/Fakes/FakeData.swift</code>.</li>\n<li><strong>Fakes:</strong> only in <code>Packages/DataLayer/Sources/DataLayer/Fakes/</code>, registered in <code>AppDependencies</code>; the dev menu seeds / clears them through <code>FakeDevDataActions</code>.</li>\n<li><strong>File tags:</strong> <b class=\"tag-new\">New</b> create the file.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Step</th><th>Layer</th><th>Hours</th><th>Status</th><th>What</th></tr></thead><tbody><tr><td><a href=\"#1-fake-data--fake-event-stream\">1</a></td><td>Fake data</td><td>1h</td><td>not start</td><td>Fake event stream</td></tr><tr><td><a href=\"#2-view-models--live-state-on-the-sync-tab\">2</a></td><td>View models</td><td>2h</td><td>not start</td><td>Live state on the Sync tab</td></tr><tr><td><a href=\"#3-real-data--channel-bridge-verification-worker\">3</a></td><td>Real data</td><td>17h</td><td>not start</td><td>Channel, bridge, verification worker</td></tr></tbody></table></div>\n<details open>\n<summary><strong>Order</strong></summary>\n<dl><dd>\n<ul>\n<li>Steps run top to bottom; the app runs after every step.</li>\n<li>Real data changes only registrations in <code>AppDependencies</code>, never views or view models.</li>\n<li>Tests come last, once the feature works end to end.</li>\n</ul>\n</dd></dl>\n</details>\n</dd></dl>",
+          "text": "Goal: Realtime progress and verification end to end: Domain → fake data → view models → real data → tests. Demo: the Sync tab shows server-confirmed state as events arrive; mismatches are flagged. Spec: 10, 14 §8–9 Starts from: the skeleton screens (~30% of Figma) that read App/Fakes/FakeData.swift. Fakes: only in Packages/DataLayer/Sources/DataLayer/Fakes/, registered in AppDependencies; the dev menu seeds / clears them through FakeDevDataActions. File tags: New create the file. Step Layer Hours Status What1 Fake data 1h not start Fake event stream 2 View models 2h not start Live state on the Sync tab 3 Real data 17h not start Channel, bridge, verification worker Order Steps run top to bottom; the app runs after every step. Real data changes only registrations in AppDependencies, never views or view models. Tests come last, once the feature works end to end."
+        }
+      ]
+    },
+    {
+      "id": "target-structure",
+      "title": "Target structure",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<pre><code class=\"language-text\">Backend/src/ws.ts, workers/verify.ts     # 3\nPackages/\n├── DataLayer/Sources/DataLayer/Fakes/FakeRealtimeChannel.swift  # 1: scripted events\n└── DataLayer/Sources/DataLayer/DataSources/Remote/Realtime/     # 3: RealtimeChannel (actor), messages\nSiteLog/\n├── App/RealtimeBridge.swift                                     # 3\n└── Presentation/Uploads/UploadStatus/                           # 2: live state\n</code></pre>\n</dd></dl>",
+          "text": "Backend/src/ws.ts, workers/verify.ts # 3 Packages/ ├── DataLayer/Sources/DataLayer/Fakes/FakeRealtimeChannel.swift # 1: scripted events └── DataLayer/Sources/DataLayer/DataSources/Remote/Realtime/ # 3: RealtimeChannel (actor), messages SiteLog/ ├── App/RealtimeBridge.swift # 3 └── Presentation/Uploads/UploadStatus/ # 2: live state"
+        }
+      ]
+    },
+    {
+      "id": "1-fake-data--fake-event-stream",
+      "title": "1. Fake data — Fake event stream",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Action</th><th>File</th><th>Holds</th></tr></thead><tbody><tr><td><b class=\"tag-new\">New</b></td><td><code>Packages/DataLayer/Sources/DataLayer/Fakes/FakeRealtimeChannel.swift</code></td><td>Emits <code>jobCompleted</code> / <code>jobFailed</code> on a timer</td></tr></tbody></table></div>\n</dd></dl>",
+          "text": "Action File HoldsNew Packages/DataLayer/Sources/DataLayer/Fakes/FakeRealtimeChannel.swift Emits jobCompleted / jobFailed on a timer"
+        }
+      ]
+    },
+    {
+      "id": "2-view-models--live-state-on-the-sync-tab",
+      "title": "2. View models — Live state on the Sync tab",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul>\n<li><strong>Goal:</strong> S10 shows server-confirmed state as events arrive.</li>\n<li><strong>Spec:</strong> <a href=\"../sitelog-specs-05-platform/#091-upload-status-screen\">09.1</a></li>\n</ul>\n<h4 id=\"steps\">Steps</h4>\n<dl><dd>\n<ol>\n<li>A closed channel is not an error, only slower — no red.</li>\n</ol>\n</dd></dl>\n</dd></dl>",
+          "text": "Goal: S10 shows server-confirmed state as events arrive. Spec: 09.1 Steps A closed channel is not an error, only slower — no red."
+        }
+      ]
+    },
+    {
+      "id": "3-real-data--channel-bridge-verification-worker",
+      "title": "3. Real data — Channel, bridge, verification worker",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<details open>\n<summary><strong>3.1 Realtime client</strong></summary>\n<dl><dd>\n<ul>\n<li><strong>Goal:</strong> observation-only WebSocket: connect, auth in the first message, ping, reconnect with backoff.</li>\n<li><strong>Spec:</strong> <a href=\"../sitelog-specs-02-upload-sync/#10-realtime-progress-channel\">10</a></li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Action</th><th>File</th><th>Holds</th></tr></thead><tbody><tr><td><b class=\"tag-new\">New</b></td><td><code>Packages/DataLayer/Sources/DataLayer/DataSources/Remote/Realtime/RealtimeChannel.swift</code></td><td>Actor around <code>URLSessionWebSocketTask</code></td></tr><tr><td><b class=\"tag-new\">New</b></td><td><code>Packages/DataLayer/Sources/DataLayer/DataSources/Remote/Realtime/Messages.swift</code></td><td><code>auth</code>, <code>subscribe</code>, <code>ping</code> / <code>snapshot</code>, <code>jobCompleted</code>, <code>jobFailed</code>, <code>pong</code></td></tr><tr><td><b class=\"tag-new\">New</b></td><td><code>Backend/src/ws.ts</code></td><td>Server side per 14 §9</td></tr></tbody></table></div>\n<h4 id=\"steps-1\">Steps</h4>\n<dl><dd>\n<ol>\n<li>Token in the first <code>auth</code> message, never the URL.</li>\n<li>Re-arm <code>receive</code> after every message.</li>\n<li>Connect only in foreground with unsynced jobs.</li>\n</ol>\n</dd></dl>\n</dd></dl></details>\n<details open>\n<summary><strong>3.2 Events into the upload store</strong></summary>\n<dl><dd>\n<ul>\n<li><strong>Goal:</strong> the app layer turns events into <code>UploadStore</code> operations that only move jobs forward.</li>\n<li><strong>Spec:</strong> <a href=\"../sitelog-specs-02-upload-sync/#10-realtime-progress-channel\">10</a></li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Action</th><th>File</th><th>Holds</th></tr></thead><tbody><tr><td><b class=\"tag-new\">New</b></td><td><code>SiteLog/App/RealtimeBridge.swift</code></td><td>Composition root: Realtime → UploadStore</td></tr></tbody></table></div>\n</dd></dl>\n<h4 id=\"steps-2\">Steps</h4>\n<dl><dd>\n<ol>\n<li><code>jobCompleted</code> trusted only if its <code>sha256</code> matches the local hash.</li>\n<li>Unknown <code>jobID</code> ignored; handling idempotent.</li>\n<li>Nightly CI builds the app with <code>Realtime</code> removed.</li>\n</ol>\n</dd></dl>\n</details>\n<details open>\n<summary><strong>3.3 Verification worker</strong></summary>\n<dl><dd>\n<ul>\n<li><strong>Goal:</strong> backend re-reads each object from R2 and flips <code>registered</code> → <code>verified</code> or <code>mismatch</code>.</li>\n<li><strong>Spec:</strong> <a href=\"../sitelog-specs-03-backend/#8-integrity\">14 §8</a></li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Action</th><th>File</th><th>Holds</th></tr></thead><tbody><tr><td><b class=\"tag-new\">New</b></td><td><code>Backend/src/workers/verify.ts</code></td><td>Streams the object, recomputes SHA-256</td></tr><tr><td><b class=\"tag-new\">New</b></td><td><code>Backend/src/jobs/abandoned.ts</code></td><td>Aborts <code>created</code> uploads older than 7 days</td></tr></tbody></table></div>\n</dd></dl>\n<h4 id=\"steps-3\">Steps</h4>\n<dl><dd>\n<ol>\n<li>Mismatch pushes <code>jobFailed(integrity)</code> to the app.</li>\n<li>The report prints exactly the state reached.</li>\n</ol>\n</dd></dl>\n</details>\n</dd></dl>",
+          "text": "3.1 Realtime client Goal: observation-only WebSocket: connect, auth in the first message, ping, reconnect with backoff. Spec: 10 Action File HoldsNew Packages/DataLayer/Sources/DataLayer/DataSources/Remote/Realtime/RealtimeChannel.swift Actor around URLSessionWebSocketTask New Packages/DataLayer/Sources/DataLayer/DataSources/Remote/Realtime/Messages.swift auth, subscribe, ping / snapshot, jobCompleted, jobFailed, pong New Backend/src/ws.ts Server side per 14 §9 Steps Token in the first auth message, never the URL. Re-arm receive after every message. Connect only in foreground with unsynced jobs. 3.2 Events into the upload store Goal: the app layer turns events into UploadStore operations that only move jobs forward. Spec: 10 Action File HoldsNew SiteLog/App/RealtimeBridge.swift Composition root: Realtime → UploadStore Steps jobCompleted trusted only if its sha256 matches the local hash. Unknown jobID ignored; handling idempotent. Nightly CI builds the app with Realtime removed. 3.3 Verification worker Goal: backend re-reads each object from R2 and flips registered → verified or mismatch. Spec: 14 §8 Action File HoldsNew Backend/src/workers/verify.ts Streams the object, recomputes SHA-256 New Backend/src/jobs/abandoned.ts Aborts created uploads older than 7 days Steps Mismatch pushes jobFailed(integrity) to the app. The report prints exactly the state reached."
+        }
+      ]
+    },
+    {
+      "id": "tests-after-the-feature-works",
+      "title": "Tests (after the feature works)",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<p><strong>2. View models — Live state on the Sync tab</strong></p>\n<ul>\n<li>View model with a fake event stream</li>\n<li>Snapshot</li>\n</ul>\n<p><strong>3. Real data — Channel, bridge, verification worker</strong></p>\n<ul>\n<li>Decode all types + malformed</li>\n<li>Oversized message closes</li>\n<li>Missing <code>pong</code> → backoff</li>\n<li>Backoff cap and jitter</li>\n<li>Applying one event 10× equals once</li>\n<li>Snapshot applies forward only</li>\n<li>Hash mismatch raises <code>integrity</code></li>\n<li>Worker flips <code>verified</code> or raises <code>integrity</code></li>\n<li><code>/verify</code> shows the new state</li>\n</ul>\n</dd></dl>",
+          "text": "2. View models — Live state on the Sync tab View model with a fake event stream Snapshot 3. Real data — Channel, bridge, verification worker Decode all types + malformed Oversized message closes Missing pong → backoff Backoff cap and jitter Applying one event 10× equals once Snapshot applies forward only Hash mismatch raises integrity Worker flips verified or raises integrity /verify shows the new state"
+        }
+      ]
+    },
+    {
+      "id": "feature-done",
+      "title": "Feature done",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Check</th><th>How</th></tr></thead><tbody><tr><td>Demo</td><td>Realtime state on the Sync tab</td></tr><tr><td>Tests</td><td><code>bundle exec fastlane test</code> green</td></tr><tr><td>Roadmap</td><td>F13 steps ticked</td></tr></tbody></table></div>\n</dd></dl>",
+          "text": "Check HowDemo Realtime state on the Sync tab Tests bundle exec fastlane test green Roadmap F13 steps ticked"
+        }
+      ]
+    }
+  ],
+  "effectiveDate": "2026-10-08",
+  "lastUpdated": "2026-10-10"
+}
