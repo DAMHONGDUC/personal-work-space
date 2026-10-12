@@ -387,6 +387,16 @@ html {
   margin: 0;
 }
 
+/*
+ * The Markdown wraps each heading's content in <dl><dd> to indent it, as GitHub
+ * shows it. The outer level is already indented by the section; a heading
+ * inside it (### 1.1 …) indents its own content one step further. A <details>
+ * box marks its content with its border instead.
+ */
+.md-body dd > dl > dd {
+  margin-left: 0.75rem;
+}
+
 .md-body h3,
 .md-body h4,
 .md-body h5 {

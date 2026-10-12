@@ -3,6 +3,9 @@ import { AppTextStyles } from "@/lib/design/app-text-styles";
 /**
  * One numbered section of a policy or a guide.
  *
+ * The body sits one small step in from the heading — enough to tell the two
+ * apart, not so much that it eats the column.
+ *
  * The number is passed in rather than counted here: on the policy pages some
  * sections only render for some apps, so the page works it out from the same
  * list it builds the table of contents from, and the two can never disagree.
@@ -31,7 +34,7 @@ export function Section({
         )}
         {title}
       </h2>
-      {children}
+      <div className="pl-3 sm:pl-4">{children}</div>
     </section>
   );
 }

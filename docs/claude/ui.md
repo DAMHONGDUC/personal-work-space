@@ -50,6 +50,8 @@ Never write a page-level `pt-*`/`pb-*` by hand; change the constant.
 | Portfolio | No | An introduction; sections from `PORTFOLIO_SECTIONS`, which also builds the header nav |
 | CV | Never | Jobs too: newest first, unnumbered |
 
+Nesting reads by a small step in, never a deep one: a section's body sits `pl-3`/`sm:pl-4` in from its heading (`Section`), a nested Markdown heading's content `0.75rem` further (`.md-body dd > dl > dd`), and a series group's pages `ml-3` under the group's name (`SeriesContents`).
+
 ## Footer
 
 | Rule | Reason |
