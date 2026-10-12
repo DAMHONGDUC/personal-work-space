@@ -152,19 +152,25 @@ function escapeAttribute(text: string): string {
   return text.replaceAll("&", "&amp;").replaceAll('"', "&quot;").replaceAll("<", "&lt;");
 }
 
+/** An SVG's drawn size, from its viewBox. */
+function svgSize(svg: string): { width: number; height: number } | null {
+  const box = svg.match(/viewBox="[\d.-]+ [\d.-]+ ([\d.]+) ([\d.]+)"/);
+  return box ? { width: Math.round(Number(box[1])), height: Math.round(Number(box[2])) } : null;
+}
+
 /**
  * A mermaid-cli SVG says width="100%", which an <img> cannot size from; give
  * it the drawing's own size so it shows at that size and shrinks to fit.
  */
 function fixSvgSize(file: string) {
   const svg = fs.readFileSync(file, "utf8");
-  const box = svg.match(/viewBox="[\d.-]+ [\d.-]+ ([\d.]+) ([\d.]+)"/);
+  const box = svgSize(svg);
   if (!box) return;
 
   fs.writeFileSync(
     file,
     svg
-      .replace('width="100%"', `width="${box[1]}" height="${box[2]}"`)
+      .replace('width="100%"', `width="${box.width}" height="${box.height}"`)
       .replace(/max-width:\s*[\d.]+px;?\s*/, ""),
   );
 }
@@ -214,11 +220,15 @@ function renderMermaid(source: string, series: Series, from: string): string | n
   const labels = [...source.matchAll(/"([^"]+)"/g)].map(([, label]) => label.replace(/<br\s*\/?>/g, ", "));
   const alt = labels.length > 0 ? `Diagram: ${labels.join(" → ")}` : "Diagram";
   const url = (file: string) => `../../${assetsUrl}/${series.id}/${file}`;
+  // The size on the <img> holds the drawing's space before it loads, so the
+  // page does not grow under a reader scrolling past — or to a section below.
+  const size = svgSize(fs.readFileSync(path.join(dir, files.light), "utf8"));
+  const dimensions = size ? ` width="${size.width}" height="${size.height}"` : "";
 
   return [
     '<figure class="md-diagram"><picture>',
     `<source media="(prefers-color-scheme: dark)" srcset="${url(files.dark)}">`,
-    `<img src="${url(files.light)}" alt="${escapeAttribute(alt)}" loading="lazy">`,
+    `<img src="${url(files.light)}" alt="${escapeAttribute(alt)}"${dimensions} loading="lazy">`,
     "</picture></figure>",
   ].join("");
 }
@@ -334,8 +344,15 @@ function convert(
     node.data = { ...node.data, hProperties: { id: slugger.slug(toString(node)) } };
   });
   visit(tree, (node) => node.type === "link" || node.type === "image" || node.type === "definition", (node) => {
-    const linked = node as { url: string };
+    const linked = node as { url: string; type: string; data?: { hProperties?: Record<string, unknown> } };
     linked.url = rewriteUrl(linked.url, page.absolute, series, repoRoot, pages, folders);
+
+    // A copied SVG gets its size on the <img>, for the same reason as a diagram.
+    const copied = linked.url.match(new RegExp(`^\\.\\./\\.\\./${assetsUrl}/(.+\\.svg)$`));
+    if (linked.type === "image" && copied) {
+      const size = svgSize(fs.readFileSync(path.join(assetsDir, copied[1]), "utf8"));
+      if (size) linked.data = { ...linked.data, hProperties: { ...size } };
+    }
   });
   visit(tree, "code", (node: Code, index, parent) => {
     if (node.lang !== "mermaid" || !parent || index === undefined) return;
@@ -346,7 +363,12 @@ function convert(
   });
 
   const h1 = tree.children.find((node): node is Heading => node.type === "heading" && node.depth === 1);
-  const title = page.part.title ?? (h1 ? toString(h1) : path.basename(page.absolute, ".md"));
+  // A folder's files are numbered by their names (01-field-work.md); a title
+  // that does not carry that number gets it, so the series list reads in order
+  // like the guide's "F01 — …" titles already do.
+  const heading = page.part.title ?? (h1 ? toString(h1) : path.basename(page.absolute, ".md"));
+  const number = page.part.dir ? path.basename(page.absolute).match(/^(\d+)-/)?.[1] : undefined;
+  const title = number && !new RegExp(`^F?${number}\\b`).test(heading) ? `${number} — ${heading}` : heading;
 
   const intro: RootContent[] = [];
   const chunks: { heading: Heading; nodes: RootContent[] }[] = [];

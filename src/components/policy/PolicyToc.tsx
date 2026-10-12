@@ -24,27 +24,41 @@ export function MobileToc({
   );
 }
 
-/** Sticky sidebar table of contents for wide screens. */
+/**
+ * Sticky sidebar table of contents for wide screens. `children` sit above the
+ * contents — a guide's series list — in a box of their own capped at 40% of
+ * the window, so a long series never pushes the page's contents out of view;
+ * each part scrolls on its own.
+ */
 export function SidebarToc({
   items,
   accent,
   numbered,
+  children,
 }: {
   items: NavItem[];
   accent: string;
   numbered?: boolean;
+  children?: React.ReactNode;
 }) {
   return (
     <aside className="hidden lg:block">
-      <nav
-        aria-label="On this page"
-        className="sticky top-24 flex flex-col gap-3 border-l border-border-soft"
-      >
-        <p className={`${AppTextStyles.EYEBROW} pl-4`}>
-          On this page
-        </p>
-        <PolicyNav items={items} accent={accent} numbered={numbered} />
-      </nav>
+      <div className="sticky top-24 flex max-h-[calc(100vh-7rem)] flex-col gap-8 pb-6">
+        {children && (
+          <div data-scroll-panel className="max-h-[40vh] shrink-0 overflow-y-auto [scrollbar-width:thin]">
+            {children}
+          </div>
+        )}
+        <nav
+          aria-label="On this page"
+          className="flex min-h-0 flex-col gap-3 overflow-y-auto border-l border-border-soft [scrollbar-width:thin]"
+        >
+          <p className={`${AppTextStyles.EYEBROW} pl-4`}>
+            On this page
+          </p>
+          <PolicyNav items={items} accent={accent} numbered={numbered} />
+        </nav>
+      </div>
     </aside>
   );
 }

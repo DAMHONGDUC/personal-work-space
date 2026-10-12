@@ -1,7 +1,7 @@
 /** @vitest-environment jsdom */
 import { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { DocArticle } from "./DocArticle";
 import type { Lang, Doc, SeriesPage } from "@/lib/docs/doc-model";
 
@@ -122,6 +122,31 @@ describe("DocArticle", () => {
       expect(page.querySelector("main")?.getAttribute("lang")).toBe("en");
     });
 
+    it("scrolls to a section when a link in the body points at one", () => {
+      const scrollIntoView = vi.fn();
+      Element.prototype.scrollIntoView = scrollIntoView as unknown as Element["scrollIntoView"];
+      const linked: Record<Lang, Doc> = {
+        en: {
+          ...english,
+          sections: [
+            ...english.sections,
+            {
+              id: "2-market",
+              title: "2. Market",
+              blocks: [{ type: "html", html: '<p>See <a href="#11-positioning">1.1</a>.</p>', text: "See 1.1." }],
+            },
+          ],
+        },
+        vi: english,
+      };
+      const page = render({ en: linked.en, vi: linked.en });
+
+      act(() => page.querySelector<HTMLAnchorElement>('a[href="#11-positioning"]')!.click());
+
+      expect(scrollIntoView.mock.contexts[0]).toBe(page.querySelector('[id="11-positioning"]'));
+      expect(window.location.hash).toBe("#11-positioning");
+    });
+
     it("keeps the titles' own numbers instead of adding its own", () => {
       const page = render(synced);
 
@@ -138,11 +163,19 @@ describe("DocArticle", () => {
 
     it("lists every page and marks the one being read", () => {
       const page = render(versions, series);
-      const current = page.querySelector('[aria-current="page"]');
+      const current = page.querySelector('[data-variant="card"] [aria-current="page"]');
 
       expect(current?.textContent).toBe("English title");
       expect(current?.getAttribute("href")).toBe("/docs/guide");
       expect(page.textContent).toContain("Page 2 of 3");
+    });
+
+    it("lists the series in the pinned sidebar too, marking the same page", () => {
+      const page = render(versions, series);
+      const sidebar = page.querySelector('aside [data-variant="sidebar"]');
+
+      expect(sidebar?.querySelector('[aria-current="page"]')?.textContent).toBe("English title");
+      expect(sidebar?.textContent).toContain("2/3");
     });
 
     it("links the previous and the next page", () => {
@@ -159,11 +192,11 @@ describe("DocArticle", () => {
         { ...series[2], group: "Build guide" },
       ];
       const page = render(versions, grouped);
-      const headings = [...page.querySelectorAll('nav li[role="presentation"]')];
+      const headings = [...page.querySelectorAll('[data-variant="card"] li[role="presentation"]')];
 
       expect(headings.map((heading) => heading.textContent)).toEqual(["Build guide"]);
       // The group's pages step in under its name; the overview above it does not.
-      const items = [...page.querySelectorAll('nav[aria-label="The path"] ol > li:not([role])')];
+      const items = [...page.querySelectorAll('[data-variant="card"] ol > li:not([role])')];
       expect(items.map((item) => item.className)).toEqual(["", "ml-3", "ml-3"]);
     });
 

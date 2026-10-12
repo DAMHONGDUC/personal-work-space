@@ -27,6 +27,7 @@
 | Keep `/<slug>/` and `/<slug>/privacy_policy/` | Legacy addresses submitted to the app stores | They render a `noindex` meta refresh |
 | An app slug may not match a top-level section | `RESERVED_SLUGS`, test-enforced | — |
 | Back restores the scroll offset | `ScrollMemory` in the root layout | A fresh navigation starts at the top; an anchor is left alone |
+| A contents link scrolls by script and checks where it landed | Smooth scrolling stops short when the page grows under it (a lazy image above) or never runs; `scrollToSection` jumps the rest of the way, unless the reader scrolled | `PolicyNav` → `src/lib/scroll/scroll-to-section.ts` |
 
 ## Search
 

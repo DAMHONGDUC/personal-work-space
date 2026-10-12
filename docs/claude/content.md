@@ -52,10 +52,12 @@ Markdown kept in another repo, published as guide series. Enforced by [synced-do
 | The root is part 0 and the only page the index lists; a search reaches every page | A 24-page series stays one card | `isListed` in `doc-listing.ts` |
 | The sync reads a local clone (`localPath`); the build never touches the other repo | Static export, reproducible CI | `../../SwiftUI/site-log-ios` |
 | One page per Markdown file; every slug starts with `<series id>-`, which is how stale pages are found | Order: root, then each folder sorted | `sitelog-roadmap`, `sitelog-guide-03-capture` |
+| A folder page's title gets its file's number when it lacks it | The series list reads in order | `01-field-work.md` → `01 — Field work`; `F01 — …` is left alone |
 | English only (`languages: ["en"]`), titles keep their own numbers (`numbered: false`) | The Markdown is English and numbered; no switch, no second number | `0. Entry point (done)` |
 | Rendered to HTML at sync time, drawn by `HtmlBlock` with the `.md-body` styles in globals.css; `text` holds the same words for search | The site ships no Markdown parser | `<details>` hints stay collapsible |
 | Heading ids are GitHub's; links to another synced file point at its page, other repo files at GitHub, images are copied to `public/synced-docs/` | The docs' own links keep working; test-checked down to the anchor | `../sitelog-specs-00-overview/#d09--…` |
 | A ```mermaid block is drawn to SVG at sync time (mermaid-cli), light and dark, shown as a `<picture>`; a block that does not parse stays code and the sync warns | Diagrams render with no runtime library; unchanged ones are not redrawn | `public/synced-docs/sitelog/diagram-<hash>-dark.svg` |
+| Every synced SVG `<img>` carries its `width` and `height` | The space is held before it loads, so the page never grows under a reader scrolling to a section | Read from the SVG's viewBox |
 | A `## Contents` section is dropped | The page draws its own | — |
 
 ## Effects library — `src/data/effects/`

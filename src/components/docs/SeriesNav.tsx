@@ -1,4 +1,6 @@
-import { Fragment } from "react";
+"use client";
+
+import { Fragment, useEffect, useRef } from "react";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import type { Lang, SeriesPage } from "@/lib/docs/doc-model";
@@ -20,25 +22,36 @@ function seriesName(pages: SeriesPage[], lang: Lang): string {
 }
 
 /**
- * The pages of a series, at the top of each one: the series is named by its
- * overview (part 0), and the page being read is marked so the reader sees where
- * they are and how much is left.
+ * The pages of a series: the series is named, and the page being read is
+ * marked so the reader sees where they are and how much is left.
+ *
+ * Drawn twice on a page: as a card above the intro (`card`), the series'
+ * table of contents where the reader starts; and on wide screens again in the
+ * pinned sidebar (`sidebar`), styled like the contents list beneath it, so the
+ * other pages stay in reach however far the reader scrolls.
  */
 export function SeriesContents({
   pages,
   current,
   lang,
+  variant = "card",
 }: {
   pages: SeriesPage[];
   current: string;
   lang: Lang;
+  variant?: "card" | "sidebar";
 }) {
   const index = pages.findIndex((page) => page.slug === current);
   const name = seriesName(pages, lang);
 
+  if (variant === "sidebar") {
+    return <SidebarSeries pages={pages} current={current} lang={lang} name={name} index={index} />;
+  }
+
   return (
     <nav
       aria-label={name}
+      data-variant="card"
       className="rounded-2xl border border-border-soft bg-surface p-5"
     >
       <p className={`${AppTextStyles.EYEBROW} flex items-baseline justify-between gap-3`}>
@@ -73,6 +86,85 @@ export function SeriesContents({
                       ? { backgroundColor: `${AppColors.tint(AppColors.DOCS, 14)}`, color: AppColors.DOCS }
                       : undefined
                   }
+                >
+                  {page.title[lang]}
+                </Link>
+              </li>
+            </Fragment>
+          );
+        })}
+      </ol>
+    </nav>
+  );
+}
+
+/**
+ * The series in the pinned sidebar, drawn like the contents list under it: a
+ * rule down the left, the current page marked on it in the accent, and each
+ * group's pages one small step in from the group's name.
+ */
+function SidebarSeries({
+  pages,
+  current,
+  lang,
+  name,
+  index,
+}: {
+  pages: SeriesPage[];
+  current: string;
+  lang: Lang;
+  name: string;
+  index: number;
+}) {
+  const currentLink = useRef<HTMLAnchorElement>(null);
+
+  // A long series runs past the bottom of the pinned panel; bring the page being
+  // read into the panel's view, moving only the panel, never the page.
+  useEffect(() => {
+    const link = currentLink.current;
+    const panel = link?.closest<HTMLElement>("[data-scroll-panel]");
+    if (!link || !panel) return;
+
+    // Where the link sits inside the panel's scrolled content.
+    const top = link.getBoundingClientRect().top - panel.getBoundingClientRect().top + panel.scrollTop;
+    if (top < panel.scrollTop || top + link.offsetHeight > panel.scrollTop + panel.clientHeight) {
+      panel.scrollTop = top - panel.clientHeight / 3;
+    }
+  }, [current]);
+
+  return (
+    <nav aria-label={name} data-variant="sidebar" className="flex flex-col gap-3 border-l border-border-soft">
+      <p className={`${AppTextStyles.EYEBROW} flex items-baseline justify-between gap-2 pl-4`}>
+        <span>{name}</span>
+        <span className="shrink-0 tabular-nums normal-case tracking-normal">
+          {index + 1}/{pages.length}
+        </span>
+      </p>
+      <ol className="flex flex-col gap-0.5">
+        {pages.map((page, position) => {
+          const here = page.slug === current;
+          const group = page.group && page.group !== pages[position - 1]?.group ? page.group : null;
+
+          return (
+            <Fragment key={page.slug}>
+              {group && (
+                <li role="presentation" className={`${AppTextStyles.EYEBROW} pt-2 pb-0.5 pl-4`}>
+                  {group}
+                </li>
+              )}
+              <li>
+                <Link
+                  ref={here ? currentLink : undefined}
+                  href={routes.doc(page.slug)}
+                  aria-current={here ? "page" : undefined}
+                  className={`-ml-px block border-l py-1 text-sm leading-6 transition-colors ${
+                    page.group ? "pl-7" : "pl-4"
+                  } ${
+                    here
+                      ? "font-medium text-foreground"
+                      : "border-transparent text-muted hover:border-foreground/25 hover:text-foreground"
+                  }`}
+                  style={here ? { borderColor: AppColors.DOCS } : undefined}
                 >
                   {page.title[lang]}
                 </Link>

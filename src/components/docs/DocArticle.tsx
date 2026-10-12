@@ -1,5 +1,6 @@
 "use client";
 
+import { useRef } from "react";
 import type { NavItem } from "@/components/policy/PolicyNav";
 import { ReadingProgress } from "@/components/shared/ReadingProgress";
 import { DocBlocks } from "@/components/docs/DocBlocks";
@@ -10,6 +11,7 @@ import { MobileToc, SidebarToc } from "@/components/policy/PolicyToc";
 import { Prose } from "@/components/policy/Prose";
 import { Section } from "@/components/policy/Section";
 import { useDocLanguage } from "@/hooks/docs/useDocLanguage";
+import { useSectionLinks } from "@/hooks/scroll/useSectionLinks";
 import {
   type Lang,
   type Doc,
@@ -27,7 +29,8 @@ import { AppTextStyles } from "@/lib/design/app-text-styles";
  * same in both, the anchor you arrived on still points at the same place.
  *
  * A guide that is one page of a series lists the series above its intro and
- * links the previous and next page below its last section.
+ * again in the pinned sidebar, and links the previous and next page below its
+ * last section.
  */
 export function DocArticle({
   versions,
@@ -37,6 +40,9 @@ export function DocArticle({
   series?: SeriesPage[];
 }) {
   const [chosen, setLang] = useDocLanguage(versions.en.defaultLang);
+  // The body's own #section links scroll like the contents list does.
+  const body = useRef<HTMLDivElement>(null);
+  useSectionLinks(body);
   // A guide written in one language is read in it whatever the reader chose,
   // and offers no switch.
   const only = versions.en.languages?.length === 1 ? versions.en.languages[0] : undefined;
@@ -63,7 +69,7 @@ export function DocArticle({
         <MobileToc items={toc} accent={AppColors.DOCS} numbered={numbered} />
 
         <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_13rem] lg:gap-14">
-          <div className="flex min-w-0 flex-col gap-14">
+          <div ref={body} className="flex min-w-0 flex-col gap-14">
             {series && <SeriesContents pages={series} current={doc.slug} lang={lang} />}
 
             <Prose paragraphs={doc.intro} />
@@ -92,7 +98,11 @@ export function DocArticle({
             {series && <SeriesPager pages={series} current={doc.slug} lang={lang} />}
           </div>
 
-          <SidebarToc items={toc} accent={AppColors.DOCS} numbered={numbered} />
+          <SidebarToc items={toc} accent={AppColors.DOCS} numbered={numbered}>
+            {series && (
+              <SeriesContents pages={series} current={doc.slug} lang={lang} variant="sidebar" />
+            )}
+          </SidebarToc>
         </div>
       </main>
     </>

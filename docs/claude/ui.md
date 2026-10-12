@@ -52,6 +52,8 @@ Never write a page-level `pt-*`/`pb-*` by hand; change the constant.
 
 Nesting reads by a small step in, never a deep one: a section's body sits `pl-3`/`sm:pl-4` in from its heading (`Section`), a nested Markdown heading's content `0.75rem` further (`.md-body dd > dl > dd`), and a series group's pages `ml-3` under the group's name (`SeriesContents`).
 
+A series page lists the series in the pinned right panel above "On this page" (`SeriesContents variant="sidebar"`, inside `SidebarToc`), capped at 40% of the window and scrolling on its own to the current page, so "On this page" below it always shows; the same list is also a card above the intro, on every screen size.
+
 ## Footer
 
 | Rule | Reason |

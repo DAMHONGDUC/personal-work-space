@@ -1,6 +1,7 @@
 "use client";
 
 import { useActiveSection } from "@/hooks/scroll/useActiveSection";
+import { scrollToSection } from "@/lib/scroll/scroll-to-section";
 
 export type NavItem = { id: string; title: string };
 
@@ -11,6 +12,10 @@ export type NavItem = { id: string; title: string };
  * The numbers come from the position in this list, which is the same list the
  * page numbers its headings from. `numbered={false}` leaves them out, for pages
  * whose titles are numbered already.
+ *
+ * A click scrolls by script (`scrollToSection`) rather than leaving it to the
+ * link, so the page moves even where smooth scrolling never starts; a click
+ * with a modifier key still does what the browser does with a link.
  */
 export function PolicyNav({
   items,
@@ -32,6 +37,12 @@ export function PolicyNav({
           <li key={item.id}>
             <a
               href={`#${item.id}`}
+              onClick={(event) => {
+                if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
+                  return;
+                }
+                if (scrollToSection(item.id)) event.preventDefault();
+              }}
               aria-current={isActive ? "location" : undefined}
               className={`-ml-px flex gap-1 border-l py-1 pl-4 text-sm leading-6 transition-colors ${
                 isActive
