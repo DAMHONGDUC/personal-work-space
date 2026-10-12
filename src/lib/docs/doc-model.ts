@@ -81,6 +81,12 @@ export type Block =
    */
   | { type: "links"; items: LinkItem[] }
   /**
+   * Markdown from another repo, rendered to HTML when it was synced
+   * (`npm run docs:sync`). `text` is the same content without markup, for the
+   * search; the HTML is only ever drawn.
+   */
+  | { type: "html"; html: string; text: string }
+  /**
    * A diagram, described as data rather than markup: stages run top to bottom
    * with an arrow between them, and the boxes within one stage sit side by side.
    * One box per stage draws a pipeline; several boxes feeding one draws a join.
@@ -127,6 +133,7 @@ export type TableBlock = Extract<Block, { type: "table" }>;
 export type NoteBlock = Extract<Block, { type: "note" }>;
 export type FlowBlock = Extract<Block, { type: "flow" }>;
 export type LinksBlock = Extract<Block, { type: "links" }>;
+export type HtmlBlock = Extract<Block, { type: "html" }>;
 
 export type DocSection = {
   /**
@@ -157,6 +164,17 @@ export type DocData = {
    * series' overview and names it; the rest follow by number.
    */
   series?: DocSeriesRef;
+  /**
+   * The languages the guide is written in, when it is not every language. A
+   * synced guide is English only: the switch is hidden and every language's
+   * slot holds the same document.
+   */
+  languages?: Lang[];
+  /**
+   * false when the section titles carry their own numbers, as synced Markdown
+   * does ("0. Entry point"), so the page does not number them a second time.
+   */
+  numbered?: boolean;
   /** Product names, left untranslated. */
   tags: string[];
   readingTime: string;
@@ -167,10 +185,21 @@ export type DocData = {
 };
 
 /** Which series a guide belongs to, and where in it. Same in both languages. */
-export type DocSeriesRef = { id: string; part: number };
+export type DocSeriesRef = {
+  id: string;
+  part: number;
+  /** The series' name, when part 0 is not an overview whose title can name it. */
+  name?: string;
+};
 
 /** One page of a series as its navigation needs it: every language's title. */
-export type SeriesPage = { slug: string; part: number; title: Record<Lang, string> };
+export type SeriesPage = {
+  slug: string;
+  part: number;
+  title: Record<Lang, string>;
+  /** Copied from the series ref, so the navigation can name the series. */
+  seriesName?: string;
+};
 
 /** One guide in one language. The slug comes from the filename. */
 export type Doc = DocData & { slug: string };

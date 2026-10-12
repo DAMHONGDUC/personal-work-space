@@ -3,6 +3,7 @@ import { Prose } from "@/components/policy/Prose";
 import { Callout } from "@/components/docs/Callout";
 import { CodeSample } from "@/components/docs/CodeSample";
 import { DocLinks } from "@/components/docs/DocLinks";
+import { HtmlBlock } from "@/components/docs/HtmlBlock";
 import { DocTable } from "@/components/docs/DocTable";
 import { FlowDiagram } from "@/components/docs/FlowDiagram";
 import type { Block, Lang } from "@/lib/docs/doc-model";
@@ -63,6 +64,9 @@ export function DocBlocks({
 
           case "note":
             return <Callout key={index} block={block} />;
+
+          case "html":
+            return <HtmlBlock key={index} block={block} accent={accent} />;
 
           case "links":
             return <DocLinks key={index} block={block} accent={accent} />;

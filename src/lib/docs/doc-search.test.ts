@@ -119,6 +119,28 @@ describe("searchDocs", () => {
     expect(searchDocs(docs, "flow")).toEqual([]);
   });
 
+  it("searches a synced page's text, not the markup around it", () => {
+    const synced = doc({
+      slug: "sitelog-specs-00-overview",
+      sections: [
+        {
+          id: "1-product",
+          title: "1. Product",
+          blocks: [
+            {
+              type: "html",
+              html: '<div class="md-table"><table><tr><td>Offline-first</td></tr></table></div>',
+              text: "Offline-first",
+            },
+          ],
+        },
+      ],
+    });
+
+    expect(searchDocs([synced], "offline")[0].doc.slug).toBe("sitelog-specs-00-overview");
+    expect(searchDocs([synced], "md-table")).toEqual([]);
+  });
+
   it("returns nothing for a word no guide uses", () => {
     expect(searchDocs(docs, "kubernetes")).toEqual([]);
   });

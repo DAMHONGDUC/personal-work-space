@@ -9,14 +9,17 @@ export type NavItem = { id: string; title: string };
  * sidebar on desktop and inside a collapsed <details> on smaller screens.
  *
  * The numbers come from the position in this list, which is the same list the
- * page numbers its headings from.
+ * page numbers its headings from. `numbered={false}` leaves them out, for pages
+ * whose titles are numbered already.
  */
 export function PolicyNav({
   items,
   accent,
+  numbered = true,
 }: {
   items: NavItem[];
   accent: string;
+  numbered?: boolean;
 }) {
   const active = useActiveSection(items.map((item) => item.id));
 
@@ -37,9 +40,11 @@ export function PolicyNav({
               }`}
               style={isActive ? { borderColor: accent } : undefined}
             >
-              <span aria-hidden className="w-5 shrink-0 tabular-nums opacity-60">
-                {index + 1}
-              </span>
+              {numbered && (
+                <span aria-hidden className="w-5 shrink-0 tabular-nums opacity-60">
+                  {index + 1}
+                </span>
+              )}
               {item.title}
             </a>
           </li>

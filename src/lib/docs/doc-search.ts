@@ -22,9 +22,9 @@ export type DocMatch = {
 /**
  * Fields that name a shape rather than say anything: without this, searching
  * for "note" or "text" matches every guide on the site — and "www" every guide
- * with a link.
+ * with a link. A synced block's `html` is skipped for its `text` twin.
  */
-const STRUCTURAL_KEYS = new Set(["type", "tone", "language", "url"]);
+const STRUCTURAL_KEYS = new Set(["type", "tone", "language", "url", "html"]);
 
 /**
  * Lowercased, and with Vietnamese diacritics removed.

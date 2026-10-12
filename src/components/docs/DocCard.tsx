@@ -81,9 +81,11 @@ export function DocCard({
                   lang={lang}
                   className="relative flex items-center gap-2 rounded-lg border border-border-soft bg-background px-3 py-1.5 text-sm transition-colors hover:border-foreground/25"
                 >
-                  <span aria-hidden className={AppTextStyles.CAPTION}>
-                    {doc.sections.indexOf(section) + 1}
-                  </span>
+                  {doc.numbered !== false && (
+                    <span aria-hidden className={AppTextStyles.CAPTION}>
+                      {doc.sections.indexOf(section) + 1}
+                    </span>
+                  )}
                   {section.title}
                 </Link>
               </li>

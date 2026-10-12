@@ -16,6 +16,7 @@ import {
 import { ResourceConstant } from "@/lib/resource-constant.mts";
 
 const docsDir = path.join(process.cwd(), ResourceConstant.DOCS_DIR);
+const syncedDir = path.join(process.cwd(), ResourceConstant.SYNCED_DOCS_DIR);
 
 /**
  * `src/data/docs/<lang>/<slug>_<lang>.json`.
@@ -48,16 +49,27 @@ function read(lang: Lang, file: string): DocData {
   }
 }
 
+/** Most recently updated first; on the same day, by slug. */
+function newestFirst(a: DocBundle, b: DocBundle): number {
+  return (
+    b.versions.en.lastUpdated.localeCompare(a.versions.en.lastUpdated) ||
+    // The directory order differs between machines; the slug does not, and
+    // keeps the pages of a series in order when they land on the same day.
+    a.slug.localeCompare(b.slug)
+  );
+}
+
 /**
- * Every guide, most recently updated first, read fresh so adding a file is
- * picked up by a refresh in dev. Like the apps loader this only runs at build
- * time — every route is prerendered — so there is nothing to cache.
+ * Every guide written for this site, most recently updated first, read fresh
+ * so adding a file is picked up by a refresh in dev. Like the apps loader this
+ * only runs at build time — every route is prerendered — so there is nothing
+ * to cache.
  *
  * The same slug must exist under every language folder. A guide missing one
  * throws rather than rendering: there is no fallback, because half a page in
  * the wrong language is worse than a build that stops and names the file.
  */
-export function getDocBundles(): DocBundle[] {
+export function getAuthoredDocBundles(): DocBundle[] {
   const found = new Map<string, Partial<Record<Lang, Doc>>>();
 
   for (const lang of LANGUAGES) {
@@ -92,13 +104,36 @@ export function getDocBundles(): DocBundle[] {
 
       return { slug, versions: versions as Record<Lang, Doc> };
     })
-    .sort(
-      (a, b) =>
-        b.versions.en.lastUpdated.localeCompare(a.versions.en.lastUpdated) ||
-        // The directory order differs between machines; the slug does not, and
-        // keeps the pages of a series in order when they land on the same day.
-        a.slug.localeCompare(b.slug),
-    );
+    .sort(newestFirst);
+}
+
+/**
+ * The guides `npm run docs:sync` converted from another repo's Markdown. Each
+ * is one English file, so every language's slot holds the same document and
+ * the page hides the language switch.
+ */
+export function getSyncedDocBundles(): DocBundle[] {
+  if (!fs.existsSync(syncedDir)) return [];
+
+  return fs
+    .readdirSync(syncedDir)
+    .filter((file) => file.endsWith(".json"))
+    .map((file) => {
+      const slug = file.slice(0, -".json".length);
+      const raw = fs.readFileSync(path.join(syncedDir, file), "utf8");
+      const doc: Doc = { slug, ...(JSON.parse(raw) as DocData) };
+
+      return {
+        slug,
+        versions: Object.fromEntries(LANGUAGES.map((lang) => [lang, doc])) as Record<Lang, Doc>,
+      };
+    })
+    .sort(newestFirst);
+}
+
+/** Every guide on the site, written here or synced, most recently updated first. */
+export function getDocBundles(): DocBundle[] {
+  return [...getAuthoredDocBundles(), ...getSyncedDocBundles()].sort(newestFirst);
 }
 
 /** Every page of one series, in reading order. */
@@ -108,6 +143,7 @@ export function getDocSeries(id: string): SeriesPage[] {
     .map((bundle) => ({
       slug: bundle.slug,
       part: bundle.versions.en.series!.part,
+      seriesName: bundle.versions.en.series!.name,
       title: Object.fromEntries(
         LANGUAGES.map((lang) => [lang, bundle.versions[lang].title]),
       ) as Record<Lang, string>,

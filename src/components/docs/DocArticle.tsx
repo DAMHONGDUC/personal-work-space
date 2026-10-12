@@ -36,8 +36,13 @@ export function DocArticle({
   versions: Record<Lang, Doc>;
   series?: SeriesPage[];
 }) {
-  const [lang, setLang] = useDocLanguage(versions.en.defaultLang);
+  const [chosen, setLang] = useDocLanguage(versions.en.defaultLang);
+  // A guide written in one language is read in it whatever the reader chose,
+  // and offers no switch.
+  const only = versions.en.languages?.length === 1 ? versions.en.languages[0] : undefined;
+  const lang = only ?? chosen;
   const doc = versions[lang];
+  const numbered = doc.numbered !== false;
 
   const toc: NavItem[] = doc.sections.map((section) => ({
     id: section.id,
@@ -49,13 +54,13 @@ export function DocArticle({
       <ReadingProgress accent={AppColors.DOCS} />
 
       <DocHero doc={doc} lang={lang}>
-        <LanguageSwitch lang={lang} onChange={setLang} accent={AppColors.DOCS} />
+        {!only && <LanguageSwitch lang={lang} onChange={setLang} accent={AppColors.DOCS} />}
       </DocHero>
 
       {/* The chrome around the guide is English whatever the body is, so the
           body carries its own lang for screen readers and hyphenation. */}
       <main lang={lang} className={`mx-auto w-full max-w-5xl px-6 ${AppSpacings.AFTER_HERO} ${AppSpacings.PAGE_BOTTOM}`}>
-        <MobileToc items={toc} accent={AppColors.DOCS} />
+        <MobileToc items={toc} accent={AppColors.DOCS} numbered={numbered} />
 
         <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_13rem] lg:gap-14">
           <div className="flex min-w-0 flex-col gap-14">
@@ -67,7 +72,7 @@ export function DocArticle({
               <Section
                 key={section.id}
                 id={section.id}
-                number={index + 1}
+                number={numbered ? index + 1 : undefined}
                 title={section.title}
                 accent={AppColors.DOCS}
               >
@@ -87,7 +92,7 @@ export function DocArticle({
             {series && <SeriesPager pages={series} current={doc.slug} lang={lang} />}
           </div>
 
-          <SidebarToc items={toc} accent={AppColors.DOCS} />
+          <SidebarToc items={toc} accent={AppColors.DOCS} numbered={numbered} />
         </div>
       </main>
     </>

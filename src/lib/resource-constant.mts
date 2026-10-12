@@ -25,6 +25,22 @@ export class ResourceConstant {
   static readonly DOCS_DIR = "src/data/docs";
 
   /**
+   * Guides converted from Markdown kept in another repo, one JSON file per
+   * page, English only. Written by `npm run docs:sync` and never edited by hand:
+   * the Markdown is the source, and the next sync overwrites any edit here.
+   */
+  static readonly SYNCED_DOCS_DIR = "src/data/synced-docs";
+
+  /** Which repos and folders `npm run docs:sync` converts, and how each series is named. */
+  static readonly SYNCED_DOCS_CONFIG = "src/data/synced-docs.json";
+
+  /**
+   * Images the synced guides show, copied out of the other repo next to the
+   * site's static files. The folder name is also the URL path under the site.
+   */
+  static readonly SYNCED_DOCS_ASSETS_DIR = "public/synced-docs";
+
+  /**
    * One JSON file per pack — a top-level folder of the shared Drive — listing
    * its files. Written by `npm run effects:sync`; the name and category in each
    * are hand-edited and survive a sync.

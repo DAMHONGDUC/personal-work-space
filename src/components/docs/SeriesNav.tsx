@@ -13,6 +13,11 @@ const LABELS = {
   of: { en: "of", vi: "/" },
 } satisfies Record<string, Record<Lang, string>>;
 
+/** The series' own name when it has one, else the title of its overview, part 0. */
+function seriesName(pages: SeriesPage[], lang: Lang): string {
+  return pages[0].seriesName ?? pages[0].title[lang];
+}
+
 /**
  * The pages of a series, at the top of each one: the series is named by its
  * overview (part 0), and the page being read is marked so the reader sees where
@@ -28,14 +33,15 @@ export function SeriesContents({
   lang: Lang;
 }) {
   const index = pages.findIndex((page) => page.slug === current);
+  const name = seriesName(pages, lang);
 
   return (
     <nav
-      aria-label={pages[0].title[lang]}
+      aria-label={name}
       className="rounded-2xl border border-border-soft bg-surface p-5"
     >
       <p className={`${AppTextStyles.EYEBROW} flex items-baseline justify-between gap-3`}>
-        <span>{pages[0].title[lang]}</span>
+        <span>{name}</span>
         <span className="tabular-nums normal-case tracking-normal">
           {LABELS.page[lang]} {index + 1} {LABELS.of[lang]} {pages.length}
         </span>
@@ -86,7 +92,7 @@ export function SeriesPager({
   const next = pages[index + 1];
 
   return (
-    <nav aria-label={pages[0].title[lang]} className="grid gap-3 sm:grid-cols-2">
+    <nav aria-label={seriesName(pages, lang)} className="grid gap-3 sm:grid-cols-2">
       {previous ? (
         <PagerLink page={previous} lang={lang} direction="previous" />
       ) : (

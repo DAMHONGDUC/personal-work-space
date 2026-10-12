@@ -86,6 +86,49 @@ describe("DocArticle", () => {
     expect(render(vietnameseFirst).textContent).toContain("English body");
   });
 
+  describe("synced from Markdown", () => {
+    const english: Doc = {
+      ...versions.en,
+      languages: ["en"],
+      numbered: false,
+      sections: [
+        {
+          id: "1-product",
+          title: "1. Product",
+          blocks: [
+            {
+              type: "html",
+              html: '<h3 id="11-positioning">1.1 Positioning</h3><p>Offline <code>first</code></p>',
+              text: "1.1 Positioning Offline first",
+            },
+          ],
+        },
+      ],
+    };
+    const synced: Record<Lang, Doc> = { en: english, vi: english };
+
+    it("draws the rendered HTML, anchors included", () => {
+      const page = render(synced);
+
+      expect(page.querySelector('[id="11-positioning"]')?.textContent).toBe("1.1 Positioning");
+      expect(page.querySelector(".md-body code")?.textContent).toBe("first");
+    });
+
+    it("offers no language switch, and reads in its one language", () => {
+      window.localStorage.setItem("docs-language", "vi");
+      const page = render(synced);
+
+      expect(page.querySelector('[role="radiogroup"]')).toBeNull();
+      expect(page.querySelector("main")?.getAttribute("lang")).toBe("en");
+    });
+
+    it("keeps the titles' own numbers instead of adding its own", () => {
+      const page = render(synced);
+
+      expect(page.querySelector("h2")?.textContent).toBe("1. Product");
+    });
+  });
+
   describe("as one page of a series", () => {
     const series: SeriesPage[] = [
       { slug: "intro", part: 0, title: { en: "The path", vi: "Lộ trình" } },

@@ -2,7 +2,15 @@ import { PolicyNav, type NavItem } from "@/components/policy/PolicyNav";
 import { AppTextStyles } from "@/lib/design/app-text-styles";
 
 /** Collapsed table of contents, shown instead of the sidebar on small screens. */
-export function MobileToc({ items, accent }: { items: NavItem[]; accent: string }) {
+export function MobileToc({
+  items,
+  accent,
+  numbered,
+}: {
+  items: NavItem[];
+  accent: string;
+  numbered?: boolean;
+}) {
   return (
     <details className="mb-10 rounded-xl border border-border-soft bg-surface lg:hidden">
       <summary className="cursor-pointer list-none px-5 py-3.5 text-sm font-medium marker:content-none">
@@ -10,14 +18,22 @@ export function MobileToc({ items, accent }: { items: NavItem[]; accent: string 
         <span className="float-right text-muted">{items.length} sections</span>
       </summary>
       <div className="border-t border-border-soft px-5 py-3">
-        <PolicyNav items={items} accent={accent} />
+        <PolicyNav items={items} accent={accent} numbered={numbered} />
       </div>
     </details>
   );
 }
 
 /** Sticky sidebar table of contents for wide screens. */
-export function SidebarToc({ items, accent }: { items: NavItem[]; accent: string }) {
+export function SidebarToc({
+  items,
+  accent,
+  numbered,
+}: {
+  items: NavItem[];
+  accent: string;
+  numbered?: boolean;
+}) {
   return (
     <aside className="hidden lg:block">
       <nav
@@ -27,7 +43,7 @@ export function SidebarToc({ items, accent }: { items: NavItem[]; accent: string
         <p className={`${AppTextStyles.EYEBROW} pl-4`}>
           On this page
         </p>
-        <PolicyNav items={items} accent={accent} />
+        <PolicyNav items={items} accent={accent} numbered={numbered} />
       </nav>
     </aside>
   );

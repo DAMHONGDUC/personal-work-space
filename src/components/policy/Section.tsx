@@ -15,8 +15,8 @@ export function Section({
   children,
 }: {
   id: string;
-  /** Position in the document, starting at 1. */
-  number: number;
+  /** Position in the document, starting at 1; left out when the title carries its own. */
+  number?: number;
   title: string;
   accent: string;
   children: React.ReactNode;
@@ -24,9 +24,11 @@ export function Section({
   return (
     <section id={id} className="scroll-mt-24">
       <h2 className={`${AppTextStyles.CARD_TITLE} flex items-baseline gap-2.5 pb-5`}>
-        <span className="tabular-nums" style={{ color: accent }}>
-          {number}.
-        </span>
+        {number !== undefined && (
+          <span className="tabular-nums" style={{ color: accent }}>
+            {number}.
+          </span>
+        )}
         {title}
       </h2>
       {children}

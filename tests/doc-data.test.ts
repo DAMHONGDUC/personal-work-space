@@ -8,7 +8,7 @@ import {
   type CodeBlock,
   type Doc,
 } from "@/lib/docs/doc-model";
-import { getDocBundles } from "@/lib/docs/docs";
+import { getAuthoredDocBundles } from "@/lib/docs/docs";
 import { ResourceConstant } from "@/lib/resource-constant.mts";
 import { RESERVED_SLUGS } from "@/lib/routes/routes";
 
@@ -168,7 +168,8 @@ function isCodeBlock(value: unknown): value is CodeBlock {
   );
 }
 
-const bundles = getDocBundles();
+// Synced guides follow their own rules, in synced-docs.test.ts.
+const bundles = getAuthoredDocBundles();
 
 describe("doc files", () => {
   it("holds nothing but a folder per language", () => {

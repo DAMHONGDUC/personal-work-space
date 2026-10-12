@@ -54,6 +54,18 @@ export class AppColors {
   static readonly NOTE_WARNING = "#f59e0b";
 
   /**
+   * The file tags synced Markdown marks its steps with — `<b class="tag-new">`
+   * and friends — so creating, changing, overwriting and only comparing a file
+   * read apart at a glance.
+   */
+  static readonly MARKDOWN_TAGS = {
+    new: "#10b981",
+    edit: "#f59e0b",
+    replace: "#f43f5e",
+    check: "#0ea5e9",
+  } as const;
+
+  /**
    * `color` at `percent` strength over transparent — how every tint, wash and
    * tinted border on the site is made, so they all mix the same way.
    *
