@@ -556,9 +556,25 @@ html {
   background: var(--surface);
 }
 
-.md-body hr {
+/*
+ * A divider (between a guide's tasks) sits 20px from what is above and below
+ * it, the same both ways: it sets both gaps itself, and whatever follows it
+ * drops its own top margin. The selectors outrank the "* + *" spacing rules.
+ */
+.md-body hr,
+.md-body dd > hr,
+.md-body .md-step-body > hr {
   border: 0;
   border-top: 1px solid var(--border);
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.md-body hr + *,
+.md-body dd > hr + *,
+.md-body hr + .md-step,
+.md-body .md-step-body > hr + * {
+  margin-top: 0;
 }
 
 .md-body blockquote {
@@ -729,8 +745,7 @@ html {
   font-weight: 600;
 }
 
-.md-body dd > .md-step:first-child,
-.md-body hr + .md-step {
+.md-body dd > .md-step:first-child {
   margin-top: 0;
 }
 
