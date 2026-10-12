@@ -18,7 +18,7 @@
 | Production build, served locally | `npm run preview` |
 | CV LaTeX / PDF | `npm run cv:tex` / `npm run cv:pdf` |
 | Sync the effects library from Drive | `npm run effects:sync` |
-| Sync guides from another repo's Markdown, test and list the changes | `make docs-sync` (wraps `npm run docs:sync`); `make help` lists every target |
+| Sync guides from another repo's Markdown, test and list the changes | `make site-log-docs-sync` (wraps `npm run docs:sync`); `make help` lists every target |
 | Check commit messages in a range | `npm run commits:check -- origin/main..HEAD` |
 
 | Never | Instead |
