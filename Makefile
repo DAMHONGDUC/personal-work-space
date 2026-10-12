@@ -2,12 +2,12 @@
 # npm script, so `make help` is the list and package.json stays the source.
 
 .DEFAULT_GOAL := help
-.PHONY: help docs-sync effects-sync check dev preview
+.PHONY: help site-log-docs-sync effects-sync check dev preview
 
 help: ## List the targets
-	@grep -E '^[a-z-]+:.*## ' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*## "} {printf "  make %-14s %s\n", $$1, $$2}'
+	@grep -E '^[a-z-]+:.*## ' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*## "} {printf "  make %-20s %s\n", $$1, $$2}'
 
-docs-sync: ## Re-sync guides from the other repo's Markdown, test them, list what changed
+site-log-docs-sync: ## Re-sync the SiteLog guides from site-log-ios's Markdown, test them, list what changed
 	npm run docs:sync
 	npx vitest run tests/synced-docs.test.ts
 	@git status --short -- src/data/synced-docs public/synced-docs
