@@ -601,3 +601,93 @@ html {
   border: 0;
   background: none;
 }
+
+/*
+ * Code blocks, in the guides (CodeSample) and in synced Markdown (.md-code):
+ * a bar with the language and a copy button over the code, as GitHub draws a
+ * fenced block. Shiki colours the code for both themes as variables
+ * (--shiki-light, --shiki-dark); the reader's colour scheme picks one.
+ */
+.code-block,
+.md-body .md-code {
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  background: var(--muted-surface);
+}
+
+.code-bar,
+.md-body .md-code-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  border-bottom: 1px solid var(--border);
+  padding: 0.375rem 0.5rem 0.375rem 1rem;
+  min-height: 2.25rem;
+}
+
+.md-body .md-code-lang {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted-foreground);
+}
+
+.code-block pre,
+.md-body .md-code pre {
+  margin: 0;
+  overflow-x: auto;
+  border: 0;
+  border-radius: 0;
+  background: transparent !important;
+  padding: 0.875rem 1rem;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.8125rem;
+  line-height: 1.6;
+}
+
+.code-block pre code,
+.md-body .md-code pre code {
+  background: none;
+  border: 0;
+  padding: 0;
+  font-size: inherit;
+  white-space: pre;
+  overflow-wrap: normal;
+}
+
+.code-copy,
+.md-body .md-copy {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  background: var(--surface);
+  padding: 0.125rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--muted-foreground);
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.code-copy:hover,
+.md-body .md-copy:hover {
+  color: var(--foreground);
+  border-color: var(--muted-foreground);
+}
+
+.shiki,
+.shiki span {
+  color: var(--shiki-light);
+}
+
+@media (prefers-color-scheme: dark) {
+  .shiki,
+  .shiki span {
+    color: var(--shiki-dark);
+  }
+}

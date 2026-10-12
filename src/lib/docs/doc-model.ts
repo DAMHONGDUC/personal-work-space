@@ -71,7 +71,14 @@ export type Block =
    * that needs explaining goes in the caption instead of a comment, so the code
    * stays copy-pasteable and the prose stays translated.
    */
-  | { type: "code"; language: string; caption?: string; code: string[] }
+  | {
+      type: "code";
+      language: string;
+      caption?: string;
+      code: string[];
+      /** The code coloured as HTML, added when the page is built; never in the JSON. */
+      highlighted?: string;
+    }
   | { type: "table"; columns: string[]; rows: string[][] }
   | { type: "note"; tone: "info" | "warning"; body: string[] }
   /**
