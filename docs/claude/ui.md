@@ -24,6 +24,7 @@ Enforced by [design-tokens.test.ts](../../tests/design-tokens.test.ts): no hex c
 
 | Token | Where |
 |---|---|
+| `CONTAINER` | The content column — width (`max-w-7xl`) and side gutters (16px phone → 32px desktop) — for the header, footer, every hero and page body; running text is capped at `max-w-[80ch]` |
 | `PAGE_TOP` | First thing under the sticky header: `PageContainer`, every hero, `LegacyRedirect` |
 | `PAGE_BOTTOM` | Before the footer |
 | `AFTER_HERO` | Between a hero and the page body |
