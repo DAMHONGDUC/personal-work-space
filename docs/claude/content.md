@@ -60,6 +60,8 @@ Markdown kept in another repo, published as guide series. Enforced by [synced-do
 | A ```mermaid block is drawn to SVG at sync time (mermaid-cli), light and dark, shown as a `<picture>`; a block that does not parse stays code and the sync warns | Diagrams render with no runtime library; unchanged ones are not redrawn | `public/synced-docs/sitelog/diagram-<hash>-dark.svg` |
 | Every synced SVG `<img>` carries its `width` and `height` | The space is held before it loads, so the page never grows under a reader scrolling to a section | Read from the SVG's viewBox |
 | Code is coloured by Shiki at sync time with the same themes as the guides, and framed with the language and a copy button (`.md-code`, answered by `HtmlBlock`) | Every code block on the site looks and copies the same | Languages preloaded: pages render in parallel |
+| A task's parts become lettered steps — a. File [Edit], b. Explain, c. Think (with its hints), d. Code (folded, "Show code"), e. Try — restarting at each File line; the path under File is a yellow tag (`md-file`, `AppColors.MARKDOWN_FILE`) | A task reads as a sequence, and the file to open at a glance; test-checked | `stepTasks` and `markFilePaths` in the sync |
+| Only a task's Code folds, closed ("Show code", `md-code-fold`); every other `<details>` becomes a framed block that is always shown (`md-panel`) | Hints and groups are read in passing; the Code holds the answer, checked after trying; test-checked | `unfoldDetails` in the sync |
 | A `## Contents` section is dropped | The page draws its own | — |
 
 ## Effects library — `src/data/effects/`

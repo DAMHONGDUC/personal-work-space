@@ -51,6 +51,8 @@ Never write a page-level `pt-*`/`pb-*` by hand; change the constant.
 | Portfolio | No | An introduction; sections from `PORTFOLIO_SECTIONS`, which also builds the header nav |
 | CV | Never | Jobs too: newest first, unnumbered |
 
+A divider in synced Markdown sits 20px from the content above and below, the same both ways (`.md-body hr`).
+
 Nesting reads by a small step in, never a deep one: a section's body sits `pl-3`/`sm:pl-4` in from its heading (`Section`), a nested Markdown heading's content `0.75rem` further (`.md-body dd > dl > dd`), and a series group's pages `ml-3` under the group's name (`SeriesContents`).
 
 A guide's contents panel is pinned on the **left** on wide screens (`SidebarToc`, 18rem, in `DocArticle`): the series' pages first (`SeriesContents variant="sidebar"`, capped at 40% of the window, scrolled to the current page), then "On this page". A click selects the item at once and scrolls there; a series link opens the page at its first section. The selected item, in both lists, is tinted (`AppColors.tint(accent, 12)`), in the accent, semibold, with a 2px bar. Below `lg` there is no panel: the series is a card above the intro and the sections a collapsed list. The privacy policies keep theirs on the right.
