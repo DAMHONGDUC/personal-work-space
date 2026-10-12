@@ -12,8 +12,8 @@ import { AppColors } from "@/lib/design/app-colors";
 const ALL = "all";
 
 /**
- * Narrows the guide index to the shelves picked; several can be on at once, and
- * none — or pressing All — shows every guide. Only topics that hold a guide are
+ * Narrows the guide index to one shelf at a time; picking another replaces it,
+ * and All — or pressing the chosen one again — shows every guide. Only topics that hold a guide are
  * offered, in `DOC_TOPICS` order, each with its count; the counts are of every
  * guide rather than of the search results, so the chips stay put while typing.
  *
@@ -21,36 +21,29 @@ const ALL = "all";
  * between the options. The chips wrap, because nine topics do not fit a phone.
  */
 export function TopicFilter({
-  topics,
+  topic,
   onChange,
   counts,
   lang,
 }: {
-  topics: DocTopic[];
-  onChange: (next: DocTopic[]) => void;
+  topic: DocTopic | null;
+  onChange: (next: DocTopic | null) => void;
   counts: Record<DocTopic, number>;
   lang: Lang;
 }) {
   const present = DOC_TOPICS.filter((option) => counts[option] > 0);
   if (present.length < 2) return null;
 
-  const value = topics.length === 0 ? [ALL] : topics;
+  const value = topic ?? ALL;
   const total = present.reduce((sum, option) => sum + counts[option], 0);
   const options = [ALL, ...present];
 
   return (
     <ToggleGroup
-      type="multiple"
+      type="single"
       value={value}
-      // Pressing All clears the rest; pressing a topic while All is on replaces
-      // it. Radix hands back the whole new set, so the newcomer is worked out.
-      onValueChange={(next) =>
-        onChange(
-          next.includes(ALL) && !value.includes(ALL)
-            ? []
-            : (next.filter((option) => option !== ALL) as DocTopic[]),
-        )
-      }
+      // Radix reports "" when the pressed item is toggled off; that means "all".
+      onValueChange={(next) => onChange(!next || next === ALL ? null : (next as DocTopic))}
       variant="outline"
       aria-label="Topic"
       className="w-full flex-wrap"
@@ -62,7 +55,7 @@ export function TopicFilter({
           lang={option === ALL ? undefined : lang}
           className="h-8 gap-1.5 rounded-full border-border-soft px-3 text-sm font-medium data-[state=off]:text-muted"
           style={
-            value.includes(option)
+            option === value
               ? {
                   backgroundColor: `${AppColors.tint(AppColors.DOCS, 16)}`,
                   borderColor: `${AppColors.tint(AppColors.DOCS, 40)}`,

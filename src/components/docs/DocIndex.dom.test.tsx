@@ -172,24 +172,21 @@ describe("DocIndex", () => {
     expect(titles()).toEqual(["Set up a Mac for iOS", "Set up SSH for git"]);
   });
 
-  it("shows several topics at once, and All clears them", () => {
+  it("shows one topic at a time: picking another replaces it", () => {
     const page = render();
 
     act(() => chip("iOS").click());
     act(() => chip("Git & Tools").click());
 
-    expect(titles()).toEqual(["Set up a Mac for iOS", "Set up SSH for git"]);
-    expect(chip("iOS").getAttribute("aria-pressed")).toBe("true");
-    expect(chip("All").getAttribute("aria-pressed")).toBe("false");
-
-    act(() => chip("iOS").click());
-
     expect(titles()).toEqual(["Set up SSH for git"]);
     expect(page.textContent).toContain("1 of 2 guides");
+    expect(chip("Git & Tools").getAttribute("aria-checked")).toBe("true");
+    expect(chip("iOS").getAttribute("aria-checked")).toBe("false");
 
-    act(() => chip("All").click());
+    // Pressing the chosen topic again lets go of it.
+    act(() => chip("Git & Tools").click());
 
-    expect(chip("Git & Tools").getAttribute("aria-pressed")).toBe("false");
+    expect(chip("All").getAttribute("aria-checked")).toBe("true");
     expect(page.textContent).toContain("2 guides");
   });
 
