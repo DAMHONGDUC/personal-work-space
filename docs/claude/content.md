@@ -48,12 +48,14 @@ Markdown kept in another repo, published as guide series. Enforced by [synced-do
 | Rule | Reason | Example |
 |---|---|---|
 | Written by `npm run docs:sync`; never hand-edited | The Markdown is the source; the next sync overwrites any edit | — |
-| Which folders sync, and each series' name, icon and tags, live in `src/data/synced-docs.json` | One place to add a series | `sitelog-specs` ← `site-log-ios/docs/feature-docs` |
+| A series in `src/data/synced-docs.json` is one root file then folders of Markdown, each folder optionally a named group | One entry in the index, the rest reached from it | `sitelog`: `ROADMAP.md`, then `feature-docs` (Feature specs), then `feature-guide` (Build guide) |
+| The root is part 0 and the only page the index lists; a search reaches every page | A 24-page series stays one card | `isListed` in `doc-listing.ts` |
 | The sync reads a local clone (`localPath`); the build never touches the other repo | Static export, reproducible CI | `../../SwiftUI/site-log-ios` |
-| One file per Markdown file: slug `<series>-<file>`, part = position in the folder | A series is the folder, in order | `sitelog-guide-03-capture` |
+| One page per Markdown file; every slug starts with `<series id>-`, which is how stale pages are found | Order: root, then each folder sorted | `sitelog-roadmap`, `sitelog-guide-03-capture` |
 | English only (`languages: ["en"]`), titles keep their own numbers (`numbered: false`) | The Markdown is English and numbered; no switch, no second number | `0. Entry point (done)` |
 | Rendered to HTML at sync time, drawn by `HtmlBlock` with the `.md-body` styles in globals.css; `text` holds the same words for search | The site ships no Markdown parser | `<details>` hints stay collapsible |
 | Heading ids are GitHub's; links to another synced file point at its page, other repo files at GitHub, images are copied to `public/synced-docs/` | The docs' own links keep working; test-checked down to the anchor | `../sitelog-specs-00-overview/#d09--…` |
+| A ```mermaid block is drawn to SVG at sync time (mermaid-cli), light and dark, shown as a `<picture>`; a block that does not parse stays code and the sync warns | Diagrams render with no runtime library; unchanged ones are not redrawn | `public/synced-docs/sitelog/diagram-<hash>-dark.svg` |
 | A `## Contents` section is dropped | The page draws its own | — |
 
 ## Effects library — `src/data/effects/`

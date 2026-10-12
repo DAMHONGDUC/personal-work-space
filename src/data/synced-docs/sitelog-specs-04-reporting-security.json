@@ -15,9 +15,10 @@
   ],
   "numbered": false,
   "series": {
-    "id": "sitelog-specs",
-    "part": 4,
-    "name": "SiteLog: feature specs"
+    "id": "sitelog",
+    "part": 5,
+    "name": "SiteLog: an iOS app, built",
+    "group": "Feature specs"
   },
   "intro": [
     "The paid deliverable and the protection of the evidence behind it."

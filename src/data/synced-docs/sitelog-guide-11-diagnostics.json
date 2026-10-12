@@ -14,9 +14,10 @@
   ],
   "numbered": false,
   "series": {
-    "id": "sitelog-guide",
-    "part": 11,
-    "name": "SiteLog: build guide"
+    "id": "sitelog",
+    "part": 18,
+    "name": "SiteLog: an iOS app, built",
+    "group": "Build guide"
   },
   "intro": [
     "F11 · 17h · skeleton guide — full code is added when this feature starts."

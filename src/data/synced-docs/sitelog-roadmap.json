@@ -1,0 +1,249 @@
+{
+  "title": "SiteLog roadmap",
+  "tagline": "Work is guided by feature: one feature is finished end to end before the next starts.",
+  "icon": "🗺️",
+  "topic": "ios",
+  "tags": [
+    "SwiftUI",
+    "iOS",
+    "Roadmap"
+  ],
+  "readingTime": "7 min",
+  "languages": [
+    "en"
+  ],
+  "numbered": false,
+  "series": {
+    "id": "sitelog",
+    "part": 0,
+    "name": "SiteLog: an iOS app, built"
+  },
+  "intro": [
+    "Work is guided by feature: one feature is finished end to end before the next starts.",
+    "Specs: docs/feature-docs; step-by-step guides: docs/feature-guide, one per feature."
+  ],
+  "sections": [
+    {
+      "id": "how-work-is-split",
+      "title": "How work is split",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelog/diagram-ab0a70f93b92-dark.svg\"><img src=\"../../synced-docs/sitelog/diagram-ab0a70f93b92-light.svg\" alt=\"Diagram: Domain, entities, protocols, use cases → Fake data, DataLayer/Fakes, in memory → View models, wired into the skeleton screens → Real data, DataLayer + its DataSources, swap the registration → Tests, after the feature works\" loading=\"lazy\"></picture></figure>\n<ul>\n<li>Every feature runs the same steps: Domain → fake data → view models → real data → tests.</li>\n<li><strong>Fakes live only in the Data layer</strong> (<code>Packages/DataLayer/Sources/DataLayer/Fakes/</code>). Domain and Presentation never name a fake;\n<code>AppDependencies</code> picks fake or real, and the dev menu seeds / clears the fakes.</li>\n<li>The UI skeleton (~30% of Figma, every screen) is done; a feature's view models replace its <code>FakeData</code> use\nin <code>App/Fakes/FakeData.swift</code> and delete those types. The other ~70% of the UI is <code>F16</code>, last.</li>\n<li>Step format: <code>FXX.n - [layer] - [est hours] - description</code>.</li>\n<li>Estimates: dev-hours for one developer new to Swift and SwiftUI, learning included.</li>\n</ul>\n</dd></dl>",
+          "text": "Every feature runs the same steps: Domain → fake data → view models → real data → tests. Fakes live only in the Data layer (Packages/DataLayer/Sources/DataLayer/Fakes/). Domain and Presentation never name a fake; AppDependencies picks fake or real, and the dev menu seeds / clears the fakes. The UI skeleton (~30% of Figma, every screen) is done; a feature's view models replace its FakeData use in App/Fakes/FakeData.swift and delete those types. The other ~70% of the UI is F16, last. Step format: FXX.n - [layer] - [est hours] - description. Estimates: dev-hours for one developer new to Swift and SwiftUI, learning included."
+        }
+      ]
+    },
+    {
+      "id": "summary",
+      "title": "Summary",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelog/diagram-a2718d2ba86d-dark.svg\"><img src=\"../../synced-docs/sitelog/diagram-a2718d2ba86d-light.svg\" alt=\"Diagram: F00 Foundation → F01 Access and app lock → F02 Projects, sessions, locations → F03 Capture → F04 Upload engine, TestFlight #1 → F05 Issues and before/after → F06 Markup and stamps → F07 Reports and audit log → F08 Floor plans and pins → F09 Checklists → F10 DeviceLink (BLE meters) → F11 Diagnostics, TestFlight #2 → F12 Auth and multi-device sync → F13 Realtime progress and verification → F14 Push and deep links → F15 Accessibility and performance → F16 UI finish and App Store\" loading=\"lazy\"></picture></figure>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th></th><th></th></tr></thead><tbody><tr><td>Total</td><td>17 features, 71 open steps ≈ 458 hours (<code>F00.0</code> done, 8h)</td></tr><tr><td>Releases</td><td>TestFlight #1 after <code>F04</code>, TestFlight #2 after <code>F11</code>, App Store after <code>F16</code></td></tr><tr><td>UI skeleton</td><td>Done 2026-10-08: every screen at ~30% of Figma on <code>FakeData</code>, debug dev menu in Settings</td></tr><tr><td>Goal</td><td>App Store release with the full scope; no feature is dropped</td></tr></tbody></table></div>\n</dd></dl>",
+          "text": "Total 17 features, 71 open steps ≈ 458 hours (F00.0 done, 8h) Releases TestFlight #1 after F04, TestFlight #2 after F11, App Store after F16 UI skeleton Done 2026-10-08: every screen at ~30% of Figma on FakeData, debug dev menu in Settings Goal App Store release with the full scope; no feature is dropped"
+        }
+      ]
+    },
+    {
+      "id": "f00--foundation--26h",
+      "title": "F00 — Foundation · 26h",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul class=\"contains-task-list\">\n<li>\n<p>Demo: builds with zero warnings, CI green, SystemDesign snapshot passes.</p>\n</li>\n<li>\n<p>Spec: <a href=\"../sitelog-specs-00-overview/\">00</a>, <a href=\"../sitelog-specs-05-platform/\">05</a></p>\n</li>\n<li>\n<p>Guide: <a href=\"../sitelog-guide-00-foundation/\">docs/feature-guide/00-foundation.md</a></p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" checked disabled> <strong>F00.0</strong> - [Tooling] - [8h] - Xcode project, XcodeGen, SwiftLint, hot reload, entry point</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F00.1</strong> - [Architecture] - [6h] - Layer packages, Factory DI, injected <code>AppClock</code>, test libraries</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F00.2</strong> - [CI] - [5h] - Fastlane <code>test</code> lane and GitHub Actions PR checks</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F00.3</strong> - [CI] - [4h] - CI guards: layer rules, zero warnings, no <code>print(</code>, secret scan</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F00.4</strong> - [Tests] - [3h] - SystemDesign: hex test, <code>SDGallery</code>, snapshot test (tokens + components already built)</p>\n</li>\n</ul>\n</dd></dl>",
+          "text": "Demo: builds with zero warnings, CI green, SystemDesign snapshot passes. Spec: 00, 05 Guide: docs/feature-guide/00-foundation.md F00.0 - [Tooling] - [8h] - Xcode project, XcodeGen, SwiftLint, hot reload, entry point F00.1 - [Architecture] - [6h] - Layer packages, Factory DI, injected AppClock, test libraries F00.2 - [CI] - [5h] - Fastlane test lane and GitHub Actions PR checks F00.3 - [CI] - [4h] - CI guards: layer rules, zero warnings, no print(, secret scan F00.4 - [Tests] - [3h] - SystemDesign: hex test, SDGallery, snapshot test (tokens + components already built)"
+        }
+      ]
+    },
+    {
+      "id": "f01--access-and-app-lock--15h",
+      "title": "F01 — Access and app lock · 15h",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul class=\"contains-task-list\">\n<li>\n<p>Demo: Face ID / passcode lock, re-lock after <em>Lock after</em>, app switcher overlay.</p>\n</li>\n<li>\n<p>Spec: <a href=\"../sitelog-specs-04-reporting-security/#072-app-lock\">07.2</a></p>\n</li>\n<li>\n<p>Guide: <a href=\"../sitelog-guide-01-access/\">docs/feature-guide/01-access.md</a></p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F01.1</strong> - [Domain] - [1h] - <code>AccessSettings</code>, <code>PasscodeCheck</code>, <code>AccessRepository</code>, use cases</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F01.2</strong> - [Fake data] - [1h] - <code>InMemoryAccessRepository</code>, registrations, dev menu seed / delete</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F01.3</strong> - [View models] - [5h] - <code>RootViewModel</code>, A1–A3, S4, S5 view models wired into the skeleton</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F01.4</strong> - [Real data] - [8h] - Keychain + Face ID repository</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> Tests written and green (after the feature works)</p>\n</li>\n</ul>\n</dd></dl>",
+          "text": "Demo: Face ID / passcode lock, re-lock after Lock after, app switcher overlay. Spec: 07.2 Guide: docs/feature-guide/01-access.md F01.1 - [Domain] - [1h] - AccessSettings, PasscodeCheck, AccessRepository, use cases F01.2 - [Fake data] - [1h] - InMemoryAccessRepository, registrations, dev menu seed / delete F01.3 - [View models] - [5h] - RootViewModel, A1–A3, S4, S5 view models wired into the skeleton F01.4 - [Real data] - [8h] - Keychain + Face ID repository Tests written and green (after the feature works)"
+        }
+      ]
+    },
+    {
+      "id": "f02--projects-sessions-locations--31h",
+      "title": "F02 — Projects, sessions, locations · 31h",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul class=\"contains-task-list\">\n<li>\n<p>Demo: project → 80 generated locations → walkthrough, all offline and kept after relaunch.</p>\n</li>\n<li>\n<p>Spec: <a href=\"../sitelog-specs-01-field-work/#01-projects-sessions-locations\">01</a>, <a href=\"../sitelog-specs-00-overview/#3-data-model\">00 §3 Data model</a></p>\n</li>\n<li>\n<p>Guide: <a href=\"../sitelog-guide-02-projects/\">docs/feature-guide/02-projects.md</a></p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F02.1</strong> - [Domain] - [4h] - Entities, protocols, use cases</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F02.2</strong> - [Fake data] - [2h] - In-memory repositories</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F02.3</strong> - [View models] - [10h] - Wire the Projects screens</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F02.4</strong> - [Real data] - [15h] - SwiftData</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> Tests written and green (after the feature works)</p>\n</li>\n</ul>\n</dd></dl>",
+          "text": "Demo: project → 80 generated locations → walkthrough, all offline and kept after relaunch. Spec: 01, 00 §3 Data model Guide: docs/feature-guide/02-projects.md F02.1 - [Domain] - [4h] - Entities, protocols, use cases F02.2 - [Fake data] - [2h] - In-memory repositories F02.3 - [View models] - [10h] - Wire the Projects screens F02.4 - [Real data] - [15h] - SwiftData Tests written and green (after the feature works)"
+        }
+      ]
+    },
+    {
+      "id": "f03--capture--20h",
+      "title": "F03 — Capture · 20h",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul class=\"contains-task-list\">\n<li>\n<p>Demo: photo captured and hashed in airplane mode, linked to a location, kept after relaunch.</p>\n</li>\n<li>\n<p>Spec: <a href=\"../sitelog-specs-01-field-work/#02-capture-pipeline\">02</a></p>\n</li>\n<li>\n<p>Guide: <a href=\"../sitelog-guide-03-capture/\">docs/feature-guide/03-capture.md</a></p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F03.1</strong> - [Domain] - [1h] - Record a capture</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F03.2</strong> - [Fake data] - [2h] - Fake capture source</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F03.3</strong> - [View models] - [3h] - Wire the camera</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F03.4</strong> - [Real data] - [14h] - Camera, disk, SHA-256</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> Tests written and green (after the feature works)</p>\n</li>\n</ul>\n</dd></dl>",
+          "text": "Demo: photo captured and hashed in airplane mode, linked to a location, kept after relaunch. Spec: 02 Guide: docs/feature-guide/03-capture.md F03.1 - [Domain] - [1h] - Record a capture F03.2 - [Fake data] - [2h] - Fake capture source F03.3 - [View models] - [3h] - Wire the camera F03.4 - [Real data] - [14h] - Camera, disk, SHA-256 Tests written and green (after the feature works)"
+        }
+      ]
+    },
+    {
+      "id": "f04--upload-engine--testflight-1--89h",
+      "title": "F04 — Upload engine · TestFlight #1 · 89h",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul class=\"contains-task-list\">\n<li>\n<p>Demo: 200 files reach storage and survive app kill and airplane mode; first TestFlight build.</p>\n</li>\n<li>\n<p>Spec: <a href=\"../sitelog-specs-02-upload-sync/#04-upload-engine\">04 Upload engine</a>, <a href=\"../sitelog-specs-03-backend/#1-role\">14 Backend</a>, <a href=\"../sitelog-specs-05-platform/#17-cicd-and-testflight\">17 CI/CD</a></p>\n</li>\n<li>\n<p>Guide: <a href=\"../sitelog-guide-04-upload/\">docs/feature-guide/04-upload.md</a></p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F04.1</strong> - [Domain + fake] - [3h] - UploadKit API and in-memory store</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F04.2</strong> - [View models] - [6h] - Wire the Sync tab</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F04.3</strong> - [Backend] - [15h] - Backend endpoints</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F04.4</strong> - [Real data] - [55h] - UploadKit</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F04.5</strong> - [Release] - [10h] - Signing and TestFlight #1</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> Tests written and green (after the feature works)</p>\n</li>\n</ul>\n</dd></dl>",
+          "text": "Demo: 200 files reach storage and survive app kill and airplane mode; first TestFlight build. Spec: 04 Upload engine, 14 Backend, 17 CI/CD Guide: docs/feature-guide/04-upload.md F04.1 - [Domain + fake] - [3h] - UploadKit API and in-memory store F04.2 - [View models] - [6h] - Wire the Sync tab F04.3 - [Backend] - [15h] - Backend endpoints F04.4 - [Real data] - [55h] - UploadKit F04.5 - [Release] - [10h] - Signing and TestFlight #1 Tests written and green (after the feature works)"
+        }
+      ]
+    },
+    {
+      "id": "f05--issues-and-beforeafter--21h",
+      "title": "F05 — Issues and before/after · 21h",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul class=\"contains-task-list\">\n<li>\n<p>Demo: issue logged from the camera, re-checked next session, closed as a before/after pair.</p>\n</li>\n<li>\n<p>Spec: <a href=\"../sitelog-specs-01-field-work/#03-issues-and-before-after-pairing\">03</a>, <a href=\"../sitelog-specs-01-field-work/#123-dictation-and-voice-notes\">12.3 dictation</a></p>\n</li>\n<li>\n<p>Guide: <a href=\"../sitelog-guide-05-issues/\">docs/feature-guide/05-issues.md</a></p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F05.1</strong> - [Domain] - [2h] - Issue entities and use cases</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F05.2</strong> - [Fake data] - [1h] - In-memory issues</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F05.3</strong> - [View models] - [7h] - Wire the Issues screens</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F05.4</strong> - [Real data] - [11h] - Issue logic and dictation</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> Tests written and green (after the feature works)</p>\n</li>\n</ul>\n</dd></dl>",
+          "text": "Demo: issue logged from the camera, re-checked next session, closed as a before/after pair. Spec: 03, 12.3 dictation Guide: docs/feature-guide/05-issues.md F05.1 - [Domain] - [2h] - Issue entities and use cases F05.2 - [Fake data] - [1h] - In-memory issues F05.3 - [View models] - [7h] - Wire the Issues screens F05.4 - [Real data] - [11h] - Issue logic and dictation Tests written and green (after the feature works)"
+        }
+      ]
+    },
+    {
+      "id": "f06--markup-and-stamps--19h",
+      "title": "F06 — Markup and stamps · 19h",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul class=\"contains-task-list\">\n<li>\n<p>Demo: markup saved as a layer over the original; stamped copy shared with trusted time.</p>\n</li>\n<li>\n<p>Spec: <a href=\"../sitelog-specs-01-field-work/#12-annotation-and-verifiable-stamps\">12</a></p>\n</li>\n<li>\n<p>Guide: <a href=\"../sitelog-guide-06-markup/\">docs/feature-guide/06-markup.md</a></p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F06.1</strong> - [Domain] - [1h] - Annotation types</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F06.2</strong> - [Fake data] - [1h] - In-memory annotations</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F06.3</strong> - [View models] - [4h] - Wire markup and stamp</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F06.4</strong> - [Real data] - [13h] - Rendering and trusted time</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> Tests written and green (after the feature works)</p>\n</li>\n</ul>\n</dd></dl>",
+          "text": "Demo: markup saved as a layer over the original; stamped copy shared with trusted time. Spec: 12 Guide: docs/feature-guide/06-markup.md F06.1 - [Domain] - [1h] - Annotation types F06.2 - [Fake data] - [1h] - In-memory annotations F06.3 - [View models] - [4h] - Wire markup and stamp F06.4 - [Real data] - [13h] - Rendering and trusted time Tests written and green (after the feature works)"
+        }
+      ]
+    },
+    {
+      "id": "f07--reports-and-audit-log--31h",
+      "title": "F07 — Reports and audit log · 31h",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul class=\"contains-task-list\">\n<li>\n<p>Demo: signed, branded PDF and CSV from a real session, shared in airplane mode; audit chain verifies.</p>\n</li>\n<li>\n<p>Spec: <a href=\"../sitelog-specs-04-reporting-security/#05-pdf-and-spreadsheet-export\">05</a>, <a href=\"../sitelog-specs-04-reporting-security/#073-audit-log\">07.3 audit</a></p>\n</li>\n<li>\n<p>Guide: <a href=\"../sitelog-guide-07-reports/\">docs/feature-guide/07-reports.md</a></p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F07.1</strong> - [Domain] - [1h] - Report types</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F07.2</strong> - [Fake data] - [1h] - In-memory reports</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F07.3</strong> - [View models] - [4h] - Wire the report flow</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F07.4</strong> - [Real data] - [25h] - CSV, PDF, audit chain</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> Tests written and green (after the feature works)</p>\n</li>\n</ul>\n</dd></dl>",
+          "text": "Demo: signed, branded PDF and CSV from a real session, shared in airplane mode; audit chain verifies. Spec: 05, 07.3 audit Guide: docs/feature-guide/07-reports.md F07.1 - [Domain] - [1h] - Report types F07.2 - [Fake data] - [1h] - In-memory reports F07.3 - [View models] - [4h] - Wire the report flow F07.4 - [Real data] - [25h] - CSV, PDF, audit chain Tests written and green (after the feature works)"
+        }
+      ]
+    },
+    {
+      "id": "f08--floor-plans-and-pins--16h",
+      "title": "F08 — Floor plans and pins · 16h",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul class=\"contains-task-list\">\n<li>\n<p>Demo: real PDF plan imported, issues pinned, pins survive relaunch.</p>\n</li>\n<li>\n<p>Spec: <a href=\"../sitelog-specs-01-field-work/#11-floor-plans-and-issue-pins\">11</a></p>\n</li>\n<li>\n<p>Guide: <a href=\"../sitelog-guide-08-plans/\">docs/feature-guide/08-plans.md</a></p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F08.1</strong> - [Domain] - [1h] - Plan types</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F08.2</strong> - [Fake data] - [1h] - In-memory plans</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F08.3</strong> - [View models] - [5h] - Wire the Plans screens</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F08.4</strong> - [Real data] - [9h] - Import and pins</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> Tests written and green (after the feature works)</p>\n</li>\n</ul>\n</dd></dl>",
+          "text": "Demo: real PDF plan imported, issues pinned, pins survive relaunch. Spec: 11 Guide: docs/feature-guide/08-plans.md F08.1 - [Domain] - [1h] - Plan types F08.2 - [Fake data] - [1h] - In-memory plans F08.3 - [View models] - [5h] - Wire the Plans screens F08.4 - [Real data] - [9h] - Import and pins Tests written and green (after the feature works)"
+        }
+      ]
+    },
+    {
+      "id": "f09--checklists--10h",
+      "title": "F09 — Checklists · 10h",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul class=\"contains-task-list\">\n<li>\n<p>Demo: checklist run in a room; a Fail creates one prefilled issue.</p>\n</li>\n<li>\n<p>Spec: <a href=\"../sitelog-specs-01-field-work/#13-checklist-templates\">13</a></p>\n</li>\n<li>\n<p>Guide: <a href=\"../sitelog-guide-09-checklists/\">docs/feature-guide/09-checklists.md</a></p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F09.1</strong> - [Domain] - [1h] - Checklist types</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F09.2</strong> - [Fake data] - [1h] - In-memory checklists</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F09.3</strong> - [View models] - [4h] - Wire the Checklists screens</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F09.4</strong> - [Real data] - [4h] - Templates and results</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> Tests written and green (after the feature works)</p>\n</li>\n</ul>\n</dd></dl>",
+          "text": "Demo: checklist run in a room; a Fail creates one prefilled issue. Spec: 13 Guide: docs/feature-guide/09-checklists.md F09.1 - [Domain] - [1h] - Checklist types F09.2 - [Fake data] - [1h] - In-memory checklists F09.3 - [View models] - [4h] - Wire the Checklists screens F09.4 - [Real data] - [4h] - Templates and results Tests written and green (after the feature works)"
+        }
+      ]
+    },
+    {
+      "id": "f10--devicelink-ble-meters--18h",
+      "title": "F10 — DeviceLink (BLE meters) · 18h",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul class=\"contains-task-list\">\n<li>\n<p>Demo: laser reading from the macOS mock peripheral shows on the camera; capture never waits.</p>\n</li>\n<li>\n<p>Spec: <a href=\"../sitelog-specs-01-field-work/#06-devicelink-ble-measuring-tools\">06</a></p>\n</li>\n<li>\n<p>Guide: <a href=\"../sitelog-guide-10-devicelink/\">docs/feature-guide/10-devicelink.md</a></p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F10.1</strong> - [Domain] - [1h] - DeviceLink types</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F10.2</strong> - [Fake data] - [1h] - Fake device link</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F10.3</strong> - [View models] - [3h] - Wire pairing and overlay</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F10.4</strong> - [Real data] - [13h] - BLE and mock peripheral</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> Tests written and green (after the feature works)</p>\n</li>\n</ul>\n</dd></dl>",
+          "text": "Demo: laser reading from the macOS mock peripheral shows on the camera; capture never waits. Spec: 06 Guide: docs/feature-guide/10-devicelink.md F10.1 - [Domain] - [1h] - DeviceLink types F10.2 - [Fake data] - [1h] - Fake device link F10.3 - [View models] - [3h] - Wire pairing and overlay F10.4 - [Real data] - [13h] - BLE and mock peripheral Tests written and green (after the feature works)"
+        }
+      ]
+    },
+    {
+      "id": "f11--diagnostics--testflight-2--17h",
+      "title": "F11 — Diagnostics · TestFlight #2 · 17h",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul class=\"contains-task-list\">\n<li>\n<p>Demo: integrity check, storage cleanup, diagnostic bundle, Crashlytics; second TestFlight build.</p>\n</li>\n<li>\n<p>Spec: <a href=\"../sitelog-specs-05-platform/#09-diagnostics-and-observability\">09</a>, <a href=\"../sitelog-specs-05-platform/#19-performance-profiling-with-instruments\">19 Instruments</a></p>\n</li>\n<li>\n<p>Guide: <a href=\"../sitelog-guide-11-diagnostics/\">docs/feature-guide/11-diagnostics.md</a></p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F11.1</strong> - [Domain + fake] - [1h] - Diagnostics snapshot and fake</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F11.2</strong> - [View models] - [2h] - Wire diagnostics and cleanup</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F11.3</strong> - [Real data] - [8h] - Storage, bundle, Crashlytics</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F11.4</strong> - [Release] - [6h] - Instruments pass and TestFlight #2</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> Tests written and green (after the feature works)</p>\n</li>\n</ul>\n</dd></dl>",
+          "text": "Demo: integrity check, storage cleanup, diagnostic bundle, Crashlytics; second TestFlight build. Spec: 09, 19 Instruments Guide: docs/feature-guide/11-diagnostics.md F11.1 - [Domain + fake] - [1h] - Diagnostics snapshot and fake F11.2 - [View models] - [2h] - Wire diagnostics and cleanup F11.3 - [Real data] - [8h] - Storage, bundle, Crashlytics F11.4 - [Release] - [6h] - Instruments pass and TestFlight #2 Tests written and green (after the feature works)"
+        }
+      ]
+    },
+    {
+      "id": "f12--auth-and-multi-device-sync--60h",
+      "title": "F12 — Auth and multi-device sync · 60h",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul class=\"contains-task-list\">\n<li>\n<p>Demo: a second device sees the same data; deletes propagate.</p>\n</li>\n<li>\n<p>Spec: <a href=\"../sitelog-specs-02-upload-sync/#08-auth-and-sync\">08</a>, <a href=\"../sitelog-specs-03-backend/#7-sync\">14 §7 Sync</a></p>\n</li>\n<li>\n<p>Guide: <a href=\"../sitelog-guide-12-auth-sync/\">docs/feature-guide/12-auth-sync.md</a></p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F12.1</strong> - [Domain] - [1h] - Auth and sync protocols</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F12.2</strong> - [Fake data] - [1h] - Fake auth and sync</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F12.3</strong> - [View models] - [8h] - Wire sign-in, account, sync status</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F12.4</strong> - [Backend] - [6h] - Pull and push endpoints</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F12.5</strong> - [Real data] - [44h] - Firebase Auth and sync engine</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> Tests written and green (after the feature works)</p>\n</li>\n</ul>\n</dd></dl>",
+          "text": "Demo: a second device sees the same data; deletes propagate. Spec: 08, 14 §7 Sync Guide: docs/feature-guide/12-auth-sync.md F12.1 - [Domain] - [1h] - Auth and sync protocols F12.2 - [Fake data] - [1h] - Fake auth and sync F12.3 - [View models] - [8h] - Wire sign-in, account, sync status F12.4 - [Backend] - [6h] - Pull and push endpoints F12.5 - [Real data] - [44h] - Firebase Auth and sync engine Tests written and green (after the feature works)"
+        }
+      ]
+    },
+    {
+      "id": "f13--realtime-progress-and-verification--20h",
+      "title": "F13 — Realtime progress and verification · 20h",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul class=\"contains-task-list\">\n<li>\n<p>Demo: the Sync tab shows server-confirmed state as events arrive; mismatches are flagged.</p>\n</li>\n<li>\n<p>Spec: <a href=\"../sitelog-specs-02-upload-sync/#10-realtime-progress-channel\">10</a>, <a href=\"../sitelog-specs-03-backend/#8-integrity\">14 §8–9</a></p>\n</li>\n<li>\n<p>Guide: <a href=\"../sitelog-guide-13-realtime/\">docs/feature-guide/13-realtime.md</a></p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F13.1</strong> - [Fake data] - [1h] - Fake event stream</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F13.2</strong> - [View models] - [2h] - Live state on the Sync tab</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F13.3</strong> - [Real data] - [17h] - Channel, bridge, verification worker</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> Tests written and green (after the feature works)</p>\n</li>\n</ul>\n</dd></dl>",
+          "text": "Demo: the Sync tab shows server-confirmed state as events arrive; mismatches are flagged. Spec: 10, 14 §8–9 Guide: docs/feature-guide/13-realtime.md F13.1 - [Fake data] - [1h] - Fake event stream F13.2 - [View models] - [2h] - Live state on the Sync tab F13.3 - [Real data] - [17h] - Channel, bridge, verification worker Tests written and green (after the feature works)"
+        }
+      ]
+    },
+    {
+      "id": "f14--push-and-deep-links--11h",
+      "title": "F14 — Push and deep links · 11h",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul class=\"contains-task-list\">\n<li>\n<p>Demo: a push opens its target; <code>sitelog://</code> links work after cold launch.</p>\n</li>\n<li>\n<p>Spec: <a href=\"../sitelog-specs-05-platform/#18-push-notifications-and-deep-links\">18</a></p>\n</li>\n<li>\n<p>Guide: <a href=\"../sitelog-guide-14-push-deeplinks/\">docs/feature-guide/14-push-deeplinks.md</a></p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F14.1</strong> - [Domain] - [1h] - Deep link parser</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F14.2</strong> - [View models] - [2h] - Notification permission and settings</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F14.3</strong> - [Real data] - [8h] - Push and routing</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> Tests written and green (after the feature works)</p>\n</li>\n</ul>\n</dd></dl>",
+          "text": "Demo: a push opens its target; sitelog:// links work after cold launch. Spec: 18 Guide: docs/feature-guide/14-push-deeplinks.md F14.1 - [Domain] - [1h] - Deep link parser F14.2 - [View models] - [2h] - Notification permission and settings F14.3 - [Real data] - [8h] - Push and routing Tests written and green (after the feature works)"
+        }
+      ]
+    },
+    {
+      "id": "f15--accessibility-and-performance--14h",
+      "title": "F15 — Accessibility and performance · 14h",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul class=\"contains-task-list\">\n<li>\n<p>Demo: VoiceOver walk unlock → projects → capture → report; every Instruments budget met.</p>\n</li>\n<li>\n<p>Spec: <a href=\"../sitelog-specs-05-platform/#19-performance-profiling-with-instruments\">19 Instruments</a></p>\n</li>\n<li>\n<p>Guide: <a href=\"../sitelog-guide-15-release-readiness/\">docs/feature-guide/15-release-readiness.md</a></p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F15.1</strong> - [Polish] - [8h] - Accessibility pass</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F15.2</strong> - [Release] - [6h] - Budgets and feedback</p>\n</li>\n</ul>\n</dd></dl>",
+          "text": "Demo: VoiceOver walk unlock → projects → capture → report; every Instruments budget met. Spec: 19 Instruments Guide: docs/feature-guide/15-release-readiness.md F15.1 - [Polish] - [8h] - Accessibility pass F15.2 - [Release] - [6h] - Budgets and feedback"
+        }
+      ]
+    },
+    {
+      "id": "f16--ui-finish-and-app-store--48h",
+      "title": "F16 — UI finish and App Store · 48h",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul class=\"contains-task-list\">\n<li>\n<p>Demo: every screen next to its Figma frame, light and dark; build submitted.</p>\n</li>\n<li>\n<p>Spec: <a href=\"https://github.com/DAMHONGDUC/site-log-ios/blob/main/docs/design/00-design-plan.md\" target=\"_blank\" rel=\"noreferrer\">Design plan</a></p>\n</li>\n<li>\n<p>Guide: <a href=\"../sitelog-guide-16-ui-finish/\">docs/feature-guide/16-ui-finish.md</a></p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F16.1</strong> - [UI] - [6h] - Components to Figma; snapshot references re-recorded</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F16.2</strong> - [UI] - [3h] - S1 access screens</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F16.3</strong> - [UI] - [6h] - S2–S3 projects, sessions, rooms</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F16.4</strong> - [UI] - [6h] - S4–S5 camera, capture review, issues</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F16.5</strong> - [UI] - [5h] - S6–S7 markup, stamp, plans</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F16.6</strong> - [UI] - [6h] - S8–S9 checklists, reports</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F16.7</strong> - [UI] - [5h] - S10–S11 sync, diagnostics, settings</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F16.8</strong> - [UI] - [5h] - Dark mode; empty, error, offline states; real imagery</p>\n</li>\n<li class=\"task-list-item\">\n<p><input type=\"checkbox\" disabled> <strong>F16.9</strong> - [Release] - [6h] - Accessibility re-check, App Store listing, submission</p>\n</li>\n</ul>\n</dd></dl>",
+          "text": "Demo: every screen next to its Figma frame, light and dark; build submitted. Spec: Design plan Guide: docs/feature-guide/16-ui-finish.md F16.1 - [UI] - [6h] - Components to Figma; snapshot references re-recorded F16.2 - [UI] - [3h] - S1 access screens F16.3 - [UI] - [6h] - S2–S3 projects, sessions, rooms F16.4 - [UI] - [6h] - S4–S5 camera, capture review, issues F16.5 - [UI] - [5h] - S6–S7 markup, stamp, plans F16.6 - [UI] - [6h] - S8–S9 checklists, reports F16.7 - [UI] - [5h] - S10–S11 sync, diagnostics, settings F16.8 - [UI] - [5h] - Dark mode; empty, error, offline states; real imagery F16.9 - [Release] - [6h] - Accessibility re-check, App Store listing, submission"
+        }
+      ]
+    },
+    {
+      "id": "rules",
+      "title": "Rules",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ol>\n<li>One feature at a time, in the order above; a feature is done when its demo runs on a real device and its tests pass.</li>\n<li>Each step ends with something runnable, never \"half a screen\".</li>\n<li>Fakes only in <code>Packages/DataLayer/Sources/DataLayer/Fakes/</code>; switching fake → real changes <code>AppDependencies</code> only.</li>\n<li>Tests come after a feature is done: once it works end to end, write the tests listed in its guide.\nNo tests while a step is still being built.</li>\n<li>Visual work to Figma waits for <code>F16</code>; until then a step changes layout only when a view model needs it.</li>\n<li>A step estimated above 8h is split when you start it.</li>\n<li>Tick the box in the same commit that finishes the step.</li>\n</ol>\n</dd></dl>",
+          "text": "One feature at a time, in the order above; a feature is done when its demo runs on a real device and its tests pass. Each step ends with something runnable, never \"half a screen\". Fakes only in Packages/DataLayer/Sources/DataLayer/Fakes/; switching fake → real changes AppDependencies only. Tests come after a feature is done: once it works end to end, write the tests listed in its guide. No tests while a step is still being built. Visual work to Figma waits for F16; until then a step changes layout only when a view model needs it. A step estimated above 8h is split when you start it. Tick the box in the same commit that finishes the step."
+        }
+      ]
+    }
+  ],
+  "effectiveDate": "2026-09-30",
+  "lastUpdated": "2026-10-10"
+}

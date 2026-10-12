@@ -1,25 +1,36 @@
 {
-  "topic": "ios",
   "series": [
     {
-      "id": "sitelog-specs",
-      "name": "SiteLog: feature specs",
+      "id": "sitelog",
+      "name": "SiteLog: an iOS app, built",
+      "topic": "ios",
       "github": "DAMHONGDUC/site-log-ios",
       "branch": "main",
       "localPath": "../../SwiftUI/site-log-ios",
-      "dir": "docs/feature-docs",
-      "icon": "📐",
-      "tags": ["SwiftUI", "iOS", "Architecture", "Specs"]
-    },
-    {
-      "id": "sitelog-guide",
-      "name": "SiteLog: build guide",
-      "github": "DAMHONGDUC/site-log-ios",
-      "branch": "main",
-      "localPath": "../../SwiftUI/site-log-ios",
-      "dir": "docs/feature-guide",
-      "icon": "🛠️",
-      "tags": ["SwiftUI", "iOS", "Step by step"]
+      "tags": ["SwiftUI", "iOS"],
+      "parts": [
+        {
+          "file": "ROADMAP.md",
+          "slug": "sitelog-roadmap",
+          "title": "SiteLog roadmap",
+          "icon": "🗺️",
+          "tags": ["Roadmap"]
+        },
+        {
+          "dir": "docs/feature-docs",
+          "slugPrefix": "sitelog-specs",
+          "group": "Feature specs",
+          "icon": "📐",
+          "tags": ["Architecture", "Specs"]
+        },
+        {
+          "dir": "docs/feature-guide",
+          "slugPrefix": "sitelog-guide",
+          "group": "Build guide",
+          "icon": "🛠️",
+          "tags": ["Step by step"]
+        }
+      ]
     }
   ]
 }

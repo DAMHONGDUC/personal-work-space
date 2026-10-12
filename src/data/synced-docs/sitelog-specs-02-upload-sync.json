@@ -15,9 +15,10 @@
   ],
   "numbered": false,
   "series": {
-    "id": "sitelog-specs",
-    "part": 2,
-    "name": "SiteLog: feature specs"
+    "id": "sitelog",
+    "part": 3,
+    "name": "SiteLog: an iOS app, built",
+    "group": "Feature specs"
   },
   "intro": [
     "How bytes and metadata leave the device and reach other devices. Server side: 03-backend.md."

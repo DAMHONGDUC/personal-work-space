@@ -14,9 +14,10 @@
   ],
   "numbered": false,
   "series": {
-    "id": "sitelog-guide",
-    "part": 1,
-    "name": "SiteLog: build guide"
+    "id": "sitelog",
+    "part": 8,
+    "name": "SiteLog: an iOS app, built",
+    "group": "Build guide"
   },
   "intro": [
     "F01 · 15h · step-by-step guide with full code (steps 1–3); step 4 is a skeleton."

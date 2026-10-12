@@ -578,3 +578,17 @@ html {
   color: var(--md-tag-check);
   background: color-mix(in oklab, var(--md-tag-check) 14%, transparent);
 }
+
+/* A mermaid diagram the sync drew to SVG: centred, its own size, never wider than the column. */
+.md-body .md-diagram {
+  overflow-x: auto;
+  text-align: center;
+}
+
+.md-body .md-diagram img {
+  display: inline-block;
+  max-width: 100%;
+  height: auto;
+  border: 0;
+  background: none;
+}
