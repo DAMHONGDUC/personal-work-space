@@ -40,8 +40,8 @@
       "blocks": [
         {
           "type": "html",
-          "html": "<dl><dd>\n<div class=\"md-code\"><div class=\"md-code-bar\"><span class=\"md-code-lang\"></span><button type=\"button\" class=\"md-copy\" aria-label=\"Copy code\"><svg aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect width=\"14\" height=\"14\" x=\"8\" y=\"8\" rx=\"2\" ry=\"2\"/><path d=\"M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2\"/></svg><span class=\"md-copy-label\">Copy</span></button></div><pre class=\"shiki shiki-themes github-light github-dark\" style=\"--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e\" tabindex=\"0\"><code class=\"language-text\"><span class=\"line\"><span>SiteLog/PrivacyInfo.xcprivacy    # 2</span></span>\n<span class=\"line\"><span>SiteLogTests/Snapshots/          # 1: accessibility3 per screen</span></span></code></pre></div>\n</dd></dl>",
-          "text": "SiteLog/PrivacyInfo.xcprivacy # 2 SiteLogTests/Snapshots/ # 1: accessibility3 per screen"
+          "html": "<dl><dd>\n<div class=\"md-code\"><div class=\"md-code-bar\"><span class=\"md-code-lang\"></span><button type=\"button\" class=\"md-copy\" aria-label=\"Copy code\"><svg aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect width=\"14\" height=\"14\" x=\"8\" y=\"8\" rx=\"2\" ry=\"2\"/><path d=\"M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2\"/></svg><span class=\"md-copy-label\">Copy</span></button></div><pre class=\"shiki shiki-themes github-light github-dark\" style=\"--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e\" tabindex=\"0\"><code class=\"language-text\"><span class=\"line\"><span>SiteLog/PrivacyInfo.xcprivacy    # 2</span></span></code></pre></div>\n</dd></dl>",
+          "text": "SiteLog/PrivacyInfo.xcprivacy # 2"
         }
       ]
     },
@@ -51,8 +51,8 @@
       "blocks": [
         {
           "type": "html",
-          "html": "<dl><dd>\n<ul>\n<li><strong>Goal:</strong> every screen readable with Dynamic Type, VoiceOver and high contrast.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Action</th><th>File</th><th>Holds</th></tr></thead><tbody><tr><td><b class=\"tag-edit\">Edit</b></td><td>Every screen</td><td>Labels, traits, grouping, focus order</td></tr><tr><td><b class=\"tag-new\">New</b></td><td><code>SiteLogTests/Snapshots/</code></td><td><code>accessibility3</code> snapshot per screen</td></tr></tbody></table></div>\n<h4 id=\"steps\">Steps</h4>\n<dl><dd>\n<ol>\n<li>VoiceOver walk: unlock → projects → capture → report.</li>\n<li>Severity readable without colour (shapes already in <code>SDStatusMarker</code>).</li>\n<li>Minimum 44 pt targets.</li>\n</ol>\n</dd></dl>\n</dd></dl>",
-          "text": "Goal: every screen readable with Dynamic Type, VoiceOver and high contrast. Action File HoldsEdit Every screen Labels, traits, grouping, focus order New SiteLogTests/Snapshots/ accessibility3 snapshot per screen Steps VoiceOver walk: unlock → projects → capture → report. Severity readable without colour (shapes already in SDStatusMarker). Minimum 44 pt targets."
+          "html": "<dl><dd>\n<ul>\n<li><strong>Goal:</strong> every screen readable with Dynamic Type, VoiceOver and high contrast.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Action</th><th>File</th><th>Holds</th></tr></thead><tbody><tr><td><b class=\"tag-edit\">Edit</b></td><td>Every screen</td><td>Labels, traits, grouping, focus order</td></tr></tbody></table></div>\n<h4 id=\"steps\">Steps</h4>\n<dl><dd>\n<ol>\n<li>VoiceOver walk: unlock → projects → capture → report.</li>\n<li>Severity readable without colour (shapes already in <code>SDStatusMarker</code>).</li>\n<li>Minimum 44 pt targets.</li>\n</ol>\n</dd></dl>\n</dd></dl>",
+          "text": "Goal: every screen readable with Dynamic Type, VoiceOver and high contrast. Action File HoldsEdit Every screen Labels, traits, grouping, focus order Steps VoiceOver walk: unlock → projects → capture → report. Severity readable without colour (shapes already in SDStatusMarker). Minimum 44 pt targets."
         }
       ]
     },
@@ -73,8 +73,8 @@
       "blocks": [
         {
           "type": "html",
-          "html": "<dl><dd>\n<p><strong>1. Polish — Accessibility pass</strong></p>\n<ul>\n<li>Snapshots at <code>accessibility3</code></li>\n<li>Xcode Accessibility Inspector audit clean</li>\n</ul>\n</dd></dl>",
-          "text": "1. Polish — Accessibility pass Snapshots at accessibility3 Xcode Accessibility Inspector audit clean"
+          "html": "<dl><dd>\n<p><strong>1. Polish — Accessibility pass</strong></p>\n<ul>\n<li>Every screen usable at <code>accessibility3</code> Dynamic Type</li>\n<li>Xcode Accessibility Inspector audit clean</li>\n</ul>\n</dd></dl>",
+          "text": "1. Polish — Accessibility pass Every screen usable at accessibility3 Dynamic Type Xcode Accessibility Inspector audit clean"
         }
       ]
     },
@@ -91,5 +91,5 @@
     }
   ],
   "effectiveDate": "2026-10-08",
-  "lastUpdated": "2026-10-10"
+  "lastUpdated": "2026-10-12"
 }

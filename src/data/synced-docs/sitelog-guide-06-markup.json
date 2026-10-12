@@ -95,8 +95,8 @@
       "blocks": [
         {
           "type": "html",
-          "html": "<dl><dd>\n<p><strong>1. Domain — Annotation types</strong></p>\n<ul>\n<li><code>AnnotationShape</code> Codable round-trip</li>\n</ul>\n<p><strong>3. View models — Wire markup and stamp</strong></p>\n<ul>\n<li>Undo bounds</li>\n</ul>\n<p><strong>4. Real data — Rendering and trusted time</strong></p>\n<ul>\n<li>Same render at two sizes</li>\n<li>Original never mutated</li>\n<li>Confidence for fresh / stale offset, clock jump, relaunch</li>\n<li>Stamp snapshot in three orientations</li>\n</ul>\n</dd></dl>",
-          "text": "1. Domain — Annotation types AnnotationShape Codable round-trip 3. View models — Wire markup and stamp Undo bounds 4. Real data — Rendering and trusted time Same render at two sizes Original never mutated Confidence for fresh / stale offset, clock jump, relaunch Stamp snapshot in three orientations"
+          "html": "<dl><dd>\n<p><strong>1. Domain — Annotation types</strong></p>\n<ul>\n<li><code>AnnotationShape</code> Codable round-trip</li>\n</ul>\n<p><strong>3. View models — Wire markup and stamp</strong></p>\n<ul>\n<li>Undo bounds</li>\n</ul>\n<p><strong>4. Real data — Rendering and trusted time</strong></p>\n<ul>\n<li>Same render at two sizes</li>\n<li>Original never mutated</li>\n<li>Confidence for fresh / stale offset, clock jump, relaunch</li>\n<li>Stamp position correct in three orientations</li>\n</ul>\n</dd></dl>",
+          "text": "1. Domain — Annotation types AnnotationShape Codable round-trip 3. View models — Wire markup and stamp Undo bounds 4. Real data — Rendering and trusted time Same render at two sizes Original never mutated Confidence for fresh / stale offset, clock jump, relaunch Stamp position correct in three orientations"
         }
       ]
     },
@@ -113,5 +113,5 @@
     }
   ],
   "effectiveDate": "2026-10-08",
-  "lastUpdated": "2026-10-10"
+  "lastUpdated": "2026-10-12"
 }

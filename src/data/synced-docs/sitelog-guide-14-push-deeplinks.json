@@ -84,8 +84,8 @@
       "blocks": [
         {
           "type": "html",
-          "html": "<dl><dd>\n<p><strong>2. View models — Notification permission and settings</strong></p>\n<ul>\n<li>View model</li>\n<li>Snapshot</li>\n</ul>\n<p><strong>3. Real data — Push and routing</strong></p>\n<ul>\n<li>Payload with / without <code>deepLink</code></li>\n<li>Push for another account ignored</li>\n<li>Parser routes and rejections</li>\n<li>Router holds until consumed</li>\n<li>Cold-launch link survives (UI test)</li>\n</ul>\n</dd></dl>",
-          "text": "2. View models — Notification permission and settings View model Snapshot 3. Real data — Push and routing Payload with / without deepLink Push for another account ignored Parser routes and rejections Router holds until consumed Cold-launch link survives (UI test)"
+          "html": "<dl><dd>\n<p><strong>2. View models — Notification permission and settings</strong></p>\n<ul>\n<li>View model</li>\n</ul>\n<p><strong>3. Real data — Push and routing</strong></p>\n<ul>\n<li>Payload with / without <code>deepLink</code></li>\n<li>Push for another account ignored</li>\n<li>Parser routes and rejections</li>\n<li>Router holds until consumed</li>\n<li>Cold-launch link survives (UI test)</li>\n</ul>\n</dd></dl>",
+          "text": "2. View models — Notification permission and settings View model 3. Real data — Push and routing Payload with / without deepLink Push for another account ignored Parser routes and rejections Router holds until consumed Cold-launch link survives (UI test)"
         }
       ]
     },
@@ -102,5 +102,5 @@
     }
   ],
   "effectiveDate": "2026-10-08",
-  "lastUpdated": "2026-10-10"
+  "lastUpdated": "2026-10-12"
 }

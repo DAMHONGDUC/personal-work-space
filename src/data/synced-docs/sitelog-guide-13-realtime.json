@@ -84,8 +84,8 @@
       "blocks": [
         {
           "type": "html",
-          "html": "<dl><dd>\n<p><strong>2. View models — Live state on the Sync tab</strong></p>\n<ul>\n<li>View model with a fake event stream</li>\n<li>Snapshot</li>\n</ul>\n<p><strong>3. Real data — Channel, bridge, verification worker</strong></p>\n<ul>\n<li>Decode all types + malformed</li>\n<li>Oversized message closes</li>\n<li>Missing <code>pong</code> → backoff</li>\n<li>Backoff cap and jitter</li>\n<li>Applying one event 10× equals once</li>\n<li>Snapshot applies forward only</li>\n<li>Hash mismatch raises <code>integrity</code></li>\n<li>Worker flips <code>verified</code> or raises <code>integrity</code></li>\n<li><code>/verify</code> shows the new state</li>\n</ul>\n</dd></dl>",
-          "text": "2. View models — Live state on the Sync tab View model with a fake event stream Snapshot 3. Real data — Channel, bridge, verification worker Decode all types + malformed Oversized message closes Missing pong → backoff Backoff cap and jitter Applying one event 10× equals once Snapshot applies forward only Hash mismatch raises integrity Worker flips verified or raises integrity /verify shows the new state"
+          "html": "<dl><dd>\n<p><strong>2. View models — Live state on the Sync tab</strong></p>\n<ul>\n<li>View model with a fake event stream</li>\n</ul>\n<p><strong>3. Real data — Channel, bridge, verification worker</strong></p>\n<ul>\n<li>Decode all types + malformed</li>\n<li>Oversized message closes</li>\n<li>Missing <code>pong</code> → backoff</li>\n<li>Backoff cap and jitter</li>\n<li>Applying one event 10× equals once</li>\n<li>Snapshot applies forward only</li>\n<li>Hash mismatch raises <code>integrity</code></li>\n<li>Worker flips <code>verified</code> or raises <code>integrity</code></li>\n<li><code>/verify</code> shows the new state</li>\n</ul>\n</dd></dl>",
+          "text": "2. View models — Live state on the Sync tab View model with a fake event stream 3. Real data — Channel, bridge, verification worker Decode all types + malformed Oversized message closes Missing pong → backoff Backoff cap and jitter Applying one event 10× equals once Snapshot applies forward only Hash mismatch raises integrity Worker flips verified or raises integrity /verify shows the new state"
         }
       ]
     },
@@ -102,5 +102,5 @@
     }
   ],
   "effectiveDate": "2026-10-08",
-  "lastUpdated": "2026-10-10"
+  "lastUpdated": "2026-10-12"
 }

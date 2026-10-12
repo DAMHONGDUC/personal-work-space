@@ -95,8 +95,8 @@
       "blocks": [
         {
           "type": "html",
-          "html": "<dl><dd>\n<p><strong>3. Real data — Storage, bundle, Crashlytics</strong></p>\n<ul>\n<li>Cleanup never touches pending / failed</li>\n<li>Redaction snapshot</li>\n</ul>\n</dd></dl>",
-          "text": "3. Real data — Storage, bundle, Crashlytics Cleanup never touches pending / failed Redaction snapshot"
+          "html": "<dl><dd>\n<p><strong>3. Real data — Storage, bundle, Crashlytics</strong></p>\n<ul>\n<li>Cleanup never touches pending / failed</li>\n<li>Redacted bundle equals the expected text</li>\n</ul>\n</dd></dl>",
+          "text": "3. Real data — Storage, bundle, Crashlytics Cleanup never touches pending / failed Redacted bundle equals the expected text"
         }
       ]
     },
@@ -113,5 +113,5 @@
     }
   ],
   "effectiveDate": "2026-10-08",
-  "lastUpdated": "2026-10-10"
+  "lastUpdated": "2026-10-12"
 }
