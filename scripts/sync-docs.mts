@@ -22,6 +22,8 @@
  *   dark, and shown as a <picture> that follows the reader's colour scheme.
  *   Drawings are named by a hash of their source and kept between syncs, so an
  *   unchanged diagram is not drawn again.
+ * - Code is coloured with Shiki, as the site's own code blocks are, and given
+ *   a bar naming the language with a copy button (wired up by HtmlBlock).
  * - A `## Contents` section is dropped: the page draws its own.
  *
  * Run by hand — `make site-log-docs-sync` — and commit the result. The build
@@ -32,6 +34,7 @@ import { execFileSync } from "node:child_process";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
+import rehypeShiki from "@shikijs/rehype";
 import GithubSlugger from "github-slugger";
 import type { Element, ElementContent, Root as HastRoot } from "hast";
 import { toText } from "hast-util-to-text";
@@ -44,6 +47,7 @@ import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
 import { unified } from "unified";
 import { visit } from "unist-util-visit";
+import { CodeHighlight } from "../src/lib/docs/code-highlight.mts";
 import { ResourceConstant } from "../src/lib/resource-constant.mts";
 
 /** One entry of a series: a single file, or a folder of them. */
@@ -306,26 +310,112 @@ function externalLinks() {
   };
 }
 
+/** Lucide's copy icon, inline so the button needs no script to draw. */
+const COPY_ICON =
+  '<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>';
+
+/**
+ * Puts each code block in a frame with a bar over it: the language, and a copy
+ * button HtmlBlock listens for. Plain-text blocks show no language name.
+ */
+function frameCode() {
+  return (tree: HastRoot) => {
+    visit(tree, "element", (node: Element, index, parent) => {
+      if (node.tagName !== "pre" || !parent || index === undefined) return;
+      const parentClass = (parent as Element).properties?.className;
+      if (Array.isArray(parentClass) && parentClass.includes("md-code")) return;
+
+      const code = node.children.find((child): child is Element => child.type === "element" && child.tagName === "code");
+      // Shiki writes the class as a string under `class`; hast's own is a `className` array.
+      const classes = code?.properties?.className ?? code?.properties?.class;
+      const names = Array.isArray(classes) ? classes.map(String) : String(classes ?? "").split(/\s+/);
+      const named = names.find((name) => name.startsWith("language-"))?.slice("language-".length);
+      const language = named && named !== "text" ? named : "";
+
+      const frame: Element = {
+        type: "element",
+        tagName: "div",
+        properties: { className: ["md-code"] },
+        children: [
+          {
+            type: "element",
+            tagName: "div",
+            properties: { className: ["md-code-bar"] },
+            children: [
+              { type: "element", tagName: "span", properties: { className: ["md-code-lang"] }, children: [{ type: "text", value: language }] },
+              {
+                type: "element",
+                tagName: "button",
+                properties: { type: "button", className: ["md-copy"], ariaLabel: "Copy code" },
+                children: [
+                  { type: "raw", value: COPY_ICON } as unknown as ElementContent,
+                  { type: "element", tagName: "span", properties: { className: ["md-copy-label"] }, children: [{ type: "text", value: "Copy" }] },
+                ],
+              },
+            ],
+          },
+          node,
+        ],
+      };
+      (parent.children as ElementContent[])[index] = frame;
+    });
+  };
+}
+
+/**
+ * Shiki puts each coloured block in as a nested `root` node, which text
+ * extraction skips — a section of nothing but code would read as empty to the
+ * search. Its children take its place.
+ */
+function flattenRoots() {
+  return (tree: HastRoot) => {
+    const flatten = (node: { children?: unknown[] }) => {
+      if (!node.children) return;
+      node.children = node.children.flatMap((child) => {
+        const inner = child as { type: string; children?: unknown[] };
+        if (inner.type === "root") {
+          flatten(inner);
+          return inner.children ?? [];
+        }
+        flatten(inner);
+        return [child];
+      });
+    };
+    flatten(tree as unknown as { children?: unknown[] });
+  };
+}
+
+/** Markdown to HTML, code coloured: what the page shows and what search reads. */
 const toHast = unified()
   .use(remarkRehype, { allowDangerousHtml: true })
   .use(rehypeRaw)
-  .use(wrapTables)
-  .use(externalLinks);
-const stringify = unified().use(rehypeStringify);
+  .use(rehypeShiki, {
+    themes: CodeHighlight.THEMES,
+    defaultColor: false,
+    // Loaded up front, not lazily: pages render in parallel, and a lazy load
+    // still in flight makes the blocks racing it fall back to plain text.
+    langs: [...CodeHighlight.LANGUAGES, "mermaid"],
+    defaultLanguage: "text",
+    fallbackLanguage: "text",
+    addLanguageClass: true,
+  })
+  .use(flattenRoots);
+/** The frames, wrappers and link targets, added after the text is read for search. */
+const decorate = unified().use(frameCode).use(wrapTables).use(externalLinks);
+const stringify = unified().use(rehypeStringify, { allowDangerousHtml: true });
 
-function render(nodes: RootContent[]): { html: string; text: string } {
-  const hast = toHast.runSync({ type: "root", children: nodes } satisfies Root) as HastRoot;
-  return {
-    html: stringify.stringify(hast).trim(),
-    text: toText(hast).replace(/\s+/g, " ").trim(),
-  };
+async function render(nodes: RootContent[]): Promise<{ html: string; text: string }> {
+  const hast = (await toHast.run({ type: "root", children: nodes } satisfies Root)) as HastRoot;
+  const text = toText(hast).replace(/\s+/g, " ").trim();
+  await decorate.run(hast);
+  return { html: stringify.stringify(hast).trim(), text };
 }
 
 function oneLine(node: Parameters<typeof toString>[0]): string {
   return toString(node).replace(/\s+/g, " ").trim();
 }
 
-function convert(
+async function convert(
   series: Series,
   page: Page,
   part: number,
@@ -383,14 +473,16 @@ function convert(
     }
   }
 
-  const sections: Section[] = chunks
-    .filter(({ heading }) => !DROPPED_SECTIONS.has(toString(heading)))
-    .map(({ heading, nodes }) => ({
-      id: (heading.data as { hProperties: { id: string } }).hProperties.id,
-      title: toString(heading),
-      blocks: [{ type: "html" as const, ...render(nodes) }],
-    }))
-    .filter((section) => section.blocks[0].html !== "");
+  const rendered = await Promise.all(
+    chunks
+      .filter(({ heading }) => !DROPPED_SECTIONS.has(toString(heading)))
+      .map(async ({ heading, nodes }) => ({
+        id: (heading.data as { hProperties: { id: string } }).hProperties.id,
+        title: toString(heading),
+        blocks: [{ type: "html" as const, ...(await render(nodes)) }],
+      })),
+  );
+  const sections: Section[] = rendered.filter((section) => section.blocks[0].html !== "");
 
   // The lines under the title read as the intro: list items, else paragraphs.
   const introRoot: Root = { type: "root", children: intro };
@@ -452,7 +544,7 @@ function pruneAssets(dir: string) {
   }
 }
 
-function sync() {
+async function sync() {
   const all = config.series.map((series) => ({ series, pages: pagesOf(series) }));
 
   // Every page's slug, known up front so links between them resolve — and every
@@ -471,10 +563,14 @@ function sync() {
 
   // Everything is converted before anything is deleted, so a sync that fails
   // half-way leaves the last good pages in place.
-  const results = all.map(({ series, pages: list }) => ({
-    series,
-    converted: list.map((page, part) => ({ page, ...convert(series, page, part, pages, folders) })),
-  }));
+  const results = await Promise.all(
+    all.map(async ({ series, pages: list }) => ({
+      series,
+      converted: await Promise.all(
+        list.map(async (page, part) => ({ page, ...(await convert(series, page, part, pages, folders)) })),
+      ),
+    })),
+  );
 
   for (const { series, converted } of results) {
     for (const stale of fs.readdirSync(outDir).filter((file) => file.startsWith(`${series.id}-`))) {
@@ -496,4 +592,4 @@ function sync() {
   pruneAssets(assetsDir);
 }
 
-sync();
+await sync();

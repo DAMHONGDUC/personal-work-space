@@ -3,6 +3,7 @@ import { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { CodeSample } from "./CodeSample";
+import { HtmlBlock } from "./HtmlBlock";
 
 let container: HTMLDivElement;
 let root: Root;
@@ -54,5 +55,25 @@ describe("CodeSample", () => {
     );
 
     expect(page.querySelector("pre.shiki span")?.textContent).toBe("let");
+  });
+});
+
+describe("HtmlBlock", () => {
+  it("copies a synced code block from the button the sync drew", async () => {
+    const page = render(
+      <HtmlBlock
+        accent="#0ea5e9"
+        block={{
+          type: "html",
+          text: "let x = 1",
+          html: '<div class="md-code"><div class="md-code-bar"><span class="md-code-lang">swift</span><button type="button" class="md-copy" aria-label="Copy code"><span class="md-copy-label">Copy</span></button></div><pre><code>let x = 1</code></pre></div>',
+        }}
+      />,
+    );
+
+    await act(async () => page.querySelector<HTMLButtonElement>(".md-copy")!.click());
+
+    expect(writeText).toHaveBeenCalledWith("let x = 1");
+    expect(page.querySelector(".md-copy-label")?.textContent).toBe("Copied");
   });
 });
