@@ -51,8 +51,8 @@
       "blocks": [
         {
           "type": "html",
-          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Action</th><th>File</th><th>Holds</th></tr></thead><tbody><tr><td><b class=\"tag-new\">New</b></td><td><code>Packages/DomainLayer/Sources/DomainLayer/Checklists/</code></td><td>Template, item, run, result; answer use case (Fail → issue through F05)</td></tr></tbody></table></div>\n</dd></dl>",
-          "text": "Action File HoldsNew Packages/DomainLayer/Sources/DomainLayer/Checklists/ Template, item, run, result; answer use case (Fail → issue through F05)"
+          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Action</th><th>File</th><th>Holds</th></tr></thead><tbody><tr><td><b class=\"tag-new\">New</b></td><td><code>Packages/DomainLayer/Sources/DomainLayer/Checklists/</code></td><td>Template, item, run, result</td></tr><tr><td><b class=\"tag-new\">New</b></td><td><code>Packages/DomainLayer/Sources/DomainLayer/Checklists/UseCases/</code></td><td>One file per use case: answer (Fail → issue through F05)</td></tr></tbody></table></div>\n</dd></dl>",
+          "text": "Action File HoldsNew Packages/DomainLayer/Sources/DomainLayer/Checklists/ Template, item, run, result New Packages/DomainLayer/Sources/DomainLayer/Checklists/UseCases/ One file per use case: answer (Fail → issue through F05)"
         }
       ]
     },
@@ -113,5 +113,5 @@
     }
   ],
   "effectiveDate": "2026-10-08",
-  "lastUpdated": "2026-10-12"
+  "lastUpdated": "2026-10-13"
 }

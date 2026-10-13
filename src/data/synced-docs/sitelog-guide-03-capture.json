@@ -51,8 +51,8 @@
       "blocks": [
         {
           "type": "html",
-          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Action</th><th>File</th><th>Holds</th></tr></thead><tbody><tr><td><b class=\"tag-new\">New</b></td><td><code>Packages/DomainLayer/Sources/DomainLayer/Capture/CaptureSource.swift</code></td><td>Protocol: start, stop, takePhoto → file URL + metadata</td></tr><tr><td><b class=\"tag-new\">New</b></td><td><code>Packages/DomainLayer/Sources/DomainLayer/Capture/RecordCaptureUseCase.swift</code></td><td>Write → hash → save <code>Capture</code> (entity from F02)</td></tr></tbody></table></div>\n</dd></dl>",
-          "text": "Action File HoldsNew Packages/DomainLayer/Sources/DomainLayer/Capture/CaptureSource.swift Protocol: start, stop, takePhoto → file URL + metadata New Packages/DomainLayer/Sources/DomainLayer/Capture/RecordCaptureUseCase.swift Write → hash → save Capture (entity from F02)"
+          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Action</th><th>File</th><th>Holds</th></tr></thead><tbody><tr><td><b class=\"tag-new\">New</b></td><td><code>Packages/DomainLayer/Sources/DomainLayer/Capture/CaptureSource.swift</code></td><td>Protocol: start, stop, takePhoto → file URL + metadata</td></tr><tr><td><b class=\"tag-new\">New</b></td><td><code>Packages/DomainLayer/Sources/DomainLayer/Capture/UseCases/RecordCaptureUseCase.swift</code></td><td>Write → hash → save <code>Capture</code> (entity from F02)</td></tr></tbody></table></div>\n</dd></dl>",
+          "text": "Action File HoldsNew Packages/DomainLayer/Sources/DomainLayer/Capture/CaptureSource.swift Protocol: start, stop, takePhoto → file URL + metadata New Packages/DomainLayer/Sources/DomainLayer/Capture/UseCases/RecordCaptureUseCase.swift Write → hash → save Capture (entity from F02)"
         }
       ]
     },
@@ -113,5 +113,5 @@
     }
   ],
   "effectiveDate": "2026-10-08",
-  "lastUpdated": "2026-10-12"
+  "lastUpdated": "2026-10-13"
 }

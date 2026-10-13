@@ -51,8 +51,8 @@
       "blocks": [
         {
           "type": "html",
-          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Action</th><th>File</th><th>Holds</th></tr></thead><tbody><tr><td><b class=\"tag-new\">New</b></td><td><code>Packages/DomainLayer/Sources/DomainLayer/Issues/</code></td><td><code>Issue</code>, <code>IssuePairing</code>, <code>PairIssuesUseCase</code> (pure), log / close / carry-over use cases</td></tr></tbody></table></div>\n</dd></dl>",
-          "text": "Action File HoldsNew Packages/DomainLayer/Sources/DomainLayer/Issues/ Issue, IssuePairing, PairIssuesUseCase (pure), log / close / carry-over use cases"
+          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Action</th><th>File</th><th>Holds</th></tr></thead><tbody><tr><td><b class=\"tag-new\">New</b></td><td><code>Packages/DomainLayer/Sources/DomainLayer/Issues/</code></td><td><code>Issue</code>, <code>IssuePairing</code></td></tr><tr><td><b class=\"tag-new\">New</b></td><td><code>Packages/DomainLayer/Sources/DomainLayer/Issues/UseCases/</code></td><td>One file per use case: <code>PairIssuesUseCase</code> (pure), log / close / carry-over</td></tr></tbody></table></div>\n</dd></dl>",
+          "text": "Action File HoldsNew Packages/DomainLayer/Sources/DomainLayer/Issues/ Issue, IssuePairing New Packages/DomainLayer/Sources/DomainLayer/Issues/UseCases/ One file per use case: PairIssuesUseCase (pure), log / close / carry-over"
         }
       ]
     },
@@ -113,5 +113,5 @@
     }
   ],
   "effectiveDate": "2026-10-08",
-  "lastUpdated": "2026-10-12"
+  "lastUpdated": "2026-10-13"
 }
