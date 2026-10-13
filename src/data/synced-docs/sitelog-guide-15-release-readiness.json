@@ -51,8 +51,8 @@
       "blocks": [
         {
           "type": "html",
-          "html": "<dl><dd>\n<ul>\n<li><strong>Goal:</strong> every screen readable with Dynamic Type, VoiceOver and high contrast.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Action</th><th>File</th><th>Holds</th></tr></thead><tbody><tr><td><b class=\"tag-edit\">Edit</b></td><td>Every screen</td><td>Labels, traits, grouping, focus order</td></tr></tbody></table></div>\n<h4 id=\"steps\">Steps</h4>\n<dl><dd>\n<ol>\n<li>VoiceOver walk: unlock → projects → capture → report.</li>\n<li>Severity readable without colour (shapes already in <code>SDStatusMarker</code>).</li>\n<li>Minimum 44 pt targets.</li>\n</ol>\n</dd></dl>\n</dd></dl>",
-          "text": "Goal: every screen readable with Dynamic Type, VoiceOver and high contrast. Action File HoldsEdit Every screen Labels, traits, grouping, focus order Steps VoiceOver walk: unlock → projects → capture → report. Severity readable without colour (shapes already in SDStatusMarker). Minimum 44 pt targets."
+          "html": "<dl><dd>\n<ul>\n<li><strong>Goal:</strong> every screen readable with Dynamic Type, VoiceOver and high contrast.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Action</th><th>File</th><th>Holds</th></tr></thead><tbody><tr><td><b class=\"tag-edit\">Edit</b></td><td>Every screen</td><td>Labels, traits, grouping, focus order</td></tr></tbody></table></div>\n<h4 id=\"steps\">Steps</h4>\n<dl><dd>\n<ol>\n<li>VoiceOver walk: unlock → projects → capture → report.</li>\n<li>Severity readable without colour (shapes already in <code>DSStatusMarker</code>).</li>\n<li>Minimum 44 pt targets.</li>\n</ol>\n</dd></dl>\n</dd></dl>",
+          "text": "Goal: every screen readable with Dynamic Type, VoiceOver and high contrast. Action File HoldsEdit Every screen Labels, traits, grouping, focus order Steps VoiceOver walk: unlock → projects → capture → report. Severity readable without colour (shapes already in DSStatusMarker). Minimum 44 pt targets."
         }
       ]
     },
