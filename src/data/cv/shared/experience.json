@@ -9,14 +9,14 @@
     "groups": [
       {
         "title": "Real Estate Product",
-        "meta": "20 mobile devs · Direct client: Saudi Arabia",
-        "stack": "Flutter, Clean Architecture, Scrum",
+        "meta": "17 mobile devs (10 VN, 7 Egypt & Thailand) · Direct client: Saudi Arabia",
+        "stack": "Modular Feature-Based Clean Architecture, Melos Monorepo, BLoC, Scrum, Kanban",
         "domains": [
           "Real estate"
         ],
         "bullets": [
           "Built and maintained features for a Saudi Arabian government client's real estate product; analysed BRDs with BA, backend and QC, agreed APIs, estimated tasks and demoed every epic to the client.",
-          "Built the design system library with Flutter Widget Previews; reviewed code and mentored.",
+          "Built and maintained the design system library, participating in team peer code reviews.",
           "Embedded Unity in Flutter for an in-app metaverse of buildings and events; integrated third-party SDKs.",
           "Reduced app size from 200MB to 90MB and raised key screens from 30–40 FPS to a steady 60.",
           "Optimised data-layer caching and migrated state management from Stream to BLoC.",
@@ -24,11 +24,29 @@
         ],
         "briefBullets": [
           "Built features for a Saudi government real estate app: BRDs, API contracts, estimates, epic demos.",
-          "Built the design system library with Flutter Widget Previews; reviewed code and mentored.",
+          "Built and maintained the design system library, participating in team peer code reviews.",
           "Embedded Unity in Flutter for an in-app metaverse of buildings and events; integrated SDKs.",
           "Reduced app size from 200MB to 90MB and raised key screens from 30–40 FPS to a steady 60.",
           "Optimised data-layer caching and migrated state management from Stream to BLoC.",
           "Implemented SSL pinning and set up Adjust deferred deep links."
+        ]
+      },
+      {
+        "title": "Private Jet App",
+        "meta": "5 mobile devs · Direct client: Finland",
+        "stack": "React Native New Architecture (JSI, Fabric), Monorepo / Feature-First, TanStack Query, Zustand",
+        "domains": [
+          "Aviation"
+        ],
+        "bullets": [
+          "Built a private jet app from scratch.",
+          "Handled animations and transitions for a smooth, polished UI.",
+          "Worked with the team to build and maintain the CI/CD pipelines, using GitLab Runner self-hosted on a Mac mini."
+        ],
+        "briefBullets": [
+          "Built a private jet app from scratch.",
+          "Handled animations and transitions for a smooth, polished UI.",
+          "Built and maintained CI/CD with the team: GitLab Runner self-hosted on a Mac mini."
         ]
       }
     ]
@@ -95,25 +113,27 @@
       {
         "title": "Cross-Platform Apps",
         "meta": "4–6 mobile devs · Direct client: Japan",
-        "stack": "React Native, Flutter",
+        "stack": "React Native, Expo, Flutter",
         "domains": [
           "E-commerce",
-          "Logistics",
+          "Healthcare",
           "E-learning",
           "Utilities",
           "Real estate"
         ],
         "bullets": [
-          "Built apps from scratch and maintained existing ones: booking and warehouse management in React Native; e-learning, file management and apartment equipment in Flutter.",
-          "Implemented FCM push notifications and Firebase Crashlytics.",
+          "Built apps from scratch and maintained existing ones: booking and health apps in React Native; a household appliance and apartment maintenance management app in Expo; e-learning, file management and apartment equipment apps in Flutter.",
+          "Wrote a native module for the health app to measure heart rate using the phone camera.",
+          "Implemented FCM push notifications, Firebase Crashlytics, and Firebase Analytics.",
           "Set up CI/CD pipelines to build and release the apps.",
           "Made the apps responsive on iPad, in portrait and landscape.",
           "Led a sub-project with 3 members: planned sprints, estimated tasks and reviewed delivery."
         ],
         "briefBullets": [
-          "Built and maintained RN booking and warehouse apps; Flutter e-learning, file and apartment apps.",
-          "Implemented FCM push notifications and Firebase Crashlytics.",
-          "Set up CI/CD pipelines to build and release the apps.",
+          "Built and maintained RN booking and health apps, an Expo apartment maintenance app, an Flutter e-learning app.",
+          "Wrote a native module for camera-based heart rate measurement in the health app.",
+          "Implemented FCM push notifications, Firebase Crashlytics, and Firebase Analytics.",
+          "Maintained CI/CD pipelines to build and release the apps.",
           "Made the apps responsive on iPad, in portrait and landscape.",
           "Led a sub-project with 3 members: planned sprints, estimated tasks and reviewed delivery."
         ]
@@ -136,7 +156,7 @@
       {
         "title": "Trading & Finance App",
         "meta": "3 mobile devs · Direct client: Australia",
-        "stack": "React Native",
+        "stack": "React Native, Redux Toolkit",
         "domains": [
           "Fintech"
         ],

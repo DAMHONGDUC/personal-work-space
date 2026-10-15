@@ -9,7 +9,7 @@
   },
   {
     "name": "React Native",
-    "items": "TypeScript, Redux Toolkit, RTK Query, Zustand, TanStack Query"
+    "items": "TypeScript, Expo, Redux Toolkit, RTK Query, Zustand, TanStack Query"
   },
   {
     "name": "API Integration",
@@ -17,7 +17,7 @@
   },
   {
     "name": "Mobile Features",
-    "items": "Push notifications, Local databases, Camera, Location, Deep links (App Links, Universal Links, Adjust deferred), Play Feature Delivery, On-Demand Resources, App Store and Google Play delivery"
+    "items": "Push notifications, Local databases, Camera, Camera-based heart rate (PPG), Native Modules, Location, Deep links (App Links, Universal Links, Adjust deferred), Play Feature Delivery, On-Demand Resources"
   },
   {
     "name": "Mobile Security",
@@ -25,7 +25,7 @@
   },
   {
     "name": "Mobile Integration",
-    "items": "RevenueCat, In-app purchases, Firestore, FCM, Crashlytics, OneSignal, Unity in Flutter"
+    "items": "RevenueCat, In-app purchases, Firebase (Firestore, FCM, Crashlytics, Analytics), OneSignal, Unity in Flutter"
   },
   {
     "name": "Mobile Testing",
@@ -33,7 +33,7 @@
   },
   {
     "name": "Mobile CI/CD",
-    "items": "Fastlane, GitLab Runner, GitHub Actions, Firebase App Distribution"
+    "items": "Fastlane, GitLab Runner (self-hosted), GitHub Actions, Firebase App Distribution, App Store and Google Play delivery"
   },
   {
     "name": "Web Development",
@@ -41,6 +41,6 @@
   },
   {
     "name": "AI-Assisted Development",
-    "items": "Claude Code, Codex, Cursor, GitNexus, Custom AI agent skills"
+    "items": "Claude Code, Codex, Cursor"
   }
 ]
