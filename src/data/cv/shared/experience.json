@@ -30,19 +30,6 @@
           "Optimised data-layer caching and migrated state management from Stream to BLoC.",
           "Implemented SSL pinning and set up Adjust deferred deep links."
         ]
-      },
-      {
-        "title": "SiteLog – construction site inspection app",
-        "meta": "4 mobile devs · Direct client: Finland",
-        "stack": "SwiftUI, SwiftData, Clean Architecture, MVVM, Kanban",
-        "domains": [
-          "Construction"
-        ],
-        "bullets": [
-          "Building an offline-first iOS app for site supervisors: capture, issue logs and signed PDF reports.",
-          "Set up Clean Architecture with layers as local Swift packages, Factory DI and Swift 6 concurrency.",
-          "Designed a background upload engine that survives app suspension, termination and lost network."
-        ]
       }
     ]
   },
