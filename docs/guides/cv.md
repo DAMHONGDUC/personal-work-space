@@ -8,7 +8,8 @@ The CV is generated: edit the JSON in `src/data/cv/`, never the LaTeX.
 |---|---|---|
 | `src/data/cv/cv_normal.json` | Without the freelance work; the default version | Yes |
 | `src/data/cv/cv_with_freelancer.json` | Full history, freelance work included | Yes |
-| `src/data/cv/shared/*.json` | What every version shares: `header`, `about-me`, `education`, `skills`, `projects`, and `experience` — every job, keyed by id | Yes |
+| `src/data/cv/cv_normal_brief.json`, `cv_with_freelancer_brief.json` | The same jobs, `"brief": true`: shorter wording and a denser layout | Yes |
+| `src/data/cv/shared/*.json` | What every version shares: `header`, `about-me`, `education`, `skills`, `projects`, and `experience` — every job, keyed by id; `about-me-brief`, `skills-brief` for brief versions | Yes |
 | `src/data/cv/portfolio/portfolio.json` | The portfolio's version: same format, never offered as a CV | Yes |
 | `cv/template/main.tex` | Layout: preamble + one `%%PLACEHOLDER%%` per section | Yes |
 | `public/personal/avt.jpg` | CV photo (the portfolio has its own) | Yes |
@@ -54,7 +55,8 @@ flowchart LR
 |---|---|---|
 | `header`, `about-me`, `education`, `skills`, `projects` | `shared/<part>.json` | Every version prints the same |
 | A job | `shared/experience.json`, under an id such as `oivan` | A version lists ids in print order: `"experience": ["oivan", "flynk"]` |
-| `label`, `lastUpdated`, the job ids | The version file | What sets a version apart |
+| `label`, `lastUpdated`, the job ids, `brief` | The version file | What sets a version apart |
+| Brief wording | `shared/about-me-brief.json`, `shared/skills-brief.json`, a group's `briefBullets` and `briefMeta`, a note's `brief` | Printed only by a `"brief": true` version; a group without them prints its full bullets and meta, a note without `brief` is dropped |
 | An unknown job id | — | Fails `npm run cv:tex` and `npm test` |
 | A job no version lists | — | Fails `npm test` |
 
@@ -91,3 +93,4 @@ flowchart LR
 | A placeholder prints as `%%AWARDS%%` | — | Cannot happen: an unknown placeholder fails the build |
 | PDF grows large | Photo prints at 3.2cm | Keep the photo ~800px JPEG |
 | The CV page says the PDF is missing | No LaTeX or poppler locally | Expected; CI builds the deployed PDF |
+| `A CV may run to 2 pages at most` | A version's PDF has a third page | Shorten a wrapped bullet in `shared/` (one that fits one line saves a line), then `npm run cv:pdf` |

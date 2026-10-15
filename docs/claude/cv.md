@@ -6,6 +6,8 @@
 |---|---|---|
 | One file per CV version; the filename is its slug | Every version is built and offered in the CV page's dropdown under its `label` | `cv_normal.json` |
 | What versions share lives once in `src/data/cv/shared/` (`header`, `about-me`, `education`, `skills`, `projects`, `experience`); a version holds only `label`, `lastUpdated` and its job ids | One fact, one place; `mergeCv` in [cv-merge.mts](../../src/lib/cv/cv-merge.mts) builds the full CV for both the site and the LaTeX | `"experience": ["oivan", "flynk"]` |
+| A version with `"brief": true` prints the brief wording beside the full one in `shared/` (`about-me-brief.json`, `skills-brief.json`, a group's `briefBullets` and `briefMeta`, a note's `brief`), the stack line beside the group title, project names linked instead of link lines, and smaller gaps in Experience | One page from the same facts; written next to the full wording so both are edited together | `cv_normal_brief.json` |
+| A brief bullet fits one PDF line: ≤ 100 characters | A wrapped line costs the page its fit; test-enforced | — |
 | A new file is also named in [cv.ts](../../src/lib/cv/cv.ts) | Static export needs a literal import; a test compares the list with the folder | — |
 | `ResourceConstant.CV_DATA_FILE` only picks the landing version and the legacy `/cv.pdf` | — | `cv_normal.json` |
 | Every text field is plain text | The renderer escapes LaTeX and converts typography | `Backend & Integration`, `get_it`, `2019 – 2023` |
@@ -24,6 +26,7 @@
 
 | Rule | Reason |
 |---|---|
+| Every CV, full or brief, is at most 2 pages | The limit a reader gives a CV; `MAX_PAGES` in [build-cv-images.mts](../../scripts/build-cv-images.mts) fails CI on a longer PDF (a warning under `npm run dev`) |
 | The site imports every CV statically and the LaTeX generator reads them from disk (`cv-disk.mts`); both go through `mergeCv`, and a test asserts they resolve the same | Page and PDF must not drift |
 | Every version downloads under the same filename (name + build date) | The version is the sender's business |
 | Font sizes live only in the `\cv*` macros of `cv/template/main.tex` | The renderer marks up meaning; a test fails on `\fontsize` in generated LaTeX |
