@@ -30,7 +30,7 @@ function makeCv(overrides: Partial<Cv> = {}): Cv {
         arrangement: "Onsite",
         location: "A City",
         period: "Jan 2024 – Mar 2024",
-        groups: [{ title: "Mobile App", meta: "Flutter · Team size: 4", domains: [], bullets: ["Did a thing."] }],
+        groups: [{ title: "Mobile App", meta: "4 mobile devs · Direct client: Japan", stack: "Flutter, BLoC", domains: [], bullets: ["Did a thing."] }],
       },
     ],
     projects: [
@@ -174,23 +174,36 @@ describe("renderCvLatex", () => {
     );
   });
 
-  it("writes a brief CV's stack line beside the group heading, not as a bullet", () => {
-    const out = renderCvLatex(makeCv({ brief: true }), TEMPLATE);
+  it.each([false, true])("heads a project with its team and client, its stack the first bullet (brief: %s)", (brief) => {
+    const out = renderCvLatex(makeCv({ brief }), TEMPLATE);
 
-    expect(out).toContain("\\item \\cvRole{Mobile App} -- Flutter $\\cdot$ Team size: 4");
-    expect(out).not.toContain("\\item {Flutter");
+    expect(out).toContain(
+      "\\item \\cvRole{Mobile App} $\\cdot$ 4 mobile devs $\\cdot$ Direct client: Japan\n",
+    );
+    expect(out).toContain("\\item Flutter, BLoC\n");
   });
 
-  it("links a brief CV's project name instead of listing its links", () => {
+  it("prints a project's links in a brief CV too, so a printed copy keeps them", () => {
     const out = renderCvLatex(makeCv({ brief: true }), TEMPLATE);
 
-    expect(out).toContain("\\cvNameLink{https://github.com/x/a_b}{Thing}");
-    expect(out).not.toContain("github.com/x/a\\_b}");
+    expect(out).toContain("\\href{https://github.com/x/a_b}{github.com/x/a\\_b}");
+  });
+
+  it("leaves out the stack bullet of a group that has none", () => {
+    const base = makeCv();
+    const [job] = base.experience;
+    const out = renderCvLatex(
+      makeCv({ experience: [{ ...job, groups: [{ ...job.groups[0], stack: undefined }] }] }),
+      TEMPLATE,
+    );
+
+    expect(out).not.toContain("\\item Flutter, BLoC");
+    expect(out).toContain("\\item Did a thing.");
   });
 
   it("puts the group's stack line above its bullets", () => {
     const out = renderCvLatex(makeCv(), TEMPLATE);
-    const meta = out.indexOf("Flutter $\\cdot$ Team size: 4");
+    const meta = out.indexOf("\\item Flutter, BLoC");
 
     expect(meta).toBeGreaterThan(-1);
     expect(out.indexOf("Did a thing.")).toBeGreaterThan(meta);

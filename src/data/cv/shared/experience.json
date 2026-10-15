@@ -9,8 +9,8 @@
     "groups": [
       {
         "title": "Real Estate Product",
-        "meta": "Flutter, Clean Architecture, Scrum, Kanban · Team size: 20 mobile devs · Direct client: Saudi Arabia",
-        "briefMeta": "Flutter, Clean Architecture · 20 mobile devs · Direct client: Saudi Arabia",
+        "meta": "20 mobile devs · Direct client: Saudi Arabia",
+        "stack": "Flutter, Clean Architecture, Scrum",
         "domains": [
           "Real estate"
         ],
@@ -23,15 +23,18 @@
           "Implemented SSL pinning and set up Adjust deferred deep links."
         ],
         "briefBullets": [
-          "Delivered features for a Saudi government real estate app: BRD analysis, estimates, epic demos.",
-          "Cut app size from 200MB to 90MB and raised key screens from 30–40 FPS to a steady 60.",
-          "Embedded Unity in Flutter for a metaverse; built the design system; migrated Stream to BLoC."
+          "Built features for a Saudi government real estate app: BRDs, API contracts, estimates, epic demos.",
+          "Built the design system library with Flutter Widget Previews; reviewed code and mentored.",
+          "Embedded Unity in Flutter for an in-app metaverse of buildings and events; integrated SDKs.",
+          "Reduced app size from 200MB to 90MB and raised key screens from 30–40 FPS to a steady 60.",
+          "Optimised data-layer caching and migrated state management from Stream to BLoC.",
+          "Implemented SSL pinning and set up Adjust deferred deep links."
         ]
       },
       {
         "title": "SiteLog – construction site inspection app",
-        "meta": "SwiftUI, SwiftData, Clean Architecture, MVVM · Team size: 4 mobile devs · Direct client: Finland",
-        "briefMeta": "SwiftUI · 4 mobile devs · Direct client: Finland",
+        "meta": "4 mobile devs · Direct client: Finland",
+        "stack": "SwiftUI, SwiftData, Clean Architecture, MVVM, Kanban",
         "domains": [
           "Construction"
         ],
@@ -39,10 +42,6 @@
           "Building an offline-first iOS app for site supervisors: capture, issue logs and signed PDF reports.",
           "Set up Clean Architecture with layers as local Swift packages, Factory DI and Swift 6 concurrency.",
           "Designed a background upload engine that survives app suspension, termination and lost network."
-        ],
-        "briefBullets": [
-          "Building an offline-first iOS app: site capture, issue logging, signed PDF inspection reports.",
-          "Set up Clean Architecture as local Swift packages, DI with Factory and Swift 6 strict concurrency."
         ]
       }
     ]
@@ -56,8 +55,8 @@
     "groups": [
       {
         "title": "Cocototo – virtual pet game",
-        "meta": "Flutter, Flame, Firebase · Team size: 2 mobile devs · Direct client: Japan",
-        "briefMeta": "Flutter, Flame, Firebase · 2 mobile devs · Direct client: Japan",
+        "meta": "2 mobile devs · Direct client: Japan",
+        "stack": "Flutter, Flame, Firebase",
         "domains": [
           "Games"
         ],
@@ -67,8 +66,8 @@
       },
       {
         "title": "Pet Management App",
-        "meta": "Jetpack Compose · Team size: 3 mobile devs",
-        "briefMeta": "Jetpack Compose · 3 mobile devs",
+        "meta": "3 mobile devs",
+        "stack": "Jetpack Compose",
         "domains": [
           "Pet care"
         ],
@@ -88,8 +87,8 @@
     "groups": [
       {
         "title": "Warehouse App for POS / Handheld Devices",
-        "meta": "Kotlin, Jetpack Compose, MVVM, Clean Architecture · Team size: 4 mobile devs · Direct client: Japan",
-        "briefMeta": "Kotlin · 4 mobile devs · Direct client: Japan",
+        "meta": "4 mobile devs · Direct client: Japan",
+        "stack": "Kotlin, Jetpack Compose, MVVM, Clean Architecture",
         "domains": [
           "Logistics"
         ],
@@ -100,42 +99,43 @@
           "Agreed barcode formats across teams; set up kiosk mode, auto-launch on boot and a private Play release."
         ],
         "briefBullets": [
-          "Built an offline-first warehouse app for Unitech scanners, with kiosk mode and private Play release."
+          "Built a warehouse management app for Unitech HT300/HT330 barcode devices, end to end.",
+          "Integrated the hardware scanner for live barcode capture; synced receipt, dispatch and inventory.",
+          "Built an offline-first data layer with periodic sync, so the floor kept working without a network.",
+          "Agreed barcode formats across teams; set up kiosk mode, auto-launch and a private Play release."
         ]
       },
       {
-        "title": "React Native Apps",
-        "meta": "React Native · Team size: 4–6 mobile devs · Direct client: Japan",
-        "briefMeta": "React Native · 4–6 mobile devs · Direct client: Japan",
+        "title": "Cross-Platform Apps",
+        "meta": "4–6 mobile devs · Direct client: Japan",
+        "stack": "React Native, Flutter",
         "domains": [
           "E-commerce",
-          "Logistics"
-        ],
-        "bullets": [
-          "Built a booking app and a warehouse management app; integrated VNPAY, FCM and Firebase Crashlytics."
-        ]
-      },
-      {
-        "title": "Flutter Apps",
-        "meta": "Flutter · Team size: 4–6 mobile devs · Direct client: Japan",
-        "briefMeta": "Flutter · 4–6 mobile devs · Direct client: Japan",
-        "domains": [
+          "Logistics",
           "E-learning",
           "Utilities",
           "Real estate"
         ],
         "bullets": [
-          "Built and maintained e-learning, file management and apartment equipment apps, responsive on iPad.",
+          "Built apps from scratch and maintained existing ones: booking and warehouse management in React Native; e-learning, file management and apartment equipment in Flutter.",
+          "Implemented FCM push notifications and Firebase Crashlytics.",
+          "Set up CI/CD pipelines to build and release the apps.",
+          "Made the apps responsive on iPad, in portrait and landscape.",
           "Led a sub-project with 3 members: planned sprints, estimated tasks and reviewed delivery."
         ],
         "briefBullets": [
-          "Built e-learning, file management and apartment apps, responsive on iPad; led a 3-member team."
+          "Built and maintained RN booking and warehouse apps; Flutter e-learning, file and apartment apps.",
+          "Implemented FCM push notifications and Firebase Crashlytics.",
+          "Set up CI/CD pipelines to build and release the apps.",
+          "Made the apps responsive on iPad, in portrait and landscape.",
+          "Led a sub-project with 3 members: planned sprints, estimated tasks and reviewed delivery."
         ]
       }
     ],
     "note": {
       "label": "Also:",
-      "text": "Maintained React.js and Next.js admin dashboards and academy websites, with 3D UI in Three.js."
+      "text": "Maintained React.js and Next.js admin dashboards and academy websites, with 3D UI in Three.js; integrated VNPAY payments into a Vietnamese client's academy site.",
+      "brief": "Maintained React.js/Next.js dashboards and academy sites (Three.js 3D UI, VNPAY for a VN client)."
     }
   },
   "flynk": {
@@ -144,12 +144,12 @@
     "role": "Fresher Mobile Developer",
     "arrangement": "Onsite",
     "location": "HCM City, Viet Nam",
-    "period": "Apr 2022 – Nov 2022",
+    "period": "May 2022 – Oct 2022",
     "groups": [
       {
         "title": "Trading & Finance App",
-        "meta": "React Native · Team size: 3 mobile devs · Direct client: Australia",
-        "briefMeta": "React Native · 3 mobile devs · Direct client: Australia",
+        "meta": "3 mobile devs · Direct client: Australia",
+        "stack": "React Native",
         "domains": [
           "Fintech"
         ],

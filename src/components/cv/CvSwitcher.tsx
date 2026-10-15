@@ -1,37 +1,34 @@
 "use client";
 
 import { useState, type CSSProperties } from "react";
-import { DownloadIcon, ExternalLinkIcon, FileTextIcon } from "lucide-react";
+import { DownloadIcon, ExternalLinkIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import type { CvVersion } from "@/lib/cv/cv-types";
 import { formatDate } from "@/lib/format";
 import { withBasePath } from "@/lib/routes/routes";
 import { AppColors } from "@/lib/design/app-colors";
 import { AppTextStyles } from "@/lib/design/app-text-styles";
 
-/**
- * One size for the three controls — version, download, open — so they read as
- * one toolbar. The trigger's own `data-[size=default]:h-8` outranks a plain
- * `h-11`, so its height is set on the same attribute.
- */
-const CONTROL =
-  "h-11 w-44 gap-2 rounded-xl px-4 text-sm font-semibold shadow-md data-[size=default]:h-11";
+/** One size for the two actions — download, open — so they read as one toolbar. */
+const CONTROL = "h-11 w-44 gap-2 rounded-xl px-4 text-sm font-semibold shadow-md";
 
-/** The two secondary controls, drawn in the CV's accent so they stand out from the page. */
+/** The chosen version's tag, in the CV's accent, as the guide index marks its topic. */
+const SELECTED: CSSProperties = {
+  backgroundColor: AppColors.tint(AppColors.CV, 16),
+  borderColor: AppColors.tint(AppColors.CV, 40),
+  color: AppColors.CV,
+};
+
+/** The open control, drawn in the CV's accent so it stands out from the page. */
 const ACCENT: CSSProperties = {
   backgroundColor: AppColors.tint(AppColors.CV, 12),
   borderColor: AppColors.tint(AppColors.CV, 60),
 };
 
 /**
- * The CV, with a dropdown for choosing which version of it to read.
+ * The CV, with a row of tags for choosing which version of it to read: every
+ * version is in sight at once, and one press shows it.
  *
  * Several CVs live side by side in the data directory, each cut for a
  * different reader, and the build compiles every one of them. Switching is
@@ -52,46 +49,28 @@ export function CvSwitcher({ versions }: { versions: CvVersion[] }) {
     <>
       <div className="flex flex-wrap items-center gap-3 pb-10">
         {versions.length > 1 && (
-          <label className="flex items-center gap-3">
-            <span className="sr-only">Which version of the CV to show</span>
-            <Select value={slug} onValueChange={setSlug}>
-              <SelectTrigger
-                size="default"
-                style={ACCENT}
-                className={`${CONTROL} border-2 text-foreground`}
+          // The Radix toggle group, like the guide index's topics: one tab
+          // stop, arrow keys between the tags. One version is always shown, so
+          // pressing the chosen tag again (Radix reports "") changes nothing.
+          <ToggleGroup
+            type="single"
+            value={slug}
+            onValueChange={(next) => next && setSlug(next)}
+            variant="outline"
+            aria-label="CV version"
+            className="w-full flex-wrap"
+          >
+            {versions.map((version) => (
+              <ToggleGroupItem
+                key={version.slug}
+                value={version.slug}
+                style={version.slug === slug ? SELECTED : undefined}
+                className="h-9 rounded-full border-border-soft px-4 text-sm font-medium data-[state=off]:text-muted"
               >
-                <FileTextIcon />
-                <span className="flex min-w-0 flex-1 text-left">
-                  {/* Explicit children: the items carry a date line that the
-                      trigger has no room for. */}
-                  <SelectValue>{current.label}</SelectValue>
-                </span>
-              </SelectTrigger>
-              {/* Popper, not item-aligned: the list opens below the trigger at
-                  its width instead of covering it. */}
-              <SelectContent
-                position="popper"
-                sideOffset={8}
-                className="rounded-xl p-1.5 shadow-lg"
-              >
-                {versions.map((version) => (
-                  <SelectItem
-                    key={version.slug}
-                    value={version.slug}
-                    textValue={version.label}
-                    className="rounded-lg py-2 pr-8 pl-2.5"
-                  >
-                    <span className="flex flex-col items-start gap-0.5">
-                      <span className="font-semibold">{version.label}</span>
-                      <span className={AppTextStyles.CAPTION}>
-                        Updated {formatDate(version.data.lastUpdated)}
-                      </span>
-                    </span>
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </label>
+                {version.label}
+              </ToggleGroupItem>
+            ))}
+          </ToggleGroup>
         )}
 
         {pdf && (

@@ -9,7 +9,7 @@ const job = (company: string, domains: string[] = []): Experience => ({
   location: "HCM City, Viet Nam",
   period: "Jan 2022 – now",
   groups: [
-    { title: "App", meta: "Flutter", domains, bullets: ["Built it.", "Shipped it."], briefBullets: ["Built and shipped it."], briefMeta: "Dart" },
+    { title: "App", meta: "4 mobile devs", stack: "Flutter", domains, bullets: ["Built it.", "Shipped it."], briefBullets: ["Built and shipped it."] },
   ],
   note: { label: "Also:", text: "Did more.", brief: "More." },
 });
@@ -20,7 +20,6 @@ const shared: CvShared = {
   aboutMeBrief: ["I am A, {{years}}+ years in."],
   education: [],
   skills: [{ name: "Flutter", items: "Dart" }],
-  skillsBrief: [{ name: "Mobile", items: "Dart" }],
   projects: [],
   experience: { first: job("First", ["Fintech"]), second: job("Second", ["Games", "Fintech"]) },
 };
@@ -60,7 +59,8 @@ describe("merging a CV version with the shared parts", () => {
     // Typed, the number goes stale every year; counted, it never does.
     const cv = mergeCv(source, shared, new Date(2026, 9, 7));
 
-    expect(cv.aboutMe[0]).toBe("I am A, with 4+ years of experience.");
+    // Jan 2022 to Oct 2026, both months counted: 58 months, 4.5 years.
+    expect(cv.aboutMe[0]).toBe("I am A, with 4.5+ years of experience.");
   });
 
   it("builds the Domains line from the jobs it lists, then the projects, once each", () => {
@@ -105,30 +105,22 @@ describe("merging a CV version with the shared parts", () => {
     const cv = mergeCv({ ...source, brief: true }, shared, new Date(2026, 9, 7));
 
     expect(cv.brief).toBe(true);
-    expect(cv.aboutMe).toEqual(["I am A, 4+ years in."]);
-    expect(cv.skills.map((skill) => skill.name)).toEqual(["Mobile", DOMAINS_SKILL]);
+    expect(cv.aboutMe).toEqual(["I am A, 4.5+ years in."]);
+    expect(cv.skills.slice(0, -1)).toEqual(shared.skills);
     expect(cv.experience[0].groups[0].bullets).toEqual(["Built and shipped it."]);
-    expect(cv.experience[0].groups[0].meta).toBe("Dart");
+    expect(cv.experience[0].groups[0].stack).toBe("Flutter");
     expect(cv.experience[0].groups[0]).not.toHaveProperty("briefBullets");
-    expect(cv.experience[0].groups[0]).not.toHaveProperty("briefMeta");
     expect(cv.experience[0].note).toEqual({ label: "Also:", text: "More." });
   });
 
-  it("falls back to the full bullets, and drops a note, that have no brief wording", () => {
+  it("falls back to the full bullets and note text where there is no brief wording", () => {
     const plain = job("Plain");
-    const group = { ...plain.groups[0], briefBullets: undefined, briefMeta: undefined };
+    const group = { ...plain.groups[0], briefBullets: undefined };
     const bare = { ...shared, experience: { first: { ...plain, groups: [group], note: { label: "Also:", text: "Long." } } } };
     const cv = mergeCv({ ...source, brief: true, experience: ["first"] }, bare);
 
     expect(cv.experience[0].groups[0].bullets).toEqual(["Built it.", "Shipped it."]);
-    expect(cv.experience[0].groups[0].meta).toBe("Flutter");
-    expect(cv.experience[0].note).toBeUndefined();
-  });
-
-  it("fails on a Domains line written into the brief skills", () => {
-    const skillsBrief = [{ name: DOMAINS_SKILL, items: "Fintech" }];
-
-    expect(() => mergeCv(source, { ...shared, skillsBrief })).toThrow(/skills-brief/);
+    expect(cv.experience[0].note).toEqual({ label: "Also:", text: "Long." });
   });
 
   it("fails on a job the shared file does not have", () => {

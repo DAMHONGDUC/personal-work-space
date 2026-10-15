@@ -159,22 +159,17 @@ ${highlights(items, "    ", "\n        \n")}
 }
 
 /**
- * Group heading, then its stack/team line followed by the achievements. A
- * brief CV writes the stack/team line beside the heading instead.
+ * Project heading — the title, then its team and client — with the stack as
+ * its first bullet, followed by the achievements.
  */
-function renderGroup(group: ExperienceGroup, brief: boolean): string {
-  const inner = highlights(
-    brief ? group.bullets.map(tex) : [`{${tex(group.meta)}}`, ...group.bullets.map(tex)],
-    "        ",
-  );
-  const heading = brief
-    ? `\\cvRole{${tex(group.title)}} -- ${tex(group.meta)}`
-    : `\\cvRole{${tex(group.title)}}`;
+function renderGroup(group: ExperienceGroup): string {
+  const points = group.stack ? [group.stack, ...group.bullets] : group.bullets;
+  const inner = highlights(points.map(tex), "        ");
 
   // A heading needs its stack line and first bullet beside it: with less room
   // than that left on the page, it moves to the next page with them.
   return `        \\needspace{4\\baselineskip}
-        \\item ${heading}
+        \\item \\cvRole{${tex(group.title)}} ${tex(`· ${group.meta}`)}
 ${inner}`;
 }
 
@@ -201,7 +196,7 @@ function renderExperience(entry: Experience, brief: boolean): string {
   );
   const heading = [tex(entry.role), arrangement, tex(entry.location)].join(" -- ");
 
-  const blocks = entry.groups.map((group) => renderGroup(group, brief));
+  const blocks = entry.groups.map(renderGroup);
 
   if (entry.note) {
     // Body size, so the only thing setting it apart from a bullet is the weight
@@ -234,19 +229,10 @@ function renderExperiences(entries: Experience[], brief: boolean): string {
     .join(`\n\n\\noindent\\rule{\\linewidth}{0.5pt}\\par\n\\vspace{${gaps(brief).afterRule}}\n\n`);
 }
 
-function renderProject(project: Project, brief: boolean): string {
+function renderProject(project: Project): string {
   // A project name sits at the same level as a role inside a job, and its
   // description is content, so only the name takes the heading size.
   const heading = `    \\item \\cvRole{${tex(project.name)}}: ${tex(project.description)}`;
-
-  // A brief CV links the name to the project's first link instead of listing
-  // the links on lines of their own.
-  if (brief) {
-    const [first] = project.links;
-    const name = first ? linked(project.name, first.href) : tex(project.name);
-
-    return `    \\item \\cvRole{${name}}: ${tex(project.description)}`;
-  }
 
   if (project.links.length === 0) {
     return heading;
@@ -263,14 +249,14 @@ ${links}
 }
 
 /** The section with its heading, or nothing: an empty list will not compile. */
-function renderProjects(projects: Project[], brief: boolean): string {
+function renderProjects(projects: Project[]): string {
   if (projects.length === 0) {
     return "";
   }
 
   return `\\section{Personal Projects}
 \\begin{highlights}
-${projects.map((project) => renderProject(project, brief)).join("\n")}
+${projects.map(renderProject).join("\n")}
 \\end{highlights}`;
 }
 
@@ -282,7 +268,7 @@ function sections(cv: Cv): Record<string, string> {
     EDUCATION: cv.education.map(renderEducation).join("\n\\vspace{3mm}\n"),
     SKILLS: renderSkills(cv.skills),
     EXPERIENCE: renderExperiences(cv.experience, cv.brief),
-    PROJECTS: renderProjects(cv.projects, cv.brief),
+    PROJECTS: renderProjects(cv.projects),
   };
 }
 

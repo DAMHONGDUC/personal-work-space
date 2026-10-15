@@ -38,12 +38,21 @@ function monthsBetween(start: string, end: string): number {
   return (endYear - startYear) * 12 + (endMonth - startMonth) + 1;
 }
 
-/** Whole years from a `YYYY-MM` start to `now`. */
-export function yearsSince(start: string, now: Date = new Date()): number {
-  const [year, month] = start.split("-").map(Number);
-  const months = (now.getFullYear() - year) * 12 + (now.getMonth() + 1 - month);
+/** `now` as `YYYY-MM`, the month a running period is counted to. */
+function monthOf(now: Date): string {
+  return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
+}
 
-  return Math.max(0, Math.floor(months / 12));
+/**
+ * Years from a `YYYY-MM` start to `now`, in half-year steps, rounded down:
+ * 53 months -> 4, 54 -> 4.5. Months are counted as a job's length is, both
+ * the first and the current one, so the figure agrees with the lengths the CV
+ * prints beside each job.
+ */
+export function yearsSince(start: string, now: Date = new Date()): number {
+  const months = monthsBetween(start, monthOf(now));
+
+  return Math.max(0, Math.floor(months / 6) / 2);
 }
 
 /** 23 -> `1 yr 11 mos`, 24 -> `2 yrs`, 5 -> `5 mos`. */
@@ -69,7 +78,7 @@ export function periodWithDuration(period: string, now: Date = new Date()): stri
   const start = from === undefined ? null : readMonth(from);
   const end =
     to?.trim() === "now"
-      ? `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`
+      ? monthOf(now)
       : to === undefined
         ? null
         : readMonth(to);

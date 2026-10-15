@@ -25,7 +25,6 @@ export function readCvShared(root: string): CvShared {
     aboutMeBrief: readJson(root, `${dir}/about-me-brief.json`),
     education: readJson(root, `${dir}/education.json`),
     skills: readJson(root, `${dir}/skills.json`),
-    skillsBrief: readJson(root, `${dir}/skills-brief.json`),
     projects: readJson(root, `${dir}/projects.json`),
     experience: readJson(root, `${dir}/experience.json`),
   };

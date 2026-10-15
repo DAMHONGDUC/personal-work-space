@@ -4,12 +4,13 @@
 
 | Rule | Reason | Example |
 |---|---|---|
-| One file per CV version; the filename is its slug | Every version is built and offered in the CV page's dropdown under its `label` | `cv_normal.json` |
+| One file per CV version; the filename is its slug | Every version is built and offered as a tag on the CV page under its `label` | `cv_normal.json` |
 | What versions share lives once in `src/data/cv/shared/` (`header`, `about-me`, `education`, `skills`, `projects`, `experience`); a version holds only `label`, `lastUpdated` and its job ids | One fact, one place; `mergeCv` in [cv-merge.mts](../../src/lib/cv/cv-merge.mts) builds the full CV for both the site and the LaTeX | `"experience": ["oivan", "flynk"]` |
-| A version with `"brief": true` prints the brief wording beside the full one in `shared/` (`about-me-brief.json`, `skills-brief.json`, a group's `briefBullets` and `briefMeta`, a note's `brief`), the stack line beside the group title, project names linked instead of link lines, and smaller gaps in Experience | The same facts, read at a glance; written next to the full wording so both are edited together | `cv_normal_brief.json` |
-| A brief CV may run onto page 2, but stays brief: About me ≤ 2 sentences, ≤ 3 bullets per group, every bullet ≤ 100 characters (one PDF line) | Length is capped by the 2-page rule; brevity is in every line; test-enforced on what the brief versions print | — |
+| A job's project prints as its `title` with its `meta` beside it (team and client, `·`-separated), then its `stack` (framework and architecture) as the first bullet, then its bullets; the same in every version. A title that names its stack (`Flutter Apps`) has no `stack` | The project and who it was for read in one line; the stack is a point of its own, never said twice; test-enforced | **Real Estate Product** · 20 mobile devs · Direct client: Saudi Arabia, then – Flutter, Clean Architecture, Scrum, Kanban |
+| A version with `"brief": true` prints the brief wording beside the full one in `shared/` (`about-me-brief.json`, a group's `briefBullets`, a note's `brief`), each falling back to the full wording, and smaller gaps in Experience | The same facts, read at a glance; written next to the full wording so both are edited together | `cv_normal_brief.json` |
+| A brief CV says everything its full CV says, only shorter: `<slug>_brief` has the same About me sentences, skills, jobs, projects, notes and one bullet per full bullet (`briefBullets` 1:1 with `bullets`), each bullet ≤ 100 characters (one PDF line) | Brief is a shorter wording, never fewer points; test-enforced against the full version | `briefBullets[0]` is `bullets[0]` cut to one line |
 | A new file is also named in [cv.ts](../../src/lib/cv/cv.ts) | Static export needs a literal import; a test compares the list with the folder | — |
-| `ResourceConstant.CV_DATA_FILE` only picks the landing version and the legacy `/cv.pdf` | — | `cv_normal.json` |
+| `ResourceConstant.CV_DATA_FILE` only picks the landing version and the legacy `/cv.pdf` | A visitor reads the brief CV first | `cv_normal_brief.json` |
 | Every text field is plain text | The renderer escapes LaTeX and converts typography | `Backend & Integration`, `get_it`, `2019 – 2023` |
 | The word `Freelancer` in an `arrangement` prints bold and blue | Freelance work is found at a glance; `\cvHighlight` in the template | **Freelancer**, part-time, remote (Japan) |
 | Every location ends with `, Viet Nam` | One spelling; test-enforced | A remote client's country goes in `arrangement`: `Freelancer, part-time, remote (Japan)` |
@@ -18,8 +19,9 @@
 | `aboutMe` stays general: no figures, no results | The figures belong to the jobs, where they have context | `I have experience in optimising app size…`, never `200MB to 90MB` |
 | Every `aboutMe` sentence has a subject and a verb | A CV reads as written by a person, not as a list of fragments | `I am based in Ho Chi Minh City.`, never `Based in Ho Chi Minh City.` |
 | Every experience group and project has `domains`; `mergeCv` builds the `Domains` skill line from the version's jobs and the projects | A version without a job does not claim its industry; never write `Domains` in `shared/skills.json` (it throws) | `"domains": ["Real estate"]` |
+| Every project has a `https://github.com/…` link, printed under it in every version, brief included | A personal project is shown by its code, and a printed CV keeps the address; test-enforced | `github.com/DAMHONGDUC/sms-hook` |
 | A project's `description` is `Framework (libraries) – what it does.`, on one PDF line | Read at a glance; ≤ 110 characters with the name, test-enforced | `Flutter (Riverpod, Firebase) – Resale business app: sourcing, inventory, listings, profit.` |
-| `aboutMe` writes the years as `{{years}}` | `mergeCv` counts them from the version's oldest job at build; the portfolio shows the same lines, see [portfolio.md](portfolio.md) | `I am a software engineer with {{years}}+ years…` |
+| `aboutMe` writes the years as `{{years}}` | `mergeCv` counts them from the version's oldest job at build, in half-year steps rounded down, with months counted as a job's length is (`yearsSince`); the portfolio shows the same lines, see [portfolio.md](portfolio.md) | `I am a mobile developer with {{years}}+ years…` prints `4+`, then `4.5+` from the 54th month |
 | The portfolio has its own file in the version format, `src/data/cv/portfolio/portfolio.json` | A subfolder, so it is never offered as a CV | — |
 
 ## Build and page

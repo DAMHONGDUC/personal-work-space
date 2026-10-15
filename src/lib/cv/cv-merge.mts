@@ -12,16 +12,17 @@ export const DOMAINS_SKILL = "Domains";
  * imports the JSON statically) and the plain-Node LaTeX build (which reads it
  * from disk) put a CV together the same way and cannot print different ones.
  *
- * `{{years}}` in About me becomes the whole years since this version's oldest
- * job, counted to `now`, so neither the PDF nor the portfolio goes stale.
+ * `{{years}}` in About me becomes the years since this version's oldest job,
+ * in half-year steps (`4`, `4.5`), counted to `now`, so neither the PDF nor
+ * the portfolio goes stale.
  *
  * The Domains skill line is built here, from the domains of this version's
  * jobs and of the projects, in the order they first appear: a version without
  * a job does not claim its industry.
  *
- * A brief version prints the shared brief wording: `aboutMeBrief`,
- * `skillsBrief`, each group's `briefBullets` and `briefMeta` (its full ones
- * when it has none) and a note's `brief` text (no note when it has none).
+ * A brief version says everything the full one does, in shorter lines:
+ * `aboutMeBrief`, each group's `briefBullets` and a note's `brief` text, each
+ * falling back to the full wording when it has none. Skills are the same.
  *
  * Throws on a job id the shared file does not have, so a typo fails the build
  * rather than quietly dropping a job from the CV.
@@ -41,18 +42,12 @@ export function mergeCv(source: CvSource, shared: CvShared, now: Date = new Date
     return brief ? briefJob(job) : job;
   });
 
-  for (const [file, list] of [
-    ["skills.json", shared.skills],
-    ["skills-brief.json", shared.skillsBrief],
-  ] as const) {
-    if (list.some((skill) => skill.name === DOMAINS_SKILL)) {
-      throw new Error(
-        `shared/${file} has a "${DOMAINS_SKILL}" line; it is built from the jobs and projects`,
-      );
-    }
+  if (shared.skills.some((skill) => skill.name === DOMAINS_SKILL)) {
+    throw new Error(
+      `shared/skills.json has a "${DOMAINS_SKILL}" line; it is built from the jobs and projects`,
+    );
   }
 
-  const ownSkills = brief ? shared.skillsBrief : shared.skills;
   const aboutMe = brief ? shared.aboutMeBrief : shared.aboutMe;
 
   const domains = [
@@ -62,8 +57,8 @@ export function mergeCv(source: CvSource, shared: CvShared, now: Date = new Date
     ]),
   ];
   const skills = domains.length
-    ? [...ownSkills, { name: DOMAINS_SKILL, items: domains.join(", ") }]
-    : ownSkills;
+    ? [...shared.skills, { name: DOMAINS_SKILL, items: domains.join(", ") }]
+    : shared.skills;
 
   const oldest = experience[experience.length - 1];
   const years = oldest ? String(yearsSince(periodStart(oldest.period), now)) : "";
@@ -83,16 +78,15 @@ export function mergeCv(source: CvSource, shared: CvShared, now: Date = new Date
   };
 }
 
-/** A job as a brief version prints it: brief bullets, and the note only when it has a brief text. */
+/** A job as a brief version prints it: the same points, in their brief wording where it has one. */
 function briefJob(job: Experience): Experience {
   const { note, ...rest } = job;
-  const groups = job.groups.map(({ briefBullets, briefMeta, ...group }) => ({
+  const groups = job.groups.map(({ briefBullets, ...group }) => ({
     ...group,
-    meta: briefMeta ?? group.meta,
     bullets: briefBullets ?? group.bullets,
   }));
 
-  return note?.brief
-    ? { ...rest, groups, note: { label: note.label, text: note.brief } }
+  return note
+    ? { ...rest, groups, note: { label: note.label, text: note.brief ?? note.text } }
     : { ...rest, groups };
 }

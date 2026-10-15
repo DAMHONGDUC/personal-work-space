@@ -11,7 +11,6 @@ import experience from "@/data/cv/shared/experience.json";
 import header from "@/data/cv/shared/header.json";
 import projects from "@/data/cv/shared/projects.json";
 import skills from "@/data/cv/shared/skills.json";
-import skillsBrief from "@/data/cv/shared/skills-brief.json";
 import { mergeCv } from "@/lib/cv/cv-merge.mts";
 import type { Cv, CvPage, CvPdf, CvShared, CvSource, CvVersion } from "@/lib/cv/cv-types";
 import { ResourceConstant } from "@/lib/resource-constant.mts";
@@ -25,7 +24,6 @@ export const SHARED = {
   aboutMeBrief,
   education,
   skills,
-  skillsBrief,
   projects,
   experience,
 } as CvShared;

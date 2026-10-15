@@ -197,9 +197,12 @@ describe("derived values", () => {
     expect(portfolio.careerStart).toBe(periodStart(cv.experience[cv.experience.length - 1].period));
   });
 
-  it("counts whole years, and only once the month has come round", () => {
-    expect(yearsSince("2022-07", new Date(2026, 5, 30))).toBe(3);
-    expect(yearsSince("2022-07", new Date(2026, 6, 1))).toBe(4);
+  it("counts half years, both the first and the current month, rounded down", () => {
+    // Jun 2022 to Oct 2026 is 53 months counted as a job's length is: 4 yrs 5 mos.
+    expect(yearsSince("2022-06", new Date(2026, 9, 15))).toBe(4);
+    expect(yearsSince("2022-06", new Date(2026, 10, 1))).toBe(4.5);
+    expect(yearsSince("2022-07", new Date(2026, 4, 31))).toBe(3.5);
+    expect(yearsSince("2022-07", new Date(2026, 5, 1))).toBe(4);
     expect(yearsSince("2030-01", new Date(2026, 0, 1))).toBe(0);
   });
 

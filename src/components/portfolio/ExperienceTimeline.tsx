@@ -76,9 +76,11 @@ export function ExperienceTimeline({ jobs }: { jobs: Experience[] }) {
 
               {job.groups.map((group) => (
                 <div key={group.title} className="flex flex-col gap-2">
-                  <p className="text-sm font-medium">{group.title}</p>
-                  <p className={AppTextStyles.CAPTION}>{group.meta}</p>
+                  <p className="text-sm font-medium">
+                    {group.title} <span className={AppTextStyles.CAPTION}>· {group.meta}</span>
+                  </p>
                   <ul className={`${AppTextStyles.BODY_SM} flex flex-col gap-1.5`}>
+                    {group.stack && <Bullet>{group.stack}</Bullet>}
                     {group.bullets.map((bullet) => (
                       <Bullet key={bullet}>{bullet}</Bullet>
                     ))}

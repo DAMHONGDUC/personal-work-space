@@ -35,11 +35,19 @@ export type Skill = {
   items: string;
 };
 
-/** A block of work inside one job, e.g. "Mobile App" or "Web". */
+/**
+ * A project inside one job, printed as its title with the team and client
+ * beside it, its stack as the first bullet, then the achievements.
+ */
 export type ExperienceGroup = {
   title: string;
-  /** Stack and team size, shown as the first bullet. */
+  /** Team size and client, beside the title: `20 mobile devs · Direct client: Saudi Arabia`. */
   meta: string;
+  /**
+   * Framework and architecture, the first bullet: `Flutter, Clean Architecture`.
+   * Left out when the title already names it, as `Flutter Apps` does.
+   */
+  stack?: string;
   /**
    * Industries the work was for, e.g. `Real estate`. Not printed here:
    * `mergeCv` collects them into the version's Domains skill line.
@@ -52,8 +60,6 @@ export type ExperienceGroup = {
    * together.
    */
   briefBullets?: string[];
-  /** A shorter stack/team line for a brief version, which prints it beside the title. */
-  briefMeta?: string;
 };
 
 export type Experience = {
@@ -70,7 +76,7 @@ export type Experience = {
   note?: {
     label: string;
     text: string;
-    /** The note's text in a brief version; without it a brief version drops the note. */
+    /** The note's text in a brief version; without it a brief version prints `text`. */
     brief?: string;
   };
 };
@@ -94,10 +100,10 @@ export type Cv = {
   /** ISO date shown on the site as the CV's "last updated". */
   lastUpdated: string;
   /**
-   * A brief version: the shared brief wording (`about-me-brief.json`,
-   * `skills-brief.json`, each group's `briefBullets` and `briefMeta`) and a
-   * denser layout. It may run onto a second page, never a third, but every
-   * line stays short.
+   * A brief version: every point of the full CV, in the shared brief wording
+   * (`about-me-brief.json`, each group's `briefBullets`, a note's `brief`)
+   * where there is one, and a denser layout. It may run onto a second page,
+   * never a third, but every line stays short.
    */
   brief: boolean;
   header: {
@@ -135,8 +141,6 @@ export type CvShared = {
   aboutMeBrief: string[];
   education: Education[];
   skills: Skill[];
-  /** Skills in a brief version: fewer, broader areas. */
-  skillsBrief: Skill[];
   projects: Project[];
   /** Every job any version may list, keyed by an id the versions pick from. */
   experience: Record<string, Experience>;

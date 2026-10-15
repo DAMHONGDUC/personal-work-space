@@ -6,10 +6,10 @@ The CV is generated: edit the JSON in `src/data/cv/`, never the LaTeX.
 
 | Path | What | In git |
 |---|---|---|
-| `src/data/cv/cv_normal.json` | Without the freelance work; the default version | Yes |
+| `src/data/cv/cv_normal.json` | Without the freelance work | Yes |
 | `src/data/cv/cv_with_freelancer.json` | Full history, freelance work included | Yes |
-| `src/data/cv/cv_normal_brief.json`, `cv_with_freelancer_brief.json` | The same jobs, `"brief": true`: shorter wording and a denser layout | Yes |
-| `src/data/cv/shared/*.json` | What every version shares: `header`, `about-me`, `education`, `skills`, `projects`, and `experience` — every job, keyed by id; `about-me-brief`, `skills-brief` for brief versions | Yes |
+| `src/data/cv/cv_normal_brief.json`, `cv_with_freelancer_brief.json` | The same jobs, `"brief": true`: shorter wording and a denser layout; `cv_normal_brief` is the default version | Yes |
+| `src/data/cv/shared/*.json` | What every version shares: `header`, `about-me`, `education`, `skills`, `projects`, and `experience` — every job, keyed by id; `about-me-brief` for brief versions | Yes |
 | `src/data/cv/portfolio/portfolio.json` | The portfolio's version: same format, never offered as a CV | Yes |
 | `cv/template/main.tex` | Layout: preamble + one `%%PLACEHOLDER%%` per section | Yes |
 | `public/personal/avt.jpg` | CV photo (the portfolio has its own) | Yes |
@@ -56,7 +56,7 @@ flowchart LR
 | `header`, `about-me`, `education`, `skills`, `projects` | `shared/<part>.json` | Every version prints the same |
 | A job | `shared/experience.json`, under an id such as `oivan` | A version lists ids in print order: `"experience": ["oivan", "flynk"]` |
 | `label`, `lastUpdated`, the job ids, `brief` | The version file | What sets a version apart |
-| Brief wording | `shared/about-me-brief.json`, `shared/skills-brief.json`, a group's `briefBullets` and `briefMeta`, a note's `brief` | Printed only by a `"brief": true` version; a group without them prints its full bullets and meta, a note without `brief` is dropped |
+| Brief wording | `shared/about-me-brief.json` (one sentence per full sentence), a group's `briefBullets` (one per full bullet), a note's `brief` | Printed only by a `"brief": true` version; without it the full wording prints. Never drop a point: write it shorter |
 | An unknown job id | — | Fails `npm run cv:tex` and `npm test` |
 | A job no version lists | — | Fails `npm test` |
 
@@ -68,7 +68,7 @@ flowchart LR
 | `get_it` | get_it |
 | `2019 – 2023` (en dash) | 2019 – 2023 |
 | `a — b` (em dash) | a — b |
-| `Flutter · Team size: 4` | Flutter · Team size: 4 |
+| `4 mobile devs · Direct client: Japan` | 4 mobile devs · Direct client: Japan |
 | `href` URLs | Passed as-is; only `%` and `#` escaped |
 
 | Field rule | Detail |
@@ -76,7 +76,7 @@ flowchart LR
 | `lastUpdated` | Bump on every change; the site shows it. A change under `shared/` bumps every version |
 | `location` | Ends with `, Viet Nam` |
 | `url` (education, experience) | Optional website, linked in the PDF and on the portfolio |
-| `{{years}}` (About me) | Whole years since the version's oldest job, filled at build |
+| `{{years}}` (About me) | Years since the version's oldest job in half-year steps, rounded down (`4`, `4.5`), filled at build; months counted as a job's length is, first and last both |
 
 ## Previewing without LaTeX
 

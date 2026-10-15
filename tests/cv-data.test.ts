@@ -32,14 +32,14 @@ describe("the set of CVs", () => {
     expect(versions[0].data).toEqual(cv);
   });
 
-  it("gives each version a label of its own for the dropdown", () => {
+  it("gives each version a label of its own for its tag", () => {
     const labels = versions.map((version) => version.label);
 
     for (const label of labels) {
       expect(label.trim()).not.toBe("");
     }
 
-    // Two versions under one name is a dropdown a reader cannot use.
+    // Two versions under one name are two tags a reader cannot tell apart.
     expect(new Set(labels).size).toBe(labels.length);
   });
 });
@@ -60,24 +60,45 @@ describe("the shared CV parts", () => {
     expect(unused).toEqual([]);
   });
 
-  it("keeps a brief CV brief: short About me, few bullets, one line each", () => {
-    // A brief CV may run onto a second page; what makes it brief is that
-    // every line is short. 100 characters is what one bullet line of the PDF
-    // holds (101 fits, 102 wraps: it depends on the letters). Checked on what
-    // the brief versions print, which includes a group's full bullets when it
-    // has no brief ones.
+  it("never repeats a project's title in its stack line", () => {
+    // `Flutter Apps` with a `Flutter` bullet says the same thing twice: a
+    // title that names its stack leaves the stack out.
+    const repeated = Object.values(readCvShared(process.cwd()).experience)
+      .flatMap((job) => job.groups)
+      .filter((group) => group.stack && group.title.toLowerCase().includes(group.stack.toLowerCase()))
+      .map((group) => group.title);
+
+    expect(repeated).toEqual([]);
+  });
+
+  it("says in a brief CV everything the full one says, one line a point", () => {
+    // `<slug>_brief` is the brief cut of `<slug>`: the same sentences, jobs,
+    // projects, bullets, notes and skills, only shorter. 100 characters is
+    // what one bullet line of the PDF holds (101 fits, 102 wraps: it depends
+    // on the letters).
+    const bySlug = new Map(versions.map((version) => [version.slug, version.data]));
     const brief = versions.filter(({ data }) => data.brief);
     expect(brief.length).toBeGreaterThan(0);
 
     for (const { slug, data } of brief) {
-      expect(data.aboutMe.length, slug).toBeLessThanOrEqual(2);
+      const full = bySlug.get(slug.replace(/_brief$/, ""));
+      expect(full, `${slug} has no full version`).toBeDefined();
+      if (!full) continue;
 
-      for (const job of data.experience) {
-        for (const group of job.groups) {
-          expect(group.bullets.length, `${slug}: ${group.title}`).toBeLessThanOrEqual(3);
+      expect(data.aboutMe.length, slug).toBe(full.aboutMe.length);
+      expect(data.skills, slug).toEqual(full.skills);
+      expect(data.projects, slug).toEqual(full.projects);
+      expect(data.experience.map((job) => job.company), slug).toEqual(full.experience.map((job) => job.company));
+
+      data.experience.forEach((job, j) => {
+        expect(Boolean(job.note), `${slug}: ${job.company} note`).toBe(Boolean(full.experience[j].note));
+
+        job.groups.forEach((group, g) => {
+          const points = full.experience[j].groups[g].bullets.length;
+          expect(group.bullets.length, `${slug}: ${group.title}`).toBe(points);
           expect(group.bullets.filter((bullet) => bullet.length > 100)).toEqual([]);
-        }
-      }
+        });
+      });
     }
   });
 });
@@ -167,6 +188,16 @@ describe.each(versions)("the CV data file $slug", ({ slug, data: cv }) => {
       spellings.set(domain.toLowerCase(), (spellings.get(domain.toLowerCase()) ?? new Set()).add(domain));
     }
     expect([...spellings.values()].filter((set) => set.size > 1).map((set) => [...set])).toEqual([]);
+  });
+
+  it("links every project to its GitHub repository", () => {
+    // A personal project is shown by its code: the PDF prints the address, so
+    // a printed copy keeps it too.
+    const unlinked = cv.projects
+      .filter((project) => !project.links.some((link) => link.href.startsWith("https://github.com/")))
+      .map((project) => project.name);
+
+    expect(unlinked).toEqual([]);
   });
 
   it("uses https for every project link", () => {
