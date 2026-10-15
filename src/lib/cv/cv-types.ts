@@ -95,8 +95,9 @@ export type Cv = {
   lastUpdated: string;
   /**
    * A brief version: the shared brief wording (`about-me-brief.json`,
-   * `skills-brief.json`, each group's `briefBullets`) and a denser layout, to
-   * fit one page.
+   * `skills-brief.json`, each group's `briefBullets` and `briefMeta`) and a
+   * denser layout. It may run onto a second page, never a third, but every
+   * line stays short.
    */
   brief: boolean;
   header: {

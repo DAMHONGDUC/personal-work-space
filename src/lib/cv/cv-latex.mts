@@ -180,7 +180,7 @@ ${inner}`;
 
 /**
  * Vertical gaps inside Experience. A brief CV halves them, so the same jobs
- * take fewer lines of the one page it has.
+ * take fewer lines.
  */
 function gaps(brief: boolean) {
   return brief

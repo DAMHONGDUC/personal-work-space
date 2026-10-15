@@ -60,14 +60,25 @@ describe("the shared CV parts", () => {
     expect(unused).toEqual([]);
   });
 
-  it("keeps every brief bullet to one line of the PDF", () => {
-    // A brief CV has one page; 100 characters is what one bullet line holds
-    // (101 fits, 102 wraps: it depends on the letters).
-    const long = Object.values(readCvShared(process.cwd()).experience)
-      .flatMap((job) => job.groups.flatMap((group) => group.briefBullets ?? []))
-      .filter((bullet) => bullet.length > 100);
+  it("keeps a brief CV brief: short About me, few bullets, one line each", () => {
+    // A brief CV may run onto a second page; what makes it brief is that
+    // every line is short. 100 characters is what one bullet line of the PDF
+    // holds (101 fits, 102 wraps: it depends on the letters). Checked on what
+    // the brief versions print, which includes a group's full bullets when it
+    // has no brief ones.
+    const brief = versions.filter(({ data }) => data.brief);
+    expect(brief.length).toBeGreaterThan(0);
 
-    expect(long).toEqual([]);
+    for (const { slug, data } of brief) {
+      expect(data.aboutMe.length, slug).toBeLessThanOrEqual(2);
+
+      for (const job of data.experience) {
+        for (const group of job.groups) {
+          expect(group.bullets.length, `${slug}: ${group.title}`).toBeLessThanOrEqual(3);
+          expect(group.bullets.filter((bullet) => bullet.length > 100)).toEqual([]);
+        }
+      }
+    }
   });
 });
 
