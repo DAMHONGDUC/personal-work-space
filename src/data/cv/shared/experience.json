@@ -115,11 +115,10 @@
         "meta": "4–6 mobile devs · Direct client: Japan",
         "stack": "React Native, Expo, Flutter",
         "domains": [
-          "E-commerce",
-          "Healthcare",
-          "E-learning",
           "Utilities",
-          "Real estate"
+          "Booking",
+          "Healthcare",
+          "E-learning"
         ],
         "bullets": [
           "Built apps from scratch and maintained existing ones: booking and health apps in React Native; a household appliance and apartment maintenance management app in Expo; e-learning, file management and apartment equipment apps in Flutter.",
