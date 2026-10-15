@@ -4,6 +4,10 @@
     "items": "Kotlin, Jetpack Compose, MVVM, Clean Architecture, MVC, DI with Hilt and Dagger, Broadcast receivers, Kiosk mode"
   },
   {
+    "name": "Native iOS",
+    "items": "Swift, SwiftUI, SwiftData, Swift Concurrency, Clean Architecture, MVVM, DI with Factory"
+  },
+  {
     "name": "Flutter",
     "items": "Dart, Clean Architecture, BLoC, Provider, Riverpod, DI with get_it"
   },
@@ -17,7 +21,7 @@
   },
   {
     "name": "Mobile Features",
-    "items": "Push notifications, Local storage and databases, Camera, Location, Permissions, Deep links, Deferred deep links with Adjust, App Links, Universal Links, Play Feature Delivery, On-Demand Resources, App Store and Google Play delivery"
+    "items": "Push notifications, Local databases, Camera, Location, Deep links (App Links, Universal Links, Adjust deferred), Play Feature Delivery, On-Demand Resources, App Store and Google Play delivery"
   },
   {
     "name": "Mobile Security",
@@ -25,11 +29,11 @@
   },
   {
     "name": "Mobile Integration",
-    "items": "RevenueCat, In-app purchases and subscriptions, Firebase Firestore, FCM, Crashlytics and Analytics, OneSignal, Unity in Flutter"
+    "items": "RevenueCat, In-app purchases, Firestore, FCM, Crashlytics, OneSignal, Unity in Flutter"
   },
   {
     "name": "Mobile Testing",
-    "items": "Logic and UI tests on Android (JUnit, Mockito, Compose UI Test), Flutter (flutter_test, mockito) and React Native (Jest, React Native Testing Library)"
+    "items": "JUnit, Mockito, Compose UI Test, flutter_test, Jest, React Native Testing Library"
   },
   {
     "name": "Mobile CI/CD",

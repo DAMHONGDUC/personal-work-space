@@ -8,6 +8,7 @@
   },
   "skillIcons": {
     "Native Android": "android",
+    "Native iOS": "swift",
     "Flutter": "flutter",
     "React Native": "react",
     "API Integration": "graphql",
