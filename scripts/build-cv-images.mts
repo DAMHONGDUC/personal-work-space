@@ -7,6 +7,12 @@
  * box, and nothing in the page can measure the document to size it.
  *
  * The PDF itself stays the download, so this only affects what is shown inline.
+ *
+ * Also where the page limit is checked: every CV is at most MAX_PAGES pages.
+ * The page count only exists once a PDF does, and CI runs this step after its
+ * own LaTeX compile, so a CV that grew too long fails there before the merge.
+ * Under --optional (in front of `next dev`) it is a warning instead, so the
+ * site still starts while the CV is being cut down.
  */
 import { execFileSync } from "node:child_process";
 import fs from "node:fs";
@@ -15,6 +21,9 @@ import { ResourceConstant } from "../src/lib/resource-constant.mts";
 
 /** 160dpi on US Letter is 1360x1760 — sharp on a HiDPI screen at ~800px wide. */
 const DPI = 160;
+
+/** The most pages any CV may run to. */
+const MAX_PAGES = 2;
 
 const optional = process.argv.includes("--optional");
 
@@ -58,6 +67,8 @@ if (!has("pdftoppm")) {
   process.exit(optional ? 0 : 1);
 }
 
+const tooLong: string[] = [];
+
 for (const slug of slugs) {
   const outDir = path.join(root, ResourceConstant.cvPublicDir(slug));
 
@@ -84,4 +95,18 @@ for (const slug of slugs) {
   console.log(
     `${ResourceConstant.cvPublicDir(slug)}/ written with ${pages.length} page image(s) at ${DPI}dpi`,
   );
+
+  if (pages.length > MAX_PAGES) {
+    tooLong.push(`${slug} (${pages.length} pages)`);
+  }
+}
+
+if (tooLong.length > 0) {
+  console.error(
+    [
+      `A CV may run to ${MAX_PAGES} pages at most: ${tooLong.join(", ")}.`,
+      `Shorten its shared bullets, or its brief wording, under ${ResourceConstant.CV_SHARED_DIR}.`,
+    ].join("\n"),
+  );
+  process.exit(optional ? 0 : 1);
 }
