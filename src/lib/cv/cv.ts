@@ -1,13 +1,17 @@
 import fs from "node:fs";
 import path from "node:path";
 import normal from "@/data/cv/cv_normal.json";
+import normalBrief from "@/data/cv/cv_normal_brief.json";
 import withFreelancer from "@/data/cv/cv_with_freelancer.json";
+import withFreelancerBrief from "@/data/cv/cv_with_freelancer_brief.json";
 import aboutMe from "@/data/cv/shared/about-me.json";
+import aboutMeBrief from "@/data/cv/shared/about-me-brief.json";
 import education from "@/data/cv/shared/education.json";
 import experience from "@/data/cv/shared/experience.json";
 import header from "@/data/cv/shared/header.json";
 import projects from "@/data/cv/shared/projects.json";
 import skills from "@/data/cv/shared/skills.json";
+import skillsBrief from "@/data/cv/shared/skills-brief.json";
 import { mergeCv } from "@/lib/cv/cv-merge.mts";
 import type { Cv, CvPage, CvPdf, CvShared, CvSource, CvVersion } from "@/lib/cv/cv-types";
 import { ResourceConstant } from "@/lib/resource-constant.mts";
@@ -15,7 +19,16 @@ import { ResourceConstant } from "@/lib/resource-constant.mts";
 export type { Cv, CvPage, CvPdf, CvVersion } from "@/lib/cv/cv-types";
 
 /** What every version has in common, merged into each one below. */
-export const SHARED = { header, aboutMe, education, skills, projects, experience } as CvShared;
+export const SHARED = {
+  header,
+  aboutMe,
+  aboutMeBrief,
+  education,
+  skills,
+  skillsBrief,
+  projects,
+  experience,
+} as CvShared;
 
 /**
  * Every CV, keyed by the slug its filename gives it, each merged with the
@@ -28,7 +41,9 @@ export const SHARED = { header, aboutMe, education, skills, projects, experience
  */
 const VERSIONS: Record<string, Cv> = {
   cv_normal: mergeCv(normal as CvSource, SHARED),
+  cv_normal_brief: mergeCv(normalBrief as CvSource, SHARED),
   cv_with_freelancer: mergeCv(withFreelancer as CvSource, SHARED),
+  cv_with_freelancer_brief: mergeCv(withFreelancerBrief as CvSource, SHARED),
 };
 
 /**

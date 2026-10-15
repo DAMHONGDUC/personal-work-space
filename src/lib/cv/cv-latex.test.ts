@@ -7,6 +7,7 @@ function makeCv(overrides: Partial<Cv> = {}): Cv {
   return {
     label: "Test version",
     lastUpdated: "2026-01-01",
+    brief: false,
     header: {
       name: "Test Person",
       photo: "avt.png",

@@ -59,6 +59,16 @@ describe("the shared CV parts", () => {
 
     expect(unused).toEqual([]);
   });
+
+  it("keeps every brief bullet to one line of the PDF", () => {
+    // A brief CV has one page; 100 characters is what one bullet line holds
+    // (101 fits, 102 wraps: it depends on the letters).
+    const long = Object.values(readCvShared(process.cwd()).experience)
+      .flatMap((job) => job.groups.flatMap((group) => group.briefBullets ?? []))
+      .filter((bullet) => bullet.length > 100);
+
+    expect(long).toEqual([]);
+  });
 });
 
 describe.each(versions)("the CV data file $slug", ({ slug, data: cv }) => {

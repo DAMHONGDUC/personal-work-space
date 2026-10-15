@@ -22,8 +22,10 @@ export function readCvShared(root: string): CvShared {
   return {
     header: readJson(root, `${dir}/header.json`),
     aboutMe: readJson(root, `${dir}/about-me.json`),
+    aboutMeBrief: readJson(root, `${dir}/about-me-brief.json`),
     education: readJson(root, `${dir}/education.json`),
     skills: readJson(root, `${dir}/skills.json`),
+    skillsBrief: readJson(root, `${dir}/skills-brief.json`),
     projects: readJson(root, `${dir}/projects.json`),
     experience: readJson(root, `${dir}/experience.json`),
   };

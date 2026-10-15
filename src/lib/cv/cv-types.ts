@@ -46,6 +46,14 @@ export type ExperienceGroup = {
    */
   domains: string[];
   bullets: string[];
+  /**
+   * The same work in fewer, shorter lines, printed instead of `bullets` by a
+   * brief version. Written beside the full bullets so the two are edited
+   * together.
+   */
+  briefBullets?: string[];
+  /** A shorter stack/team line for a brief version, which prints it beside the title. */
+  briefMeta?: string;
 };
 
 export type Experience = {
@@ -59,7 +67,12 @@ export type Experience = {
   period: string;
   groups: ExperienceGroup[];
   /** Trailing bullet with a bold lead-in, e.g. "Process: Agile — …". */
-  note?: { label: string; text: string };
+  note?: {
+    label: string;
+    text: string;
+    /** The note's text in a brief version; without it a brief version drops the note. */
+    brief?: string;
+  };
 };
 
 export type Project = {
@@ -80,6 +93,12 @@ export type Cv = {
   label: string;
   /** ISO date shown on the site as the CV's "last updated". */
   lastUpdated: string;
+  /**
+   * A brief version: the shared brief wording (`about-me-brief.json`,
+   * `skills-brief.json`, each group's `briefBullets`) and a denser layout, to
+   * fit one page.
+   */
+  brief: boolean;
   header: {
     name: string;
     /**
@@ -111,8 +130,12 @@ export type Cv = {
 export type CvShared = {
   header: Cv["header"];
   aboutMe: string[];
+  /** About me in a brief version. */
+  aboutMeBrief: string[];
   education: Education[];
   skills: Skill[];
+  /** Skills in a brief version: fewer, broader areas. */
+  skillsBrief: Skill[];
   projects: Project[];
   /** Every job any version may list, keyed by an id the versions pick from. */
   experience: Record<string, Experience>;
@@ -124,8 +147,10 @@ export type CvShared = {
  */
 export type CvSource = Omit<
   Cv,
-  "header" | "aboutMe" | "education" | "skills" | "projects" | "experience"
+  "brief" | "header" | "aboutMe" | "education" | "skills" | "projects" | "experience"
 > & {
+  /** Print the brief wording and layout; see `Cv.brief`. */
+  brief?: boolean;
   /** Ids from the shared `experience.json`, in the order this CV prints them. */
   experience: string[];
 };

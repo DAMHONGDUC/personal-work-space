@@ -1,4 +1,4 @@
-import type { Cv, CvShared, CvSource } from "./cv-types";
+import type { Cv, CvShared, CvSource, Experience } from "./cv-types";
 import { periodStart, yearsSince } from "./cv-period.mts";
 
 /** The skill line `mergeCv` writes; the shared skills may not hold one. */
@@ -19,10 +19,16 @@ export const DOMAINS_SKILL = "Domains";
  * jobs and of the projects, in the order they first appear: a version without
  * a job does not claim its industry.
  *
+ * A brief version prints the shared brief wording: `aboutMeBrief`,
+ * `skillsBrief`, each group's `briefBullets` and `briefMeta` (its full ones
+ * when it has none) and a note's `brief` text (no note when it has none).
+ *
  * Throws on a job id the shared file does not have, so a typo fails the build
  * rather than quietly dropping a job from the CV.
  */
 export function mergeCv(source: CvSource, shared: CvShared, now: Date = new Date()): Cv {
+  const brief = source.brief ?? false;
+
   const experience = source.experience.map((id) => {
     const job = shared.experience[id];
 
@@ -32,14 +38,22 @@ export function mergeCv(source: CvSource, shared: CvShared, now: Date = new Date
       );
     }
 
-    return job;
+    return brief ? briefJob(job) : job;
   });
 
-  if (shared.skills.some((skill) => skill.name === DOMAINS_SKILL)) {
-    throw new Error(
-      `shared/skills.json has a "${DOMAINS_SKILL}" line; it is built from the jobs and projects`,
-    );
+  for (const [file, list] of [
+    ["skills.json", shared.skills],
+    ["skills-brief.json", shared.skillsBrief],
+  ] as const) {
+    if (list.some((skill) => skill.name === DOMAINS_SKILL)) {
+      throw new Error(
+        `shared/${file} has a "${DOMAINS_SKILL}" line; it is built from the jobs and projects`,
+      );
+    }
   }
+
+  const ownSkills = brief ? shared.skillsBrief : shared.skills;
+  const aboutMe = brief ? shared.aboutMeBrief : shared.aboutMe;
 
   const domains = [
     ...new Set([
@@ -48,8 +62,8 @@ export function mergeCv(source: CvSource, shared: CvShared, now: Date = new Date
     ]),
   ];
   const skills = domains.length
-    ? [...shared.skills, { name: DOMAINS_SKILL, items: domains.join(", ") }]
-    : shared.skills;
+    ? [...ownSkills, { name: DOMAINS_SKILL, items: domains.join(", ") }]
+    : ownSkills;
 
   const oldest = experience[experience.length - 1];
   const years = oldest ? String(yearsSince(periodStart(oldest.period), now)) : "";
@@ -59,11 +73,26 @@ export function mergeCv(source: CvSource, shared: CvShared, now: Date = new Date
   return {
     label: source.label,
     lastUpdated: source.lastUpdated,
+    brief,
     header: shared.header,
-    aboutMe: shared.aboutMe.map((line) => line.replaceAll("{{years}}", years)),
+    aboutMe: aboutMe.map((line) => line.replaceAll("{{years}}", years)),
     education: shared.education,
     skills,
     experience,
     projects: shared.projects,
   };
+}
+
+/** A job as a brief version prints it: brief bullets, and the note only when it has a brief text. */
+function briefJob(job: Experience): Experience {
+  const { note, ...rest } = job;
+  const groups = job.groups.map(({ briefBullets, briefMeta, ...group }) => ({
+    ...group,
+    meta: briefMeta ?? group.meta,
+    bullets: briefBullets ?? group.bullets,
+  }));
+
+  return note?.brief
+    ? { ...rest, groups, note: { label: note.label, text: note.brief } }
+    : { ...rest, groups };
 }

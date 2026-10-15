@@ -8,14 +8,19 @@ const job = (company: string, domains: string[] = []): Experience => ({
   arrangement: "Onsite",
   location: "HCM City, Viet Nam",
   period: "Jan 2022 – now",
-  groups: [{ title: "App", meta: "Flutter", domains, bullets: ["Built it."] }],
+  groups: [
+    { title: "App", meta: "Flutter", domains, bullets: ["Built it.", "Shipped it."], briefBullets: ["Built and shipped it."], briefMeta: "Dart" },
+  ],
+  note: { label: "Also:", text: "Did more.", brief: "More." },
 });
 
 const shared: CvShared = {
   header: { name: "A", photo: "a.jpg", contacts: [] },
   aboutMe: ["I am A, with {{years}}+ years of experience.", "I am based here."],
+  aboutMeBrief: ["I am A, {{years}}+ years in."],
   education: [],
   skills: [{ name: "Flutter", items: "Dart" }],
+  skillsBrief: [{ name: "Mobile", items: "Dart" }],
   projects: [],
   experience: { first: job("First", ["Fintech"]), second: job("Second", ["Games", "Fintech"]) },
 };
@@ -85,6 +90,45 @@ describe("merging a CV version with the shared parts", () => {
     const skills = [...shared.skills, { name: DOMAINS_SKILL, items: "Fintech" }];
 
     expect(() => mergeCv(source, { ...shared, skills })).toThrow(/Domains/);
+  });
+
+  it("prints the full wording unless the version is brief", () => {
+    const cv = mergeCv(source, shared);
+
+    expect(cv.brief).toBe(false);
+    expect(cv.aboutMe).toHaveLength(2);
+    expect(cv.skills[0]).toBe(shared.skills[0]);
+    expect(cv.experience[0]).toBe(shared.experience.second);
+  });
+
+  it("prints the brief wording in a brief version", () => {
+    const cv = mergeCv({ ...source, brief: true }, shared, new Date(2026, 9, 7));
+
+    expect(cv.brief).toBe(true);
+    expect(cv.aboutMe).toEqual(["I am A, 4+ years in."]);
+    expect(cv.skills.map((skill) => skill.name)).toEqual(["Mobile", DOMAINS_SKILL]);
+    expect(cv.experience[0].groups[0].bullets).toEqual(["Built and shipped it."]);
+    expect(cv.experience[0].groups[0].meta).toBe("Dart");
+    expect(cv.experience[0].groups[0]).not.toHaveProperty("briefBullets");
+    expect(cv.experience[0].groups[0]).not.toHaveProperty("briefMeta");
+    expect(cv.experience[0].note).toEqual({ label: "Also:", text: "More." });
+  });
+
+  it("falls back to the full bullets, and drops a note, that have no brief wording", () => {
+    const plain = job("Plain");
+    const group = { ...plain.groups[0], briefBullets: undefined, briefMeta: undefined };
+    const bare = { ...shared, experience: { first: { ...plain, groups: [group], note: { label: "Also:", text: "Long." } } } };
+    const cv = mergeCv({ ...source, brief: true, experience: ["first"] }, bare);
+
+    expect(cv.experience[0].groups[0].bullets).toEqual(["Built it.", "Shipped it."]);
+    expect(cv.experience[0].groups[0].meta).toBe("Flutter");
+    expect(cv.experience[0].note).toBeUndefined();
+  });
+
+  it("fails on a Domains line written into the brief skills", () => {
+    const skillsBrief = [{ name: DOMAINS_SKILL, items: "Fintech" }];
+
+    expect(() => mergeCv(source, { ...shared, skillsBrief })).toThrow(/skills-brief/);
   });
 
   it("fails on a job the shared file does not have", () => {

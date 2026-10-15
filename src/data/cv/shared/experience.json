@@ -10,6 +10,7 @@
       {
         "title": "Real Estate Product",
         "meta": "Flutter, Clean Architecture, Scrum, Kanban · Team size: 20 mobile devs · Direct client: Saudi Arabia",
+        "briefMeta": "Flutter, Clean Architecture · 20 mobile devs · Direct client: Saudi Arabia",
         "domains": [
           "Real estate"
         ],
@@ -20,11 +21,17 @@
           "Reduced app size from 200MB to 90MB and raised key screens from 30–40 FPS to a steady 60.",
           "Optimised data-layer caching and migrated state management from Stream to BLoC.",
           "Implemented SSL pinning and set up Adjust deferred deep links."
+        ],
+        "briefBullets": [
+          "Delivered features for a Saudi government real estate app: BRD analysis, estimates, epic demos.",
+          "Cut app size from 200MB to 90MB and raised key screens from 30–40 FPS to a steady 60.",
+          "Embedded Unity in Flutter for a metaverse; built the design system; migrated Stream to BLoC."
         ]
       },
       {
         "title": "SiteLog – construction site inspection app",
         "meta": "SwiftUI, SwiftData, Clean Architecture, MVVM · Team size: 4 mobile devs · Direct client: Finland",
+        "briefMeta": "SwiftUI · 4 mobile devs · Direct client: Finland",
         "domains": [
           "Construction"
         ],
@@ -32,6 +39,10 @@
           "Building an offline-first iOS app for site supervisors: capture, issue logs and signed PDF reports.",
           "Set up Clean Architecture with layers as local Swift packages, Factory DI and Swift 6 concurrency.",
           "Designed a background upload engine that survives app suspension, termination and lost network."
+        ],
+        "briefBullets": [
+          "Building an offline-first iOS app: site capture, issue logging, signed PDF inspection reports.",
+          "Set up Clean Architecture as local Swift packages, DI with Factory and Swift 6 strict concurrency."
         ]
       }
     ]
@@ -46,6 +57,7 @@
       {
         "title": "Cocototo – virtual pet game",
         "meta": "Flutter, Flame, Firebase · Team size: 2 mobile devs · Direct client: Japan",
+        "briefMeta": "Flutter, Flame, Firebase · 2 mobile devs · Direct client: Japan",
         "domains": [
           "Games"
         ],
@@ -56,6 +68,7 @@
       {
         "title": "Pet Management App",
         "meta": "Jetpack Compose · Team size: 3 mobile devs",
+        "briefMeta": "Jetpack Compose · 3 mobile devs",
         "domains": [
           "Pet care"
         ],
@@ -76,6 +89,7 @@
       {
         "title": "Warehouse App for POS / Handheld Devices",
         "meta": "Kotlin, Jetpack Compose, MVVM, Clean Architecture · Team size: 4 mobile devs · Direct client: Japan",
+        "briefMeta": "Kotlin · 4 mobile devs · Direct client: Japan",
         "domains": [
           "Logistics"
         ],
@@ -84,11 +98,15 @@
           "Integrated the hardware scanner for live barcode capture; synced receipt, dispatch and inventory.",
           "Built an offline-first data layer with periodic sync, so the floor kept working without a network.",
           "Agreed barcode formats across teams; set up kiosk mode, auto-launch on boot and a private Play release."
+        ],
+        "briefBullets": [
+          "Built an offline-first warehouse app for Unitech scanners, with kiosk mode and private Play release."
         ]
       },
       {
         "title": "React Native Apps",
         "meta": "React Native · Team size: 4–6 mobile devs · Direct client: Japan",
+        "briefMeta": "React Native · 4–6 mobile devs · Direct client: Japan",
         "domains": [
           "E-commerce",
           "Logistics"
@@ -100,6 +118,7 @@
       {
         "title": "Flutter Apps",
         "meta": "Flutter · Team size: 4–6 mobile devs · Direct client: Japan",
+        "briefMeta": "Flutter · 4–6 mobile devs · Direct client: Japan",
         "domains": [
           "E-learning",
           "Utilities",
@@ -108,6 +127,9 @@
         "bullets": [
           "Built and maintained e-learning, file management and apartment equipment apps, responsive on iPad.",
           "Led a sub-project with 3 members: planned sprints, estimated tasks and reviewed delivery."
+        ],
+        "briefBullets": [
+          "Built e-learning, file management and apartment apps, responsive on iPad; led a 3-member team."
         ]
       }
     ],
@@ -127,6 +149,7 @@
       {
         "title": "Trading & Finance App",
         "meta": "React Native · Team size: 3 mobile devs · Direct client: Australia",
+        "briefMeta": "React Native · 3 mobile devs · Direct client: Australia",
         "domains": [
           "Fintech"
         ],
