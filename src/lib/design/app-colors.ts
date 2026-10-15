@@ -39,6 +39,7 @@ export class AppColors {
    */
   static readonly BRAND = {
     android: "#3DDC84",
+    swift: "#F05138",
     flutter: "#54C5F8",
     react: "#61DAFB",
     graphql: "#E10098",

@@ -13,6 +13,7 @@ import {
   SiNextdotjs,
   SiReact,
   SiRevenuecat,
+  SiSwift,
 } from "react-icons/si";
 import { AppColors } from "@/lib/design/app-colors";
 import type { SkillIconId } from "@/lib/portfolio/portfolio-model";
@@ -24,6 +25,7 @@ import type { SkillIconId } from "@/lib/portfolio/portfolio-model";
  */
 const MARKS: Record<SkillIconId, { Icon: IconType; color?: string }> = {
   android: { Icon: SiAndroid, color: AppColors.BRAND.android },
+  swift: { Icon: SiSwift, color: AppColors.BRAND.swift },
   flutter: { Icon: SiFlutter, color: AppColors.BRAND.flutter },
   react: { Icon: SiReact, color: AppColors.BRAND.react },
   graphql: { Icon: SiGraphql, color: AppColors.BRAND.graphql },

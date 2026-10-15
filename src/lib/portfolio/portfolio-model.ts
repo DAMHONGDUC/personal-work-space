@@ -29,6 +29,7 @@ export type PublicPath = string;
  */
 export const SKILL_ICON_IDS = [
   "android",
+  "swift",
   "flutter",
   "react",
   "graphql",
@@ -51,6 +52,7 @@ export type SkillIconId = (typeof SKILL_ICON_IDS)[number];
  */
 export const SKILL_ICON_TOOLS: Record<SkillIconId, string> = {
   android: "Android",
+  swift: "Swift",
   flutter: "Flutter",
   react: "React Native",
   graphql: "GraphQL",
