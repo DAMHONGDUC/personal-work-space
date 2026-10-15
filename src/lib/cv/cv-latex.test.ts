@@ -174,6 +174,20 @@ describe("renderCvLatex", () => {
     );
   });
 
+  it("writes a brief CV's stack line beside the group heading, not as a bullet", () => {
+    const out = renderCvLatex(makeCv({ brief: true }), TEMPLATE);
+
+    expect(out).toContain("\\item \\cvRole{Mobile App} -- Flutter $\\cdot$ Team size: 4");
+    expect(out).not.toContain("\\item {Flutter");
+  });
+
+  it("links a brief CV's project name instead of listing its links", () => {
+    const out = renderCvLatex(makeCv({ brief: true }), TEMPLATE);
+
+    expect(out).toContain("\\cvNameLink{https://github.com/x/a_b}{Thing}");
+    expect(out).not.toContain("github.com/x/a\\_b}");
+  });
+
   it("puts the group's stack line above its bullets", () => {
     const out = renderCvLatex(makeCv(), TEMPLATE);
     const meta = out.indexOf("Flutter $\\cdot$ Team size: 4");

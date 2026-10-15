@@ -158,18 +158,34 @@ ${highlights(items, "    ", "\n        \n")}
 \\end{onecolentry}`;
 }
 
-/** Group heading, then its stack/team line followed by the achievements. */
-function renderGroup(group: ExperienceGroup): string {
+/**
+ * Group heading, then its stack/team line followed by the achievements. A
+ * brief CV writes the stack/team line beside the heading instead.
+ */
+function renderGroup(group: ExperienceGroup, brief: boolean): string {
   const inner = highlights(
-    [`{${tex(group.meta)}}`, ...group.bullets.map(tex)],
+    brief ? group.bullets.map(tex) : [`{${tex(group.meta)}}`, ...group.bullets.map(tex)],
     "        ",
   );
+  const heading = brief
+    ? `\\cvRole{${tex(group.title)}} -- ${tex(group.meta)}`
+    : `\\cvRole{${tex(group.title)}}`;
 
   // A heading needs its stack line and first bullet beside it: with less room
   // than that left on the page, it moves to the next page with them.
   return `        \\needspace{4\\baselineskip}
-        \\item \\cvRole{${tex(group.title)}}
+        \\item ${heading}
 ${inner}`;
+}
+
+/**
+ * Vertical gaps inside Experience. A brief CV halves them, so the same jobs
+ * take fewer lines of the one page it has.
+ */
+function gaps(brief: boolean) {
+  return brief
+    ? { afterCompany: "1.5mm", betweenGroups: "1mm", afterRule: "1.5mm" }
+    : { afterCompany: "3mm", betweenGroups: "2mm", afterRule: "3mm" };
 }
 
 /**
@@ -178,14 +194,14 @@ ${inner}`;
  */
 const FREELANCE = /\bfreelanc\w*/i;
 
-function renderExperience(entry: Experience): string {
+function renderExperience(entry: Experience, brief: boolean): string {
   const arrangement = tex(entry.arrangement).replace(
     FREELANCE,
     (word) => `\\cvHighlight{${word}}`,
   );
   const heading = [tex(entry.role), arrangement, tex(entry.location)].join(" -- ");
 
-  const blocks = entry.groups.map(renderGroup);
+  const blocks = entry.groups.map((group) => renderGroup(group, brief));
 
   if (entry.note) {
     // Body size, so the only thing setting it apart from a bullet is the weight
@@ -195,31 +211,42 @@ function renderExperience(entry: Experience): string {
     );
   }
 
+  const gap = gaps(brief);
+
   // The company line moves to the next page with its first group rather than
   // sit alone at the foot of one.
   return `\\needspace{8\\baselineskip}
 \\begin{twocolentry}{\\cvDate{${tex(periodWithDuration(entry.period))}}}
     \\cvCompany{${linked(entry.company, entry.url)}} -- ${heading}
 \\end{twocolentry}
-\\vspace{3mm}
+\\vspace{${gap.afterCompany}}
 \\begin{onecolentry}
     \\begin{highlights}
-${blocks.join("\n\n        \\vspace{2mm}\n\n")}
+${blocks.join(`\n\n        \\vspace{${gap.betweenGroups}}\n\n`)}
     \\end{highlights}
 \\end{onecolentry}`;
 }
 
 /** Jobs, newest first and unnumbered, separated by a full-width rule. */
-function renderExperiences(entries: Experience[]): string {
+function renderExperiences(entries: Experience[], brief: boolean): string {
   return entries
-    .map(renderExperience)
-    .join("\n\n\\noindent\\rule{\\linewidth}{0.5pt}\\par\n\\vspace{3mm}\n\n");
+    .map((entry) => renderExperience(entry, brief))
+    .join(`\n\n\\noindent\\rule{\\linewidth}{0.5pt}\\par\n\\vspace{${gaps(brief).afterRule}}\n\n`);
 }
 
-function renderProject(project: Project): string {
+function renderProject(project: Project, brief: boolean): string {
   // A project name sits at the same level as a role inside a job, and its
   // description is content, so only the name takes the heading size.
   const heading = `    \\item \\cvRole{${tex(project.name)}}: ${tex(project.description)}`;
+
+  // A brief CV links the name to the project's first link instead of listing
+  // the links on lines of their own.
+  if (brief) {
+    const [first] = project.links;
+    const name = first ? linked(project.name, first.href) : tex(project.name);
+
+    return `    \\item \\cvRole{${name}}: ${tex(project.description)}`;
+  }
 
   if (project.links.length === 0) {
     return heading;
@@ -236,14 +263,14 @@ ${links}
 }
 
 /** The section with its heading, or nothing: an empty list will not compile. */
-function renderProjects(projects: Project[]): string {
+function renderProjects(projects: Project[], brief: boolean): string {
   if (projects.length === 0) {
     return "";
   }
 
   return `\\section{Personal Projects}
 \\begin{highlights}
-${projects.map(renderProject).join("\n")}
+${projects.map((project) => renderProject(project, brief)).join("\n")}
 \\end{highlights}`;
 }
 
@@ -254,8 +281,8 @@ function sections(cv: Cv): Record<string, string> {
     ABOUT_ME: renderAboutMe(cv),
     EDUCATION: cv.education.map(renderEducation).join("\n\\vspace{3mm}\n"),
     SKILLS: renderSkills(cv.skills),
-    EXPERIENCE: renderExperiences(cv.experience),
-    PROJECTS: renderProjects(cv.projects),
+    EXPERIENCE: renderExperiences(cv.experience, cv.brief),
+    PROJECTS: renderProjects(cv.projects, cv.brief),
   };
 }
 
