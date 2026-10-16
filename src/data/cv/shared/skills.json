@@ -1,15 +1,15 @@
 [
   {
     "name": "Native Android",
-    "items": "Kotlin, Jetpack Compose, MVVM, Clean Architecture, MVC, DI with Hilt and Dagger, Broadcast receivers, Kiosk mode"
+    "items": "Kotlin, Jetpack Compose, MVVM, Clean Architecture, MVC, DI with Hilt and Dagger, Broadcast receivers, Kiosk mode, JUnit, Mockito, Compose UI Test"
   },
   {
     "name": "Flutter",
-    "items": "Dart, Clean Architecture, BLoC, Provider, Riverpod, DI with get_it, Melos Monorepo, Flame"
+    "items": "Dart, Clean Architecture, BLoC, Provider, Riverpod, DI with get_it, Melos Monorepo, Flame, flutter_test"
   },
   {
     "name": "React Native",
-    "items": "TypeScript, Expo, Clean Architecture, Redux Toolkit, RTK Query, Reanimated"
+    "items": "TypeScript, Expo, Clean Architecture, Redux Toolkit, RTK Query, Reanimated, Jest, React Native Testing Library"
   },
   {
     "name": "API Integration",
@@ -26,10 +26,6 @@
   {
     "name": "Mobile Integration",
     "items": "RevenueCat, In-app purchases, Firebase (Firestore, FCM, Crashlytics, Analytics), OneSignal, Unity in Flutter"
-  },
-  {
-    "name": "Mobile Testing",
-    "items": "JUnit, Mockito, Compose UI Test, flutter_test, Jest, React Native Testing Library"
   },
   {
     "name": "Mobile CI/CD",
