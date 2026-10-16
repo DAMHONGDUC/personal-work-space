@@ -34,7 +34,7 @@
       {
         "title": "Private Jet App",
         "meta": "5 mobile devs · Direct client: Finland",
-        "stack": "React Native, Redux Toolkit, Reanimated",
+        "stack": "React Native, Redux Toolkit, RTK Query, Reanimated, Clean Architecture",
         "domains": [
           "Aviation"
         ],
