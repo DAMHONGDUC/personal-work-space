@@ -9,7 +9,7 @@
     "groups": [
       {
         "title": "Real Estate Product",
-        "meta": "17 mobile devs (10 VN, 7 Egypt & Thailand) · Direct client: Saudi Arabia",
+        "meta": "17 mobile devs (VN, Egypt, Thailand) · Direct client: Saudi Arabia",
         "stack": "Flutter, Modular Feature-Based Clean Architecture, Melos Monorepo, BLoC, Scrum, Kanban",
         "domains": [
           "Real estate"
@@ -33,20 +33,20 @@
       },
       {
         "title": "Private Jet App",
-        "meta": "5 mobile devs · Direct client: Finland",
-        "stack": "React Native, Redux Toolkit, RTK Query, Reanimated, Clean Architecture",
+        "meta": "5 mobile devs (VN, Finland) · Direct client: Australia",
+        "stack": "React Native, Redux Toolkit, RTK Query, Reanimated, Clean Architecture, Scrum",
         "domains": [
           "Aviation"
         ],
         "bullets": [
           "Built a booking app for private jet flights from scratch.",
           "Built smooth, complex animations and transitions, including an animated dashboard page.",
-          "Worked with the team to build and maintain the CI/CD pipelines, using GitLab Runner self-hosted on a Mac mini."
+          "Collaborated with the team to build and maintain CI/CD pipelines using Fastlane and a self-hosted GitLab Runner on a Mac mini."
         ],
         "briefBullets": [
           "Built a booking app for private jet flights from scratch.",
           "Built smooth, complex animations and transitions, including an animated dashboard page.",
-          "Built and maintained CI/CD with the team: GitLab Runner self-hosted on a Mac mini."
+          "Built and maintained CI/CD pipelines with the team using Fastlane and a self-hosted GitLab Runner on a Mac mini."
         ]
       }
     ]
@@ -60,7 +60,7 @@
     "groups": [
       {
         "title": "Cocototo – virtual pet game",
-        "meta": "2 mobile devs · Direct client: Japan",
+        "meta": "2 mobile devs (VN, Japan) · Direct client: Japan",
         "stack": "Flutter, Flame, Firebase",
         "domains": [
           "Games"
@@ -71,7 +71,7 @@
       },
       {
         "title": "Pet Management App",
-        "meta": "3 mobile devs · Direct client: Japan",
+        "meta": "3 mobile devs (VN, Japan) · Direct client: Japan",
         "stack": "Jetpack Compose",
         "domains": [
           "Pet care"
@@ -92,7 +92,7 @@
     "groups": [
       {
         "title": "Warehouse App for Handheld Devices",
-        "meta": "4 mobile devs · Direct client: Japan",
+        "meta": "4 mobile devs (VN) · Direct client: Japan",
         "stack": "Kotlin, Jetpack Compose, MVVM, Clean Architecture",
         "domains": [
           "Logistics"
@@ -112,7 +112,7 @@
       },
       {
         "title": "Cross-Platform Apps",
-        "meta": "4–6 mobile devs · Direct client: Japan",
+        "meta": "4–6 mobile devs (VN) · Direct client: Japan",
         "stack": "React Native, Expo, Flutter",
         "domains": [
           "Utilities",
@@ -154,7 +154,7 @@
     "groups": [
       {
         "title": "Trading & Finance App",
-        "meta": "3 mobile devs · Direct client: Australia",
+        "meta": "3 mobile devs (VN, Australia) · Direct client: Australia",
         "stack": "React Native, Redux Toolkit",
         "domains": [
           "Fintech"
