@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+import { CoverLetter } from "@/components/cv/CoverLetter";
 import { CvSwitcher } from "@/components/cv/CvSwitcher";
 import { PageContainer } from "@/components/layout/PageContainer";
 import { PageIntro } from "@/components/layout/PageIntro";
+import { coverLetter } from "@/lib/cv/cover-letter";
 import { cv, getCvVersions } from "@/lib/cv/cv";
 import { routes } from "@/lib/routes/routes";
 
@@ -26,6 +28,8 @@ export default function CvPage() {
       </PageIntro>
 
       <CvSwitcher versions={versions} />
+
+      <CoverLetter text={coverLetter} />
     </PageContainer>
   );
 }

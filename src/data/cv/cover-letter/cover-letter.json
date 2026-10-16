@@ -1,0 +1,16 @@
+{
+  "greeting": "Dear Hiring Team,",
+  "opening": "I am applying for the [Mobile Developer] role. I have {{years}} years of experience building mobile apps.",
+  "points": [
+    { "label": "Cross-platform", "text": "React Native (TypeScript, Redux Toolkit, Reanimated) and Flutter (BLoC, Riverpod)" },
+    { "label": "Native", "text": "Android with Kotlin and Jetpack Compose; currently learning SwiftUI and ready to use it on iOS work" },
+    { "label": "Architecture", "text": "Clean Architecture, design systems, native modules, code reviews" },
+    { "label": "Performance", "text": "reduced app size and increased FPS on production apps" },
+    { "label": "Integration", "text": "REST, GraphQL, Firebase, in-app purchases, deep links, SSL pinning" },
+    { "label": "CI/CD", "text": "Fastlane, GitHub Actions, GitLab Runner, App Store and Google Play releases" },
+    { "label": "Process", "text": "Scrum and Kanban, working in English with clients in Australia, Japan and Saudi Arabia" },
+    { "label": "Domains", "text": "real estate, aviation, fintech, healthcare, logistics, e-learning" }
+  ],
+  "closing": "I would welcome the chance to talk. Thank you for your time.",
+  "signOff": "Best regards,"
+}

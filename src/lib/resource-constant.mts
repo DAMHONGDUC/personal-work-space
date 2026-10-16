@@ -84,6 +84,12 @@ export class ResourceConstant {
   static readonly PORTFOLIO_CV_FILE = "src/data/cv/portfolio/portfolio.json";
 
   /**
+   * The cover letter offered for copying under the CV. A subfolder, so it is
+   * never offered as a CV; its years and signature come from the default CV.
+   */
+  static readonly CV_COVER_LETTER_FILE = "src/data/cv/cover-letter/cover-letter.json";
+
+  /**
    * The CV shown first, and the one served at the legacy /cv.pdf. Other files
    * beside it are equally valid CVs — this constant only decides which one a
    * visitor lands on and which one an old link resolves to.

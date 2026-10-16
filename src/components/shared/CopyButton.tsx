@@ -10,9 +10,10 @@ const CONFIRM_MS = 1500;
 /**
  * Copies `text` and says so for a moment. Matches the copy button the synced
  * Markdown's code blocks carry (`.md-copy` in globals.css), so every code
- * block on the site offers the same control.
+ * block on the site offers the same control. `label` names what it copies
+ * for a screen reader, where that is not code.
  */
-export function CopyButton({ text }: { text: string }) {
+export function CopyButton({ text, label = "Copy code" }: { text: string; label?: string }) {
   const [copied, setCopied] = useState(false);
   const timer = useRef(0);
 
@@ -22,7 +23,7 @@ export function CopyButton({ text }: { text: string }) {
     <button
       type="button"
       className="code-copy"
-      aria-label={copied ? "Copied" : "Copy code"}
+      aria-label={copied ? "Copied" : label}
       onClick={async () => {
         if (!(await copyText(text))) return;
         setCopied(true);
