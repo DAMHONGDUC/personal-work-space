@@ -16,7 +16,7 @@
         ],
         "bullets": [
           "Built and maintained features for a Saudi Arabian government client's real estate product; analysed BRDs with BA, backend and QC, agreed APIs, estimated tasks and demoed every epic to the client.",
-          "Built and maintained the design system library, participating in team peer code reviews.",
+          "Built and maintained the design system library; took part in peer code reviews.",
           "Embedded Unity in Flutter for an in-app metaverse of buildings and events; integrated third-party SDKs.",
           "Reduced app size from 200MB to 90MB and raised key screens from 30–40 FPS to a steady 60.",
           "Optimised data-layer caching and migrated state management from Stream to BLoC.",
@@ -24,7 +24,7 @@
         ],
         "briefBullets": [
           "Built features for a Saudi government real estate app: BRDs, API contracts, estimates, epic demos.",
-          "Built and maintained the design system library, participating in team peer code reviews.",
+          "Built and maintained the design system library; took part in peer code reviews.",
           "Embedded Unity in Flutter for an in-app metaverse of buildings and events; integrated SDKs.",
           "Reduced app size from 200MB to 90MB and raised key screens from 30–40 FPS to a steady 60.",
           "Optimised data-layer caching and migrated state management from Stream to BLoC.",
@@ -39,15 +39,13 @@
           "Aviation"
         ],
         "bullets": [
-          "Built a private jet app from scratch.",
-          "Handled animations and transitions for a smooth, polished UI.",
-          "Built a dashboard page with smooth, complex animations.",
+          "Built a booking app for private jet flights from scratch.",
+          "Built smooth, complex animations and transitions, including an animated dashboard page.",
           "Worked with the team to build and maintain the CI/CD pipelines, using GitLab Runner self-hosted on a Mac mini."
         ],
         "briefBullets": [
-          "Built a private jet app from scratch.",
-          "Handled animations and transitions for a smooth, polished UI.",
-          "Built a dashboard page with smooth, complex animations.",
+          "Built a booking app for private jet flights from scratch.",
+          "Built smooth, complex animations and transitions, including an animated dashboard page.",
           "Built and maintained CI/CD with the team: GitLab Runner self-hosted on a Mac mini."
         ]
       }
@@ -73,7 +71,7 @@
       },
       {
         "title": "Pet Management App",
-        "meta": "3 mobile devs",
+        "meta": "3 mobile devs · Direct client: Japan",
         "stack": "Jetpack Compose",
         "domains": [
           "Pet care"
@@ -93,7 +91,7 @@
     "period": "Nov 2022 – Oct 2024",
     "groups": [
       {
-        "title": "Warehouse App for POS / Handheld Devices",
+        "title": "Warehouse App for Handheld Devices",
         "meta": "4 mobile devs · Direct client: Japan",
         "stack": "Kotlin, Jetpack Compose, MVVM, Clean Architecture",
         "domains": [
@@ -125,16 +123,16 @@
         "bullets": [
           "Built apps from scratch and maintained existing ones: booking and health apps in React Native; a household appliance and apartment maintenance management app in Expo; e-learning, file management and apartment equipment apps in Flutter.",
           "Wrote a native module for the health app to measure heart rate using the phone camera.",
-          "Implemented FCM push notifications, Firebase Crashlytics, and Firebase Analytics.",
-          "Set up CI/CD pipelines to build and release the apps.",
+          "Implemented FCM push notifications, Firebase Crashlytics and Firebase Analytics.",
+          "Set up and maintained CI/CD pipelines to build and release the apps.",
           "Made the apps responsive on iPad, in portrait and landscape.",
           "Led a sub-project with 3 members: planned sprints, estimated tasks and reviewed delivery."
         ],
         "briefBullets": [
           "Built RN booking/health apps, an Expo maintenance app, Flutter e-learning, file and equipment apps.",
           "Wrote a native module for camera-based heart rate measurement in the health app.",
-          "Implemented FCM push notifications, Firebase Crashlytics, and Firebase Analytics.",
-          "Maintained CI/CD pipelines to build and release the apps.",
+          "Implemented FCM push notifications, Firebase Crashlytics and Firebase Analytics.",
+          "Set up and maintained CI/CD pipelines to build and release the apps.",
           "Made the apps responsive on iPad, in portrait and landscape.",
           "Led a sub-project with 3 members: planned sprints, estimated tasks and reviewed delivery."
         ]

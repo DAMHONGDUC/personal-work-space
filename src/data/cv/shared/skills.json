@@ -5,11 +5,11 @@
   },
   {
     "name": "Flutter",
-    "items": "Dart, Clean Architecture, BLoC, Provider, Riverpod, DI with get_it, Melos monorepo"
+    "items": "Dart, Clean Architecture, BLoC, Provider, Riverpod, DI with get_it, Melos Monorepo, Flame"
   },
   {
     "name": "React Native",
-    "items": "TypeScript, Expo, Redux Toolkit, RTK Query, Reanimated"
+    "items": "TypeScript, Expo, Clean Architecture, Redux Toolkit, RTK Query, Reanimated"
   },
   {
     "name": "API Integration",
