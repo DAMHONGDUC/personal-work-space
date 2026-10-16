@@ -41,7 +41,7 @@
         "bullets": [
           "Built a booking app for private jet flights from scratch.",
           "Built smooth, complex animations and transitions, including an animated dashboard page.",
-          "With the team, built CI/CD pipelines using Fastlane and a self-hosted GitLab Runner on a Mac mini."
+          "Built and maintained CI/CD pipelines with Fastlane and a self-hosted GitLab Runner on a Mac mini."
         ],
         "briefBullets": [
           "Built a booking app for private jet flights from scratch.",
