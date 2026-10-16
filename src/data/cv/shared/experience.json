@@ -34,18 +34,20 @@
       {
         "title": "Private Jet App",
         "meta": "5 mobile devs · Direct client: Finland",
-        "stack": "React Native New Architecture (JSI, Fabric), Monorepo / Feature-First, TanStack Query, Zustand",
+        "stack": "React Native, Redux Toolkit, Reanimated",
         "domains": [
           "Aviation"
         ],
         "bullets": [
           "Built a private jet app from scratch.",
           "Handled animations and transitions for a smooth, polished UI.",
+          "Built a dashboard page with smooth, complex animations.",
           "Worked with the team to build and maintain the CI/CD pipelines, using GitLab Runner self-hosted on a Mac mini."
         ],
         "briefBullets": [
           "Built a private jet app from scratch.",
           "Handled animations and transitions for a smooth, polished UI.",
+          "Built a dashboard page with smooth, complex animations.",
           "Built and maintained CI/CD with the team: GitLab Runner self-hosted on a Mac mini."
         ]
       }
