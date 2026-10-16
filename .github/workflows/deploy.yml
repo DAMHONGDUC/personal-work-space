@@ -55,7 +55,6 @@ jobs:
           # is typeset — and broken data in any of them fails here.
           root_file: cv/build/*/main.tex
           work_in_root_file_dir: true
-          glob_root_file: true
 
       - name: Publish the CV
         # public/ is copied into the export, so the PDF and the page images have
