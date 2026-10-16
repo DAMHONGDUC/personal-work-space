@@ -6,10 +6,9 @@ The CV is generated: edit the JSON in `src/data/cv/`, never the LaTeX.
 
 | Path | What | In git |
 |---|---|---|
-| `src/data/cv/cv_normal.json` | Without the freelance work | Yes |
+| `src/data/cv/cv_normal.json` | Without the freelance work; the default version | Yes |
 | `src/data/cv/cv_with_freelancer.json` | Full history, freelance work included | Yes |
-| `src/data/cv/cv_normal_brief.json`, `cv_with_freelancer_brief.json` | The same jobs, `"brief": true`: shorter wording and a denser layout; `cv_normal_brief` is the default version | Yes |
-| `src/data/cv/shared/*.json` | What every version shares: `header`, `about-me`, `education`, `skills`, `projects`, and `experience` — every job, keyed by id; `about-me-brief` for brief versions | Yes |
+| `src/data/cv/shared/*.json` | What every version shares: `header`, `about-me`, `education`, `skills`, `projects`, and `experience` — every job, keyed by id; `about-me-brief` for brief versions (both CVs are `"brief": true`: shorter wording, denser layout; the portfolio prints the full wording) | Yes |
 | `src/data/cv/portfolio/portfolio.json` | The portfolio's version: same format, never offered as a CV | Yes |
 | `cv/template/main.tex` | Layout: preamble + one `%%PLACEHOLDER%%` per section | Yes |
 | `public/personal/avt.jpg` | CV photo (the portfolio has its own) | Yes |

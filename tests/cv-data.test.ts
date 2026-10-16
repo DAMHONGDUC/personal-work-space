@@ -3,9 +3,11 @@ import path from "node:path";
 import { describe, expect, it } from "vitest";
 import { readCv, readCvShared, readCvSlugs } from "@/lib/cv/cv-disk.mts";
 import { renderCvLatex } from "@/lib/cv/cv-latex.mts";
+import { mergeCv } from "@/lib/cv/cv-merge.mts";
 import { periodWithDuration } from "@/lib/cv/cv-period.mts";
 import { ResourceConstant } from "@/lib/resource-constant.mts";
 import { cv, getCvVersions } from "@/lib/cv/cv";
+import type { CvSource } from "@/lib/cv/cv-types";
 
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
 
@@ -18,6 +20,12 @@ const template = fs.readFileSync(
 const onDisk = readCvSlugs(process.cwd());
 
 const versions = getCvVersions();
+
+/** A version file as written: its label, flags and job ids, before the merge. */
+function readCvSource(slug: string): CvSource {
+  const file = path.join(process.cwd(), ResourceConstant.CV_DATA_DIR, `${slug}.json`);
+  return JSON.parse(fs.readFileSync(file, "utf8")) as CvSource;
+}
 
 describe("the set of CVs", () => {
   it("offers every file in the data directory", () => {
@@ -48,14 +56,10 @@ describe("the shared CV parts", () => {
   it("lists no job that no version prints", () => {
     // A job in the shared pool that every version leaves out is a job that
     // was meant to be on a CV and is not.
-    // Compared as JSON: the versions come from the static imports, the pool
-    // from disk, so the same job is two different objects.
-    const used = new Set(
-      versions.flatMap(({ data }) => data.experience.map((job) => JSON.stringify(job))),
-    );
-    const unused = Object.entries(readCvShared(process.cwd()).experience)
-      .filter(([, job]) => !used.has(JSON.stringify(job)))
-      .map(([id]) => id);
+    // Compared by the ids the version files list: a brief version prints a
+    // job in its brief wording, which is not the object in the pool.
+    const used = new Set(versions.flatMap(({ slug }) => readCvSource(slug).experience));
+    const unused = Object.keys(readCvShared(process.cwd()).experience).filter((id) => !used.has(id));
 
     expect(unused).toEqual([]);
   });
@@ -71,19 +75,18 @@ describe("the shared CV parts", () => {
     expect(repeated).toEqual([]);
   });
 
-  it("says in a brief CV everything the full one says, one line a point", () => {
-    // `<slug>_brief` is the brief cut of `<slug>`: the same sentences, jobs,
-    // projects, bullets, notes and skills, only shorter. 100 characters is
-    // what one bullet line of the PDF holds (101 fits, 102 wraps: it depends
-    // on the letters).
-    const bySlug = new Map(versions.map((version) => [version.slug, version.data]));
+  it("says in a brief CV everything the full wording says, one line a point", () => {
+    // A brief version is the full wording in shared/ cut short: the same
+    // sentences, jobs, projects, bullets, notes and skills. The full wording
+    // is what the portfolio prints, so each brief version is checked against
+    // its own jobs merged in full. 100 characters is what one bullet line of
+    // the PDF holds (101 fits, 102 wraps: it depends on the letters).
+    const shared = readCvShared(process.cwd());
     const brief = versions.filter(({ data }) => data.brief);
     expect(brief.length).toBeGreaterThan(0);
 
     for (const { slug, data } of brief) {
-      const full = bySlug.get(slug.replace(/_brief$/, ""));
-      expect(full, `${slug} has no full version`).toBeDefined();
-      if (!full) continue;
+      const full = mergeCv({ ...readCvSource(slug), brief: false }, shared);
 
       expect(data.aboutMe.length, slug).toBe(full.aboutMe.length);
       expect(data.skills, slug).toEqual(full.skills);
