@@ -34,19 +34,19 @@
       {
         "title": "Private Jet App",
         "meta": "5 mobile devs (VN, Finland) · Direct client: Australia",
-        "stack": "React Native, Redux Toolkit, RTK Query, Reanimated, Clean Architecture, Scrum",
+        "stack": "React Native, Redux Toolkit, RTK Query, Reanimated, Jest, React Native Testing Library, Clean Architecture, Scrum",
         "domains": [
           "Aviation"
         ],
         "bullets": [
           "Built a booking app for private jet flights from scratch.",
           "Built smooth, complex animations and transitions, including an animated dashboard page.",
-          "Collaborated with the team to build and maintain CI/CD pipelines using Fastlane and a self-hosted GitLab Runner on a Mac mini."
+          "Built and maintained CI/CD pipelines with Fastlane and a self-hosted GitLab Runner on a Mac mini."
         ],
         "briefBullets": [
           "Built a booking app for private jet flights from scratch.",
           "Built smooth, complex animations and transitions, including an animated dashboard page.",
-          "Built and maintained CI/CD pipelines with the team using Fastlane and a self-hosted GitLab Runner on a Mac mini."
+          "Built and maintained CI/CD pipelines with Fastlane and a self-hosted GitLab Runner on a Mac mini."
         ]
       }
     ]
@@ -121,7 +121,7 @@
           "E-learning"
         ],
         "bullets": [
-          "Built apps from scratch and maintained existing ones: booking and health apps in React Native; a household appliance and apartment maintenance management app in Expo; e-learning, file management and apartment equipment apps in Flutter.",
+          "Built new apps and maintained others: booking and health apps in React Native; an appliance and apartment maintenance app in Expo; e-learning, file management and equipment apps in Flutter.",
           "Wrote a native module for the health app to measure heart rate using the phone camera.",
           "Implemented FCM push notifications, Firebase Crashlytics and Firebase Analytics.",
           "Set up and maintained CI/CD pipelines to build and release the apps.",
@@ -140,7 +140,7 @@
     ],
     "note": {
       "label": "Also:",
-      "text": "Maintained React.js and Next.js admin dashboards and academy websites, with 3D UI in Three.js; integrated VNPAY payments into a Vietnamese client's academy site.",
+      "text": "Maintained React.js and Next.js admin dashboards and academy sites, with Three.js 3D UI and VNPAY.",
       "brief": "Maintained React.js/Next.js dashboards and academy sites (Three.js 3D UI, VNPAY for a VN client)."
     }
   },

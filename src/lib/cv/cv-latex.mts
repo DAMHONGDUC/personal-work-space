@@ -174,13 +174,13 @@ ${inner}`;
 }
 
 /**
- * Vertical gaps inside Experience. A brief CV halves them, so the same jobs
+ * Vertical gaps inside Experience. A brief CV tightens them, so the same jobs
  * take fewer lines.
  */
 function gaps(brief: boolean) {
   return brief
     ? { afterCompany: "1.5mm", betweenGroups: "1mm", afterRule: "1.5mm" }
-    : { afterCompany: "3mm", betweenGroups: "2mm", afterRule: "3mm" };
+    : { afterCompany: "2mm", betweenGroups: "1.5mm", afterRule: "1.5mm" };
 }
 
 /**
