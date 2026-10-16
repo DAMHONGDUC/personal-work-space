@@ -4,7 +4,7 @@
   "photo": "/personal/porfolio-avt.png",
   "about": {
     "title": "Curious about me? Here you have it:",
-    "learning": ["SwiftUI", "Jetpack Compose"]
+    "learning": ["SwiftUI"]
   },
   "skillIcons": {
     "Native Android": "android",
