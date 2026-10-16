@@ -10,7 +10,7 @@
       {
         "title": "Real Estate Product",
         "meta": "17 mobile devs (10 VN, 7 Egypt & Thailand) · Direct client: Saudi Arabia",
-        "stack": "Modular Feature-Based Clean Architecture, Melos Monorepo, BLoC, Scrum, Kanban",
+        "stack": "Flutter, Modular Feature-Based Clean Architecture, Melos Monorepo, BLoC, Scrum, Kanban",
         "domains": [
           "Real estate"
         ],
@@ -129,7 +129,7 @@
           "Led a sub-project with 3 members: planned sprints, estimated tasks and reviewed delivery."
         ],
         "briefBullets": [
-          "Built and maintained RN booking and health apps, an Expo apartment maintenance app, an Flutter e-learning app.",
+          "Built RN booking/health apps, an Expo maintenance app, Flutter e-learning, file and equipment apps.",
           "Wrote a native module for camera-based heart rate measurement in the health app.",
           "Implemented FCM push notifications, Firebase Crashlytics, and Firebase Analytics.",
           "Maintained CI/CD pipelines to build and release the apps.",
