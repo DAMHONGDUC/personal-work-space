@@ -5,7 +5,7 @@
   },
   {
     "name": "Flutter",
-    "items": "Dart, Clean Architecture, BLoC, Provider, Riverpod, DI with get_it, Melos Monorepo, Flame, flutter_test"
+    "items": "Dart, Clean Architecture, BLoC, Provider, Riverpod, DI with get_it, Melos Monorepo, Flame, flutter_test, mockito"
   },
   {
     "name": "React Native",
