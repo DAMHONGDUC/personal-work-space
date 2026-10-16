@@ -2,6 +2,7 @@ import source from "@/data/cv/portfolio/portfolio.json";
 import page from "@/data/portfolio.json";
 import { SHARED } from "@/lib/cv/cv";
 import { mergeCv } from "@/lib/cv/cv-merge.mts";
+import { titleCase } from "@/lib/format";
 import { periodStart, periodWithDuration, yearsSince } from "@/lib/cv/cv-period.mts";
 import type { Cv, CvSource } from "@/lib/cv/cv-types";
 import type {
@@ -14,10 +15,7 @@ import type {
 export type { Portfolio } from "@/lib/portfolio/portfolio-model";
 export { periodStart, yearsSince } from "@/lib/cv/cv-period.mts";
 
-/** `DAM HONG DUC` -> `Dam Hong Duc`. */
-export function titleCase(text: string): string {
-  return text.toLowerCase().replace(/\b\p{L}/gu, (letter) => letter.toUpperCase());
-}
+export { titleCase } from "@/lib/format";
 
 /** The CV's link contacts that the page shows as profiles, by host. */
 function profileLinks(source: Cv): PortfolioLink[] {
