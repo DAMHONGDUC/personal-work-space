@@ -1,9 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import normal from "@/data/cv/cv_normal.json";
-import normalBrief from "@/data/cv/cv_normal_brief.json";
 import withFreelancer from "@/data/cv/cv_with_freelancer.json";
-import withFreelancerBrief from "@/data/cv/cv_with_freelancer_brief.json";
 import aboutMe from "@/data/cv/shared/about-me.json";
 import aboutMeBrief from "@/data/cv/shared/about-me-brief.json";
 import education from "@/data/cv/shared/education.json";
@@ -39,9 +37,7 @@ export const SHARED = {
  */
 const VERSIONS: Record<string, Cv> = {
   cv_normal: mergeCv(normal as CvSource, SHARED),
-  cv_normal_brief: mergeCv(normalBrief as CvSource, SHARED),
   cv_with_freelancer: mergeCv(withFreelancer as CvSource, SHARED),
-  cv_with_freelancer_brief: mergeCv(withFreelancerBrief as CvSource, SHARED),
 };
 
 /**
