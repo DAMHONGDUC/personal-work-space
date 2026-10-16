@@ -63,12 +63,10 @@ describe("merging a CV version with the shared parts", () => {
     expect(cv.aboutMe[0]).toBe("I am A, with 4.5+ years of experience.");
   });
 
-  it("builds the Domains line from the jobs it lists, then the projects, once each", () => {
-    const projects = [{ name: "P", description: "D.", domains: ["Health", "Games"], links: [] }];
-
-    expect(mergeCv(source, { ...shared, projects }).skills.at(-1)).toEqual({
+  it("builds the Domains line from the jobs it lists, once each", () => {
+    expect(mergeCv(source, shared).skills.at(-1)).toEqual({
       name: DOMAINS_SKILL,
-      items: "Games, Fintech, Health",
+      items: "Games, Fintech",
     });
   });
 

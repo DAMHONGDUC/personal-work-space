@@ -171,13 +171,10 @@ describe.each(versions)("the CV data file $slug", ({ slug, data: cv }) => {
     }
   });
 
-  it("tags every piece of work with a domain, spelled one way", () => {
+  it("tags every job's work with a domain, spelled one way", () => {
     // The Domains line is built from these tags, so "Fintech" and "FinTech"
-    // would print as two industries.
-    const tags = [
-      ...cv.experience.flatMap((job) => job.groups.map((group) => group.domains)),
-      ...cv.projects.map((project) => project.domains),
-    ];
+    // would print as two industries. Personal projects carry none.
+    const tags = cv.experience.flatMap((job) => job.groups.map((group) => group.domains));
 
     for (const domains of tags) {
       expect(domains.length).toBeGreaterThan(0);
