@@ -23,6 +23,7 @@
 | A project's `description` is `Framework (libraries) – what it does.`, on one PDF line | Read at a glance; ≤ 110 characters with the name, test-enforced | `Flutter (Riverpod, Firebase) – Resale business app: sourcing, inventory, listings, profit.` |
 | `aboutMe` writes the years as `{{years}}` | `mergeCv` counts them from the version's oldest job at build, in half-year steps rounded down, with months counted as a job's length is (`yearsSince`); the portfolio shows the same lines, see [portfolio.md](portfolio.md) | `I am a mobile developer with {{years}}+ years…` prints `4+`, then `4.5+` from the 54th month |
 | The portfolio has its own file in the version format, `src/data/cv/portfolio/portfolio.json` | A subfolder, so it is never offered as a CV | — |
+| One cover letter for every application, `src/data/cv/cover-letter/cover-letter.json`, shown under the CV with a copy button (`CoverLetter`); the role is a `[bracket]` the reader replaces | Pasted as plain text into any form; `buildCoverLetter` counts `{{years}}` and signs it (name, email, phone) from the default CV; its `Domains` must be the CV's, test-enforced | `- Domains: real estate, aviation, …` |
 
 ## Build and page
 
