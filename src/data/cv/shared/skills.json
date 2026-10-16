@@ -9,7 +9,7 @@
   },
   {
     "name": "React Native",
-    "items": "TypeScript, Expo, Redux Toolkit, RTK Query, Reanimated, Zustand, TanStack Query"
+    "items": "TypeScript, Expo, Redux Toolkit, RTK Query, Reanimated"
   },
   {
     "name": "API Integration",
