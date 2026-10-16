@@ -1,8 +1,7 @@
 [
   {
     "name": "BaroEase",
-    "description": "Flutter – Migraine tracker that flags barometric-pressure risk; offline, seven languages.",
-    "domains": [],
+    "description": "Flutter (Riverpod) – Migraine tracker that flags barometric-pressure risk; offline, seven languages.",
     "links": [
       {
         "label": "github.com/DAMHONGDUC/migraine-tracker",
@@ -13,7 +12,6 @@
   {
     "name": "Reseller Studio",
     "description": "Flutter (Riverpod, Firebase) – Resale business app: sourcing, inventory, listings, profit.",
-    "domains": [],
     "links": [
       {
         "label": "github.com/DAMHONGDUC/reseller-studio",
@@ -24,7 +22,6 @@
   {
     "name": "SMS Hook",
     "description": "Jetpack Compose (Room, WorkManager) – Forwards rule-matching SMS to custom APIs.",
-    "domains": [],
     "links": [
       {
         "label": "github.com/DAMHONGDUC/sms-hook",

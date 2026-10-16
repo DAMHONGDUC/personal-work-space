@@ -84,8 +84,6 @@ export type Experience = {
 export type Project = {
   name: string;
   description: string;
-  /** Industries, collected into the Domains line like a job's. */
-  domains: string[];
   links: { label: string; href: string }[];
 };
 

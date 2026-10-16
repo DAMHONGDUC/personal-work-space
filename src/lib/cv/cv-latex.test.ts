@@ -37,7 +37,6 @@ function makeCv(overrides: Partial<Cv> = {}): Cv {
       {
         name: "Thing",
         description: "A thing.",
-        domains: [],
         links: [{ label: "github.com/x/a_b", href: "https://github.com/x/a_b" }],
       },
     ],
@@ -261,7 +260,7 @@ describe("renderCvLatex", () => {
 
   it("omits the link list for a project with no links", () => {
     const out = renderCvLatex(
-      makeCv({ projects: [{ name: "Thing", description: "A thing.", domains: [], links: [] }] }),
+      makeCv({ projects: [{ name: "Thing", description: "A thing.", links: [] }] }),
       TEMPLATE,
     );
 

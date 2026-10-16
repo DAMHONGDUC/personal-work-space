@@ -4,15 +4,14 @@
   "photo": "/personal/porfolio-avt.png",
   "about": {
     "title": "Curious about me? Here you have it:",
-    "learning": ["SwiftUI", "Jetpack Compose"]
+    "learning": ["SwiftUI"]
   },
   "skillIcons": {
     "Native Android": "android",
-    "Native iOS": "swift",
     "Flutter": "flutter",
     "React Native": "react",
     "API Integration": "graphql",
-    "Mobile Features": "app-store",
+    "Mobile Features": "google-play",
     "Mobile Security": "ios",
     "Mobile Integration": "revenuecat",
     "Mobile Testing": "jest",

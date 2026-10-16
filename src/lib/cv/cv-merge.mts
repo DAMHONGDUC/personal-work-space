@@ -17,8 +17,8 @@ export const DOMAINS_SKILL = "Domains";
  * the portfolio goes stale.
  *
  * The Domains skill line is built here, from the domains of this version's
- * jobs and of the projects, in the order they first appear: a version without
- * a job does not claim its industry.
+ * jobs, in the order they first appear: a version without a job does not claim
+ * its industry, and a personal project claims none.
  *
  * A brief version says everything the full one does, in shorter lines:
  * `aboutMeBrief`, each group's `briefBullets` and a note's `brief` text, each
@@ -44,17 +44,14 @@ export function mergeCv(source: CvSource, shared: CvShared, now: Date = new Date
 
   if (shared.skills.some((skill) => skill.name === DOMAINS_SKILL)) {
     throw new Error(
-      `shared/skills.json has a "${DOMAINS_SKILL}" line; it is built from the jobs and projects`,
+      `shared/skills.json has a "${DOMAINS_SKILL}" line; it is built from the jobs`,
     );
   }
 
   const aboutMe = brief ? shared.aboutMeBrief : shared.aboutMe;
 
   const domains = [
-    ...new Set([
-      ...experience.flatMap((job) => job.groups.flatMap((group) => group.domains)),
-      ...shared.projects.flatMap((project) => project.domains),
-    ]),
+    ...new Set(experience.flatMap((job) => job.groups.flatMap((group) => group.domains))),
   ];
   const skills = domains.length
     ? [...shared.skills, { name: DOMAINS_SKILL, items: domains.join(", ") }]
