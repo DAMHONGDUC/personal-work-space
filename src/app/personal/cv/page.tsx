@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import { CoverLetter } from "@/components/cv/CoverLetter";
-import { CvSwitcher } from "@/components/cv/CvSwitcher";
+import { CvTabs } from "@/components/cv/CvTabs";
 import { PageContainer } from "@/components/layout/PageContainer";
 import { PageIntro } from "@/components/layout/PageIntro";
 import { coverLetter } from "@/lib/cv/cover-letter";
@@ -27,9 +26,7 @@ export default function CvPage() {
         you are hiring for, read it below, or take a copy with you.
       </PageIntro>
 
-      <CvSwitcher versions={versions} />
-
-      <CoverLetter text={coverLetter} />
+      <CvTabs versions={versions} coverLetter={coverLetter} />
     </PageContainer>
   );
 }
