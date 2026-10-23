@@ -20,6 +20,7 @@
     "group": "Build guide"
   },
   "intro": [
+    "Code in this guide is a teaching example. Check current source and follow F00 localization rules before applying it.",
     "F04 · 89h · skeleton guide — full code is added when this feature starts."
   ],
   "sections": [
@@ -124,5 +125,5 @@
     }
   ],
   "effectiveDate": "2026-10-08",
-  "lastUpdated": "2026-10-14"
+  "lastUpdated": "2026-10-23"
 }

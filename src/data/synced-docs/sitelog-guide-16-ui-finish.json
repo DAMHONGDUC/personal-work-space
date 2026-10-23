@@ -20,6 +20,7 @@
     "group": "Build guide"
   },
   "intro": [
+    "Code in this guide is a teaching example. Check current source and follow F00 localization rules before applying it.",
     "F16 · 48h · skeleton guide — last feature; filled in when it starts."
   ],
   "sections": [
@@ -51,8 +52,8 @@
       "blocks": [
         {
           "type": "html",
-          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Step</th><th>Do</th></tr></thead><tbody><tr><td>1</td><td>Open the Figma frame and the running screen side by side</td></tr><tr><td>2</td><td>Fix spacing, sizes, fonts with tokens only (<code>DSSpacing</code>, <code>DSFont</code>…); add a token if Figma needs a new value</td></tr><tr><td>3</td><td>Swap placeholders and native controls for the designed ones</td></tr><tr><td>4</td><td>Check light + dark, small (SE) and large (Pro Max) iPhone, largest Dynamic Type</td></tr><tr><td>5</td><td>Commit per screen</td></tr></tbody></table></div>\n</dd></dl>",
-          "text": "Step Do1 Open the Figma frame and the running screen side by side 2 Fix spacing, sizes, fonts with tokens only (DSSpacing, DSFont…); add a token if Figma needs a new value 3 Swap placeholders and native controls for the designed ones 4 Check light + dark, small (SE) and large (Pro Max) iPhone, largest Dynamic Type 5 Commit per screen"
+          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Step</th><th>Do</th></tr></thead><tbody><tr><td>1</td><td>Open the Figma frame and the running screen side by side</td></tr><tr><td>2</td><td>Fix spacing, sizes, fonts with tokens only (<code>DSSpacing</code>, <code>DSTextStyle</code>, <code>DSColor</code>…); add a token if Figma needs a new value</td></tr><tr><td>3</td><td>Swap placeholders and native controls for the designed ones</td></tr><tr><td>4</td><td>Check light + dark, small (SE) and large (Pro Max) iPhone, largest Dynamic Type</td></tr><tr><td>5</td><td>Commit per screen</td></tr></tbody></table></div>\n</dd></dl>",
+          "text": "Step Do1 Open the Figma frame and the running screen side by side 2 Fix spacing, sizes, fonts with tokens only (DSSpacing, DSTextStyle, DSColor…); add a token if Figma needs a new value 3 Swap placeholders and native controls for the designed ones 4 Check light + dark, small (SE) and large (Pro Max) iPhone, largest Dynamic Type 5 Commit per screen"
         }
       ]
     },
@@ -179,5 +180,5 @@
     }
   ],
   "effectiveDate": "2026-10-08",
-  "lastUpdated": "2026-10-14"
+  "lastUpdated": "2026-10-23"
 }
