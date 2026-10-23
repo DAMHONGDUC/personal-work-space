@@ -10,13 +10,14 @@
  * can pull the types in.
  */
 
-export type ContactKind = "email" | "phone" | "link";
+/** `location` is where the candidate lives and how they work; it has no target. */
+export type ContactKind = "email" | "phone" | "link" | "location";
 
 export type Contact = {
   kind: ContactKind;
   /** The visible text. */
   value: string;
-  /** Target URL. Optional for `email`, which defaults to `mailto:<value>`. */
+  /** Target URL. Optional for `email`, which defaults to `mailto:<value>`; none for `location`. */
   href?: string;
 };
 
@@ -41,7 +42,7 @@ export type Skill = {
  */
 export type ExperienceGroup = {
   title: string;
-  /** Team size and client, beside the title: `20 mobile devs · Direct client: Saudi Arabia`. */
+  /** Team size and client, beside the title: `20 mobile devs · Client: Saudi Arabia`. */
   meta: string;
   /**
    * Framework and architecture, the first bullet: `Flutter, Clean Architecture`.

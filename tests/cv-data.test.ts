@@ -147,8 +147,8 @@ describe.each(versions)("the CV data file $slug", ({ slug, data: cv }) => {
     for (const contact of cv.header.contacts) {
       expect(contact.value.trim()).not.toBe("");
 
-      // Only an email can go without one — it falls back to mailto:.
-      if (contact.kind !== "email") {
+      // An email falls back to mailto:; a location is plain text.
+      if (contact.kind !== "email" && contact.kind !== "location") {
         expect(contact.href).toBeTruthy();
       }
     }

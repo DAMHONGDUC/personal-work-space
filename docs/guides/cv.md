@@ -67,7 +67,7 @@ flowchart LR
 | `get_it` | get_it |
 | `2019 – 2023` (en dash) | 2019 – 2023 |
 | `a — b` (em dash) | a — b |
-| `4 mobile devs · Direct client: Japan` | 4 mobile devs · Direct client: Japan |
+| `4 mobile devs · Client: Japan` | 4 mobile devs · Client: Japan |
 | `href` URLs | Passed as-is; only `%` and `#` escaped |
 
 | Field rule | Detail |
