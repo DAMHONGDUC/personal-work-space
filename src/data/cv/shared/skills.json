@@ -25,7 +25,7 @@
   },
   {
     "name": "Mobile Features & Security",
-    "items": "Push notifications, Local databases, Camera, PPG heart rate, Native Modules, Location, Deep links (App Links, Universal Links, Adjust deferred), Play Feature Delivery, On-Demand Resources, SSL pinning, Passcode, Face ID"
+    "items": "Push notifications, Local databases, Camera, PPG heart rate, Native Modules, Location, Deep links (App Links, Universal Links, Adjust deferred), Play Feature Delivery, On-Demand Resources, SSL pinning, Passcode, Biometrics"
   },
   {
     "name": "Mobile Integration",

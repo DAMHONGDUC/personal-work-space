@@ -55,13 +55,13 @@
         "bullets": [
           "Built an offline-first iOS app for site supervisors to record site conditions and export a signed PDF inspection report.",
           "Built a background URLSession upload engine with S3 multipart uploads that survives suspension, termination and network loss for multi-GB sessions.",
-          "Made captures tamper-evident with SHA-256 hashes, a separate vector markup layer, an audit log and Keychain-held keys; added Face ID and passcode lock.",
+          "Made captures tamper-evident with SHA-256 hashes, a separate vector markup layer, an audit log and Keychain-held keys; added biometric and passcode lock.",
           "Built PDFKit floor plans with pins, photo markup and stamps, checklists and BLE meter readings; multi-device sync, realtime WebSocket progress, push and deep links; CI/CD with Fastlane and TestFlight."
         ],
         "briefBullets": [
           "Built an offline-first iOS app for site inspections that exports a signed PDF report.",
           "Built a background upload engine (S3 multipart) that survives app kill and network loss.",
-          "Made captures tamper-evident: SHA-256, markup layer, audit log, Keychain; Face ID/passcode lock.",
+          "Made captures tamper-evident: SHA-256, markup layer, audit log, Keychain; biometric/passcode lock.",
           "Built floor plans, markup, checklists, BLE meters, sync, realtime, push, deep links; Fastlane CI/CD."
         ]
       }
