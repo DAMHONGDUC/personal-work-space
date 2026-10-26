@@ -15,14 +15,14 @@
           "Real estate"
         ],
         "bullets": [
-          "Built and maintained features for a Saudi Arabian government client's real estate product; analysed BRDs with BA, backend and QC, agreed APIs, estimated tasks and demoed every epic to the client.",
+          "Built and maintained features for a Saudi Arabian government client's real estate product with 10M+ users; analysed BRDs with BA, backend and QC, agreed APIs, estimated tasks and demoed every epic to the client.",
           "Built and maintained the design system library; took part in peer code reviews.",
           "Embedded Unity in Flutter for an in-app metaverse of buildings and events; integrated third-party SDKs.",
           "Reduced app size from 200MB to 90MB and raised key screens from 30–40 FPS to a steady 60; optimised data-layer caching and migrated state management from Stream to BLoC.",
           "Implemented SSL pinning and set up Adjust deferred deep links."
         ],
         "briefBullets": [
-          "Built features for a Saudi government real estate app: BRDs, API contracts, estimates, epic demos.",
+          "Built features for a 10M+ user Saudi government real estate app: BRDs, APIs, estimates, epic demos.",
           "Built and maintained the design system library; took part in peer code reviews.",
           "Embedded Unity in Flutter for an in-app metaverse of buildings and events; integrated SDKs.",
           "Cut app size 200MB to 90MB, FPS 30–40 to 60; optimised caching, migrated Stream to BLoC.",
