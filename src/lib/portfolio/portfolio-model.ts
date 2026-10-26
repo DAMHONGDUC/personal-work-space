@@ -41,6 +41,7 @@ export const SKILL_ICON_IDS = [
   "nextjs",
   "claude",
   "github-actions",
+  "architecture",
   "domains",
 ] as const;
 
@@ -48,8 +49,9 @@ export type SkillIconId = (typeof SKILL_ICON_IDS)[number];
 
 /**
  * The tool each mark stands for, as the CV spells it. A skill area may only
- * take a mark whose tool it names, which a test checks against the CV. Domains
- * lists industries, not tools, so its generic mark stands for the area itself.
+ * take a mark whose tool it names, which a test checks against the CV. Mobile
+ * Architecture lists patterns and Domains lists industries, not tools, so each
+ * takes a generic mark that stands for the area itself.
  */
 export const SKILL_ICON_TOOLS: Record<SkillIconId, string> = {
   android: "Android",
@@ -65,6 +67,7 @@ export const SKILL_ICON_TOOLS: Record<SkillIconId, string> = {
   nextjs: "Next.js",
   claude: "Claude Code",
   "github-actions": "GitHub Actions",
+  architecture: "Mobile Architecture",
   domains: "Domains",
 };
 

@@ -12,7 +12,7 @@
     "Flutter": "flutter",
     "React Native": "react",
     "API Integration": "graphql",
-    "Architecture & Testing": "jest",
+    "Mobile Architecture": "architecture",
     "Mobile Features & Security": "google-play",
     "Mobile Integration": "revenuecat",
     "Mobile CI/CD": "github-actions",

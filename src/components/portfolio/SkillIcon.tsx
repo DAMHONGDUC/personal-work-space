@@ -1,6 +1,6 @@
 import type { CSSProperties } from "react";
 import type { IconType } from "react-icons";
-import { LuBriefcaseBusiness } from "react-icons/lu";
+import { LuBriefcaseBusiness, LuLayers } from "react-icons/lu";
 import {
   SiAndroid,
   SiAppstore,
@@ -38,6 +38,7 @@ const MARKS: Record<SkillIconId, { Icon: IconType; color?: string }> = {
   nextjs: { Icon: SiNextdotjs },
   claude: { Icon: SiClaude, color: AppColors.BRAND.claude },
   "github-actions": { Icon: SiGithubactions, color: AppColors.BRAND.githubActions },
+  architecture: { Icon: LuLayers },
   domains: { Icon: LuBriefcaseBusiness },
 };
 
