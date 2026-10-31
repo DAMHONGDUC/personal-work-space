@@ -1,4 +1,4 @@
-import type { Cv, CvShared, CvSource, Experience } from "./cv-types";
+import type { Cv, CvLeaveOut, CvShared, CvSource, Experience } from "./cv-types";
 import { periodStart, yearsSince } from "./cv-period.mts";
 
 /** The skill line `mergeCv` writes; the shared skills may not hold one. */
@@ -24,8 +24,13 @@ export const DOMAINS_SKILL = "Domains";
  * `aboutMeBrief`, each group's `briefBullets` and a note's `brief` text, each
  * falling back to the full wording when it has none. Skills are the same.
  *
- * Throws on a job id the shared file does not have, so a typo fails the build
- * rather than quietly dropping a job from the CV.
+ * `leaveOut` cuts named projects, skill lines and About me phrases from what
+ * the shared parts give this version; Domains is built after the cut, so a
+ * dropped project takes its industry with it.
+ *
+ * Throws on a job id the shared file does not have, and on anything
+ * `leaveOut` names that is not there, so a typo fails the build rather than
+ * quietly printing what was meant to be cut, or dropping a job.
  */
 export function mergeCv(source: CvSource, shared: CvShared, now: Date = new Date()): Cv {
   const brief = source.brief ?? false;
@@ -41,6 +46,8 @@ export function mergeCv(source: CvSource, shared: CvShared, now: Date = new Date
 
     return brief ? briefJob(job) : job;
   });
+  const leaveOut = source.leaveOut ?? {};
+  const kept = leaveOutGroups(source.label, experience, leaveOut.groups ?? []);
 
   if (shared.skills.some((skill) => skill.name === DOMAINS_SKILL)) {
     throw new Error(
@@ -48,16 +55,22 @@ export function mergeCv(source: CvSource, shared: CvShared, now: Date = new Date
     );
   }
 
-  const aboutMe = brief ? shared.aboutMeBrief : shared.aboutMe;
+  const aboutMe = cutPhrases(
+    source.label,
+    brief ? shared.aboutMeBrief : shared.aboutMe,
+    [...shared.aboutMe, ...shared.aboutMeBrief],
+    leaveOut.phrases ?? [],
+  );
+  const sharedSkills = leaveOutSkills(source.label, shared, leaveOut);
 
   const domains = [
-    ...new Set(experience.flatMap((job) => job.groups.flatMap((group) => group.domains))),
+    ...new Set(kept.flatMap((job) => job.groups.flatMap((group) => group.domains))),
   ];
   const skills = domains.length
-    ? [...shared.skills, { name: DOMAINS_SKILL, items: domains.join(", ") }]
-    : shared.skills;
+    ? [...sharedSkills, { name: DOMAINS_SKILL, items: domains.join(", ") }]
+    : sharedSkills;
 
-  const oldest = experience[experience.length - 1];
+  const oldest = kept[kept.length - 1];
   const years = oldest ? String(yearsSince(periodStart(oldest.period), now)) : "";
 
   // Spelled out field by field so the printed order of the keys — and so the
@@ -70,9 +83,52 @@ export function mergeCv(source: CvSource, shared: CvShared, now: Date = new Date
     aboutMe: aboutMe.map((line) => line.replaceAll("{{years}}", years)),
     education: shared.education,
     skills,
-    experience,
+    experience: kept,
     projects: shared.projects,
   };
+}
+
+/** The version's jobs without the projects it leaves out; a job left with none is a mistake. */
+function leaveOutGroups(label: string, jobs: Experience[], titles: string[]): Experience[] {
+  if (titles.length === 0) return jobs;
+
+  const known = new Set(jobs.flatMap((job) => job.groups.map((group) => group.title)));
+  const unknown = titles.filter((title) => !known.has(title));
+  if (unknown.length) {
+    throw new Error(`CV "${label}" leaves out projects none of its jobs has: ${unknown.join(", ")}`);
+  }
+
+  return jobs.map((job) => {
+    const groups = job.groups.filter((group) => !titles.includes(group.title));
+    if (groups.length === 0) {
+      throw new Error(`CV "${label}" leaves out every project of ${job.company}; drop the job instead`);
+    }
+    return groups.length === job.groups.length ? job : { ...job, groups };
+  });
+}
+
+/** The shared skill lines without the ones the version leaves out. */
+function leaveOutSkills(label: string, shared: CvShared, leaveOut: CvLeaveOut): CvShared["skills"] {
+  const names = leaveOut.skills ?? [];
+  const unknown = names.filter((name) => !shared.skills.some((skill) => skill.name === name));
+  if (unknown.length) {
+    throw new Error(`CV "${label}" leaves out skill lines shared/skills.json does not have: ${unknown.join(", ")}`);
+  }
+
+  return names.length ? shared.skills.filter((skill) => !names.includes(skill.name)) : shared.skills;
+}
+
+/**
+ * About me with each phrase cut. A phrase belongs to one wording, full or
+ * brief, so it is checked against both: it must be in one of them.
+ */
+function cutPhrases(label: string, lines: string[], every: string[], phrases: string[]): string[] {
+  const unknown = phrases.filter((phrase) => !every.some((line) => line.includes(phrase)));
+  if (unknown.length) {
+    throw new Error(`CV "${label}" cuts About me phrases no wording has: ${unknown.join(" | ")}`);
+  }
+
+  return lines.map((line) => phrases.reduce((text, phrase) => text.replaceAll(phrase, ""), line));
 }
 
 /** A job as a brief version prints it: the same points, in their brief wording where it has one. */

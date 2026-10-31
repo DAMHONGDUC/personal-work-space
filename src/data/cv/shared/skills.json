@@ -1,35 +1,39 @@
 [
   {
     "name": "Native Android",
-    "items": "Kotlin, Jetpack Compose, MVVM, Clean Architecture, MVC, DI with Hilt and Dagger, Broadcast receivers, Kiosk mode, JUnit, Mockito, Compose UI Test"
+    "items": "Kotlin, Jetpack Compose, DI with Hilt and Dagger, Broadcast receivers, Kiosk mode, JUnit, Mockito, Compose UI Test"
+  },
+  {
+    "name": "Native iOS",
+    "items": "Swift, SwiftUI, Swift Concurrency, SwiftData, DI with Factory, CoreBluetooth, PDFKit, Swift Testing"
   },
   {
     "name": "Flutter",
-    "items": "Dart, Clean Architecture, BLoC, Provider, Riverpod, DI with get_it, Melos Monorepo, Flame, flutter_test, mockito"
+    "items": "Dart, BLoC, Provider, Riverpod, DI with get_it, Melos Monorepo, Flame, flutter_test"
   },
   {
     "name": "React Native",
-    "items": "TypeScript, Expo, Clean Architecture, Redux Toolkit, RTK Query, Reanimated, Jest, React Native Testing Library"
+    "items": "TypeScript, Expo, Redux Toolkit, RTK Query, Reanimated, Jest, RNTL"
+  },
+  {
+    "name": "Mobile Architecture",
+    "items": "Clean Architecture, MVVM, MVP"
   },
   {
     "name": "API Integration",
     "items": "REST API, GraphQL, Apollo Client"
   },
   {
-    "name": "Mobile Features",
-    "items": "Push notifications, Local databases, Camera, Camera-based heart rate (PPG), Native Modules, Location, Deep links (App Links, Universal Links, Adjust deferred), Play Feature Delivery, On-Demand Resources"
-  },
-  {
-    "name": "Mobile Security",
-    "items": "SSL pinning, Passcode, Face ID"
+    "name": "Mobile Features & Security",
+    "items": "Push notifications, Local databases, Camera, PPG heart rate, Native Modules, Location, Deep links (App Links, Universal Links, Adjust deferred), Play Feature Delivery, On-Demand Resources, SSL pinning, Passcode, Biometrics"
   },
   {
     "name": "Mobile Integration",
-    "items": "RevenueCat, In-app purchases, Firebase (Firestore, FCM, Crashlytics, Analytics), OneSignal, Unity in Flutter"
+    "items": "RevenueCat, IAP, Firebase (Firestore, FCM, Crashlytics, Analytics), OneSignal, Unity"
   },
   {
     "name": "Mobile CI/CD",
-    "items": "Fastlane, GitLab Runner (self-hosted), GitHub Actions, Firebase App Distribution, App Store and Google Play delivery"
+    "items": "Fastlane, GitLab Runner (self-hosted), GitHub Actions, Firebase App Distribution, App Store, Google Play"
   },
   {
     "name": "Web Development",

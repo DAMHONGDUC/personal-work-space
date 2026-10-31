@@ -10,13 +10,14 @@
  * can pull the types in.
  */
 
-export type ContactKind = "email" | "phone" | "link";
+/** `location` is where the candidate lives and how they work; it has no target. */
+export type ContactKind = "email" | "phone" | "link" | "location";
 
 export type Contact = {
   kind: ContactKind;
   /** The visible text. */
   value: string;
-  /** Target URL. Optional for `email`, which defaults to `mailto:<value>`. */
+  /** Target URL. Optional for `email`, which defaults to `mailto:<value>`; none for `location`. */
   href?: string;
 };
 
@@ -41,7 +42,7 @@ export type Skill = {
  */
 export type ExperienceGroup = {
   title: string;
-  /** Team size and client, beside the title: `20 mobile devs · Direct client: Saudi Arabia`. */
+  /** Team size and client, beside the title: `20 mobile devs · Client: Saudi Arabia`. */
   meta: string;
   /**
    * Framework and architecture, the first bullet: `Flutter, Clean Architecture`.
@@ -156,6 +157,22 @@ export type CvSource = Omit<
   brief?: boolean;
   /** Ids from the shared `experience.json`, in the order this CV prints them. */
   experience: string[];
+  /** What this version cuts from the shared parts; see `CvLeaveOut`. */
+  leaveOut?: CvLeaveOut;
+};
+
+/**
+ * Shared parts a version leaves out, each named by its exact text, so a CV
+ * can drop one project of a job and every claim that rests on it. `mergeCv`
+ * throws on a name it cannot find, so a renamed title fails the build.
+ */
+export type CvLeaveOut = {
+  /** Project titles, from any of the version's jobs; their domains go too. */
+  groups?: string[];
+  /** Skill line names. */
+  skills?: string[];
+  /** Exact text cut from About me; list the full and the brief wording's phrase. */
+  phrases?: string[];
 };
 
 /** One CV's compiled PDF, as the page links to it. A build artifact. */
