@@ -52,6 +52,17 @@ describe("the set of CVs", () => {
   });
 });
 
+describe("the CV without SiteLog", () => {
+  it("claims nothing that rests on SiteLog: no Swift, no iOS line, no Construction", () => {
+    // SiteLog is the only work behind the Native iOS line, SwiftUI in About me
+    // and the Construction domain; a CV without it must not keep any of them.
+    // The label names what is cut, and is not printed on the CV.
+    const printed = JSON.stringify({ ...readCv(process.cwd(), "cv_normal_no_sitelog"), label: "" });
+
+    expect(printed).not.toMatch(/SiteLog|Swift|Native iOS|Construction/);
+  });
+});
+
 describe("the shared CV parts", () => {
   it("lists no job that no version prints", () => {
     // A job in the shared pool that every version leaves out is a job that

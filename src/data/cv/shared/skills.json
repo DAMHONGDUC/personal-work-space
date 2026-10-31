@@ -17,7 +17,7 @@
   },
   {
     "name": "Mobile Architecture",
-    "items": "Clean Architecture, MVVM, MVC"
+    "items": "Clean Architecture, MVVM, MVP"
   },
   {
     "name": "API Integration",

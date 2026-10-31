@@ -157,6 +157,22 @@ export type CvSource = Omit<
   brief?: boolean;
   /** Ids from the shared `experience.json`, in the order this CV prints them. */
   experience: string[];
+  /** What this version cuts from the shared parts; see `CvLeaveOut`. */
+  leaveOut?: CvLeaveOut;
+};
+
+/**
+ * Shared parts a version leaves out, each named by its exact text, so a CV
+ * can drop one project of a job and every claim that rests on it. `mergeCv`
+ * throws on a name it cannot find, so a renamed title fails the build.
+ */
+export type CvLeaveOut = {
+  /** Project titles, from any of the version's jobs; their domains go too. */
+  groups?: string[];
+  /** Skill line names. */
+  skills?: string[];
+  /** Exact text cut from About me; list the full and the brief wording's phrase. */
+  phrases?: string[];
 };
 
 /** One CV's compiled PDF, as the page links to it. A build artifact. */

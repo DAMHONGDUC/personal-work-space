@@ -126,3 +126,55 @@ describe("merging a CV version with the shared parts", () => {
     expect(() => mergeCv({ ...source, experience: ["frist"] }, shared)).toThrow(/frist/);
   });
 });
+
+describe("a version that leaves out shared parts", () => {
+  const two = job("Two", ["Fintech"]);
+  const side = { ...two.groups[0], title: "Side App", domains: ["Construction"] };
+  const withSide: CvShared = {
+    ...shared,
+    aboutMe: ["I am A: Android, iOS with SwiftUI and Flutter."],
+    aboutMeBrief: ["I am A: Android, SwiftUI (iOS), Flutter."],
+    skills: [...shared.skills, { name: "Native iOS", items: "Swift" }],
+    experience: { two: { ...two, groups: [...two.groups, side] } },
+  };
+  const cut: CvSource = {
+    ...source,
+    experience: ["two"],
+    leaveOut: { groups: ["Side App"], skills: ["Native iOS"], phrases: ["iOS with SwiftUI and ", "SwiftUI (iOS), "] },
+  };
+
+  it("drops the project, and its industry from Domains", () => {
+    // Domains is built after the cut: a dropped project must not leave its
+    // industry behind.
+    const cv = mergeCv(cut, withSide);
+
+    expect(cv.experience[0].groups.map((group) => group.title)).toEqual(["App"]);
+    expect(cv.skills.at(-1)?.items).toBe("Fintech");
+  });
+
+  it("drops the skill line", () => {
+    expect(mergeCv(cut, withSide).skills.map((skill) => skill.name)).toEqual(["Flutter", DOMAINS_SKILL]);
+  });
+
+  it("cuts the phrase from whichever About me wording it prints", () => {
+    expect(mergeCv(cut, withSide).aboutMe).toEqual(["I am A: Android, Flutter."]);
+    expect(mergeCv({ ...cut, brief: true }, withSide).aboutMe).toEqual(["I am A: Android, Flutter."]);
+  });
+
+  it("leaves the shared job itself untouched", () => {
+    mergeCv(cut, withSide);
+
+    expect(withSide.experience.two.groups).toHaveLength(2);
+  });
+
+  it("fails on a project, skill or phrase that is not there", () => {
+    // A renamed title must fail the build, never quietly print what was cut.
+    expect(() => mergeCv({ ...cut, leaveOut: { groups: ["Sidd App"] } }, withSide)).toThrow(/Sidd App/);
+    expect(() => mergeCv({ ...cut, leaveOut: { skills: ["iOS"] } }, withSide)).toThrow(/iOS/);
+    expect(() => mergeCv({ ...cut, leaveOut: { phrases: ["Kotlin"] } }, withSide)).toThrow(/Kotlin/);
+  });
+
+  it("fails when a job would be left with no project", () => {
+    expect(() => mergeCv({ ...cut, leaveOut: { groups: ["App", "Side App"] } }, withSide)).toThrow(/drop the job/);
+  });
+});

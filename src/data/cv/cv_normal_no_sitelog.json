@@ -1,0 +1,22 @@
+{
+  "label": "Normal (no SiteLog)",
+  "lastUpdated": "2026-10-29",
+  "brief": true,
+  "experience": [
+    "oivan",
+    "tgl-solutions",
+    "flynk"
+  ],
+  "leaveOut": {
+    "groups": [
+      "SiteLog – Site Inspection App"
+    ],
+    "skills": [
+      "Native iOS"
+    ],
+    "phrases": [
+      "iOS with SwiftUI and ",
+      "SwiftUI (iOS), "
+    ]
+  }
+}
