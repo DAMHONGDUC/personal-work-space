@@ -294,40 +294,47 @@ describe("DocArticle", () => {
 
     describe("split into panels, with groups opened by a page of their own", () => {
       const sprints: SeriesPage[] = [
-        { slug: "intro", part: 0, title: { en: "Overview", vi: "Tổng quan" }, panel: "Base docs" },
+        { slug: "intro", part: 0, title: { en: "Intro", vi: "Mở đầu" }, panel: "Base docs" },
         { slug: "s0", part: 1, title: { en: "S0", vi: "S0" }, panel: "Sprint guides", group: "S0", opensGroup: true },
         { slug: "guide", part: 2, title: { en: "F00", vi: "F00" }, panel: "Sprint guides", group: "S0" },
         { slug: "s1", part: 3, title: { en: "S1", vi: "S1" }, panel: "Sprint guides", group: "S1", opensGroup: true },
         { slug: "f01", part: 4, title: { en: "F01", vi: "F01" }, panel: "Sprint guides", group: "S1" },
       ];
 
-      it("heads each panel with its name, in the card and the sidebar", () => {
+      it("draws each panel as its own block, in the card and the sidebar", () => {
         const page = render(versions, sprints);
 
         for (const variant of ["card", "sidebar"]) {
           const panels = [...page.querySelectorAll(`[data-variant="${variant}"] [data-panel]`)];
           expect(panels.map((panel) => panel.getAttribute("data-panel"))).toEqual(["Base docs", "Sprint guides"]);
         }
+        // Each sidebar block scrolls on its own, and only the one holding the page counts.
+        const blocks = [...page.querySelectorAll('aside [data-panel]')];
+        expect(blocks.every((block) => block.hasAttribute("data-scroll-panel"))).toBe(true);
+        expect(blocks.map((block) => block.querySelector("p")?.textContent)).toEqual(["Base docs", "Sprint guides3/5"]);
       });
 
-      it("unfolds only the group holding the page being read, headed by its own page", () => {
+      it("unfolds only the group holding the page being read, its own page first as the overview", () => {
         const page = render(versions, sprints);
         const nav = page.querySelector('aside [data-variant="sidebar"]')!;
-        const titles = [...nav.querySelectorAll("a")].map((link) => link.textContent);
 
-        expect(titles).toEqual(["Overview", "S0", "F00", "S1"]);
+        expect([...nav.querySelectorAll("a")].map((link) => link.textContent)).toEqual(["Intro", "Overview", "F00"]);
+        expect(nav.querySelector("a[href='/docs/s0']")?.textContent).toBe("Overview");
         expect(nav.querySelector('[aria-current="page"]')?.textContent).toBe("F00");
       });
 
-      it("folds and unfolds a group from its button", () => {
+      it("folds and unfolds a group from anywhere on its row", () => {
         const page = render(versions, sprints);
         const nav = page.querySelector('aside [data-variant="sidebar"]')!;
-        const button = nav.querySelector<HTMLButtonElement>('[data-group="S1"] button')!;
+        const row = () => nav.querySelector<HTMLButtonElement>('[data-group="S1"] > button')!;
 
-        expect(button.getAttribute("aria-expanded")).toBe("false");
-        act(() => button.click());
-        expect(button.getAttribute("aria-expanded")).toBe("true");
+        expect(row().textContent).toBe("S1");
+        expect(row().getAttribute("aria-expanded")).toBe("false");
+        act(() => row().querySelector("span")!.click());
+        expect(row().getAttribute("aria-expanded")).toBe("true");
         expect(nav.querySelector('[data-group="S1"]')?.textContent).toContain("F01");
+        act(() => row().click());
+        expect(nav.querySelector('[data-group="S1"]')?.textContent).not.toContain("F01");
       });
     });
 

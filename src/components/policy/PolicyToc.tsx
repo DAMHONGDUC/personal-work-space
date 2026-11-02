@@ -45,11 +45,9 @@ export function SidebarToc({
   return (
     <aside className="hidden lg:block">
       <div className="sticky top-24 flex max-h-[calc(100vh-7rem)] flex-col gap-8 pb-6">
-        {children && (
-          <div data-scroll-panel className="max-h-[40vh] shrink-0 overflow-y-auto [scrollbar-width:thin]">
-            {children}
-          </div>
-        )}
+        {/* Each block above the contents scrolls on its own and shares the
+            column's height with them (`data-scroll-panel`). */}
+        {children}
         <nav
           aria-label="On this page"
           className="flex min-h-0 flex-col gap-3 overflow-y-auto border-l border-border-soft [scrollbar-width:thin]"

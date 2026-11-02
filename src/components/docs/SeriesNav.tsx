@@ -15,8 +15,7 @@ const LABELS = {
   previous: { en: "Previous", vi: "Trang trước" },
   next: { en: "Next", vi: "Trang tiếp" },
   of: { en: "of", vi: "/" },
-  unfold: { en: "Show pages", vi: "Hiện các trang" },
-  fold: { en: "Hide pages", vi: "Ẩn các trang" },
+  overview: { en: "Overview", vi: "Tổng quan" },
 } satisfies Record<string, Record<Lang, string>>;
 
 /**
@@ -37,15 +36,18 @@ function seriesName(pages: SeriesPage[], lang: Lang): string {
  * The pages of a series: the series is named, and the page being read is
  * marked so the reader sees where they are and how much is left.
  *
- * On wide screens it sits in the pinned contents panel (`sidebar`), styled
+ * On wide screens it sits in the pinned contents column (`sidebar`), styled
  * like the page's own contents beneath it, so the other pages stay in reach
- * however far the reader scrolls. Smaller screens have no panel and get it as
+ * however far the reader scrolls. Smaller screens have no column and get it as
  * a card above the intro (`card`).
  *
- * A series can be split into panels ("Base docs", "Sprint guides"), each under
- * its own heading. A group opened by a page of its own (a sprint's README) is
- * drawn as that page with its pages folded beneath it; only the group holding
- * the page being read starts unfolded. A group without one is a plain heading.
+ * A series split into panels ("Base docs", "Sprint guides") draws each as a
+ * block of its own — its own card, or its own scrolled block in the sidebar —
+ * headed by its name; the block holding the page being read shows the count.
+ * A group opened by a page of its own (a sprint's README) is one row that
+ * folds and unfolds its pages, that page first as its overview; only the group
+ * holding the page being read starts unfolded. A group without one is a plain
+ * heading over its pages.
  */
 export function SeriesContents({
   pages,
@@ -71,15 +73,22 @@ export function SeriesContents({
         ),
       ),
   );
+  // The block that shows the count: the one holding the page, else the first.
+  const countedPanel = Math.max(
+    0,
+    panels.findIndex((panel) =>
+      panel.items.some((item) => ("page" in item ? item.page.slug === current : groupHolds(item.group, current))),
+    ),
+  );
 
-  // A long series runs past the bottom of the pinned panel; bring the page being
-  // read into the panel's view, moving only the panel, never the page.
+  // A long list runs past the bottom of its scrolled block; bring the page being
+  // read into the block's view, moving only the block, never the page.
   useEffect(() => {
     const link = currentLink.current;
     const panel = link?.closest<HTMLElement>("[data-scroll-panel]");
     if (!sidebar || !link || !panel) return;
 
-    // Where the link sits inside the panel's scrolled content.
+    // Where the link sits inside the block's scrolled content.
     const top = link.getBoundingClientRect().top - panel.getBoundingClientRect().top + panel.scrollTop;
     if (top < panel.scrollTop || top + link.offsetHeight > panel.scrollTop + panel.clientHeight) {
       panel.scrollTop = top - panel.clientHeight / 3;
@@ -94,7 +103,7 @@ export function SeriesContents({
     });
   }
 
-  function pageLink(page: SeriesPage, nested: boolean) {
+  function pageLink(page: SeriesPage, nested: boolean, label = page.title[lang]) {
     const here = page.slug === current;
 
     return (
@@ -104,10 +113,10 @@ export function SeriesContents({
         aria-current={here ? "page" : undefined}
         className={
           sidebar
-            ? `-ml-px block min-w-0 flex-1 rounded-r-md border-l-2 py-1 pr-2 text-[0.9375rem] leading-6 transition-colors ${
+            ? `-ml-px block rounded-r-md border-l-2 py-1 pr-2 text-[0.9375rem] leading-6 transition-colors ${
                 nested ? "pl-7" : "pl-4"
               } ${here ? "font-semibold" : "border-transparent text-muted hover:border-foreground/25 hover:text-foreground"}`
-            : `block min-w-0 flex-1 rounded-lg px-3 py-1.5 text-sm transition-colors ${
+            : `block rounded-lg px-3 py-1.5 text-sm transition-colors ${
                 here ? "font-medium" : "text-muted hover:bg-muted-surface hover:text-foreground"
               }`
         }
@@ -120,7 +129,7 @@ export function SeriesContents({
             : undefined
         }
       >
-        {page.title[lang]}
+        {label}
       </Link>
     );
   }
@@ -150,26 +159,26 @@ export function SeriesContents({
     }
 
     const unfolded = open.has(group.name);
-    const title = group.head.title[lang];
+    const holds = groupHolds(group, current);
 
     return (
       <li key={group.name} data-group={group.name}>
-        <div className="flex items-center gap-1">
-          {pageLink(group.head, false)}
-          {group.pages.length > 0 && (
-            <button
-              type="button"
-              onClick={() => toggle(group.name)}
-              aria-expanded={unfolded}
-              aria-label={`${LABELS[unfolded ? "fold" : "unfold"][lang]}: ${title}`}
-              className="shrink-0 rounded-md p-1 text-muted transition-colors hover:bg-muted-surface hover:text-foreground"
-            >
-              <ChevronRight aria-hidden className={`size-4 transition-transform ${unfolded ? "rotate-90" : ""}`} />
-            </button>
-          )}
-        </div>
+        <button
+          type="button"
+          onClick={() => toggle(group.name)}
+          aria-expanded={unfolded}
+          className={`flex w-full items-center justify-between gap-2 text-left transition-colors ${
+            sidebar
+              ? "-ml-px rounded-r-md border-l-2 border-transparent py-1 pr-2 pl-4 text-[0.9375rem] leading-6 hover:border-foreground/25"
+              : "rounded-lg px-3 py-1.5 text-sm hover:bg-muted-surface"
+          } ${holds ? "font-medium text-foreground" : "text-muted hover:text-foreground"}`}
+        >
+          <span>{group.head.title[lang]}</span>
+          <ChevronRight aria-hidden className={`size-4 shrink-0 transition-transform ${unfolded ? "rotate-90" : ""}`} />
+        </button>
         {unfolded && (
           <ol className={`flex flex-col ${sidebar ? "gap-0.5" : "gap-1"}`}>
+            <li className={step}>{pageLink(group.head, true, LABELS.overview[lang])}</li>
             {group.pages.map((page) => (
               <li key={page.slug} className={step}>
                 {pageLink(page, true)}
@@ -181,40 +190,34 @@ export function SeriesContents({
     );
   }
 
-  const count = sidebar ? (
-    <span className="shrink-0 tabular-nums normal-case tracking-normal">
-      {index + 1}/{pages.length}
-    </span>
-  ) : (
-    <span className="tabular-nums normal-case tracking-normal">
-      {LABELS.page[lang]} {index + 1} {LABELS.of[lang]} {pages.length}
-    </span>
-  );
-
   return (
     <nav
       aria-label={name}
       data-variant={variant}
-      className={
-        sidebar
-          ? "flex flex-col gap-3 border-l border-border-soft"
-          : "rounded-2xl border border-border-soft bg-surface p-5 lg:hidden"
-      }
+      className={sidebar ? "flex min-h-0 shrink flex-col gap-8" : "flex flex-col gap-4 lg:hidden"}
     >
-      <p className={`${AppTextStyles.EYEBROW} flex items-baseline justify-between gap-2 ${sidebar ? "pl-4" : ""}`}>
-        <span>{name}</span>
-        {count}
-      </p>
       {panels.map((panel, position) => (
         <div
           key={panel.name ?? position}
           data-panel={panel.name}
-          className={panel.name && position > 0 ? "mt-2 border-t border-border-soft pt-3" : sidebar ? undefined : "mt-3"}
+          data-scroll-panel={sidebar ? true : undefined}
+          className={
+            sidebar
+              ? "flex min-h-0 shrink flex-col gap-3 overflow-y-auto border-l border-border-soft [scrollbar-width:thin]"
+              : "rounded-2xl border border-border-soft bg-surface p-5"
+          }
         >
-          {panel.name && (
-            <p className={`${AppTextStyles.EYEBROW} pb-1 ${sidebar ? "pl-4" : "px-3"}`}>{panel.name}</p>
-          )}
-          <ol className={`flex flex-col ${sidebar ? "gap-0.5" : "gap-1"}`}>{panel.items.map(item)}</ol>
+          <p className={`${AppTextStyles.EYEBROW} flex items-baseline justify-between gap-2 ${sidebar ? "pl-4" : ""}`}>
+            <span>{panel.name ?? name}</span>
+            {position === countedPanel && (
+              <span className="shrink-0 tabular-nums normal-case tracking-normal">
+                {sidebar
+                  ? `${index + 1}/${pages.length}`
+                  : `${LABELS.page[lang]} ${index + 1} ${LABELS.of[lang]} ${pages.length}`}
+              </span>
+            )}
+          </p>
+          <ol className={`flex flex-col ${sidebar ? "gap-0.5" : "mt-3 gap-1"}`}>{panel.items.map(item)}</ol>
         </div>
       ))}
     </nav>
