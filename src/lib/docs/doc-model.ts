@@ -197,8 +197,12 @@ export type DocSeriesRef = {
   part: number;
   /** The series' name, when part 0 is not an overview whose title can name it. */
   name?: string;
+  /** The block of the series navigation this page sits in, e.g. "Base docs". */
+  panel?: string;
   /** A heading the series navigation groups this page under, e.g. "Build guide". */
   group?: string;
+  /** This page is its group's overview: the navigation shows it as the group's heading. */
+  opensGroup?: boolean;
 };
 
 /** One page of a series as its navigation needs it: every language's title. */
@@ -208,8 +212,10 @@ export type SeriesPage = {
   title: Record<Lang, string>;
   /** Copied from the series ref, so the navigation can name the series. */
   seriesName?: string;
-  /** Copied from the series ref, so the navigation can group the pages. */
+  /** Copied from the series ref, so the navigation can split and group the pages. */
+  panel?: string;
   group?: string;
+  opensGroup?: boolean;
   /** The page's first section, where a link from the series list lands. */
   firstSection?: string;
 };

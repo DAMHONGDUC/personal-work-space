@@ -292,6 +292,45 @@ describe("DocArticle", () => {
       expect(items.map((item) => item.className)).toEqual(["", "ml-3", "ml-3"]);
     });
 
+    describe("split into panels, with groups opened by a page of their own", () => {
+      const sprints: SeriesPage[] = [
+        { slug: "intro", part: 0, title: { en: "Overview", vi: "Tổng quan" }, panel: "Base docs" },
+        { slug: "s0", part: 1, title: { en: "S0", vi: "S0" }, panel: "Sprint guides", group: "S0", opensGroup: true },
+        { slug: "guide", part: 2, title: { en: "F00", vi: "F00" }, panel: "Sprint guides", group: "S0" },
+        { slug: "s1", part: 3, title: { en: "S1", vi: "S1" }, panel: "Sprint guides", group: "S1", opensGroup: true },
+        { slug: "f01", part: 4, title: { en: "F01", vi: "F01" }, panel: "Sprint guides", group: "S1" },
+      ];
+
+      it("heads each panel with its name, in the card and the sidebar", () => {
+        const page = render(versions, sprints);
+
+        for (const variant of ["card", "sidebar"]) {
+          const panels = [...page.querySelectorAll(`[data-variant="${variant}"] [data-panel]`)];
+          expect(panels.map((panel) => panel.getAttribute("data-panel"))).toEqual(["Base docs", "Sprint guides"]);
+        }
+      });
+
+      it("unfolds only the group holding the page being read, headed by its own page", () => {
+        const page = render(versions, sprints);
+        const nav = page.querySelector('aside [data-variant="sidebar"]')!;
+        const titles = [...nav.querySelectorAll("a")].map((link) => link.textContent);
+
+        expect(titles).toEqual(["Overview", "S0", "F00", "S1"]);
+        expect(nav.querySelector('[aria-current="page"]')?.textContent).toBe("F00");
+      });
+
+      it("folds and unfolds a group from its button", () => {
+        const page = render(versions, sprints);
+        const nav = page.querySelector('aside [data-variant="sidebar"]')!;
+        const button = nav.querySelector<HTMLButtonElement>('[data-group="S1"] button')!;
+
+        expect(button.getAttribute("aria-expanded")).toBe("false");
+        act(() => button.click());
+        expect(button.getAttribute("aria-expanded")).toBe("true");
+        expect(nav.querySelector('[data-group="S1"]')?.textContent).toContain("F01");
+      });
+    });
+
     it("names the pages in the language on screen", () => {
       const page = render(versions, series);
 

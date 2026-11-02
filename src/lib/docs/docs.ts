@@ -144,7 +144,9 @@ export function getDocSeries(id: string): SeriesPage[] {
       slug: bundle.slug,
       part: bundle.versions.en.series!.part,
       seriesName: bundle.versions.en.series!.name,
+      panel: bundle.versions.en.series!.panel,
       group: bundle.versions.en.series!.group,
+      opensGroup: bundle.versions.en.series!.opensGroup,
       firstSection: bundle.versions.en.sections[0]?.id,
       title: Object.fromEntries(
         LANGUAGES.map((lang) => [lang, bundle.versions[lang].title]),
