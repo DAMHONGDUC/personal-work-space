@@ -1,0 +1,152 @@
+{
+  "title": "F11 — Floor plans and pins",
+  "tagline": "import PDF or image plans, view them tiled, pin each issue at one 0…1 point.",
+  "icon": "🛠️",
+  "topic": "ios",
+  "tags": [
+    "SwiftUI",
+    "iOS",
+    "Step by step"
+  ],
+  "readingTime": "3 min",
+  "languages": [
+    "en"
+  ],
+  "numbered": false,
+  "series": {
+    "id": "sitelog",
+    "part": 29,
+    "name": "SiteLog: an iOS app, built",
+    "panel": "Sprint guides",
+    "group": "S6-reports-plans"
+  },
+  "intro": [
+    "Sprint S6 · 21h · skeleton guide — full code is added when this feature starts.",
+    "Code in this guide is a teaching example. Check current source and follow F00 localization rules before applying it."
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Overview",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul>\n<li><strong>Goal:</strong> import PDF or image plans, view them tiled, pin each issue at one 0…1 point.</li>\n<li><strong>Demo — offline:</strong> import a real PDF plan, long-press to pin issues; pins survive relaunch.</li>\n<li><strong>Demo — signed in:</strong> the sheet and its pins appear on the second device; the plan file uploads through F06.</li>\n<li><strong>Spec:</strong> <a href=\"../sitelog-specs-01-field-work/#11-floor-plans-and-issue-pins\">11 Floor plans and pins</a></li>\n<li><strong>Starts from:</strong> F08 (issues carry <code>planSheetId</code>, <code>pinX</code>, <code>pinY</code>) and the skeleton <code>Presentation/Plans/</code>.</li>\n<li><strong>Steps:</strong> <a href=\"../sitelog-guide/#how-every-feature-runs\">How every feature runs</a>.</li>\n<li><strong>File tags:</strong> <b class=\"tag-new\">New</b> create the file · <b class=\"tag-edit\">Edit</b> change only the part shown · <b class=\"tag-replace\">Replace</b> overwrite the whole file.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Step</th><th>Layer</th><th>Hours</th><th>Status</th><th>What</th></tr></thead><tbody><tr><td><a href=\"#1-contract--plan-sheet-row\">1</a></td><td>Contract</td><td>1h</td><td>not start</td><td><code>PlanSheetDTO</code>, plan file key</td></tr><tr><td><a href=\"#2-domain--plan-types-and-pins\">2</a></td><td>Domain</td><td>1h</td><td>not start</td><td><code>PlanSheet</code>, <code>Pin</code>, import / pin / move use cases</td></tr><tr><td><a href=\"#3-fake-data--data-sources-in-memory\">3</a></td><td>Fake data</td><td>1h</td><td>not start</td><td>Real <code>PlanRepositoryImpl</code> over in-memory data sources</td></tr><tr><td><a href=\"#4-view-models--wire-the-plans-screens\">4</a></td><td>View models</td><td>5h</td><td>not start</td><td>List, viewer, pin preview, import</td></tr><tr><td><a href=\"#5-local--import-tiles-pins\">5</a></td><td>Local</td><td>9h</td><td>not start</td><td>Hashed plan files, PDFKit tiles, pin persistence</td></tr><tr><td><a href=\"#6-backend--plan-sheets-table\">6</a></td><td>Backend</td><td>2h</td><td>not start</td><td><code>0009_plan_sheets.sql</code></td></tr><tr><td><a href=\"#7-sync--plan-sheets-and-plan-files\">7</a></td><td>Sync</td><td>2h</td><td>not start</td><td>Sheets syncable; files through the upload queue</td></tr></tbody></table></div>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelog/diagram-012fbfc99a5f-dark.svg\"><img src=\"../../synced-docs/sitelog/diagram-012fbfc99a5f-light.svg\" alt=\"Diagram: M3–M5, import → Plan use cases → PlanRepositoryImpl → PlanSheetLocalDataSourceImpl → PlanFileLocalDataSourceImpl, bundled PDF → hashed files → IssueLocalDataSourceImpl (F08), pin columns\" width=\"862\" height=\"312\" loading=\"lazy\"></picture></figure>\n</dd></dl>",
+          "text": "Goal: import PDF or image plans, view them tiled, pin each issue at one 0…1 point. Demo — offline: import a real PDF plan, long-press to pin issues; pins survive relaunch. Demo — signed in: the sheet and its pins appear on the second device; the plan file uploads through F06. Spec: 11 Floor plans and pins Starts from: F08 (issues carry planSheetId, pinX, pinY) and the skeleton Presentation/Plans/. Steps: How every feature runs. File tags: New create the file · Edit change only the part shown · Replace overwrite the whole file. Step Layer Hours Status What1 Contract 1h not start PlanSheetDTO, plan file key 2 Domain 1h not start PlanSheet, Pin, import / pin / move use cases 3 Fake data 1h not start Real PlanRepositoryImpl over in-memory data sources 4 View models 5h not start List, viewer, pin preview, import 5 Local 9h not start Hashed plan files, PDFKit tiles, pin persistence 6 Backend 2h not start 0009_plan_sheets.sql 7 Sync 2h not start Sheets syncable; files through the upload queue"
+        }
+      ]
+    },
+    {
+      "id": "target-structure",
+      "title": "Target structure",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<div class=\"md-code\"><div class=\"md-code-bar\"><span class=\"md-code-lang\"></span><button type=\"button\" class=\"md-copy\" aria-label=\"Copy code\"><svg aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect width=\"14\" height=\"14\" x=\"8\" y=\"8\" rx=\"2\" ry=\"2\"/><path d=\"M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2\"/></svg><span class=\"md-copy-label\">Copy</span></button></div><pre class=\"shiki shiki-themes github-light github-dark\" style=\"--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e\" tabindex=\"0\"><code class=\"language-text\"><span class=\"line\"><span>Backend/migrations/0009_plan_sheets.sql                                  # 6</span></span>\n<span class=\"line\"><span>Packages/</span></span>\n<span class=\"line\"><span>├── DomainLayer/Sources/DomainLayer/Entities/Plans/, UseCases/Plans/     # 2: PlanSheet, Pin (NormalizedPoint)</span></span>\n<span class=\"line\"><span>├── DataLayer/Sources/DataLayer/</span></span>\n<span class=\"line\"><span>│   ├── Models/Remote/PlanSheetDTO.swift                                 # 1</span></span>\n<span class=\"line\"><span>│   ├── Repositories/PlanRepositoryImpl.swift                            # 3: real from the start</span></span>\n<span class=\"line\"><span>│   ├── DataSources/Local/Persistence/PlanSheetLocalDataSource(+Impl)    # 3: in memory · 5: SwiftData</span></span>\n<span class=\"line\"><span>│   └── DataSources/Local/FileStorage/PlanFileLocalDataSource(+Impl)     # 3: bundled PDF · 5: hashed files</span></span>\n<span class=\"line\"><span>└── PlatformKit/Sources/PlatformKit/Rendering/Tiles/                     # 5: PDFKit + CATiledLayer, tile cache (generic)</span></span>\n<span class=\"line\"><span>SiteLog/</span></span>\n<span class=\"line\"><span>└── Presentation/Plans/                                                  # 4: PlanList, PlanViewer, PinPreview, PlanImport</span></span></code></pre></div>\n</dd></dl>",
+          "text": "Backend/migrations/0009_plan_sheets.sql # 6 Packages/ ├── DomainLayer/Sources/DomainLayer/Entities/Plans/, UseCases/Plans/ # 2: PlanSheet, Pin (NormalizedPoint) ├── DataLayer/Sources/DataLayer/ │ ├── Models/Remote/PlanSheetDTO.swift # 1 │ ├── Repositories/PlanRepositoryImpl.swift # 3: real from the start │ ├── DataSources/Local/Persistence/PlanSheetLocalDataSource(+Impl) # 3: in memory · 5: SwiftData │ └── DataSources/Local/FileStorage/PlanFileLocalDataSource(+Impl) # 3: bundled PDF · 5: hashed files └── PlatformKit/Sources/PlatformKit/Rendering/Tiles/ # 5: PDFKit + CATiledLayer, tile cache (generic) SiteLog/ └── Presentation/Plans/ # 4: PlanList, PlanViewer, PinPreview, PlanImport"
+        }
+      ]
+    },
+    {
+      "id": "1-contract--plan-sheet-row",
+      "title": "1. Contract — plan sheet row",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<h4 id=\"overview-1\">Overview</h4>\n<dl><dd>\n<ul>\n<li><strong>Goal:</strong> the sheet row and where its file lives in storage.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Shape</th><th>Fields</th></tr></thead><tbody><tr><td><code>PlanSheetDTO</code></td><td><code>projectId</code>, <code>locationId</code>, <code>name</code>, <code>pageIndex</code>, <code>pixelWidth/Height</code>, <code>sha256</code>, <code>remoteKey</code> + sync fields</td></tr><tr><td>Plan file key</td><td><code>{uid}/{projectID}/plans/{sheetID}.{ext}</code></td></tr><tr><td>Pin</td><td>No table: <code>planSheetId</code>, <code>pinX</code>, <code>pinY</code> on the issue row</td></tr></tbody></table></div>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelog/diagram-64794aacf800-dark.svg\"><img src=\"../../synced-docs/sitelog/diagram-64794aacf800-light.svg\" alt=\"Diagram\" width=\"141\" height=\"474\" loading=\"lazy\"></picture></figure>\n<ul>\n<li><strong>Check:</strong> the plan key matches the backend's strict key regex.</li>\n</ul>\n</dd></dl>\n</dd></dl>",
+          "text": "Overview Goal: the sheet row and where its file lives in storage. Shape FieldsPlanSheetDTO projectId, locationId, name, pageIndex, pixelWidth/Height, sha256, remoteKey + sync fields Plan file key {uid}/{projectID}/plans/{sheetID}.{ext} Pin No table: planSheetId, pinX, pinY on the issue row Check: the plan key matches the backend's strict key regex."
+        }
+      ]
+    },
+    {
+      "id": "2-domain--plan-types-and-pins",
+      "title": "2. Domain — plan types and pins",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<h4 id=\"overview-2\">Overview</h4>\n<dl><dd>\n<ul>\n<li><strong>Goal:</strong> one pin per issue, in 0…1 coordinates, moves recorded.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Action</th><th>File</th><th>Holds</th></tr></thead><tbody><tr><td><b class=\"tag-new\">New</b></td><td><code>Entities/Plans/</code></td><td><code>PlanSheet</code>, <code>Pin</code> (<code>NormalizedPoint</code>)</td></tr><tr><td><b class=\"tag-new\">New</b></td><td><code>UseCases/Plans/</code></td><td>One file per use case: import, pin, move</td></tr><tr><td><b class=\"tag-new\">New</b></td><td><code>Repositories/PlanRepository.swift</code></td><td>Protocol</td></tr></tbody></table></div>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelog/diagram-8f882ec87f85-dark.svg\"><img src=\"../../synced-docs/sitelog/diagram-8f882ec87f85-light.svg\" alt=\"Diagram: long-press at (x, y) → ÷ sheet size → 0…1 → PinIssueUseCase\" width=\"552\" height=\"88\" loading=\"lazy\"></picture></figure>\n<ul>\n<li><strong>Check:</strong> ⌘B; a pin outside 0…1 is rejected.</li>\n</ul>\n</dd></dl>\n</dd></dl>",
+          "text": "Overview Goal: one pin per issue, in 0…1 coordinates, moves recorded. Action File HoldsNew Entities/Plans/ PlanSheet, Pin (NormalizedPoint) New UseCases/Plans/ One file per use case: import, pin, move New Repositories/PlanRepository.swift Protocol Check: ⌘B; a pin outside 0…1 is rejected."
+        }
+      ]
+    },
+    {
+      "id": "3-fake-data--data-sources-in-memory",
+      "title": "3. Fake data — data sources in memory",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<h4 id=\"overview-3\">Overview</h4>\n<dl><dd>\n<ul>\n<li><strong>Goal:</strong> the real repository; 4 sheets and 6 pins in memory, a bundled PDF as the plan file.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Action</th><th>File</th><th>Holds</th></tr></thead><tbody><tr><td><b class=\"tag-new\">New</b></td><td><code>DataSources/Local/Persistence/PlanSheetLocalDataSource.swift</code> + <code>Impl</code></td><td>4 sheets in memory</td></tr><tr><td><b class=\"tag-new\">New</b></td><td><code>DataSources/Local/FileStorage/PlanFileLocalDataSource.swift</code> + <code>Impl</code></td><td>A bundled PDF</td></tr><tr><td><b class=\"tag-new\">New</b></td><td><code>Repositories/PlanRepositoryImpl.swift</code></td><td>Real: sheets, files, pins through F08's issue data source</td></tr></tbody></table></div>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelog/diagram-48d6926c3312-dark.svg\"><img src=\"../../synced-docs/sitelog/diagram-48d6926c3312-light.svg\" alt=\"Diagram: PlanRepositoryImpl, real → 4 sheets → bundled PDF → issue pins (F08)\" width=\"377\" height=\"240\" loading=\"lazy\"></picture></figure>\n<ul>\n<li><strong>Check:</strong> dev menu seeds 4 sheets, 6 pins.</li>\n</ul>\n</dd></dl>\n</dd></dl>",
+          "text": "Overview Goal: the real repository; 4 sheets and 6 pins in memory, a bundled PDF as the plan file. Action File HoldsNew DataSources/Local/Persistence/PlanSheetLocalDataSource.swift + Impl 4 sheets in memory New DataSources/Local/FileStorage/PlanFileLocalDataSource.swift + Impl A bundled PDF New Repositories/PlanRepositoryImpl.swift Real: sheets, files, pins through F08's issue data source Check: dev menu seeds 4 sheets, 6 pins."
+        }
+      ]
+    },
+    {
+      "id": "4-view-models--wire-the-plans-screens",
+      "title": "4. View models — wire the Plans screens",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<h4 id=\"overview-4\">Overview</h4>\n<dl><dd>\n<ul>\n<li><strong>Goal:</strong> sheets of a project, a viewer with pins and clusters, pin preview, import.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Action</th><th>Skeleton folder</th><th>View model work</th></tr></thead><tbody><tr><td><b class=\"tag-new\">New</b> view model · <b class=\"tag-edit\">Edit</b> view</td><td><code>Presentation/Plans/PlanList/</code></td><td>M3: sheets of a project</td></tr><tr><td><b class=\"tag-new\">New</b> view model · <b class=\"tag-edit\">Edit</b> view</td><td><code>Presentation/Plans/PlanViewer/</code></td><td>M4: pins and clusters; long-press drops a pin</td></tr><tr><td><b class=\"tag-new\">New</b> view model · <b class=\"tag-edit\">Edit</b> view</td><td><code>Presentation/Plans/PinPreview/</code></td><td>M5: issue summary, move, open</td></tr><tr><td><b class=\"tag-new\">New</b> view model · <b class=\"tag-edit\">Edit</b> view</td><td><code>Presentation/Plans/PlanImport/</code></td><td>Files / photo import</td></tr></tbody></table></div>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelog/diagram-14273e0a472b-dark.svg\"><img src=\"../../synced-docs/sitelog/diagram-14273e0a472b-light.svg\" alt=\"Diagram: M3 list → M4 viewer → M5 pin preview → C6 issue → import\" width=\"744\" height=\"152\" loading=\"lazy\"></picture></figure>\n<ul>\n<li><strong>Check:</strong> 60 fps pan and zoom with 50 pins.</li>\n</ul>\n</dd></dl>\n</dd></dl>",
+          "text": "Overview Goal: sheets of a project, a viewer with pins and clusters, pin preview, import. Action Skeleton folder View model workNew view model · Edit view Presentation/Plans/PlanList/ M3: sheets of a project New view model · Edit view Presentation/Plans/PlanViewer/ M4: pins and clusters; long-press drops a pin New view model · Edit view Presentation/Plans/PinPreview/ M5: issue summary, move, open New view model · Edit view Presentation/Plans/PlanImport/ Files / photo import Check: 60 fps pan and zoom with 50 pins."
+        }
+      ]
+    },
+    {
+      "id": "5-local--import-tiles-pins",
+      "title": "5. Local — import, tiles, pins",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<h4 id=\"overview-5\">Overview</h4>\n<dl><dd>\n<ul>\n<li><strong>Goal:</strong> the data source <code>Impl</code>s keep their types; inside, hashed plan files, SwiftData sheets and a tiled viewer. Split into tasks: import · tiles · pins.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Action</th><th>File</th><th>Holds</th></tr></thead><tbody><tr><td><b class=\"tag-new\">New</b></td><td><code>PlatformKit/Rendering/Tiles/</code></td><td>PDFKit + <code>CATiledLayer</code>, tile cache; any PDF or image</td></tr><tr><td><b class=\"tag-replace\">Replace</b></td><td><code>PlanFileLocalDataSourceImpl.swift</code></td><td>Files under <code>media/&#x3C;project>/plans/</code>, hashed with <code>FileHasher</code></td></tr><tr><td><b class=\"tag-replace\">Replace</b></td><td><code>PlanSheetLocalDataSourceImpl.swift</code></td><td>SwiftData <code>PlanSheetModel</code></td></tr></tbody></table></div>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelog/diagram-0d8f8ccac4e4-dark.svg\"><img src=\"../../synced-docs/sitelog/diagram-0d8f8ccac4e4-light.svg\" alt=\"Diagram: multi-page PDF → choose pages → one PlanSheet per page → hashed file → tiles on demand\" width=\"936\" height=\"88\" loading=\"lazy\"></picture></figure>\n<ul>\n<li><strong>Check:</strong> A0 plan peak memory under 150 MB; encrypted or oversized files rejected with a reason.</li>\n</ul>\n</dd></dl>\n</dd></dl>",
+          "text": "Overview Goal: the data source Impls keep their types; inside, hashed plan files, SwiftData sheets and a tiled viewer. Split into tasks: import · tiles · pins. Action File HoldsNew PlatformKit/Rendering/Tiles/ PDFKit + CATiledLayer, tile cache; any PDF or image Replace PlanFileLocalDataSourceImpl.swift Files under media/<project>/plans/, hashed with FileHasher Replace PlanSheetLocalDataSourceImpl.swift SwiftData PlanSheetModel Check: A0 plan peak memory under 150 MB; encrypted or oversized files rejected with a reason."
+        }
+      ]
+    },
+    {
+      "id": "6-backend--plan-sheets-table",
+      "title": "6. Backend — plan sheets table",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<h4 id=\"overview-6\">Overview</h4>\n<dl><dd>\n<ul>\n<li><strong>Goal:</strong> the server table and plan file keys.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Action</th><th>File</th><th>Holds</th></tr></thead><tbody><tr><td><b class=\"tag-new\">New</b></td><td><code>Backend/migrations/0009_plan_sheets.sql</code></td><td><code>plan_sheets</code> + sync columns</td></tr><tr><td><b class=\"tag-edit\">Edit</b></td><td><code>Backend/src/keys.ts</code>, <code>sync/tables.ts</code>, <code>routes/account.ts</code></td><td>Plan key shape; allow in sync; account deletion</td></tr></tbody></table></div>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelog/diagram-797735217fe6-dark.svg\"><img src=\"../../synced-docs/sitelog/diagram-797735217fe6-light.svg\" alt=\"Diagram: 0009_plan_sheets.sql → plan_sheets → keys.ts → …/plans/{sheet}.{ext}\" width=\"395\" height=\"176\" loading=\"lazy\"></picture></figure>\n<ul>\n<li><strong>Check:</strong> a plan key under another uid is rejected.</li>\n</ul>\n</dd></dl>\n</dd></dl>",
+          "text": "Overview Goal: the server table and plan file keys. Action File HoldsNew Backend/migrations/0009_plan_sheets.sql plan_sheets + sync columns Edit Backend/src/keys.ts, sync/tables.ts, routes/account.ts Plan key shape; allow in sync; account deletion Check: a plan key under another uid is rejected."
+        }
+      ]
+    },
+    {
+      "id": "7-sync--plan-sheets-and-plan-files",
+      "title": "7. Sync — plan sheets and plan files",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<h4 id=\"overview-7\">Overview</h4>\n<dl><dd>\n<ul>\n<li><strong>Goal:</strong> sheet rows sync; plan files ride the F06 upload queue.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Action</th><th>File</th><th>Holds</th></tr></thead><tbody><tr><td><b class=\"tag-edit\">Edit</b></td><td><code>PlanSheetLocalDataSourceImpl.swift</code>, <code>App/DI/SyncTablesDI.swift</code></td><td>Syncable; <code>plan_sheets</code> after <code>locations</code></td></tr><tr><td><b class=\"tag-edit\">Edit</b></td><td><code>PlanFileLocalDataSourceImpl.swift</code></td><td>Enqueue the file in <code>UploadStoreImpl</code> when saved</td></tr></tbody></table></div>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelog/diagram-20e736ef9378-dark.svg\"><img src=\"../../synced-docs/sitelog/diagram-20e736ef9378-light.svg\" alt=\"Diagram: import on A → plan_sheets row → /sync/push → B pulls row → upload queue → R2\" width=\"744\" height=\"192\" loading=\"lazy\"></picture></figure>\n<ul>\n<li><strong>Check:</strong> a sheet imported on A opens on B with its pins.</li>\n</ul>\n</dd></dl>\n</dd></dl>",
+          "text": "Overview Goal: sheet rows sync; plan files ride the F06 upload queue. Action File HoldsEdit PlanSheetLocalDataSourceImpl.swift, App/DI/SyncTablesDI.swift Syncable; plan_sheets after locations Edit PlanFileLocalDataSourceImpl.swift Enqueue the file in UploadStoreImpl when saved Check: a sheet imported on A opens on B with its pins."
+        }
+      ]
+    },
+    {
+      "id": "tests-after-the-feature-works",
+      "title": "Tests (after the feature works)",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<p><strong>4. View models</strong></p>\n<ul>\n<li>60 fps pan / zoom with 50 pins</li>\n</ul>\n<p><strong>5. Local</strong></p>\n<ul>\n<li>Oversized and encrypted imports rejected</li>\n<li>A0 peak memory under 150 MB</li>\n<li><code>planPoint</code> round-trip through zoom / pan</li>\n<li>Sheet delete blocked while pins exist</li>\n</ul>\n</dd></dl>",
+          "text": "4. View models 60 fps pan / zoom with 50 pins 5. Local Oversized and encrypted imports rejected A0 peak memory under 150 MB planPoint round-trip through zoom / pan Sheet delete blocked while pins exist"
+        }
+      ]
+    },
+    {
+      "id": "feature-done",
+      "title": "Feature done",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Check</th><th>How</th></tr></thead><tbody><tr><td>Demo</td><td>Pins on a real floor plan, on both devices</td></tr><tr><td>Tests</td><td><code>bundle exec fastlane test</code> and <code>npm test</code> green</td></tr><tr><td>Roadmap</td><td>F11 steps ticked</td></tr></tbody></table></div>\n</dd></dl>",
+          "text": "Check HowDemo Pins on a real floor plan, on both devices Tests bundle exec fastlane test and npm test green Roadmap F11 steps ticked"
+        }
+      ]
+    }
+  ],
+  "effectiveDate": "2026-11-02",
+  "lastUpdated": "2026-11-03"
+}

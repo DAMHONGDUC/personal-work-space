@@ -1,0 +1,141 @@
+{
+  "title": "F15 — Realtime progress and verification",
+  "tagline": "an observation-only channel tells the app what the server has confirmed; a worker re-reads every object and flips it to verified or mismatch.",
+  "icon": "🛠️",
+  "topic": "ios",
+  "tags": [
+    "SwiftUI",
+    "iOS",
+    "Step by step"
+  ],
+  "readingTime": "3 min",
+  "languages": [
+    "en"
+  ],
+  "numbered": false,
+  "series": {
+    "id": "sitelog",
+    "part": 35,
+    "name": "SiteLog: an iOS app, built",
+    "panel": "Sprint guides",
+    "group": "S8-realtime-push-quality"
+  },
+  "intro": [
+    "Sprint S8 · 21h · skeleton guide — full code is added when this feature starts.",
+    "Code in this guide is a teaching example. Check current source and follow F00 localization rules before applying it."
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Overview",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul>\n<li><strong>Goal:</strong> an observation-only channel tells the app what the server has confirmed; a worker re-reads every object and flips it to <code>verified</code> or <code>mismatch</code>.</li>\n<li><strong>Demo — offline:</strong> no channel: the Sync tab is only slower, never red.</li>\n<li><strong>Demo — signed in:</strong> uploads turn “verified” as events arrive; a tampered object shows as a mismatch; <code>/verify</code> shows the new state.</li>\n<li><strong>Spec:</strong> <a href=\"../sitelog-specs-02-upload-sync/#10-realtime-progress-channel\">10 Realtime channel</a>, <a href=\"../sitelog-specs-03-backend/#8-integrity\">03-backend §8–9</a></li>\n<li><strong>Starts from:</strong> F06–F07 (upload store) and F10 (<code>/verify</code>).</li>\n<li><strong>Steps:</strong> <a href=\"../sitelog-guide/#how-every-feature-runs\">How every feature runs</a>. Local is <code>—</code>: events only move existing upload jobs forward.</li>\n<li><strong>File tags:</strong> <b class=\"tag-new\">New</b> create the file · <b class=\"tag-edit\">Edit</b> change only the part shown · <b class=\"tag-replace\">Replace</b> overwrite the whole file.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Step</th><th>Layer</th><th>Hours</th><th>Status</th><th>What</th></tr></thead><tbody><tr><td><a href=\"#1-contract--websocket-messages\">1</a></td><td>Contract</td><td>1h</td><td>not start</td><td><code>auth</code>, <code>subscribe</code>, <code>ping</code> / <code>snapshot</code>, <code>jobCompleted</code>, <code>jobFailed</code>, <code>pong</code></td></tr><tr><td><a href=\"#2-domain--upload-events\">2</a></td><td>Domain</td><td>1h</td><td>not start</td><td><code>UploadEvent</code>, <code>RealtimeRepository</code></td></tr><tr><td><a href=\"#3-fake-data--events-on-a-timer\">3</a></td><td>Fake data</td><td>1h</td><td>not start</td><td>Real <code>RealtimeRepositoryImpl</code> over a timer data source</td></tr><tr><td><a href=\"#4-view-models--live-state-on-the-sync-tab\">4</a></td><td>View models</td><td>2h</td><td>not start</td><td>Live state on U1</td></tr><tr><td><a href=\"#5-backend--channel-and-verification-worker\">5</a></td><td>Backend</td><td>8h</td><td>not start</td><td><code>/ws</code>, verify worker, abandoned-upload job</td></tr><tr><td><a href=\"#6-sync--websocket-client\">6</a></td><td>Sync</td><td>8h</td><td>not start</td><td><code>URLSessionWebSocketTask</code> inside the data source</td></tr><tr><td>—</td><td>Local</td><td>—</td><td>—</td><td>Events update the F06 upload store</td></tr></tbody></table></div>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelog/diagram-95b9c736500f-dark.svg\"><img src=\"../../synced-docs/sitelog/diagram-95b9c736500f-light.svg\" alt=\"Diagram: verify worker → /ws → RealtimeRemoteDataSourceImpl, timer → WebSocket → RealtimeRepositoryImpl, forward-only, hash check → UploadStoreImpl (F06) → U1 Sync tab\" width=\"1291\" height=\"112\" loading=\"lazy\"></picture></figure>\n</dd></dl>",
+          "text": "Goal: an observation-only channel tells the app what the server has confirmed; a worker re-reads every object and flips it to verified or mismatch. Demo — offline: no channel: the Sync tab is only slower, never red. Demo — signed in: uploads turn “verified” as events arrive; a tampered object shows as a mismatch; /verify shows the new state. Spec: 10 Realtime channel, 03-backend §8–9 Starts from: F06–F07 (upload store) and F10 (/verify). Steps: How every feature runs. Local is —: events only move existing upload jobs forward. File tags: New create the file · Edit change only the part shown · Replace overwrite the whole file. Step Layer Hours Status What1 Contract 1h not start auth, subscribe, ping / snapshot, jobCompleted, jobFailed, pong 2 Domain 1h not start UploadEvent, RealtimeRepository 3 Fake data 1h not start Real RealtimeRepositoryImpl over a timer data source 4 View models 2h not start Live state on U1 5 Backend 8h not start /ws, verify worker, abandoned-upload job 6 Sync 8h not start URLSessionWebSocketTask inside the data source — Local — — Events update the F06 upload store"
+        }
+      ]
+    },
+    {
+      "id": "target-structure",
+      "title": "Target structure",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<div class=\"md-code\"><div class=\"md-code-bar\"><span class=\"md-code-lang\"></span><button type=\"button\" class=\"md-copy\" aria-label=\"Copy code\"><svg aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect width=\"14\" height=\"14\" x=\"8\" y=\"8\" rx=\"2\" ry=\"2\"/><path d=\"M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2\"/></svg><span class=\"md-copy-label\">Copy</span></button></div><pre class=\"shiki shiki-themes github-light github-dark\" style=\"--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e\" tabindex=\"0\"><code class=\"language-text\"><span class=\"line\"><span>Backend/src/ws.ts, workers/verify.ts, jobs/abandoned.ts                  # 5</span></span>\n<span class=\"line\"><span>Packages/</span></span>\n<span class=\"line\"><span>├── DomainLayer/Sources/DomainLayer/Entities/Uploads/UploadEvent.swift   # 2</span></span>\n<span class=\"line\"><span>├── DomainLayer/Sources/DomainLayer/Repositories/RealtimeRepository.swift  # 2</span></span>\n<span class=\"line\"><span>├── DataLayer/Sources/DataLayer/</span></span>\n<span class=\"line\"><span>│   ├── Models/Remote/RealtimeMessageDTO.swift                           # 1</span></span>\n<span class=\"line\"><span>│   ├── Repositories/RealtimeRepositoryImpl.swift                        # 3: real from the start</span></span>\n<span class=\"line\"><span>│   └── DataSources/Remote/Realtime/RealtimeRemoteDataSource(+Impl)      # 3: timer · 6: PlatformKit channel</span></span>\n<span class=\"line\"><span>└── PlatformKit/Sources/PlatformKit/Realtime/RealtimeChannel.swift        # 6: actor around URLSessionWebSocketTask</span></span>\n<span class=\"line\"><span>SiteLog/</span></span>\n<span class=\"line\"><span>└── Presentation/Uploads/UploadStatus/                                   # 4</span></span></code></pre></div>\n</dd></dl>",
+          "text": "Backend/src/ws.ts, workers/verify.ts, jobs/abandoned.ts # 5 Packages/ ├── DomainLayer/Sources/DomainLayer/Entities/Uploads/UploadEvent.swift # 2 ├── DomainLayer/Sources/DomainLayer/Repositories/RealtimeRepository.swift # 2 ├── DataLayer/Sources/DataLayer/ │ ├── Models/Remote/RealtimeMessageDTO.swift # 1 │ ├── Repositories/RealtimeRepositoryImpl.swift # 3: real from the start │ └── DataSources/Remote/Realtime/RealtimeRemoteDataSource(+Impl) # 3: timer · 6: PlatformKit channel └── PlatformKit/Sources/PlatformKit/Realtime/RealtimeChannel.swift # 6: actor around URLSessionWebSocketTask SiteLog/ └── Presentation/Uploads/UploadStatus/ # 4"
+        }
+      ]
+    },
+    {
+      "id": "1-contract--websocket-messages",
+      "title": "1. Contract — WebSocket messages",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<h4 id=\"overview-1\">Overview</h4>\n<dl><dd>\n<ul>\n<li><strong>Goal:</strong> one message shape per event, both directions.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Direction</th><th>Messages</th></tr></thead><tbody><tr><td>App → server</td><td><code>auth</code> (token, first message), <code>subscribe</code>, <code>ping</code></td></tr><tr><td>Server → app</td><td><code>snapshot</code>, <code>jobCompleted</code> (<code>jobID</code>, <code>sha256</code>, <code>verifyState</code>), <code>jobFailed</code> (<code>reason</code>), <code>pong</code></td></tr></tbody></table></div>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelog/diagram-147feb2cf9de-dark.svg\"><img src=\"../../synced-docs/sitelog/diagram-147feb2cf9de-light.svg\" alt=\"Diagram\" width=\"485\" height=\"481\" loading=\"lazy\"></picture></figure>\n<ul>\n<li><strong>Check:</strong> the token is never in the URL.</li>\n</ul>\n</dd></dl>\n</dd></dl>",
+          "text": "Overview Goal: one message shape per event, both directions. Direction MessagesApp → server auth (token, first message), subscribe, ping Server → app snapshot, jobCompleted (jobID, sha256, verifyState), jobFailed (reason), pong Check: the token is never in the URL."
+        }
+      ]
+    },
+    {
+      "id": "2-domain--upload-events",
+      "title": "2. Domain — upload events",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<h4 id=\"overview-2\">Overview</h4>\n<dl><dd>\n<ul>\n<li><strong>Goal:</strong> events as plain Domain values the repository can trust or reject.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Action</th><th>File</th><th>Holds</th></tr></thead><tbody><tr><td><b class=\"tag-new\">New</b></td><td><code>Entities/Uploads/UploadEvent.swift</code></td><td><code>completed(jobID, sha256, verifyState)</code>, <code>failed(jobID, reason)</code></td></tr><tr><td><b class=\"tag-new\">New</b></td><td><code>Repositories/RealtimeRepository.swift</code></td><td>Start, stop, connection status</td></tr></tbody></table></div>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelog/diagram-9590a3e1f77e-dark.svg\"><img src=\"../../synced-docs/sitelog/diagram-9590a3e1f77e-light.svg\" alt=\"Diagram: UploadEvent → sha256 = local hash? → yes → move job forward → no → integrity failure\" width=\"665\" height=\"214\" loading=\"lazy\"></picture></figure>\n<ul>\n<li><strong>Check:</strong> ⌘B.</li>\n</ul>\n</dd></dl>\n</dd></dl>",
+          "text": "Overview Goal: events as plain Domain values the repository can trust or reject. Action File HoldsNew Entities/Uploads/UploadEvent.swift completed(jobID, sha256, verifyState), failed(jobID, reason) New Repositories/RealtimeRepository.swift Start, stop, connection status Check: ⌘B."
+        }
+      ]
+    },
+    {
+      "id": "3-fake-data--events-on-a-timer",
+      "title": "3. Fake data — events on a timer",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<h4 id=\"overview-3\">Overview</h4>\n<dl><dd>\n<ul>\n<li><strong>Goal:</strong> the real repository (forward-only, hash check, idempotent, logs) over a data source that emits events on a timer.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Action</th><th>File</th><th>Holds</th></tr></thead><tbody><tr><td><b class=\"tag-new\">New</b></td><td><code>DataSources/Remote/Realtime/RealtimeRemoteDataSource.swift</code> + <code>Impl</code></td><td>Emits <code>jobCompleted</code> / <code>jobFailed</code> every few seconds</td></tr><tr><td><b class=\"tag-new\">New</b></td><td><code>Repositories/RealtimeRepositoryImpl.swift</code></td><td>Real: applies events to <code>UploadStore</code> forward only; unknown <code>jobID</code> ignored</td></tr></tbody></table></div>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelog/diagram-2b0ec0bbd5cd-dark.svg\"><img src=\"../../synced-docs/sitelog/diagram-2b0ec0bbd5cd-light.svg\" alt=\"Diagram: timer events → RealtimeRepositoryImpl, real → UploadStoreImpl\" width=\"602\" height=\"88\" loading=\"lazy\"></picture></figure>\n<ul>\n<li><strong>Check:</strong> applying one event ten times equals applying it once.</li>\n</ul>\n</dd></dl>\n</dd></dl>",
+          "text": "Overview Goal: the real repository (forward-only, hash check, idempotent, logs) over a data source that emits events on a timer. Action File HoldsNew DataSources/Remote/Realtime/RealtimeRemoteDataSource.swift + Impl Emits jobCompleted / jobFailed every few seconds New Repositories/RealtimeRepositoryImpl.swift Real: applies events to UploadStore forward only; unknown jobID ignored Check: applying one event ten times equals applying it once."
+        }
+      ]
+    },
+    {
+      "id": "4-view-models--live-state-on-the-sync-tab",
+      "title": "4. View models — live state on the Sync tab",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<h4 id=\"overview-4\">Overview</h4>\n<dl><dd>\n<ul>\n<li><strong>Goal:</strong> U1 shows server-confirmed state as events arrive.</li>\n<li><strong>Spec:</strong> <a href=\"../sitelog-specs-05-platform/#091-upload-status-screen\">09.1</a></li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Action</th><th>Skeleton folder</th><th>View model work</th></tr></thead><tbody><tr><td><b class=\"tag-edit\">Edit</b> view model · <b class=\"tag-edit\">Edit</b> view</td><td><code>Presentation/Uploads/UploadStatus/</code></td><td>Live “verified”, mismatch flag, channel status</td></tr></tbody></table></div>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelog/diagram-233662714b5d-dark.svg\"><img src=\"../../synced-docs/sitelog/diagram-233662714b5d-light.svg\" alt=\"Diagram: UploadStore → UploadStatusViewModel → U1\" width=\"603\" height=\"64\" loading=\"lazy\"></picture></figure>\n<ul>\n<li><strong>Check:</strong> a closed channel is not an error, only slower — no red.</li>\n</ul>\n</dd></dl>\n</dd></dl>",
+          "text": "Overview Goal: U1 shows server-confirmed state as events arrive. Spec: 09.1 Action Skeleton folder View model workEdit view model · Edit view Presentation/Uploads/UploadStatus/ Live “verified”, mismatch flag, channel status Check: a closed channel is not an error, only slower — no red."
+        }
+      ]
+    },
+    {
+      "id": "5-backend--channel-and-verification-worker",
+      "title": "5. Backend — channel and verification worker",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<h4 id=\"overview-5\">Overview</h4>\n<dl><dd>\n<ul>\n<li><strong>Goal:</strong> the server pushes state; a worker proves each stored object matches its hash. Split into tasks: ws · worker · job.</li>\n<li><strong>Spec:</strong> <a href=\"../sitelog-specs-03-backend/#9-websocket\">03-backend §8–9</a></li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Action</th><th>File</th><th>Holds</th></tr></thead><tbody><tr><td><b class=\"tag-new\">New</b></td><td><code>Backend/src/ws.ts</code></td><td><code>@fastify/websocket</code>; auth in the first message; per-user subscription</td></tr><tr><td><b class=\"tag-new\">New</b></td><td><code>Backend/src/workers/verify.ts</code></td><td>Streams the object from R2, recomputes SHA-256, flips <code>registered</code> → <code>verified</code> / <code>mismatch</code></td></tr><tr><td><b class=\"tag-new\">New</b></td><td><code>Backend/src/jobs/abandoned.ts</code></td><td>Aborts <code>created</code> uploads older than 7 days</td></tr></tbody></table></div>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelog/diagram-672056b4e5a5-dark.svg\"><img src=\"../../synced-docs/sitelog/diagram-672056b4e5a5-light.svg\" alt=\"Diagram: upload completed → verify worker → R2 object → match → verified → /ws jobCompleted → mismatch → mismatch → /ws jobFailed(integrity)\" width=\"948\" height=\"304\" loading=\"lazy\"></picture></figure>\n<ul>\n<li><strong>Check:</strong> <code>vitest</code>: the worker flips state; <code>/verify</code> shows it.</li>\n</ul>\n</dd></dl>\n</dd></dl>",
+          "text": "Overview Goal: the server pushes state; a worker proves each stored object matches its hash. Split into tasks: ws · worker · job. Spec: 03-backend §8–9 Action File HoldsNew Backend/src/ws.ts @fastify/websocket; auth in the first message; per-user subscription New Backend/src/workers/verify.ts Streams the object from R2, recomputes SHA-256, flips registered → verified / mismatch New Backend/src/jobs/abandoned.ts Aborts created uploads older than 7 days Check: vitest: the worker flips state; /verify shows it."
+        }
+      ]
+    },
+    {
+      "id": "6-sync--websocket-client",
+      "title": "6. Sync — WebSocket client",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<h4 id=\"overview-6\">Overview</h4>\n<dl><dd>\n<ul>\n<li><strong>Goal:</strong> <code>RealtimeRemoteDataSourceImpl</code> keeps its type; inside it uses <code>RealtimeChannel</code>. Split into tasks: client · reconnect.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Action</th><th>File</th><th>Holds</th></tr></thead><tbody><tr><td><b class=\"tag-new\">New</b></td><td><code>PlatformKit/Realtime/RealtimeChannel.swift</code>, <code>Messages.swift</code></td><td>Actor around <code>URLSessionWebSocketTask</code>; re-arm <code>receive</code> after every message; ping and backoff</td></tr><tr><td><b class=\"tag-replace\">Replace</b></td><td><code>DataSources/Remote/Realtime/RealtimeRemoteDataSourceImpl.swift</code></td><td>Over the channel; token from F02</td></tr><tr><td><b class=\"tag-edit\">Edit</b></td><td><code>App/DI/PlatformDI.swift</code>, <code>DataSourcesDI.swift</code></td><td>Register the channel; registered types stay</td></tr></tbody></table></div>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelog/diagram-2761ee2807c5-dark.svg\"><img src=\"../../synced-docs/sitelog/diagram-2761ee2807c5-light.svg\" alt=\"Diagram\" width=\"449\" height=\"396\" loading=\"lazy\"></picture></figure>\n<ul>\n<li><strong>Check:</strong> connects only in the foreground with unsynced jobs; nightly CI builds the app with <code>Realtime</code> removed.</li>\n</ul>\n</dd></dl>\n</dd></dl>",
+          "text": "Overview Goal: RealtimeRemoteDataSourceImpl keeps its type; inside it uses RealtimeChannel. Split into tasks: client · reconnect. Action File HoldsNew PlatformKit/Realtime/RealtimeChannel.swift, Messages.swift Actor around URLSessionWebSocketTask; re-arm receive after every message; ping and backoff Replace DataSources/Remote/Realtime/RealtimeRemoteDataSourceImpl.swift Over the channel; token from F02 Edit App/DI/PlatformDI.swift, DataSourcesDI.swift Register the channel; registered types stay Check: connects only in the foreground with unsynced jobs; nightly CI builds the app with Realtime removed."
+        }
+      ]
+    },
+    {
+      "id": "tests-after-the-feature-works",
+      "title": "Tests (after the feature works)",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<p><strong>3. Fake data</strong></p>\n<ul>\n<li>Applying one event 10× equals once</li>\n<li>Snapshot applies forward only</li>\n<li>Hash mismatch raises <code>integrity</code></li>\n</ul>\n<p><strong>4. View models</strong></p>\n<ul>\n<li>View model with a test-double event stream</li>\n</ul>\n<p><strong>5. Backend</strong></p>\n<ul>\n<li>Worker flips <code>verified</code> or raises <code>integrity</code></li>\n<li><code>/verify</code> shows the new state</li>\n</ul>\n<p><strong>6. Sync</strong></p>\n<ul>\n<li>Decode all types + malformed</li>\n<li>Oversized message closes</li>\n<li>Missing <code>pong</code> → backoff; backoff cap and jitter</li>\n</ul>\n</dd></dl>",
+          "text": "3. Fake data Applying one event 10× equals once Snapshot applies forward only Hash mismatch raises integrity 4. View models View model with a test-double event stream 5. Backend Worker flips verified or raises integrity /verify shows the new state 6. Sync Decode all types + malformed Oversized message closes Missing pong → backoff; backoff cap and jitter"
+        }
+      ]
+    },
+    {
+      "id": "feature-done",
+      "title": "Feature done",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Check</th><th>How</th></tr></thead><tbody><tr><td>Demo</td><td>Realtime state on the Sync tab; mismatch flagged</td></tr><tr><td>Tests</td><td><code>bundle exec fastlane test</code> and <code>npm test</code> green</td></tr><tr><td>Roadmap</td><td>F15 steps ticked</td></tr></tbody></table></div>\n</dd></dl>",
+          "text": "Check HowDemo Realtime state on the Sync tab; mismatch flagged Tests bundle exec fastlane test and npm test green Roadmap F15 steps ticked"
+        }
+      ]
+    }
+  ],
+  "effectiveDate": "2026-11-02",
+  "lastUpdated": "2026-11-03"
+}

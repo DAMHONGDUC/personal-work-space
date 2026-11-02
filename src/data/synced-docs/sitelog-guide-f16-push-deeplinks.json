@@ -1,0 +1,152 @@
+{
+  "title": "F16 — Push and deep links",
+  "tagline": "a push carries only a destination; sitelog://<route>/<id> is parsed once and routed, even after a cold launch; the app works fully with push denied.",
+  "icon": "🛠️",
+  "topic": "ios",
+  "tags": [
+    "SwiftUI",
+    "iOS",
+    "Step by step"
+  ],
+  "readingTime": "3 min",
+  "languages": [
+    "en"
+  ],
+  "numbered": false,
+  "series": {
+    "id": "sitelog",
+    "part": 36,
+    "name": "SiteLog: an iOS app, built",
+    "panel": "Sprint guides",
+    "group": "S8-realtime-push-quality"
+  },
+  "intro": [
+    "Sprint S8 · 14h · skeleton guide — full code is added when this feature starts.",
+    "Code in this guide is a teaching example. Check current source and follow F00 localization rules before applying it."
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Overview",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul>\n<li><strong>Goal:</strong> a push carries only a destination; <code>sitelog://&#x3C;route>/&#x3C;id></code> is parsed once and routed, even after a cold launch; the app works fully with push denied.</li>\n<li><strong>Demo — offline:</strong> <code>xcrun simctl openurl booted sitelog://session/42</code> opens the session; push denied changes nothing else.</li>\n<li><strong>Demo — signed in:</strong> a verified upload sends a push; tapping it opens the session.</li>\n<li><strong>Spec:</strong> <a href=\"../sitelog-specs-05-platform/#18-push-notifications-and-deep-links\">18 Push and deep links</a></li>\n<li><strong>Starts from:</strong> F15 (worker events) and the skeleton <code>Notifications/</code>, <code>DeepLinks/</code>.</li>\n<li><strong>Steps:</strong> <a href=\"../sitelog-guide/#how-every-feature-runs\">How every feature runs</a>.</li>\n<li><strong>File tags:</strong> <b class=\"tag-new\">New</b> create the file · <b class=\"tag-edit\">Edit</b> change only the part shown · <b class=\"tag-replace\">Replace</b> overwrite the whole file.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Step</th><th>Layer</th><th>Hours</th><th>Status</th><th>What</th></tr></thead><tbody><tr><td><a href=\"#1-contract--push-payload-and-device-token\">1</a></td><td>Contract</td><td>1h</td><td>not start</td><td>Payload with <code>deepLink</code>; <code>POST /devices</code></td></tr><tr><td><a href=\"#2-domain--deep-link-parser\">2</a></td><td>Domain</td><td>1h</td><td>not start</td><td>Pure <code>DeepLink</code> parser</td></tr><tr><td><a href=\"#3-fake-data--token-data-source-in-memory\">3</a></td><td>Fake data</td><td>1h</td><td>not start</td><td>Real <code>PushRepositoryImpl</code> over an in-memory token data source</td></tr><tr><td><a href=\"#4-view-models--permission-and-settings\">4</a></td><td>View models</td><td>2h</td><td>not start</td><td>Permission moment, notification row</td></tr><tr><td><a href=\"#5-local--push-registration-and-routing\">5</a></td><td>Local</td><td>4h</td><td>not start</td><td>Push capability, token, URL scheme, router</td></tr><tr><td><a href=\"#6-backend--devices-and-apns\">6</a></td><td>Backend</td><td>3h</td><td>not start</td><td><code>0011_devices.sql</code>, <code>POST /devices</code>, APNs send</td></tr><tr><td><a href=\"#7-sync--token-to-the-backend\">7</a></td><td>Sync</td><td>2h</td><td>not start</td><td>Token registered through <code>HTTPClient</code></td></tr></tbody></table></div>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelog/diagram-c2bfcd0d8975-dark.svg\"><img src=\"../../synced-docs/sitelog/diagram-c2bfcd0d8975-light.svg\" alt=\"Diagram: APNs → AppDelegate → DeepLink parser → sitelog:// link → DeepLinkRouter, holds until consumed → target screen → device token → PushRepositoryImpl → PushRemoteDataSourceImpl → POST /devices\" width=\"1035\" height=\"250\" loading=\"lazy\"></picture></figure>\n</dd></dl>",
+          "text": "Goal: a push carries only a destination; sitelog://<route>/<id> is parsed once and routed, even after a cold launch; the app works fully with push denied. Demo — offline: xcrun simctl openurl booted sitelog://session/42 opens the session; push denied changes nothing else. Demo — signed in: a verified upload sends a push; tapping it opens the session. Spec: 18 Push and deep links Starts from: F15 (worker events) and the skeleton Notifications/, DeepLinks/. Steps: How every feature runs. File tags: New create the file · Edit change only the part shown · Replace overwrite the whole file. Step Layer Hours Status What1 Contract 1h not start Payload with deepLink; POST /devices 2 Domain 1h not start Pure DeepLink parser 3 Fake data 1h not start Real PushRepositoryImpl over an in-memory token data source 4 View models 2h not start Permission moment, notification row 5 Local 4h not start Push capability, token, URL scheme, router 6 Backend 3h not start 0011_devices.sql, POST /devices, APNs send 7 Sync 2h not start Token registered through HTTPClient"
+        }
+      ]
+    },
+    {
+      "id": "target-structure",
+      "title": "Target structure",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<div class=\"md-code\"><div class=\"md-code-bar\"><span class=\"md-code-lang\"></span><button type=\"button\" class=\"md-copy\" aria-label=\"Copy code\"><svg aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect width=\"14\" height=\"14\" x=\"8\" y=\"8\" rx=\"2\" ry=\"2\"/><path d=\"M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2\"/></svg><span class=\"md-copy-label\">Copy</span></button></div><pre class=\"shiki shiki-themes github-light github-dark\" style=\"--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e\" tabindex=\"0\"><code class=\"language-text\"><span class=\"line\"><span>Backend/migrations/0011_devices.sql, src/routes/devices.ts, src/push.ts   # 6</span></span>\n<span class=\"line\"><span>Packages/</span></span>\n<span class=\"line\"><span>├── DomainLayer/Sources/DomainLayer/Entities/DeepLinks/DeepLink.swift     # 2: pure parser</span></span>\n<span class=\"line\"><span>├── DomainLayer/Sources/DomainLayer/Repositories/PushRepository.swift     # 2</span></span>\n<span class=\"line\"><span>├── DataLayer/Sources/DataLayer/</span></span>\n<span class=\"line\"><span>│   ├── Models/Remote/DeviceTokenDTO.swift                                # 1</span></span>\n<span class=\"line\"><span>│   ├── Repositories/PushRepositoryImpl.swift                             # 3: real from the start</span></span>\n<span class=\"line\"><span>│   └── DataSources/Remote/Push/PushRemoteDataSource(+Impl)               # 3: in memory · 7: HTTPClient</span></span>\n<span class=\"line\"><span>└── PlatformKit/Sources/PlatformKit/Push/                                 # 5: permission, registration</span></span>\n<span class=\"line\"><span>SiteLog/</span></span>\n<span class=\"line\"><span>├── App/AppDelegate.swift                                                 # 5: token</span></span>\n<span class=\"line\"><span>└── Presentation/Notifications/, DeepLinks/DeepLinkRouter.swift           # 4–5</span></span></code></pre></div>\n</dd></dl>",
+          "text": "Backend/migrations/0011_devices.sql, src/routes/devices.ts, src/push.ts # 6 Packages/ ├── DomainLayer/Sources/DomainLayer/Entities/DeepLinks/DeepLink.swift # 2: pure parser ├── DomainLayer/Sources/DomainLayer/Repositories/PushRepository.swift # 2 ├── DataLayer/Sources/DataLayer/ │ ├── Models/Remote/DeviceTokenDTO.swift # 1 │ ├── Repositories/PushRepositoryImpl.swift # 3: real from the start │ └── DataSources/Remote/Push/PushRemoteDataSource(+Impl) # 3: in memory · 7: HTTPClient └── PlatformKit/Sources/PlatformKit/Push/ # 5: permission, registration SiteLog/ ├── App/AppDelegate.swift # 5: token └── Presentation/Notifications/, DeepLinks/DeepLinkRouter.swift # 4–5"
+        }
+      ]
+    },
+    {
+      "id": "1-contract--push-payload-and-device-token",
+      "title": "1. Contract — push payload and device token",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<h4 id=\"overview-1\">Overview</h4>\n<dl><dd>\n<ul>\n<li><strong>Goal:</strong> what a push may carry and how the app tells the backend where to send it.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Shape</th><th>Fields</th></tr></thead><tbody><tr><td>Push payload</td><td><code>aps</code> alert, <code>deepLink</code> (<code>sitelog://session/&#x3C;id></code>), hashed account id — no names, no coordinates</td></tr><tr><td><code>POST /devices</code></td><td><code>token</code>, <code>environment</code> (<code>sandbox</code> / <code>production</code>)</td></tr></tbody></table></div>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelog/diagram-aa93ec01ccf3-dark.svg\"><img src=\"../../synced-docs/sitelog/diagram-aa93ec01ccf3-light.svg\" alt=\"Diagram: push payload → deepLink only → DeviceTokenDTO → POST /devices\" width=\"360\" height=\"152\" loading=\"lazy\"></picture></figure>\n<ul>\n<li><strong>Check:</strong> a push for another account is ignored by the app.</li>\n</ul>\n</dd></dl>\n</dd></dl>",
+          "text": "Overview Goal: what a push may carry and how the app tells the backend where to send it. Shape FieldsPush payload aps alert, deepLink (sitelog://session/<id>), hashed account id — no names, no coordinates POST /devices token, environment (sandbox / production) Check: a push for another account is ignored by the app."
+        }
+      ]
+    },
+    {
+      "id": "2-domain--deep-link-parser",
+      "title": "2. Domain — deep link parser",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<h4 id=\"overview-2\">Overview</h4>\n<dl><dd>\n<ul>\n<li><strong>Goal:</strong> one pure parser; ids are opaque data.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Action</th><th>File</th><th>Holds</th></tr></thead><tbody><tr><td><b class=\"tag-new\">New</b></td><td><code>Entities/DeepLinks/DeepLink.swift</code></td><td><code>sitelog://&#x3C;route>/&#x3C;id></code> → route enum; unknown → <code>nil</code></td></tr><tr><td><b class=\"tag-new\">New</b></td><td><code>Repositories/PushRepository.swift</code></td><td>Register token, permission status</td></tr></tbody></table></div>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelog/diagram-94a186e0afe9-dark.svg\"><img src=\"../../synced-docs/sitelog/diagram-94a186e0afe9-light.svg\" alt=\"Diagram: sitelog://session/42 → DeepLink(url:) → .session(id) → sitelog://?? → nil\" width=\"577\" height=\"152\" loading=\"lazy\"></picture></figure>\n<ul>\n<li><strong>Check:</strong> routes and rejections are unit-testable without the app.</li>\n</ul>\n</dd></dl>\n</dd></dl>",
+          "text": "Overview Goal: one pure parser; ids are opaque data. Action File HoldsNew Entities/DeepLinks/DeepLink.swift sitelog://<route>/<id> → route enum; unknown → nil New Repositories/PushRepository.swift Register token, permission status Check: routes and rejections are unit-testable without the app."
+        }
+      ]
+    },
+    {
+      "id": "3-fake-data--token-data-source-in-memory",
+      "title": "3. Fake data — token data source in memory",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<h4 id=\"overview-3\">Overview</h4>\n<dl><dd>\n<ul>\n<li><strong>Goal:</strong> the real repository over a data source that keeps the token in memory.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Action</th><th>File</th><th>Holds</th></tr></thead><tbody><tr><td><b class=\"tag-new\">New</b></td><td><code>DataSources/Remote/Push/PushRemoteDataSource.swift</code> + <code>Impl</code></td><td>Stores the last token in memory</td></tr><tr><td><b class=\"tag-new\">New</b></td><td><code>Repositories/PushRepositoryImpl.swift</code></td><td>Real: dedupes, logs the token truncated</td></tr></tbody></table></div>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelog/diagram-be3379b41d19-dark.svg\"><img src=\"../../synced-docs/sitelog/diagram-be3379b41d19-light.svg\" alt=\"Diagram: PushRepositoryImpl, real → token in memory\" width=\"379\" height=\"88\" loading=\"lazy\"></picture></figure>\n<ul>\n<li><strong>Check:</strong> the same token twice is sent once.</li>\n</ul>\n</dd></dl>\n</dd></dl>",
+          "text": "Overview Goal: the real repository over a data source that keeps the token in memory. Action File HoldsNew DataSources/Remote/Push/PushRemoteDataSource.swift + Impl Stores the last token in memory New Repositories/PushRepositoryImpl.swift Real: dedupes, logs the token truncated Check: the same token twice is sent once."
+        }
+      ]
+    },
+    {
+      "id": "4-view-models--permission-and-settings",
+      "title": "4. View models — permission and settings",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<h4 id=\"overview-4\">Overview</h4>\n<dl><dd>\n<ul>\n<li><strong>Goal:</strong> ask at a moment that makes sense, never at first launch; show a notification row in Settings.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Action</th><th>Skeleton folder</th><th>View model work</th></tr></thead><tbody><tr><td><b class=\"tag-new\">New</b> view model · <b class=\"tag-edit\">Edit</b> view</td><td><code>Presentation/Notifications/</code></td><td>Explain the benefit, then the system prompt</td></tr><tr><td><b class=\"tag-edit\">Edit</b> view model</td><td><code>Presentation/Settings/SettingsHome/</code></td><td>Notification status row</td></tr></tbody></table></div>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelog/diagram-a0d7c382e9d7-dark.svg\"><img src=\"../../synced-docs/sitelog/diagram-a0d7c382e9d7-light.svg\" alt=\"Diagram: first upload done → benefit sheet → system prompt\" width=\"552\" height=\"88\" loading=\"lazy\"></picture></figure>\n<ul>\n<li><strong>Check:</strong> denied → everything still works.</li>\n</ul>\n</dd></dl>\n</dd></dl>",
+          "text": "Overview Goal: ask at a moment that makes sense, never at first launch; show a notification row in Settings. Action Skeleton folder View model workNew view model · Edit view Presentation/Notifications/ Explain the benefit, then the system prompt Edit view model Presentation/Settings/SettingsHome/ Notification status row Check: denied → everything still works."
+        }
+      ]
+    },
+    {
+      "id": "5-local--push-registration-and-routing",
+      "title": "5. Local — push registration and routing",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<h4 id=\"overview-5\">Overview</h4>\n<dl><dd>\n<ul>\n<li><strong>Goal:</strong> the capability, the token, the URL scheme and a router that holds the destination until a view takes it.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Action</th><th>File</th><th>Holds</th></tr></thead><tbody><tr><td><b class=\"tag-edit\">Edit</b></td><td><code>project.yml</code></td><td>Push capability, <code>aps-environment</code>, <code>remote-notification</code> mode, <code>sitelog</code> URL scheme</td></tr><tr><td><b class=\"tag-new\">New</b></td><td><code>PlatformKit/Push/</code></td><td>Permission and registration wrapper</td></tr><tr><td><b class=\"tag-edit\">Edit</b></td><td><code>App/AppDelegate.swift</code></td><td>Token → <code>PushRepository</code>; re-sent on change</td></tr><tr><td><b class=\"tag-new\">New</b></td><td><code>Presentation/DeepLinks/DeepLinkRouter.swift</code></td><td>Holds the destination until consumed; a deleted target lands on a safe screen</td></tr></tbody></table></div>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelog/diagram-c8dcb00de19b-dark.svg\"><img src=\"../../synced-docs/sitelog/diagram-c8dcb00de19b-light.svg\" alt=\"Diagram\" width=\"875\" height=\"442\" loading=\"lazy\"></picture></figure>\n<ul>\n<li><strong>Check:</strong> <code>xcrun simctl push booted app.dd.site.log payload.json</code> and <code>xcrun simctl openurl booted sitelog://session/42</code> both land on the session.</li>\n</ul>\n</dd></dl>\n</dd></dl>",
+          "text": "Overview Goal: the capability, the token, the URL scheme and a router that holds the destination until a view takes it. Action File HoldsEdit project.yml Push capability, aps-environment, remote-notification mode, sitelog URL scheme New PlatformKit/Push/ Permission and registration wrapper Edit App/AppDelegate.swift Token → PushRepository; re-sent on change New Presentation/DeepLinks/DeepLinkRouter.swift Holds the destination until consumed; a deleted target lands on a safe screen Check: xcrun simctl push booted app.dd.site.log payload.json and xcrun simctl openurl booted sitelog://session/42 both land on the session."
+        }
+      ]
+    },
+    {
+      "id": "6-backend--devices-and-apns",
+      "title": "6. Backend — devices and APNs",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<h4 id=\"overview-6\">Overview</h4>\n<dl><dd>\n<ul>\n<li><strong>Goal:</strong> store tokens per user and send a push when the worker verifies a session's uploads.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Action</th><th>File</th><th>Holds</th></tr></thead><tbody><tr><td><b class=\"tag-new\">New</b></td><td><code>Backend/migrations/0011_devices.sql</code></td><td><code>devices (uid, token, environment)</code></td></tr><tr><td><b class=\"tag-new\">New</b></td><td><code>Backend/src/routes/devices.ts</code></td><td><code>POST /devices</code></td></tr><tr><td><b class=\"tag-new\">New</b></td><td><code>Backend/src/push.ts</code></td><td>APNs send with a token-based key from the secret store</td></tr><tr><td><b class=\"tag-edit\">Edit</b></td><td><code>Backend/src/routes/account.ts</code></td><td>Devices join the account deletion</td></tr></tbody></table></div>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelog/diagram-535b47f67a09-dark.svg\"><img src=\"../../synced-docs/sitelog/diagram-535b47f67a09-light.svg\" alt=\"Diagram: verify worker → session verified → push.ts → APNs\" width=\"706\" height=\"64\" loading=\"lazy\"></picture></figure>\n<ul>\n<li><strong>Check:</strong> <code>vitest</code> with a mocked APNs client.</li>\n</ul>\n</dd></dl>\n</dd></dl>",
+          "text": "Overview Goal: store tokens per user and send a push when the worker verifies a session's uploads. Action File HoldsNew Backend/migrations/0011_devices.sql devices (uid, token, environment) New Backend/src/routes/devices.ts POST /devices New Backend/src/push.ts APNs send with a token-based key from the secret store Edit Backend/src/routes/account.ts Devices join the account deletion Check: vitest with a mocked APNs client."
+        }
+      ]
+    },
+    {
+      "id": "7-sync--token-to-the-backend",
+      "title": "7. Sync — token to the backend",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<h4 id=\"overview-7\">Overview</h4>\n<dl><dd>\n<ul>\n<li><strong>Goal:</strong> <code>PushRemoteDataSourceImpl</code> keeps its type; inside it calls <code>POST /devices</code> through <code>HTTPClient</code>.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Action</th><th>File</th><th>Holds</th></tr></thead><tbody><tr><td><b class=\"tag-replace\">Replace</b></td><td><code>DataSources/Remote/Push/PushRemoteDataSourceImpl.swift</code></td><td><code>POST /devices</code></td></tr><tr><td><b class=\"tag-edit\">Edit</b></td><td><code>App/DI/DataSourcesDI.swift</code></td><td>Pass <code>HTTPClient</code>; registered type stays</td></tr></tbody></table></div>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelog/diagram-fdbd5d8444ff-dark.svg\"><img src=\"../../synced-docs/sitelog/diagram-fdbd5d8444ff-light.svg\" alt=\"Diagram: PushRepositoryImpl, unchanged → PushRemoteDataSourceImpl → HTTPClient → /devices\" width=\"843\" height=\"88\" loading=\"lazy\"></picture></figure>\n<ul>\n<li><strong>Check:</strong> a real device push arrives from staging.</li>\n</ul>\n</dd></dl>\n</dd></dl>",
+          "text": "Overview Goal: PushRemoteDataSourceImpl keeps its type; inside it calls POST /devices through HTTPClient. Action File HoldsReplace DataSources/Remote/Push/PushRemoteDataSourceImpl.swift POST /devices Edit App/DI/DataSourcesDI.swift Pass HTTPClient; registered type stays Check: a real device push arrives from staging."
+        }
+      ]
+    },
+    {
+      "id": "tests-after-the-feature-works",
+      "title": "Tests (after the feature works)",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<p><strong>2. Domain</strong></p>\n<ul>\n<li>Parser routes and rejections</li>\n</ul>\n<p><strong>4. View models</strong></p>\n<ul>\n<li>Permission view model</li>\n</ul>\n<p><strong>5. Local</strong></p>\n<ul>\n<li>Payload with / without <code>deepLink</code></li>\n<li>Push for another account ignored</li>\n<li>Router holds until consumed</li>\n<li>Cold-launch link survives (UI test)</li>\n</ul>\n</dd></dl>",
+          "text": "2. Domain Parser routes and rejections 4. View models Permission view model 5. Local Payload with / without deepLink Push for another account ignored Router holds until consumed Cold-launch link survives (UI test)"
+        }
+      ]
+    },
+    {
+      "id": "feature-done",
+      "title": "Feature done",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Check</th><th>How</th></tr></thead><tbody><tr><td>Demo</td><td>Push opens the target; deep link from Safari</td></tr><tr><td>Tests</td><td><code>bundle exec fastlane test</code> and <code>npm test</code> green</td></tr><tr><td>Roadmap</td><td>F16 steps ticked</td></tr></tbody></table></div>\n</dd></dl>",
+          "text": "Check HowDemo Push opens the target; deep link from Safari Tests bundle exec fastlane test and npm test green Roadmap F16 steps ticked"
+        }
+      ]
+    }
+  ],
+  "effectiveDate": "2026-11-02",
+  "lastUpdated": "2026-11-03"
+}

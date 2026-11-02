@@ -1,0 +1,75 @@
+{
+  "title": "S4 — Resumable upload · TestFlight #1",
+  "tagline": "large files upload in parts and survive app kill, expired URLs and airplane mode; first TestFlight build.",
+  "icon": "🛠️",
+  "topic": "ios",
+  "tags": [
+    "SwiftUI",
+    "iOS",
+    "Step by step"
+  ],
+  "readingTime": "1 min",
+  "languages": [
+    "en"
+  ],
+  "numbered": false,
+  "series": {
+    "id": "sitelog",
+    "part": 22,
+    "name": "SiteLog: an iOS app, built",
+    "panel": "Sprint guides",
+    "group": "S4-resumable-upload",
+    "opensGroup": true
+  },
+  "intro": [
+    "Sprint 4 · 2 weeks · 47h · all sprints"
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Overview",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul>\n<li><strong>Goal:</strong> large files upload in parts and survive app kill, expired URLs and airplane mode; first TestFlight build.</li>\n<li><strong>Demo — offline:</strong> 200 files queued in airplane mode; retry budget untouched.</li>\n<li><strong>Demo — signed in:</strong> network back → 200 files / 2 GB finish, with a kill in the middle; TestFlight build installs on a real device.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>F</th><th>Feature</th><th>Guide</th><th>Hours</th></tr></thead><tbody><tr><td>F07</td><td>Resumable upload · TestFlight #1</td><td><a href=\"../sitelog-guide-f07-resumable-upload/\">F07-resumable-upload.md</a></td><td>47</td></tr></tbody></table></div>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelog/diagram-10ef71e30ff0-dark.svg\"><img src=\"../../synced-docs/sitelog/diagram-10ef71e30ff0-light.svg\" alt=\"Diagram: ChunkPlanner, 8 MiB parts → UploadCoordinator → PUT part → R2 → refresh · complete · abort → Backend → Cold launch → Reconciler, reattach · cancel · reset → git tag v* → TestFlight\" width=\"990\" height=\"312\" loading=\"lazy\"></picture></figure>\n</dd></dl>",
+          "text": "Goal: large files upload in parts and survive app kill, expired URLs and airplane mode; first TestFlight build. Demo — offline: 200 files queued in airplane mode; retry budget untouched. Demo — signed in: network back → 200 files / 2 GB finish, with a kill in the middle; TestFlight build installs on a real device. F Feature Guide HoursF07 Resumable upload · TestFlight #1 F07-resumable-upload.md 47"
+        }
+      ]
+    },
+    {
+      "id": "tasks",
+      "title": "Tasks",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Task</th><th>Step</th><th>Layer</th><th>Hours</th><th>Status</th></tr></thead><tbody><tr><td>F07.1</td><td>Multipart plan, refresh, abort payloads</td><td>Contract</td><td>1</td><td>not start</td></tr><tr><td>F07.2</td><td>Multipart, <code>/parts/refresh</code>, <code>DELETE /uploads/:id</code></td><td>Backend</td><td>6</td><td>not start</td></tr><tr><td>F07.3</td><td>Multipart and resume (split: planner · upload · complete)</td><td>Sync</td><td>14</td><td>not start</td></tr><tr><td>F07.4</td><td>Kill and relaunch reconciliation</td><td>Sync</td><td>8</td><td>not start</td></tr><tr><td>F07.5</td><td>Wi-Fi only, dedupe by hash, URL refresh</td><td>Sync</td><td>5</td><td>not start</td></tr><tr><td>F07.6</td><td>200-file demo behind the screens</td><td>Sync</td><td>3</td><td>not start</td></tr><tr><td>F07.7</td><td>Signing and TestFlight #1 (split: signing · lane)</td><td>Release</td><td>10</td><td>not start</td></tr></tbody></table></div>\n</dd></dl>",
+          "text": "Task Step Layer Hours StatusF07.1 Multipart plan, refresh, abort payloads Contract 1 not start F07.2 Multipart, /parts/refresh, DELETE /uploads/:id Backend 6 not start F07.3 Multipart and resume (split: planner · upload · complete) Sync 14 not start F07.4 Kill and relaunch reconciliation Sync 8 not start F07.5 Wi-Fi only, dedupe by hash, URL refresh Sync 5 not start F07.6 200-file demo behind the screens Sync 3 not start F07.7 Signing and TestFlight #1 (split: signing · lane) Release 10 not start"
+        }
+      ]
+    },
+    {
+      "id": "done",
+      "title": "Done",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul class=\"contains-task-list\">\n<li class=\"task-list-item\"><input type=\"checkbox\" disabled> 200 files / 2 GB complete with matching server hashes, with a kill in the middle</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" disabled> Airplane mode → waiting, budget intact; Wi-Fi only on cellular sends zero bytes</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" disabled> TestFlight #1 installed from TestFlight; the repo holds no <code>.p8</code>, certificate or profile</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" disabled> F07 tests written and green</li>\n</ul>\n</dd></dl>",
+          "text": "200 files / 2 GB complete with matching server hashes, with a kill in the middle Airplane mode → waiting, budget intact; Wi-Fi only on cellular sends zero bytes TestFlight #1 installed from TestFlight; the repo holds no .p8, certificate or profile F07 tests written and green"
+        }
+      ]
+    },
+    {
+      "id": "self-check",
+      "title": "Self-check",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul>\n<li>A part URL expires after an hour. Why is refreshing it better than a longer TTL?</li>\n<li>After a kill, which three states can a job be in, and what does each need?</li>\n<li>Why does a final-part failure never call <code>complete</code>?</li>\n</ul>\n</dd></dl>",
+          "text": "A part URL expires after an hour. Why is refreshing it better than a longer TTL? After a kill, which three states can a job be in, and what does each need? Why does a final-part failure never call complete?"
+        }
+      ]
+    }
+  ],
+  "effectiveDate": "2026-11-02",
+  "lastUpdated": "2026-11-03"
+}

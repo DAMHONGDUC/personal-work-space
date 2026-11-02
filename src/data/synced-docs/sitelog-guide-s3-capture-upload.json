@@ -1,0 +1,75 @@
+{
+  "title": "S3 — Capture and upload",
+  "tagline": "photos are captured and hashed offline; small files reach storage through a background upload.",
+  "icon": "🛠️",
+  "topic": "ios",
+  "tags": [
+    "SwiftUI",
+    "iOS",
+    "Step by step"
+  ],
+  "readingTime": "1 min",
+  "languages": [
+    "en"
+  ],
+  "numbered": false,
+  "series": {
+    "id": "sitelog",
+    "part": 19,
+    "name": "SiteLog: an iOS app, built",
+    "panel": "Sprint guides",
+    "group": "S3-capture-upload",
+    "opensGroup": true
+  },
+  "intro": [
+    "Sprint 3 · 2 weeks · 60h · all sprints"
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Overview",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul>\n<li><strong>Goal:</strong> photos are captured and hashed offline; small files reach storage through a background upload.</li>\n<li><strong>Demo — offline:</strong> airplane mode → capture → photo linked to a location, kept after relaunch; the Sync tab shows it waiting.</li>\n<li><strong>Demo — signed in:</strong> network back → the photo uploads, the server confirms its hash, capture metadata syncs to the second device.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>F</th><th>Feature</th><th>Guide</th><th>Hours</th></tr></thead><tbody><tr><td>F05</td><td>Capture</td><td><a href=\"../sitelog-guide-f05-capture/\">F05-capture.md</a></td><td>24</td></tr><tr><td>F06</td><td>Upload (single PUT)</td><td><a href=\"../sitelog-guide-f06-upload/\">F06-upload.md</a></td><td>36</td></tr></tbody></table></div>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelog/diagram-f0db68e47a6f-dark.svg\"><img src=\"../../synced-docs/sitelog/diagram-f0db68e47a6f-light.svg\" alt=\"Diagram: Camera → CaptureRepositoryImpl → Files + SHA-256 → UploadStoreImpl → UploadKit, background URLSession → POST /uploads · complete → Backend → PUT bytes → R2\" width=\"1210\" height=\"266\" loading=\"lazy\"></picture></figure>\n</dd></dl>",
+          "text": "Goal: photos are captured and hashed offline; small files reach storage through a background upload. Demo — offline: airplane mode → capture → photo linked to a location, kept after relaunch; the Sync tab shows it waiting. Demo — signed in: network back → the photo uploads, the server confirms its hash, capture metadata syncs to the second device. F Feature Guide HoursF05 Capture F05-capture.md 24 F06 Upload (single PUT) F06-upload.md 36"
+        }
+      ]
+    },
+    {
+      "id": "tasks",
+      "title": "Tasks",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Task</th><th>Step</th><th>Layer</th><th>Hours</th><th>Status</th></tr></thead><tbody><tr><td>F05.1</td><td>Capture contract</td><td>Contract</td><td>1</td><td>not start</td></tr><tr><td>F05.2</td><td>Record a capture</td><td>Domain</td><td>1</td><td>not start</td></tr><tr><td>F05.3</td><td>Repository + capture data source on a bundled photo</td><td>Fake data</td><td>2</td><td>not start</td></tr><tr><td>F05.4</td><td>Camera view models</td><td>View models</td><td>3</td><td>not start</td></tr><tr><td>F05.5</td><td>Camera, disk, SHA-256 (split: camera · files · hash)</td><td>Local</td><td>14</td><td>not start</td></tr><tr><td>F05.6</td><td>Migration <code>0004_captures.sql</code></td><td>Backend</td><td>2</td><td>not start</td></tr><tr><td>F05.7</td><td>Captures join sync</td><td>Sync</td><td>1</td><td>not start</td></tr><tr><td>F06.1</td><td>Begin / complete payloads</td><td>Contract</td><td>1</td><td>not start</td></tr><tr><td>F06.2</td><td>UploadKit API and job types</td><td>Domain</td><td>1</td><td>not start</td></tr><tr><td>F06.3</td><td><code>UploadStoreImpl</code> in memory</td><td>Fake data</td><td>2</td><td>not start</td></tr><tr><td>F06.4</td><td>Sync tab view models</td><td>View models</td><td>6</td><td>not start</td></tr><tr><td>F06.5</td><td>Upload store on SwiftData</td><td>Local</td><td>4</td><td>not start</td></tr><tr><td>F06.6</td><td><code>POST /uploads</code>, idempotent <code>complete</code> (split: begin · complete)</td><td>Backend</td><td>8</td><td>not start</td></tr><tr><td>F06.7</td><td>Background single PUT, state machine, backoff (split: 3 tasks)</td><td>Sync</td><td>14</td><td>not start</td></tr></tbody></table></div>\n</dd></dl>",
+          "text": "Task Step Layer Hours StatusF05.1 Capture contract Contract 1 not start F05.2 Record a capture Domain 1 not start F05.3 Repository + capture data source on a bundled photo Fake data 2 not start F05.4 Camera view models View models 3 not start F05.5 Camera, disk, SHA-256 (split: camera · files · hash) Local 14 not start F05.6 Migration 0004_captures.sql Backend 2 not start F05.7 Captures join sync Sync 1 not start F06.1 Begin / complete payloads Contract 1 not start F06.2 UploadKit API and job types Domain 1 not start F06.3 UploadStoreImpl in memory Fake data 2 not start F06.4 Sync tab view models View models 6 not start F06.5 Upload store on SwiftData Local 4 not start F06.6 POST /uploads, idempotent complete (split: begin · complete) Backend 8 not start F06.7 Background single PUT, state machine, backoff (split: 3 tasks) Sync 14 not start"
+        }
+      ]
+    },
+    {
+      "id": "done",
+      "title": "Done",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul class=\"contains-task-list\">\n<li class=\"task-list-item\"><input type=\"checkbox\" disabled> Offline: capture in airplane mode, kept after relaunch; \"waiting\" never shows red</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" disabled> Signed in: a small photo uploads after a kill; server hash matches</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" disabled> F05 and F06 tests written and green</li>\n</ul>\n</dd></dl>",
+          "text": "Offline: capture in airplane mode, kept after relaunch; \"waiting\" never shows red Signed in: a small photo uploads after a kill; server hash matches F05 and F06 tests written and green"
+        }
+      ]
+    },
+    {
+      "id": "self-check",
+      "title": "Self-check",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul>\n<li>Why is the SHA-256 computed at capture time, not at upload time?</li>\n<li>Which three paths are kept apart: control, bytes, state? Who owns each?</li>\n<li>What should happen when <code>complete</code> is called twice?</li>\n</ul>\n</dd></dl>",
+          "text": "Why is the SHA-256 computed at capture time, not at upload time? Which three paths are kept apart: control, bytes, state? Who owns each? What should happen when complete is called twice?"
+        }
+      ]
+    }
+  ],
+  "effectiveDate": "2026-11-02",
+  "lastUpdated": "2026-11-03"
+}

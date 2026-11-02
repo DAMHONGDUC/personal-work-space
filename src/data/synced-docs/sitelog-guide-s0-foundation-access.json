@@ -1,0 +1,75 @@
+{
+  "title": "S0 — Foundation and access",
+  "tagline": "the app and the backend both build, test and run in CI; the app opens behind Face ID or a passcode.",
+  "icon": "🛠️",
+  "topic": "ios",
+  "tags": [
+    "SwiftUI",
+    "iOS",
+    "Step by step"
+  ],
+  "readingTime": "1 min",
+  "languages": [
+    "en"
+  ],
+  "numbered": false,
+  "series": {
+    "id": "sitelog",
+    "part": 11,
+    "name": "SiteLog: an iOS app, built",
+    "panel": "Sprint guides",
+    "group": "S0-foundation-access",
+    "opensGroup": true
+  },
+  "intro": [
+    "Sprint 0 · 2 weeks · 54h · all sprints"
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Overview",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul>\n<li><strong>Goal:</strong> the app and the backend both build, test and run in CI; the app opens behind Face ID or a passcode.</li>\n<li><strong>Demo — offline:</strong> first launch → A2 → Continue offline → tabs; lock on → Face ID or passcode; back after <em>Lock after</em> → locked again.</li>\n<li><strong>Demo — signed in:</strong> not yet (auth is S1); <code>GET /health</code> answers on the deployed backend.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>F</th><th>Feature</th><th>Guide</th><th>Hours</th></tr></thead><tbody><tr><td>F00</td><td>Foundation: layer packages, DI, CI, backend skeleton</td><td><a href=\"../sitelog-guide-f00-foundation/\">F00-foundation.md</a></td><td>38</td></tr><tr><td>F01</td><td>Access and app lock</td><td><a href=\"../sitelog-guide-f01-access/\">F01-access.md</a></td><td>16</td></tr></tbody></table></div>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelog/diagram-d93f7ab29f9c-dark.svg\"><img src=\"../../synced-docs/sitelog/diagram-d93f7ab29f9c-light.svg\" alt=\"Diagram: iOS app → RootViewModel → A1 Face ID · A3 passcode → AccessRepositoryImpl → AccessLocalDataSourceImpl, BiometricLocalDataSourceImpl → Keychain · UserDefaults → Backend → GET /health → Postgres → GitHub Actions\" width=\"1237\" height=\"406\" loading=\"lazy\"></picture></figure>\n</dd></dl>",
+          "text": "Goal: the app and the backend both build, test and run in CI; the app opens behind Face ID or a passcode. Demo — offline: first launch → A2 → Continue offline → tabs; lock on → Face ID or passcode; back after Lock after → locked again. Demo — signed in: not yet (auth is S1); GET /health answers on the deployed backend. F Feature Guide HoursF00 Foundation: layer packages, DI, CI, backend skeleton F00-foundation.md 38 F01 Access and app lock F01-access.md 16"
+        }
+      ]
+    },
+    {
+      "id": "tasks",
+      "title": "Tasks",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Task</th><th>Step</th><th>Layer</th><th>Hours</th><th>Status</th></tr></thead><tbody><tr><td>F00.0</td><td>Entry point, XcodeGen, SwiftLint</td><td>Tooling</td><td>8</td><td>done</td></tr><tr><td>F00.1</td><td>Layer packages, Factory DI, <code>AppClock</code></td><td>Architecture</td><td>6</td><td>not start</td></tr><tr><td>F00.2</td><td>Fastlane <code>test</code> lane, PR checks</td><td>CI</td><td>5</td><td>not start</td></tr><tr><td>F00.3</td><td>CI guards</td><td>CI</td><td>4</td><td>not start</td></tr><tr><td>F00.4</td><td>DesignSystem tests</td><td>Tests</td><td>3</td><td>not start</td></tr><tr><td>F00.5</td><td>Backend skeleton: Fastify, Postgres, <code>/health</code>, error contract</td><td>Backend</td><td>8</td><td>not start</td></tr><tr><td>F00.6</td><td>Backend CI and staging deploy</td><td>Backend</td><td>4</td><td>not start</td></tr><tr><td>F01.1</td><td>Access types and use cases</td><td>Domain</td><td>1</td><td>not start</td></tr><tr><td>F01.2</td><td>Repository + data sources in memory</td><td>Fake data</td><td>2</td><td>not start</td></tr><tr><td>F01.3</td><td>Access view models (split: root · A1–A3 · S4–S5)</td><td>View models</td><td>5</td><td>not start</td></tr><tr><td>F01.4</td><td>Keychain, <code>UserDefaults</code>, Face ID inside the data sources (split: storage · biometrics)</td><td>Local</td><td>8</td><td>not start</td></tr></tbody></table></div>\n</dd></dl>",
+          "text": "Task Step Layer Hours StatusF00.0 Entry point, XcodeGen, SwiftLint Tooling 8 done F00.1 Layer packages, Factory DI, AppClock Architecture 6 not start F00.2 Fastlane test lane, PR checks CI 5 not start F00.3 CI guards CI 4 not start F00.4 DesignSystem tests Tests 3 not start F00.5 Backend skeleton: Fastify, Postgres, /health, error contract Backend 8 not start F00.6 Backend CI and staging deploy Backend 4 not start F01.1 Access types and use cases Domain 1 not start F01.2 Repository + data sources in memory Fake data 2 not start F01.3 Access view models (split: root · A1–A3 · S4–S5) View models 5 not start F01.4 Keychain, UserDefaults, Face ID inside the data sources (split: storage · biometrics) Local 8 not start"
+        }
+      ]
+    },
+    {
+      "id": "done",
+      "title": "Done",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul class=\"contains-task-list\">\n<li class=\"task-list-item\"><input type=\"checkbox\" disabled> App: zero warnings, <code>bundle exec fastlane test</code> green, CI green on a PR</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" disabled> Backend: <code>vitest</code> green in CI; staging answers <code>GET /health</code></li>\n<li class=\"task-list-item\"><input type=\"checkbox\" disabled> Offline demo runs on a real device; relaunch keeps the passcode, settings and lockout</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" disabled> F00 and F01 tests written and green</li>\n</ul>\n</dd></dl>",
+          "text": "App: zero warnings, bundle exec fastlane test green, CI green on a PR Backend: vitest green in CI; staging answers GET /health Offline demo runs on a real device; relaunch keeps the passcode, settings and lockout F00 and F01 tests written and green"
+        }
+      ]
+    },
+    {
+      "id": "self-check",
+      "title": "Self-check",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul>\n<li>Before reading the guides: draw the layers (Presentation → Domain → Data → PlatformKit) and where <code>AccessRepositoryImpl</code> sits.</li>\n<li>Which file is the only one allowed to know <code>AccessLocalDataSourceImpl</code> exists?</li>\n<li>What changes between F01.2 and F01.4, and what must stay exactly the same?</li>\n</ul>\n</dd></dl>",
+          "text": "Before reading the guides: draw the layers (Presentation → Domain → Data → PlatformKit) and where AccessRepositoryImpl sits. Which file is the only one allowed to know AccessLocalDataSourceImpl exists? What changes between F01.2 and F01.4, and what must stay exactly the same?"
+        }
+      ]
+    }
+  ],
+  "effectiveDate": "2026-11-02",
+  "lastUpdated": "2026-11-03"
+}

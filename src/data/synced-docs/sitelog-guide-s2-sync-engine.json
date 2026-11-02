@@ -1,0 +1,75 @@
+{
+  "title": "S2 — Sync engine",
+  "tagline": "one sync engine that every later feature plugs into; projects, sessions and locations are the first synced tables.",
+  "icon": "🛠️",
+  "topic": "ios",
+  "tags": [
+    "SwiftUI",
+    "iOS",
+    "Step by step"
+  ],
+  "readingTime": "1 min",
+  "languages": [
+    "en"
+  ],
+  "numbered": false,
+  "series": {
+    "id": "sitelog",
+    "part": 17,
+    "name": "SiteLog: an iOS app, built",
+    "panel": "Sprint guides",
+    "group": "S2-sync-engine",
+    "opensGroup": true
+  },
+  "intro": [
+    "Sprint 2 · 2 weeks · 45h · all sprints"
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Overview",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul>\n<li><strong>Goal:</strong> one sync engine that every later feature plugs into; projects, sessions and locations are the first synced tables.</li>\n<li><strong>Demo — offline:</strong> edits made offline queue up; the Sync tab says how many are waiting.</li>\n<li><strong>Demo — signed in:</strong> two devices on one account converge; a delete on one stays deleted on the other.</li>\n<li>Lighter sprint on purpose: sync is the riskiest piece of the app.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>F</th><th>Feature</th><th>Guide</th><th>Hours</th></tr></thead><tbody><tr><td>F04</td><td>Sync engine</td><td><a href=\"../sitelog-guide-f04-sync-engine/\">F04-sync-engine.md</a></td><td>45</td></tr></tbody></table></div>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelog/diagram-9792be3fc09e-dark.svg\"><img src=\"../../synced-docs/sitelog/diagram-9792be3fc09e-light.svg\" alt=\"Diagram\" width=\"750\" height=\"541\" loading=\"lazy\"></picture></figure>\n</dd></dl>",
+          "text": "Goal: one sync engine that every later feature plugs into; projects, sessions and locations are the first synced tables. Demo — offline: edits made offline queue up; the Sync tab says how many are waiting. Demo — signed in: two devices on one account converge; a delete on one stays deleted on the other. Lighter sprint on purpose: sync is the riskiest piece of the app. F Feature Guide HoursF04 Sync engine F04-sync-engine.md 45"
+        }
+      ]
+    },
+    {
+      "id": "tasks",
+      "title": "Tasks",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Task</th><th>Step</th><th>Layer</th><th>Hours</th><th>Status</th></tr></thead><tbody><tr><td>F04.1</td><td>Pull and push payloads</td><td>Contract</td><td>2</td><td>not start</td></tr><tr><td>F04.2</td><td>Sync status types and use cases</td><td>Domain</td><td>1</td><td>not start</td></tr><tr><td>F04.3</td><td>Engine over an in-memory outbox and server (split: queue · push · pull · conflicts · deletes)</td><td>Fake data</td><td>18</td><td>not start</td></tr><tr><td>F04.4</td><td>Sync tab status, account view models</td><td>View models</td><td>3</td><td>not start</td></tr><tr><td>F04.5</td><td>Outbox and cursor in SwiftData; F03 data sources write outbox rows</td><td>Local</td><td>6</td><td>not start</td></tr><tr><td>F04.6</td><td><code>/sync/pull</code>, <code>/sync/push</code> on <code>sync_state</code></td><td>Backend</td><td>8</td><td>not start</td></tr><tr><td>F04.7</td><td>Remote data source on <code>HTTPClient</code>, two-device convergence</td><td>Sync</td><td>7</td><td>not start</td></tr></tbody></table></div>\n</dd></dl>",
+          "text": "Task Step Layer Hours StatusF04.1 Pull and push payloads Contract 2 not start F04.2 Sync status types and use cases Domain 1 not start F04.3 Engine over an in-memory outbox and server (split: queue · push · pull · conflicts · deletes) Fake data 18 not start F04.4 Sync tab status, account view models View models 3 not start F04.5 Outbox and cursor in SwiftData; F03 data sources write outbox rows Local 6 not start F04.6 /sync/pull, /sync/push on sync_state Backend 8 not start F04.7 Remote data source on HTTPClient, two-device convergence Sync 7 not start"
+        }
+      ]
+    },
+    {
+      "id": "done",
+      "title": "Done",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul class=\"contains-task-list\">\n<li class=\"task-list-item\"><input type=\"checkbox\" disabled> Offline: edits survive relaunch in the queue</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" disabled> Signed in: two devices converge; deletes propagate; a session never moves back a state</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" disabled> Two-client convergence test runs in CI against a throwaway Postgres</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" disabled> F04 tests written and green</li>\n</ul>\n</dd></dl>",
+          "text": "Offline: edits survive relaunch in the queue Signed in: two devices converge; deletes propagate; a session never moves back a state Two-client convergence test runs in CI against a throwaway Postgres F04 tests written and green"
+        }
+      ]
+    },
+    {
+      "id": "self-check",
+      "title": "Self-check",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul>\n<li>Why does the backend use a row lock on <code>sync_state</code> instead of a sequence?</li>\n<li>A push batch inserts a location before its project. What makes that legal in Postgres?</li>\n<li>After S2, what is the smallest change a new feature needs to become synced?</li>\n</ul>\n</dd></dl>",
+          "text": "Why does the backend use a row lock on sync_state instead of a sequence? A push batch inserts a location before its project. What makes that legal in Postgres? After S2, what is the smallest change a new feature needs to become synced?"
+        }
+      ]
+    }
+  ],
+  "effectiveDate": "2026-11-02",
+  "lastUpdated": "2026-11-03"
+}

@@ -1,0 +1,75 @@
+{
+  "title": "S1 — Auth and projects",
+  "tagline": "real sign-in next to Continue offline; projects, sessions and locations stored on the device with sync-ready fields.",
+  "icon": "🛠️",
+  "topic": "ios",
+  "tags": [
+    "SwiftUI",
+    "iOS",
+    "Step by step"
+  ],
+  "readingTime": "1 min",
+  "languages": [
+    "en"
+  ],
+  "numbered": false,
+  "series": {
+    "id": "sitelog",
+    "part": 14,
+    "name": "SiteLog: an iOS app, built",
+    "panel": "Sprint guides",
+    "group": "S1-auth-projects",
+    "opensGroup": true
+  },
+  "intro": [
+    "Sprint 1 · 2 weeks · 56h · all sprints"
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Overview",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul>\n<li><strong>Goal:</strong> real sign-in next to Continue offline; projects, sessions and locations stored on the device with sync-ready fields.</li>\n<li><strong>Demo — offline:</strong> Continue offline → project → 80 generated locations → walkthrough; relaunch keeps everything.</li>\n<li><strong>Demo — signed in:</strong> Sign in with Apple or email → same flow; the backend has the project tables and rejects calls without a token.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>F</th><th>Feature</th><th>Guide</th><th>Hours</th></tr></thead><tbody><tr><td>F02</td><td>Auth</td><td><a href=\"../sitelog-guide-f02-auth/\">F02-auth.md</a></td><td>21</td></tr><tr><td>F03</td><td>Projects, sessions, locations</td><td><a href=\"../sitelog-guide-f03-projects/\">F03-projects.md</a></td><td>35</td></tr></tbody></table></div>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelog/diagram-999743797373-dark.svg\"><img src=\"../../synced-docs/sitelog/diagram-999743797373-light.svg\" alt=\"Diagram: iOS app → A2 Sign in → AuthRepositoryImpl → AuthRemoteDataSourceImpl → P1–P7 Projects → ProjectRepositoryImpl → ProjectLocalDataSourceImpl → SwiftData → Firebase Auth → Backend → requireUser → projects · locations · sessions → Bearer ID token\" width=\"1476\" height=\"345\" loading=\"lazy\"></picture></figure>\n</dd></dl>",
+          "text": "Goal: real sign-in next to Continue offline; projects, sessions and locations stored on the device with sync-ready fields. Demo — offline: Continue offline → project → 80 generated locations → walkthrough; relaunch keeps everything. Demo — signed in: Sign in with Apple or email → same flow; the backend has the project tables and rejects calls without a token. F Feature Guide HoursF02 Auth F02-auth.md 21 F03 Projects, sessions, locations F03-projects.md 35"
+        }
+      ]
+    },
+    {
+      "id": "tasks",
+      "title": "Tasks",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Task</th><th>Step</th><th>Layer</th><th>Hours</th><th>Status</th></tr></thead><tbody><tr><td>F02.1</td><td>Auth contract: token, account deletion</td><td>Contract</td><td>1</td><td>not start</td></tr><tr><td>F02.2</td><td>Auth types and use cases</td><td>Domain</td><td>1</td><td>not start</td></tr><tr><td>F02.3</td><td><code>AuthRemoteDataSourceImpl</code> in memory</td><td>Fake data</td><td>1</td><td>not start</td></tr><tr><td>F02.4</td><td>Sign in, account, sign out view models</td><td>View models</td><td>4</td><td>not start</td></tr><tr><td>F02.5</td><td>Firebase Auth inside the data source (split: Apple · email · token)</td><td>Local</td><td>10</td><td>not start</td></tr><tr><td>F02.6</td><td><code>requireUser</code>, <code>DELETE /account</code></td><td>Backend</td><td>4</td><td>not start</td></tr><tr><td>F03.1</td><td>Project, session, location contract</td><td>Contract</td><td>1</td><td>not start</td></tr><tr><td>F03.2</td><td>Sync-ready entities, protocols, use cases</td><td>Domain</td><td>4</td><td>not start</td></tr><tr><td>F03.3</td><td>Repositories + data sources in memory</td><td>Fake data</td><td>2</td><td>not start</td></tr><tr><td>F03.4</td><td>Projects view models (split: list · detail · survey · bulk)</td><td>View models</td><td>10</td><td>not start</td></tr><tr><td>F03.5</td><td>SwiftData models, schema, data sources (split: models · data sources · schema)</td><td>Local</td><td>15</td><td>not start</td></tr><tr><td>F03.6</td><td>Migration <code>0002_projects.sql</code></td><td>Backend</td><td>3</td><td>not start</td></tr></tbody></table></div>\n</dd></dl>",
+          "text": "Task Step Layer Hours StatusF02.1 Auth contract: token, account deletion Contract 1 not start F02.2 Auth types and use cases Domain 1 not start F02.3 AuthRemoteDataSourceImpl in memory Fake data 1 not start F02.4 Sign in, account, sign out view models View models 4 not start F02.5 Firebase Auth inside the data source (split: Apple · email · token) Local 10 not start F02.6 requireUser, DELETE /account Backend 4 not start F03.1 Project, session, location contract Contract 1 not start F03.2 Sync-ready entities, protocols, use cases Domain 4 not start F03.3 Repositories + data sources in memory Fake data 2 not start F03.4 Projects view models (split: list · detail · survey · bulk) View models 10 not start F03.5 SwiftData models, schema, data sources (split: models · data sources · schema) Local 15 not start F03.6 Migration 0002_projects.sql Backend 3 not start"
+        }
+      ]
+    },
+    {
+      "id": "done",
+      "title": "Done",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul class=\"contains-task-list\">\n<li class=\"task-list-item\"><input type=\"checkbox\" disabled> Offline demo on a real device, airplane mode</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" disabled> Signed-in demo: Apple and email sign-in; relaunch offline after sign-in goes straight in</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" disabled> Backend: a call without a token → <code>401</code>; project tables migrate on an empty database</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" disabled> F02 and F03 tests written and green</li>\n</ul>\n</dd></dl>",
+          "text": "Offline demo on a real device, airplane mode Signed-in demo: Apple and email sign-in; relaunch offline after sign-in goes straight in Backend: a call without a token → 401; project tables migrate on an empty database F02 and F03 tests written and green"
+        }
+      ]
+    },
+    {
+      "id": "self-check",
+      "title": "Self-check",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul>\n<li>Why does every entity get a client-made <code>UUID</code> instead of a server id?</li>\n<li>A2 has two ways in. Which screens must behave the same in both?</li>\n<li>Projects are not synced yet in S1. Which fields already prepare them for S2?</li>\n</ul>\n</dd></dl>",
+          "text": "Why does every entity get a client-made UUID instead of a server id? A2 has two ways in. Which screens must behave the same in both? Projects are not synced yet in S1. Which fields already prepare them for S2?"
+        }
+      ]
+    }
+  ],
+  "effectiveDate": "2026-11-02",
+  "lastUpdated": "2026-11-03"
+}

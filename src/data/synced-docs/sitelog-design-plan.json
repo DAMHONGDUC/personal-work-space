@@ -1,0 +1,96 @@
+{
+  "title": "00 — UI design plan (Figma)",
+  "tagline": "Screen inventory and Figma file structure for the whole app, derived from docs/feature-docs/.",
+  "icon": "🎨",
+  "topic": "ios",
+  "tags": [
+    "SwiftUI",
+    "iOS",
+    "Design"
+  ],
+  "readingTime": "5 min",
+  "languages": [
+    "en"
+  ],
+  "numbered": false,
+  "series": {
+    "id": "sitelog",
+    "part": 9,
+    "name": "SiteLog: an iOS app, built",
+    "panel": "Base docs"
+  },
+  "intro": [
+    "Screen inventory and Figma file structure for the whole app, derived from docs/feature-docs/.",
+    "Tokens in code: Packages/DesignSystem (DSColor, DSSpacing, DSTextStyle)."
+  ],
+  "sections": [
+    {
+      "id": "1-design-principles",
+      "title": "1. Design principles",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul>\n<li>One-handed, thumb-reach: primary actions (camera, save) in the lower half — <a href=\"../sitelog-specs-01-field-work/#01-projects-sessions-locations\">01</a>.</li>\n<li>Readable outdoors and with gloves: min 44pt targets, 17pt body, high-contrast dark and light.</li>\n<li>Offline is normal: no blocking spinners; \"waiting\" is never red — <a href=\"../sitelog-specs-05-platform/#091-upload-status-screen\">09</a>.</li>\n<li>Camera is the home: sheets return to the camera, not to lists — <a href=\"../sitelog-specs-01-field-work/#031-flows\">03</a>.</li>\n<li>Severity colour is the only strong colour: Critical red, Major orange, Minor yellow.</li>\n</ul>\n</dd></dl>",
+          "text": "One-handed, thumb-reach: primary actions (camera, save) in the lower half — 01. Readable outdoors and with gloves: min 44pt targets, 17pt body, high-contrast dark and light. Offline is normal: no blocking spinners; \"waiting\" is never red — 09. Camera is the home: sheets return to the camera, not to lists — 03. Severity colour is the only strong colour: Critical red, Major orange, Minor yellow."
+        }
+      ]
+    },
+    {
+      "id": "1a-market-scan-and-visual-direction",
+      "title": "1a. Market scan and visual direction",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>App</th><th>What it does well</th><th>Taken for SiteLog</th></tr></thead><tbody><tr><td>Fieldwire</td><td>Plan-first punch list, pins coloured by status</td><td>Pins as the map of remaining work; hollow = resolved</td></tr><tr><td>PlanRadar</td><td>Tickets pinned on drawings, report templates</td><td>Report builder with section toggles</td></tr><tr><td>CompanyCam</td><td>Photo-first timeline, markup after every shot</td><td>Camera is home; markup opens from the photo</td></tr><tr><td>SafetyCulture</td><td>Big Pass/Fail/N/A answers, one tap per item</td><td>Checklist answer row</td></tr><tr><td>GoAudits</td><td>Photo proof before closing, PDF at the end of a walk</td><td>Verify flow with 30% overlay; session summary ends in \"Create report\"</td></tr></tbody></table></div>\n<ul>\n<li>\n<p>Most competitors (and most generated UI) look the same: saturated blue, Inter, pastel pill chips,\nbig soft cards. SiteLog uses a <strong>field-ledger</strong> look instead:</p>\n</li>\n<li>\n<p>White screen background, graphite ink <code>#16181B</code> for primary buttons, hairline separators instead\nof borders and shadows.</p>\n</li>\n<li>\n<p>Hi-vis yellow <code>#FFD400</code> only on the capture button and the live-session dot — like a safety vest,\nnever as a large fill.</p>\n</li>\n<li>\n<p>Type: SF Pro in the app (Dynamic Type text styles, see <code>TYPE_TOKENS</code>); IBM Plex Sans stands in\nfor it in Figma and the mockups. Monospace (SF Mono in the app, IBM Plex Mono in Figma) only for\nreal codes: hashes, file names, report IDs.</p>\n</li>\n<li>\n<p>No tinted pill tags. Severity is a marker shape + ink text: Critical ■ red square, Major ▲ amber\ntriangle, Minor ○ blue ring; Resolved ● green dot, Waiting ◌ dashed ring. Shapes keep severity\nreadable in grayscale and for colour-blind users.</p>\n</li>\n<li>\n<p>Site photos are drawn as flat architectural scenes, not grey placeholder boxes.</p>\n</li>\n</ul>\n<p><strong>What keeps it from looking generated</strong></p>\n<ul>\n<li>Native iOS structure: plain full-bleed lists with inset hairlines, sentence-case section headers\nwith a grey count on the right, <code>.body</code> 17 pt row titles. No card around every block, no\nuppercase mono eyebrow labels.</li>\n<li>One focal element per screen. Summaries are written as sentences (\"14 open issues, 2 of them\noverdue\") instead of three equal stat boxes.</li>\n<li>Realistic, uneven data in the supervisor's voice: 37 of 82 rooms, \"Tuan's masonry crew\",\n\"due Fri\", \"2 days late\".</li>\n<li>Real iOS details: keyboard up on the new-project sheet, badge on the Issues tab, radio list for\nthe re-check outcome, native alert for account deletion, capture button in a bottom toolbar.</li>\n<li>Icons only where they help scanning (tab bar, toolbars, camera), not on every row.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>iOS metric</th><th>Value</th></tr></thead><tbody><tr><td>Status bar (Dynamic Island)</td><td>54 pt</td></tr><tr><td>Nav bar</td><td>44 pt</td></tr><tr><td>Large title</td><td>34/41 pt</td></tr><tr><td>Tab bar</td><td>49 + 34 pt</td></tr><tr><td>Home-indicator safe area</td><td>34 pt</td></tr></tbody></table></div>\n<ul>\n<li>Every primary action lives in a bottom dock or toolbar above the safe area; sheets carry their own dock.</li>\n<li><strong>Tokens:</strong> <code>COLOR_TOKENS</code> (17 colours, light + dark) and <code>TYPE_TOKENS</code> (10 text styles with SwiftUI\nmapping) at the top of <a href=\"../../synced-docs/sitelog/docs/design/mockups/index.html\">mockups/index.html</a> are the single source; <code>DesignSystem</code>\nmirrors them in Swift.</li>\n<li><strong>Mockups:</strong> <a href=\"../../synced-docs/sitelog/docs/design/mockups/index.html\">mockups/index.html</a> — 38 screens; import into Figma with the\nhtml.to.design plugin.</li>\n</ul>\n</dd></dl>",
+          "text": "App What it does well Taken for SiteLogFieldwire Plan-first punch list, pins coloured by status Pins as the map of remaining work; hollow = resolved PlanRadar Tickets pinned on drawings, report templates Report builder with section toggles CompanyCam Photo-first timeline, markup after every shot Camera is home; markup opens from the photo SafetyCulture Big Pass/Fail/N/A answers, one tap per item Checklist answer row GoAudits Photo proof before closing, PDF at the end of a walk Verify flow with 30% overlay; session summary ends in \"Create report\" Most competitors (and most generated UI) look the same: saturated blue, Inter, pastel pill chips, big soft cards. SiteLog uses a field-ledger look instead: White screen background, graphite ink #16181B for primary buttons, hairline separators instead of borders and shadows. Hi-vis yellow #FFD400 only on the capture button and the live-session dot — like a safety vest, never as a large fill. Type: SF Pro in the app (Dynamic Type text styles, see TYPE_TOKENS); IBM Plex Sans stands in for it in Figma and the mockups. Monospace (SF Mono in the app, IBM Plex Mono in Figma) only for real codes: hashes, file names, report IDs. No tinted pill tags. Severity is a marker shape + ink text: Critical ■ red square, Major ▲ amber triangle, Minor ○ blue ring; Resolved ● green dot, Waiting ◌ dashed ring. Shapes keep severity readable in grayscale and for colour-blind users. Site photos are drawn as flat architectural scenes, not grey placeholder boxes. What keeps it from looking generated Native iOS structure: plain full-bleed lists with inset hairlines, sentence-case section headers with a grey count on the right, .body 17 pt row titles. No card around every block, no uppercase mono eyebrow labels. One focal element per screen. Summaries are written as sentences (\"14 open issues, 2 of them overdue\") instead of three equal stat boxes. Realistic, uneven data in the supervisor's voice: 37 of 82 rooms, \"Tuan's masonry crew\", \"due Fri\", \"2 days late\". Real iOS details: keyboard up on the new-project sheet, badge on the Issues tab, radio list for the re-check outcome, native alert for account deletion, capture button in a bottom toolbar. Icons only where they help scanning (tab bar, toolbars, camera), not on every row. iOS metric ValueStatus bar (Dynamic Island) 54 pt Nav bar 44 pt Large title 34/41 pt Tab bar 49 + 34 pt Home-indicator safe area 34 pt Every primary action lives in a bottom dock or toolbar above the safe area; sheets carry their own dock. Tokens: COLOR_TOKENS (17 colours, light + dark) and TYPE_TOKENS (10 text styles with SwiftUI mapping) at the top of mockups/index.html are the single source; DesignSystem mirrors them in Swift. Mockups: mockups/index.html — 38 screens; import into Figma with the html.to.design plugin."
+        }
+      ]
+    },
+    {
+      "id": "2-figma-file-structure",
+      "title": "2. Figma file structure",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul>\n<li>\n<p>File: <a href=\"https://www.figma.com/design/3Ru8x4sFZSQwlFI42wqrbH\" target=\"_blank\" rel=\"noreferrer\">SiteLog — iOS App Design</a></p>\n</li>\n<li>\n<p>Starter plan limits: 3 pages, 1 variable mode (light only), low MCP call quota.</p>\n</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Page</th><th>Contents</th></tr></thead><tbody><tr><td>01 Foundations &#x26; Components</td><td>Cover, colour variables, type scale, spacing/radius, buttons, chips, rows, controls</td></tr><tr><td>02 Screens</td><td>One Section per group in §3, iPhone 16 frame (393×852)</td></tr><tr><td>03 Flows</td><td>Flow diagrams for each flow in §3 (not started)</td></tr></tbody></table></div>\n<ul>\n<li>Figma and the mockups use IBM Plex Sans / Mono and Lucide icons (SF Pro and SF Symbols do not\nrender there); the app ships SF Pro, SF Mono and SF Symbols.</li>\n</ul>\n</dd></dl>",
+          "text": "File: SiteLog — iOS App Design Starter plan limits: 3 pages, 1 variable mode (light only), low MCP call quota. Page Contents01 Foundations & Components Cover, colour variables, type scale, spacing/radius, buttons, chips, rows, controls 02 Screens One Section per group in §3, iPhone 16 frame (393×852) 03 Flows Flow diagrams for each flow in §3 (not started) Figma and the mockups use IBM Plex Sans / Mono and Lucide icons (SF Pro and SF Symbols do not render there); the app ships SF Pro, SF Mono and SF Symbols."
+        }
+      ]
+    },
+    {
+      "id": "3-screen-inventory",
+      "title": "3. Screen inventory",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>#</th><th>Group</th><th>Screens</th><th>Spec</th><th>Feature</th></tr></thead><tbody><tr><td>S1</td><td>Launch &#x26; security</td><td>Face ID lock (A1), passcode unlock (A3), app-switcher overlay, sign-in (A2)</td><td>07, 08</td><td>F01 (F12 sign-in)</td></tr><tr><td>S2</td><td>Projects</td><td>Project list, new project sheet, project detail (Sessions · Locations · Plans tabs)</td><td>01</td><td>F02</td></tr><tr><td>S3</td><td>Sessions &#x26; locations</td><td>Start session sheet, survey screen (location tree + badges), bulk-generate locations, clone tree, end session</td><td>01</td><td>F02</td></tr><tr><td>S4</td><td>Capture</td><td>Camera, capture review, measurement overlay + device status dot</td><td>02, 06</td><td>F03, F10</td></tr><tr><td>S5</td><td>Issues</td><td>Issue sheet (severity, assignee, due, dictation), open-issues banner, verification camera with 30% overlay, outcome picker, issue list</td><td>03, 12</td><td>F05</td></tr><tr><td>S6</td><td>Annotation</td><td>Markup editor (arrow, box, circle, text), stamped image preview</td><td>12</td><td>F06</td></tr><tr><td>S7</td><td>Plans</td><td>Plan sheet list, plan viewer with pins/clusters, pin preview, plan import</td><td>11</td><td>F08</td></tr><tr><td>S8</td><td>Checklists</td><td>Template picker, checklist run (Pass/Fail/N/A, progress 14/22)</td><td>13</td><td>F09</td></tr><tr><td>S9</td><td>Reports</td><td>Report builder (grouping, sections), branding settings, signature pad (two parties), PDF preview + share</td><td>05</td><td>F07</td></tr><tr><td>S10</td><td>Uploads &#x26; diagnostics</td><td>Upload status screen, diagnostic bundle export</td><td>04, 09, 10</td><td>F04, F11, F13</td></tr><tr><td>S11</td><td>Settings</td><td>Account, devices (BLE pairing), app lock (S4: Lock app + Lock after), set passcode (S5), storage cleanup, delete account</td><td>06, 07, 08, 09</td><td>F01, F10, F11, F12</td></tr></tbody></table></div>\n</dd></dl>",
+          "text": "# Group Screens Spec FeatureS1 Launch & security Face ID lock (A1), passcode unlock (A3), app-switcher overlay, sign-in (A2) 07, 08 F01 (F12 sign-in) S2 Projects Project list, new project sheet, project detail (Sessions · Locations · Plans tabs) 01 F02 S3 Sessions & locations Start session sheet, survey screen (location tree + badges), bulk-generate locations, clone tree, end session 01 F02 S4 Capture Camera, capture review, measurement overlay + device status dot 02, 06 F03, F10 S5 Issues Issue sheet (severity, assignee, due, dictation), open-issues banner, verification camera with 30% overlay, outcome picker, issue list 03, 12 F05 S6 Annotation Markup editor (arrow, box, circle, text), stamped image preview 12 F06 S7 Plans Plan sheet list, plan viewer with pins/clusters, pin preview, plan import 11 F08 S8 Checklists Template picker, checklist run (Pass/Fail/N/A, progress 14/22) 13 F09 S9 Reports Report builder (grouping, sections), branding settings, signature pad (two parties), PDF preview + share 05 F07 S10 Uploads & diagnostics Upload status screen, diagnostic bundle export 04, 09, 10 F04, F11, F13 S11 Settings Account, devices (BLE pairing), app lock (S4: Lock app + Lock after), set passcode (S5), storage cleanup, delete account 06, 07, 08, 09 F01, F10, F11, F12"
+        }
+      ]
+    },
+    {
+      "id": "4-status-2026-09-30",
+      "title": "4. Status (2026-09-30)",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Done in Figma</th><th>Not yet</th></tr></thead><tbody><tr><td>Foundations, components</td><td>Flows page</td></tr><tr><td>Projects, sessions, locations (7 screens)</td><td>Checklists (S8)</td></tr><tr><td>Capture, issues, before/after (6 screens)</td><td>Reports (S9)</td></tr><tr><td>Annotation, stamps, floor plans (5 screens)</td><td>Uploads &#x26; diagnostics (S10), security &#x26; settings (S1, S11)</td></tr></tbody></table></div>\n<ul>\n<li>Mockup-only, not yet in Figma (2026-10-01): A3 passcode unlock, S4 app lock, S5 set passcode; the S1\nPrivacy row opens S4.</li>\n<li>Known fixes: camera screens 2.1/2.3 cut the shutter row (viewfinder too tall); 2.4 last button clipped.</li>\n</ul>\n</dd></dl>",
+          "text": "Done in Figma Not yetFoundations, components Flows page Projects, sessions, locations (7 screens) Checklists (S8) Capture, issues, before/after (6 screens) Reports (S9) Annotation, stamps, floor plans (5 screens) Uploads & diagnostics (S10), security & settings (S1, S11) Mockup-only, not yet in Figma (2026-10-01): A3 passcode unlock, S4 app lock, S5 set passcode; the S1 Privacy row opens S4. Known fixes: camera screens 2.1/2.3 cut the shutter row (viewfinder too tall); 2.4 last button clipped."
+        }
+      ]
+    },
+    {
+      "id": "5-order-of-work",
+      "title": "5. Order of work",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul>\n<li>Design runs ahead of the features in <a href=\"../sitelog-roadmap/\">ROADMAP</a>.</li>\n<li>UI skeleton (~30% of Figma, every screen on fake data) — done 2026-10-08.</li>\n<li>Each feature (F01–F15) wires its skeleton screens to view models; the finish to Figma, dark mode pass and\nempty/error/offline states are F16, last.</li>\n</ul>\n</dd></dl>",
+          "text": "Design runs ahead of the features in ROADMAP. UI skeleton (~30% of Figma, every screen on fake data) — done 2026-10-08. Each feature (F01–F15) wires its skeleton screens to view models; the finish to Figma, dark mode pass and empty/error/offline states are F16, last."
+        }
+      ]
+    }
+  ],
+  "effectiveDate": "2026-09-30",
+  "lastUpdated": "2026-11-03"
+}

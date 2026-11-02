@@ -8,25 +8,55 @@
       "branch": "main",
       "localPath": "../../SwiftUI/site-log-ios",
       "tags": ["SwiftUI", "iOS"],
+      "host": ["docs/design/mockups", "docs/design/app-icon"],
       "parts": [
+        {
+          "file": "README.md",
+          "slug": "sitelog-overview",
+          "panel": "Base docs",
+          "icon": "📱",
+          "tags": ["Overview"]
+        },
         {
           "file": "ROADMAP.md",
           "slug": "sitelog-roadmap",
-          "title": "SiteLog roadmap",
+          "panel": "Base docs",
           "icon": "🗺️",
           "tags": ["Roadmap"]
         },
         {
+          "file": "docs/feature-guide/README.md",
+          "slug": "sitelog-guide",
+          "panel": "Base docs",
+          "icon": "🛠️",
+          "tags": ["Step by step"]
+        },
+        {
           "dir": "docs/feature-docs",
           "slugPrefix": "sitelog-specs",
-          "group": "Feature specs",
+          "panel": "Base docs",
           "icon": "📐",
           "tags": ["Architecture", "Specs"]
         },
         {
+          "file": "docs/design/00-design-plan.md",
+          "slug": "sitelog-design-plan",
+          "panel": "Base docs",
+          "icon": "🎨",
+          "tags": ["Design"]
+        },
+        {
+          "file": "docs/swiftui-rules.md",
+          "slug": "sitelog-swiftui-rules",
+          "panel": "Base docs",
+          "icon": "📏",
+          "tags": ["Rules"]
+        },
+        {
           "dir": "docs/feature-guide",
           "slugPrefix": "sitelog-guide",
-          "group": "Build guide",
+          "panel": "Sprint guides",
+          "groupBy": "folder",
           "icon": "🛠️",
           "tags": ["Step by step"]
         }

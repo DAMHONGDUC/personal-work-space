@@ -1,0 +1,152 @@
+{
+  "title": "F10 — Reports and audit log",
+  "tagline": "a signed, branded PDF and a CSV from one session snapshot; every sensitive action written to an HMAC-chained audit log.",
+  "icon": "🛠️",
+  "topic": "ios",
+  "tags": [
+    "SwiftUI",
+    "iOS",
+    "Step by step"
+  ],
+  "readingTime": "4 min",
+  "languages": [
+    "en"
+  ],
+  "numbered": false,
+  "series": {
+    "id": "sitelog",
+    "part": 28,
+    "name": "SiteLog: an iOS app, built",
+    "panel": "Sprint guides",
+    "group": "S6-reports-plans"
+  },
+  "intro": [
+    "Sprint S6 · 37h · skeleton guide — full code is added when this feature starts.",
+    "Code in this guide is a teaching example. Check current source and follow F00 localization rules before applying it."
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Overview",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul>\n<li><strong>Goal:</strong> a signed, branded PDF and a CSV from one session snapshot; every sensitive action written to an HMAC-chained audit log.</li>\n<li><strong>Demo — offline:</strong> session → report builder → branding → two signatures → PDF + CSV shared in airplane mode; the audit chain verifies at launch.</li>\n<li><strong>Demo — signed in:</strong> branding appears on the second device; the code printed in the PDF resolves at <code>GET /verify/:code</code>.</li>\n<li><strong>Spec:</strong> <a href=\"../sitelog-specs-04-reporting-security/#05-pdf-and-spreadsheet-export\">05 Export</a>, <a href=\"../sitelog-specs-04-reporting-security/#073-audit-log\">07.3 Audit log</a>, <a href=\"../sitelog-specs-03-backend/#3-endpoints\">03-backend §3</a></li>\n<li><strong>Starts from:</strong> F08 and F09 (issues, pairs, markup) and the skeleton <code>Presentation/Reports/</code>.</li>\n<li><strong>Steps:</strong> <a href=\"../sitelog-guide/#how-every-feature-runs\">How every feature runs</a>.</li>\n<li><strong>File tags:</strong> <b class=\"tag-new\">New</b> create the file · <b class=\"tag-edit\">Edit</b> change only the part shown · <b class=\"tag-replace\">Replace</b> overwrite the whole file.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Step</th><th>Layer</th><th>Hours</th><th>Status</th><th>What</th></tr></thead><tbody><tr><td><a href=\"#1-contract--verify-response-and-branding\">1</a></td><td>Contract</td><td>1h</td><td>not start</td><td><code>VerifyDTO</code>, <code>ReportBrandingDTO</code></td></tr><tr><td><a href=\"#2-domain--report-types-audit-pagination\">2</a></td><td>Domain</td><td>3h</td><td>not start</td><td>Report types, <code>AuditEntry</code>, <code>LayOutReportUseCase</code></td></tr><tr><td><a href=\"#3-fake-data--data-sources-in-memory\">3</a></td><td>Fake data</td><td>2h</td><td>not start</td><td>Real repositories; sample PDF, in-memory branding and audit</td></tr><tr><td><a href=\"#4-view-models--wire-the-report-flow\">4</a></td><td>View models</td><td>4h</td><td>not start</td><td>Builder, branding, signatures, preview</td></tr><tr><td><a href=\"#5-local--csv-pdf-audit-chain\">5</a></td><td>Local</td><td>21h</td><td>not start</td><td>CSV writer, PDF renderer, audit storage and key</td></tr><tr><td><a href=\"#6-backend--branding-and-verify\">6</a></td><td>Backend</td><td>4h</td><td>not start</td><td><code>0008_report_branding.sql</code>, <code>GET /verify/:code</code></td></tr><tr><td><a href=\"#7-sync--branding\">7</a></td><td>Sync</td><td>2h</td><td>not start</td><td>Branding syncable</td></tr></tbody></table></div>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelog/diagram-318dbe424277-dark.svg\"><img src=\"../../synced-docs/sitelog/diagram-318dbe424277-light.svg\" alt=\"Diagram: R2–R5 screens → LayOutReportUseCase · export use cases → ReportRepositoryImpl → ReportRenderLocalDataSourceImpl, sample PDF → PDFPageRenderer → BrandingLocalDataSourceImpl → sensitive action → AuditRepositoryImpl, HMAC chain → AuditLocalDataSourceImpl\" width=\"981\" height=\"250\" loading=\"lazy\"></picture></figure>\n</dd></dl>",
+          "text": "Goal: a signed, branded PDF and a CSV from one session snapshot; every sensitive action written to an HMAC-chained audit log. Demo — offline: session → report builder → branding → two signatures → PDF + CSV shared in airplane mode; the audit chain verifies at launch. Demo — signed in: branding appears on the second device; the code printed in the PDF resolves at GET /verify/:code. Spec: 05 Export, 07.3 Audit log, 03-backend §3 Starts from: F08 and F09 (issues, pairs, markup) and the skeleton Presentation/Reports/. Steps: How every feature runs. File tags: New create the file · Edit change only the part shown · Replace overwrite the whole file. Step Layer Hours Status What1 Contract 1h not start VerifyDTO, ReportBrandingDTO 2 Domain 3h not start Report types, AuditEntry, LayOutReportUseCase 3 Fake data 2h not start Real repositories; sample PDF, in-memory branding and audit 4 View models 4h not start Builder, branding, signatures, preview 5 Local 21h not start CSV writer, PDF renderer, audit storage and key 6 Backend 4h not start 0008_report_branding.sql, GET /verify/:code 7 Sync 2h not start Branding syncable"
+        }
+      ]
+    },
+    {
+      "id": "target-structure",
+      "title": "Target structure",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<div class=\"md-code\"><div class=\"md-code-bar\"><span class=\"md-code-lang\"></span><button type=\"button\" class=\"md-copy\" aria-label=\"Copy code\"><svg aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect width=\"14\" height=\"14\" x=\"8\" y=\"8\" rx=\"2\" ry=\"2\"/><path d=\"M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2\"/></svg><span class=\"md-copy-label\">Copy</span></button></div><pre class=\"shiki shiki-themes github-light github-dark\" style=\"--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e\" tabindex=\"0\"><code class=\"language-text\"><span class=\"line\"><span>Backend/migrations/0008_report_branding.sql, src/routes/verify.ts          # 6</span></span>\n<span class=\"line\"><span>Packages/</span></span>\n<span class=\"line\"><span>├── DomainLayer/Sources/DomainLayer/</span></span>\n<span class=\"line\"><span>│   ├── Entities/Reports/                                                  # 2: SessionSnapshot, ReportOptions, ReportBranding, Signature, ReportPage, AuditEntry</span></span>\n<span class=\"line\"><span>│   └── UseCases/Reports/                                                  # 2: LayOutReportUseCase (pure), export, record audit</span></span>\n<span class=\"line\"><span>├── DataLayer/Sources/DataLayer/</span></span>\n<span class=\"line\"><span>│   ├── Models/Remote/VerifyDTO.swift, ReportBrandingDTO.swift             # 1</span></span>\n<span class=\"line\"><span>│   ├── Repositories/ReportRepositoryImpl.swift, AuditRepositoryImpl.swift # 3: real from the start</span></span>\n<span class=\"line\"><span>│   ├── DataSources/Local/Rendering/ReportRenderLocalDataSource(+Impl)     # 3: sample PDF · 5: PlatformKit</span></span>\n<span class=\"line\"><span>│   ├── DataSources/Local/Persistence/Branding…, Audit…                    # 3: in memory · 5: SwiftData</span></span>\n<span class=\"line\"><span>│   └── DataSources/Local/Keychain/AuditKeyLocalDataSource(+Impl)          # 3: fixed key · 5: Keychain</span></span>\n<span class=\"line\"><span>└── PlatformKit/Sources/PlatformKit/Rendering/PDF/                         # 5: PDFPageRenderer, CSVWriter (generic)</span></span>\n<span class=\"line\"><span>SiteLog/</span></span>\n<span class=\"line\"><span>└── Presentation/Reports/                                                  # 4: ReportBuilder, Branding, SignaturePad, PDFPreview</span></span></code></pre></div>\n</dd></dl>",
+          "text": "Backend/migrations/0008_report_branding.sql, src/routes/verify.ts # 6 Packages/ ├── DomainLayer/Sources/DomainLayer/ │ ├── Entities/Reports/ # 2: SessionSnapshot, ReportOptions, ReportBranding, Signature, ReportPage, AuditEntry │ └── UseCases/Reports/ # 2: LayOutReportUseCase (pure), export, record audit ├── DataLayer/Sources/DataLayer/ │ ├── Models/Remote/VerifyDTO.swift, ReportBrandingDTO.swift # 1 │ ├── Repositories/ReportRepositoryImpl.swift, AuditRepositoryImpl.swift # 3: real from the start │ ├── DataSources/Local/Rendering/ReportRenderLocalDataSource(+Impl) # 3: sample PDF · 5: PlatformKit │ ├── DataSources/Local/Persistence/Branding…, Audit… # 3: in memory · 5: SwiftData │ └── DataSources/Local/Keychain/AuditKeyLocalDataSource(+Impl) # 3: fixed key · 5: Keychain └── PlatformKit/Sources/PlatformKit/Rendering/PDF/ # 5: PDFPageRenderer, CSVWriter (generic) SiteLog/ └── Presentation/Reports/ # 4: ReportBuilder, Branding, SignaturePad, PDFPreview"
+        }
+      ]
+    },
+    {
+      "id": "1-contract--verify-response-and-branding",
+      "title": "1. Contract — verify response and branding",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<h4 id=\"overview-1\">Overview</h4>\n<dl><dd>\n<ul>\n<li><strong>Goal:</strong> what a third party sees when they check a report, and the branding row.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Shape</th><th>Fields</th></tr></thead><tbody><tr><td><code>VerifyDTO</code> (<code>GET /verify/:code</code>)</td><td><code>sha256</code>, <code>byteSize</code>, <code>receivedAt</code>, <code>verified</code>, <code>verifiedAt</code>, <code>projectRef</code> — never media, URL, uid or coordinates</td></tr><tr><td><code>ReportBrandingDTO</code></td><td>Company, logo key, accent, client block, footer; one row per <code>uid</code></td></tr></tbody></table></div>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelog/diagram-61af7cd7a725-dark.svg\"><img src=\"../../synced-docs/sitelog/diagram-61af7cd7a725-light.svg\" alt=\"Diagram: printed code → GET /verify/:code → hash · size · times · project ref\" width=\"552\" height=\"112\" loading=\"lazy\"></picture></figure>\n<ul>\n<li><strong>Check:</strong> the verify shape has no field that could identify the user.</li>\n</ul>\n</dd></dl>\n</dd></dl>",
+          "text": "Overview Goal: what a third party sees when they check a report, and the branding row. Shape FieldsVerifyDTO (GET /verify/:code) sha256, byteSize, receivedAt, verified, verifiedAt, projectRef — never media, URL, uid or coordinates ReportBrandingDTO Company, logo key, accent, client block, footer; one row per uid Check: the verify shape has no field that could identify the user."
+        }
+      ]
+    },
+    {
+      "id": "2-domain--report-types-audit-pagination",
+      "title": "2. Domain — report types, audit, pagination",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<h4 id=\"overview-2\">Overview</h4>\n<dl><dd>\n<ul>\n<li><strong>Goal:</strong> what goes on which page is a business rule, so pagination lives in Domain as a pure use case.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Action</th><th>File</th><th>Holds</th></tr></thead><tbody><tr><td><b class=\"tag-new\">New</b></td><td><code>Entities/Reports/</code></td><td><code>SessionSnapshot</code>, <code>ReportOptions</code>, <code>ReportBranding</code>, <code>Signature</code>, <code>ReportPage</code>, <code>AuditEntry</code></td></tr><tr><td><b class=\"tag-new\">New</b></td><td><code>UseCases/Reports/LayOutReportUseCase.swift</code></td><td>Pure: <code>SessionSnapshot</code> → <code>[ReportPage]</code>; counts images</td></tr><tr><td><b class=\"tag-new\">New</b></td><td><code>Repositories/ReportRepository.swift</code>, <code>AuditRepository.swift</code></td><td>Protocols</td></tr></tbody></table></div>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelog/diagram-7250b9787fd2-dark.svg\"><img src=\"../../synced-docs/sitelog/diagram-7250b9787fd2-light.svg\" alt=\"Diagram: SessionSnapshot, one fetch → LayOutReportUseCase → [ReportPage]\" width=\"588\" height=\"88\" loading=\"lazy\"></picture></figure>\n<ul>\n<li><strong>Check:</strong> both groupings give the same total; image count = non-excluded captures.</li>\n</ul>\n</dd></dl>\n</dd></dl>",
+          "text": "Overview Goal: what goes on which page is a business rule, so pagination lives in Domain as a pure use case. Action File HoldsNew Entities/Reports/ SessionSnapshot, ReportOptions, ReportBranding, Signature, ReportPage, AuditEntry New UseCases/Reports/LayOutReportUseCase.swift Pure: SessionSnapshot → [ReportPage]; counts images New Repositories/ReportRepository.swift, AuditRepository.swift Protocols Check: both groupings give the same total; image count = non-excluded captures."
+        }
+      ]
+    },
+    {
+      "id": "3-fake-data--data-sources-in-memory",
+      "title": "3. Fake data — data sources in memory",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<h4 id=\"overview-3\">Overview</h4>\n<dl><dd>\n<ul>\n<li><strong>Goal:</strong> the real repositories; rendering returns a bundled sample PDF, branding and audit live in memory, the audit key is fixed.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Action</th><th>File</th><th>Holds</th></tr></thead><tbody><tr><td><b class=\"tag-new\">New</b></td><td><code>DataSources/Local/Rendering/ReportRenderLocalDataSource.swift</code> + <code>Impl</code></td><td>Returns a bundled sample PDF and CSV</td></tr><tr><td><b class=\"tag-new\">New</b></td><td><code>DataSources/Local/Persistence/BrandingLocalDataSource.swift</code>, <code>AuditLocalDataSource.swift</code> + <code>Impl</code>s</td><td>Eastline branding, R-0930-07; audit entries in memory</td></tr><tr><td><b class=\"tag-new\">New</b></td><td><code>DataSources/Local/Keychain/AuditKeyLocalDataSource.swift</code> + <code>Impl</code></td><td>A fixed demo key</td></tr><tr><td><b class=\"tag-new\">New</b></td><td><code>Repositories/ReportRepositoryImpl.swift</code></td><td>Real: maps <code>ReportPage</code> → <code>PDFPageLayout</code>, calls the render data source, maps errors</td></tr><tr><td><b class=\"tag-new\">New</b></td><td><code>Repositories/AuditRepositoryImpl.swift</code></td><td>Real: HMAC chain (each entry hashes the previous), verify from the start</td></tr></tbody></table></div>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelog/diagram-9c9af7a56068-dark.svg\"><img src=\"../../synced-docs/sitelog/diagram-9c9af7a56068-light.svg\" alt=\"Diagram: ReportRepositoryImpl, real → sample PDF → AuditRepositoryImpl, real chain → entries in memory → fixed key\" width=\"394\" height=\"278\" loading=\"lazy\"></picture></figure>\n<ul>\n<li><strong>Check:</strong> the preview shows the sample PDF; editing an in-memory entry makes verify fail.</li>\n</ul>\n</dd></dl>\n</dd></dl>",
+          "text": "Overview Goal: the real repositories; rendering returns a bundled sample PDF, branding and audit live in memory, the audit key is fixed. Action File HoldsNew DataSources/Local/Rendering/ReportRenderLocalDataSource.swift + Impl Returns a bundled sample PDF and CSV New DataSources/Local/Persistence/BrandingLocalDataSource.swift, AuditLocalDataSource.swift + Impls Eastline branding, R-0930-07; audit entries in memory New DataSources/Local/Keychain/AuditKeyLocalDataSource.swift + Impl A fixed demo key New Repositories/ReportRepositoryImpl.swift Real: maps ReportPage → PDFPageLayout, calls the render data source, maps errors New Repositories/AuditRepositoryImpl.swift Real: HMAC chain (each entry hashes the previous), verify from the start Check: the preview shows the sample PDF; editing an in-memory entry makes verify fail."
+        }
+      ]
+    },
+    {
+      "id": "4-view-models--wire-the-report-flow",
+      "title": "4. View models — wire the report flow",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<h4 id=\"overview-4\">Overview</h4>\n<dl><dd>\n<ul>\n<li><strong>Goal:</strong> grouping, branding, two signatures, preview and share.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Action</th><th>Skeleton folder</th><th>View model work</th></tr></thead><tbody><tr><td><b class=\"tag-new\">New</b> view model · <b class=\"tag-edit\">Edit</b> view</td><td><code>Presentation/Reports/ReportBuilder/</code></td><td>R2: grouping, sections</td></tr><tr><td><b class=\"tag-new\">New</b> view model · <b class=\"tag-edit\">Edit</b> view</td><td><code>Presentation/Reports/Branding/</code></td><td>R3: letterhead</td></tr><tr><td><b class=\"tag-new\">New</b> view model · <b class=\"tag-edit\">Edit</b> view</td><td><code>Presentation/Reports/SignaturePad/</code></td><td>R4: two parties (PencilKit)</td></tr><tr><td><b class=\"tag-new\">New</b> view model · <b class=\"tag-edit\">Edit</b> view</td><td><code>Presentation/Reports/PDFPreview/</code></td><td>R5: preview, estimated size, share</td></tr></tbody></table></div>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelog/diagram-68f81c445863-dark.svg\"><img src=\"../../synced-docs/sitelog/diagram-68f81c445863-light.svg\" alt=\"Diagram: R1 end session → R2 builder → R3 branding → R4 signatures → R5 preview + share\" width=\"936\" height=\"88\" loading=\"lazy\"></picture></figure>\n<ul>\n<li><strong>Check:</strong> Continue offline: a session ends in a shared PDF.</li>\n</ul>\n</dd></dl>\n</dd></dl>",
+          "text": "Overview Goal: grouping, branding, two signatures, preview and share. Action Skeleton folder View model workNew view model · Edit view Presentation/Reports/ReportBuilder/ R2: grouping, sections New view model · Edit view Presentation/Reports/Branding/ R3: letterhead New view model · Edit view Presentation/Reports/SignaturePad/ R4: two parties (PencilKit) New view model · Edit view Presentation/Reports/PDFPreview/ R5: preview, estimated size, share Check: Continue offline: a session ends in a shared PDF."
+        }
+      ]
+    },
+    {
+      "id": "5-local--csv-pdf-audit-chain",
+      "title": "5. Local — CSV, PDF, audit chain",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<h4 id=\"overview-5\">Overview</h4>\n<dl><dd>\n<ul>\n<li><strong>Goal:</strong> the data source <code>Impl</code>s keep their types; inside, the real CSV writer, PDF renderer, SwiftData and Keychain. Split into tasks: CSV · layout render · integrity footer · audit chain.</li>\n<li><strong>Spec:</strong> <a href=\"../sitelog-specs-04-reporting-security/#052-rendering\">05.2</a>, <a href=\"../sitelog-specs-04-reporting-security/#073-audit-log\">07.3</a></li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Action</th><th>File</th><th>Holds</th></tr></thead><tbody><tr><td><b class=\"tag-new\">New</b></td><td><code>PlatformKit/Rendering/PDF/PDFPageRenderer.swift</code>, <code>CSVWriter.swift</code></td><td>Generic: draws <code>PDFPageLayout</code> records with <code>UIGraphicsPDFRenderer</code>, one autoreleasepool per page; streams CSV with <code>FileHandle</code></td></tr><tr><td><b class=\"tag-replace\">Replace</b></td><td><code>ReportRenderLocalDataSourceImpl.swift</code></td><td>Over the renderer; temp file + atomic move</td></tr><tr><td><b class=\"tag-replace\">Replace</b></td><td><code>Branding…Impl.swift</code>, <code>Audit…Impl.swift</code></td><td>SwiftData</td></tr><tr><td><b class=\"tag-replace\">Replace</b></td><td><code>AuditKeyLocalDataSourceImpl.swift</code></td><td>Key generated once, Keychain only</td></tr><tr><td><b class=\"tag-new\">New</b></td><td><code>App/Startup/Steps/VerifyAuditStep.swift</code></td><td>Runs async after <code>.ready</code></td></tr></tbody></table></div>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelog/diagram-2fd15d7b0478-dark.svg\"><img src=\"../../synced-docs/sitelog/diagram-2fd15d7b0478-light.svg\" alt=\"Diagram: repositories, unchanged → ReportRenderLocalDataSourceImpl → PDFPageRenderer · CSVWriter → AuditLocalDataSourceImpl → SwiftData → AuditKeyLocalDataSourceImpl → Keychain\" width=\"690\" height=\"344\" loading=\"lazy\"></picture></figure>\n<ul>\n<li><strong>Check:</strong> 200 images stay under 200 MB; the PDF never drops an image; repositories unchanged.</li>\n</ul>\n</dd></dl>\n</dd></dl>",
+          "text": "Overview Goal: the data source Impls keep their types; inside, the real CSV writer, PDF renderer, SwiftData and Keychain. Split into tasks: CSV · layout render · integrity footer · audit chain. Spec: 05.2, 07.3 Action File HoldsNew PlatformKit/Rendering/PDF/PDFPageRenderer.swift, CSVWriter.swift Generic: draws PDFPageLayout records with UIGraphicsPDFRenderer, one autoreleasepool per page; streams CSV with FileHandle Replace ReportRenderLocalDataSourceImpl.swift Over the renderer; temp file + atomic move Replace Branding…Impl.swift, Audit…Impl.swift SwiftData Replace AuditKeyLocalDataSourceImpl.swift Key generated once, Keychain only New App/Startup/Steps/VerifyAuditStep.swift Runs async after .ready Check: 200 images stay under 200 MB; the PDF never drops an image; repositories unchanged."
+        }
+      ]
+    },
+    {
+      "id": "6-backend--branding-and-verify",
+      "title": "6. Backend — branding and verify",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<h4 id=\"overview-6\">Overview</h4>\n<dl><dd>\n<ul>\n<li><strong>Goal:</strong> the branding table and a public, rate-limited verify endpoint.</li>\n<li><strong>Spec:</strong> <a href=\"../sitelog-specs-03-backend/#3-endpoints\">03-backend §3</a></li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Action</th><th>File</th><th>Holds</th></tr></thead><tbody><tr><td><b class=\"tag-new\">New</b></td><td><code>Backend/migrations/0008_report_branding.sql</code></td><td><code>report_branding (uid pk, …)</code> + sync columns</td></tr><tr><td><b class=\"tag-new\">New</b></td><td><code>Backend/src/routes/verify.ts</code></td><td><code>GET /verify/:code</code>, no auth, rate limited per IP; unknown codes <code>404</code> after the same delay as a hit</td></tr><tr><td><b class=\"tag-edit\">Edit</b></td><td><code>Backend/src/sync/tables.ts</code>, <code>routes/account.ts</code></td><td>Allow in sync; join the account deletion</td></tr></tbody></table></div>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelog/diagram-24fc7b02fd20-dark.svg\"><img src=\"../../synced-docs/sitelog/diagram-24fc7b02fd20-light.svg\" alt=\"Diagram: anyone with the PDF → GET /verify/:code → hit → facts only → miss, same delay → 404\" width=\"718\" height=\"152\" loading=\"lazy\"></picture></figure>\n<ul>\n<li><strong>Check:</strong> a code from F06's <code>complete</code> resolves; a random code answers <code>404</code> in the same time.</li>\n</ul>\n</dd></dl>\n</dd></dl>",
+          "text": "Overview Goal: the branding table and a public, rate-limited verify endpoint. Spec: 03-backend §3 Action File HoldsNew Backend/migrations/0008_report_branding.sql report_branding (uid pk, …) + sync columns New Backend/src/routes/verify.ts GET /verify/:code, no auth, rate limited per IP; unknown codes 404 after the same delay as a hit Edit Backend/src/sync/tables.ts, routes/account.ts Allow in sync; join the account deletion Check: a code from F06's complete resolves; a random code answers 404 in the same time."
+        }
+      ]
+    },
+    {
+      "id": "7-sync--branding",
+      "title": "7. Sync — branding",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<h4 id=\"overview-7\">Overview</h4>\n<dl><dd>\n<ul>\n<li><strong>Goal:</strong> branding set on one device is used on the other.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Action</th><th>File</th><th>Holds</th></tr></thead><tbody><tr><td><b class=\"tag-edit\">Edit</b></td><td><code>BrandingLocalDataSourceImpl.swift</code>, <code>App/DI/SyncTablesDI.swift</code></td><td>Syncable; <code>report_branding</code></td></tr></tbody></table></div>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelog/diagram-8f54e6e10d6e-dark.svg\"><img src=\"../../synced-docs/sitelog/diagram-8f54e6e10d6e-light.svg\" alt=\"Diagram: iPhone A branding → /sync/push → iPhone B report\" width=\"552\" height=\"88\" loading=\"lazy\"></picture></figure>\n<ul>\n<li><strong>Check:</strong> a report exported on B carries A's letterhead.</li>\n</ul>\n</dd></dl>\n</dd></dl>",
+          "text": "Overview Goal: branding set on one device is used on the other. Action File HoldsEdit BrandingLocalDataSourceImpl.swift, App/DI/SyncTablesDI.swift Syncable; report_branding Check: a report exported on B carries A's letterhead."
+        }
+      ]
+    },
+    {
+      "id": "tests-after-the-feature-works",
+      "title": "Tests (after the feature works)",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<p><strong>2. Domain</strong></p>\n<ul>\n<li>Both groupings give the same total</li>\n<li>Image count = non-excluded captures</li>\n</ul>\n<p><strong>5. Local</strong></p>\n<ul>\n<li>CSV escaping</li>\n<li>200-image memory under 200 MB</li>\n<li>Hash-of-hashes order-stable</li>\n<li>100-entry chain verifies</li>\n<li>Edit at 50 / mid-chain delete detected at the right index</li>\n</ul>\n<p><strong>6. Backend</strong></p>\n<ul>\n<li>Verify rate limit; same delay for hit and miss</li>\n</ul>\n</dd></dl>",
+          "text": "2. Domain Both groupings give the same total Image count = non-excluded captures 5. Local CSV escaping 200-image memory under 200 MB Hash-of-hashes order-stable 100-entry chain verifies Edit at 50 / mid-chain delete detected at the right index 6. Backend Verify rate limit; same delay for hit and miss"
+        }
+      ]
+    },
+    {
+      "id": "feature-done",
+      "title": "Feature done",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Check</th><th>How</th></tr></thead><tbody><tr><td>Demo</td><td>Signed PDF + CSV from a real session, before/after pairs included; printed code verifies</td></tr><tr><td>Tests</td><td><code>bundle exec fastlane test</code> and <code>npm test</code> green</td></tr><tr><td>Roadmap</td><td>F10 steps ticked</td></tr></tbody></table></div>\n</dd></dl>",
+          "text": "Check HowDemo Signed PDF + CSV from a real session, before/after pairs included; printed code verifies Tests bundle exec fastlane test and npm test green Roadmap F10 steps ticked"
+        }
+      ]
+    }
+  ],
+  "effectiveDate": "2026-11-02",
+  "lastUpdated": "2026-11-03"
+}

@@ -1,0 +1,75 @@
+{
+  "title": "S6 — Reports and floor plans",
+  "tagline": "the paid deliverable — a signed, branded PDF and a CSV from a real session, backed by a tamper-evident audit log — and issues pinned on real floor plans.",
+  "icon": "🛠️",
+  "topic": "ios",
+  "tags": [
+    "SwiftUI",
+    "iOS",
+    "Step by step"
+  ],
+  "readingTime": "2 min",
+  "languages": [
+    "en"
+  ],
+  "numbered": false,
+  "series": {
+    "id": "sitelog",
+    "part": 27,
+    "name": "SiteLog: an iOS app, built",
+    "panel": "Sprint guides",
+    "group": "S6-reports-plans",
+    "opensGroup": true
+  },
+  "intro": [
+    "Sprint 6 · 2 weeks · 58h · all sprints"
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Overview",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul>\n<li><strong>Goal:</strong> the paid deliverable — a signed, branded PDF and a CSV from a real session, backed by a tamper-evident audit log — and issues pinned on real floor plans.</li>\n<li><strong>Demo — offline:</strong> import a PDF plan, pin issues; export a signed PDF + CSV and share it in airplane mode; the audit chain verifies at launch.</li>\n<li><strong>Demo — signed in:</strong> branding and plan sheets reach the second device; a verification code printed in the PDF resolves at <code>GET /verify/:code</code>.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>F</th><th>Feature</th><th>Guide</th><th>Hours</th></tr></thead><tbody><tr><td>F10</td><td>Reports and audit log</td><td><a href=\"../sitelog-guide-f10-reports/\">F10-reports.md</a></td><td>37</td></tr><tr><td>F11</td><td>Floor plans and pins</td><td><a href=\"../sitelog-guide-f11-plans/\">F11-plans.md</a></td><td>21</td></tr></tbody></table></div>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelog/diagram-4b733515c6bc-dark.svg\"><img src=\"../../synced-docs/sitelog/diagram-4b733515c6bc-light.svg\" alt=\"Diagram: session snapshot → LayOutReportUseCase, pure → PDF + CSV renderer → share sheet → every view, export, edit → HMAC chain → PDF plan → tiled viewer → issue pins 0…1 → code → GET /verify/:code\" width=\"1051\" height=\"276\" loading=\"lazy\"></picture></figure>\n</dd></dl>",
+          "text": "Goal: the paid deliverable — a signed, branded PDF and a CSV from a real session, backed by a tamper-evident audit log — and issues pinned on real floor plans. Demo — offline: import a PDF plan, pin issues; export a signed PDF + CSV and share it in airplane mode; the audit chain verifies at launch. Demo — signed in: branding and plan sheets reach the second device; a verification code printed in the PDF resolves at GET /verify/:code. F Feature Guide HoursF10 Reports and audit log F10-reports.md 37 F11 Floor plans and pins F11-plans.md 21"
+        }
+      ]
+    },
+    {
+      "id": "tasks",
+      "title": "Tasks",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Task</th><th>Step</th><th>Layer</th><th>Hours</th><th>Status</th></tr></thead><tbody><tr><td>F10.1</td><td>Verify response, branding row</td><td>Contract</td><td>1</td><td>not start</td></tr><tr><td>F10.2</td><td>Report types, audit entry, pure pagination</td><td>Domain</td><td>3</td><td>not start</td></tr><tr><td>F10.3</td><td>Repositories + data sources in memory</td><td>Fake data</td><td>2</td><td>not start</td></tr><tr><td>F10.4</td><td>Report flow screens</td><td>View models</td><td>4</td><td>not start</td></tr><tr><td>F10.5</td><td>CSV, PDF, audit chain (split: CSV · layout render · integrity footer · audit chain)</td><td>Local</td><td>21</td><td>not start</td></tr><tr><td>F10.6</td><td><code>0008_report_branding.sql</code>, <code>GET /verify/:code</code></td><td>Backend</td><td>4</td><td>not start</td></tr><tr><td>F10.7</td><td>Branding syncs</td><td>Sync</td><td>2</td><td>not start</td></tr><tr><td>F11.1</td><td>Plan sheet row, plan file key</td><td>Contract</td><td>1</td><td>not start</td></tr><tr><td>F11.2</td><td>Plan types and pin use cases</td><td>Domain</td><td>1</td><td>not start</td></tr><tr><td>F11.3</td><td>Repository + data sources in memory</td><td>Fake data</td><td>1</td><td>not start</td></tr><tr><td>F11.4</td><td>Plans screens</td><td>View models</td><td>5</td><td>not start</td></tr><tr><td>F11.5</td><td>Import, tiles, pins (split: import · tiles · pins)</td><td>Local</td><td>9</td><td>not start</td></tr><tr><td>F11.6</td><td><code>0009_plan_sheets.sql</code></td><td>Backend</td><td>2</td><td>not start</td></tr><tr><td>F11.7</td><td>Plan sheets sync, plan files upload</td><td>Sync</td><td>2</td><td>not start</td></tr></tbody></table></div>\n</dd></dl>",
+          "text": "Task Step Layer Hours StatusF10.1 Verify response, branding row Contract 1 not start F10.2 Report types, audit entry, pure pagination Domain 3 not start F10.3 Repositories + data sources in memory Fake data 2 not start F10.4 Report flow screens View models 4 not start F10.5 CSV, PDF, audit chain (split: CSV · layout render · integrity footer · audit chain) Local 21 not start F10.6 0008_report_branding.sql, GET /verify/:code Backend 4 not start F10.7 Branding syncs Sync 2 not start F11.1 Plan sheet row, plan file key Contract 1 not start F11.2 Plan types and pin use cases Domain 1 not start F11.3 Repository + data sources in memory Fake data 1 not start F11.4 Plans screens View models 5 not start F11.5 Import, tiles, pins (split: import · tiles · pins) Local 9 not start F11.6 0009_plan_sheets.sql Backend 2 not start F11.7 Plan sheets sync, plan files upload Sync 2 not start"
+        }
+      ]
+    },
+    {
+      "id": "done",
+      "title": "Done",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul class=\"contains-task-list\">\n<li class=\"task-list-item\"><input type=\"checkbox\" disabled> Offline: signed PDF + CSV shared in airplane mode, before/after pairs included; pins survive relaunch</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" disabled> Signed in: <code>GET /verify/:code</code> resolves a printed code; plan sheets on both devices</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" disabled> Audit chain: an edited entry is found at the right index</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" disabled> F10 and F11 tests written and green</li>\n</ul>\n</dd></dl>",
+          "text": "Offline: signed PDF + CSV shared in airplane mode, before/after pairs included; pins survive relaunch Signed in: GET /verify/:code resolves a printed code; plan sheets on both devices Audit chain: an edited entry is found at the right index F10 and F11 tests written and green"
+        }
+      ]
+    },
+    {
+      "id": "self-check",
+      "title": "Self-check",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul>\n<li>Why is pagination a Domain use case, while drawing the PDF is PlatformKit?</li>\n<li>What exactly does <code>/verify</code> return, and what must it never return?</li>\n<li>A pin lives on the issue row, not in its own table. What does that make simpler?</li>\n</ul>\n</dd></dl>",
+          "text": "Why is pagination a Domain use case, while drawing the PDF is PlatformKit? What exactly does /verify return, and what must it never return? A pin lives on the issue row, not in its own table. What does that make simpler?"
+        }
+      ]
+    }
+  ],
+  "effectiveDate": "2026-11-02",
+  "lastUpdated": "2026-11-03"
+}

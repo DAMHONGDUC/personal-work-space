@@ -1,0 +1,75 @@
+{
+  "title": "S5 — Issues and markup",
+  "tagline": "issues are logged from the camera, carried into the next session and closed as before/after pairs; photos get a markup layer and a stamped copy with trusted time.",
+  "icon": "🛠️",
+  "topic": "ios",
+  "tags": [
+    "SwiftUI",
+    "iOS",
+    "Step by step"
+  ],
+  "readingTime": "2 min",
+  "languages": [
+    "en"
+  ],
+  "numbered": false,
+  "series": {
+    "id": "sitelog",
+    "part": 24,
+    "name": "SiteLog: an iOS app, built",
+    "panel": "Sprint guides",
+    "group": "S5-issues-markup",
+    "opensGroup": true
+  },
+  "intro": [
+    "Sprint 5 · 2 weeks · 48h · all sprints"
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Overview",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul>\n<li><strong>Goal:</strong> issues are logged from the camera, carried into the next session and closed as before/after pairs; photos get a markup layer and a stamped copy with trusted time.</li>\n<li><strong>Demo — offline:</strong> log an issue by voice, re-check it next session, close it with a verification photo; mark it up; share a stamped copy.</li>\n<li><strong>Demo — signed in:</strong> the issue, its pair and the markup appear on the second device; the stamp's time comes from the server clock.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>F</th><th>Feature</th><th>Guide</th><th>Hours</th></tr></thead><tbody><tr><td>F08</td><td>Issues and before/after</td><td><a href=\"../sitelog-guide-f08-issues/\">F08-issues.md</a></td><td>26</td></tr><tr><td>F09</td><td>Markup and stamps</td><td><a href=\"../sitelog-guide-f09-markup/\">F09-markup.md</a></td><td>22</td></tr></tbody></table></div>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelog/diagram-8a388aab7252-dark.svg\"><img src=\"../../synced-docs/sitelog/diagram-8a388aab7252-light.svg\" alt=\"Diagram: Camera → IssueSheet → IssueRepositoryImpl → dictation, on device → next session → before/after pair → capture → MarkupEditor → AnnotationRepositoryImpl → stamped copy, trusted time → outbox → F04\" width=\"809\" height=\"297\" loading=\"lazy\"></picture></figure>\n</dd></dl>",
+          "text": "Goal: issues are logged from the camera, carried into the next session and closed as before/after pairs; photos get a markup layer and a stamped copy with trusted time. Demo — offline: log an issue by voice, re-check it next session, close it with a verification photo; mark it up; share a stamped copy. Demo — signed in: the issue, its pair and the markup appear on the second device; the stamp's time comes from the server clock. F Feature Guide HoursF08 Issues and before/after F08-issues.md 26 F09 Markup and stamps F09-markup.md 22"
+        }
+      ]
+    },
+    {
+      "id": "tasks",
+      "title": "Tasks",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Task</th><th>Step</th><th>Layer</th><th>Hours</th><th>Status</th></tr></thead><tbody><tr><td>F08.1</td><td>Issue, issue capture, phrase rows</td><td>Contract</td><td>1</td><td>not start</td></tr><tr><td>F08.2</td><td>Issue entities, pairing, close, carry-over use cases</td><td>Domain</td><td>3</td><td>not start</td></tr><tr><td>F08.3</td><td>Repositories + data sources in memory</td><td>Fake data</td><td>3</td><td>not start</td></tr><tr><td>F08.4</td><td>Issues screens (split: sheet · list · detail · verification)</td><td>View models</td><td>7</td><td>not start</td></tr><tr><td>F08.5</td><td>SwiftData, on-device dictation (split: storage · dictation)</td><td>Local</td><td>8</td><td>not start</td></tr><tr><td>F08.6</td><td>Migration <code>0006_issues.sql</code></td><td>Backend</td><td>2</td><td>not start</td></tr><tr><td>F08.7</td><td>Issues, issue captures, phrases join sync</td><td>Sync</td><td>2</td><td>not start</td></tr><tr><td>F09.1</td><td>Annotation row</td><td>Contract</td><td>1</td><td>not start</td></tr><tr><td>F09.2</td><td>Annotation types</td><td>Domain</td><td>1</td><td>not start</td></tr><tr><td>F09.3</td><td>Repository + data sources in memory</td><td>Fake data</td><td>1</td><td>not start</td></tr><tr><td>F09.4</td><td>Markup and stamp screens</td><td>View models</td><td>4</td><td>not start</td></tr><tr><td>F09.5</td><td>Vector rendering (split: layer · stamp)</td><td>Local</td><td>7</td><td>not start</td></tr><tr><td>F09.6</td><td>Migration <code>0007_annotations.sql</code></td><td>Backend</td><td>1</td><td>not start</td></tr><tr><td>F09.7</td><td>Annotations sync; trusted time from the server clock</td><td>Sync</td><td>7</td><td>not start</td></tr></tbody></table></div>\n</dd></dl>",
+          "text": "Task Step Layer Hours StatusF08.1 Issue, issue capture, phrase rows Contract 1 not start F08.2 Issue entities, pairing, close, carry-over use cases Domain 3 not start F08.3 Repositories + data sources in memory Fake data 3 not start F08.4 Issues screens (split: sheet · list · detail · verification) View models 7 not start F08.5 SwiftData, on-device dictation (split: storage · dictation) Local 8 not start F08.6 Migration 0006_issues.sql Backend 2 not start F08.7 Issues, issue captures, phrases join sync Sync 2 not start F09.1 Annotation row Contract 1 not start F09.2 Annotation types Domain 1 not start F09.3 Repository + data sources in memory Fake data 1 not start F09.4 Markup and stamp screens View models 4 not start F09.5 Vector rendering (split: layer · stamp) Local 7 not start F09.6 Migration 0007_annotations.sql Backend 1 not start F09.7 Annotations sync; trusted time from the server clock Sync 7 not start"
+        }
+      ]
+    },
+    {
+      "id": "done",
+      "title": "Done",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul class=\"contains-task-list\">\n<li class=\"task-list-item\"><input type=\"checkbox\" disabled> Offline: issue → re-check → before/after pair; markup saved as a layer; original hash unchanged</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" disabled> Signed in: issues and markup converge on two devices; stamp time confidence shown</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" disabled> F08 and F09 tests written and green</li>\n</ul>\n</dd></dl>",
+          "text": "Offline: issue → re-check → before/after pair; markup saved as a layer; original hash unchanged Signed in: issues and markup converge on two devices; stamp time confidence shown F08 and F09 tests written and green"
+        }
+      ]
+    },
+    {
+      "id": "self-check",
+      "title": "Self-check",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul>\n<li>Closing an issue never edits the old one. What gets created instead, and why does a report need that?</li>\n<li>Why are markup points stored 0…1 instead of in pixels?</li>\n<li>Where does “trusted” time come from when the phone's clock is wrong?</li>\n</ul>\n</dd></dl>",
+          "text": "Closing an issue never edits the old one. What gets created instead, and why does a report need that? Why are markup points stored 0…1 instead of in pixels? Where does “trusted” time come from when the phone's clock is wrong?"
+        }
+      ]
+    }
+  ],
+  "effectiveDate": "2026-11-02",
+  "lastUpdated": "2026-11-03"
+}

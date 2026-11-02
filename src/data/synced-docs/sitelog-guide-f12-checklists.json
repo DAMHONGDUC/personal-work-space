@@ -1,0 +1,152 @@
+{
+  "title": "F12 — Checklists",
+  "tagline": "pick a template, answer one tap per item, and every Fail opens one prefilled issue.",
+  "icon": "🛠️",
+  "topic": "ios",
+  "tags": [
+    "SwiftUI",
+    "iOS",
+    "Step by step"
+  ],
+  "readingTime": "3 min",
+  "languages": [
+    "en"
+  ],
+  "numbered": false,
+  "series": {
+    "id": "sitelog",
+    "part": 31,
+    "name": "SiteLog: an iOS app, built",
+    "panel": "Sprint guides",
+    "group": "S7-checklists-devices-diagnostics"
+  },
+  "intro": [
+    "Sprint S7 · 14h · skeleton guide — full code is added when this feature starts.",
+    "Code in this guide is a teaching example. Check current source and follow F00 localization rules before applying it."
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Overview",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul>\n<li><strong>Goal:</strong> pick a template, answer one tap per item, and every Fail opens one prefilled issue.</li>\n<li><strong>Demo — offline:</strong> “Finishing handover” in a room → “14 of 22” → a Fail creates one issue → done sentence.</li>\n<li><strong>Demo — signed in:</strong> the run and its results appear on the second device.</li>\n<li><strong>Spec:</strong> <a href=\"../sitelog-specs-01-field-work/#13-checklist-templates\">13 Checklist templates</a></li>\n<li><strong>Starts from:</strong> F08 (issues) and the skeleton <code>Presentation/Checklists/</code>.</li>\n<li><strong>Steps:</strong> <a href=\"../sitelog-guide/#how-every-feature-runs\">How every feature runs</a>.</li>\n<li><strong>File tags:</strong> <b class=\"tag-new\">New</b> create the file · <b class=\"tag-edit\">Edit</b> change only the part shown · <b class=\"tag-replace\">Replace</b> overwrite the whole file.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Step</th><th>Layer</th><th>Hours</th><th>Status</th><th>What</th></tr></thead><tbody><tr><td><a href=\"#1-contract--checklist-rows\">1</a></td><td>Contract</td><td>1h</td><td>not start</td><td>Template, item, run, result DTOs</td></tr><tr><td><a href=\"#2-domain--checklist-types\">2</a></td><td>Domain</td><td>1h</td><td>not start</td><td>Types; answer use case (Fail → issue)</td></tr><tr><td><a href=\"#3-fake-data--data-sources-in-memory\">3</a></td><td>Fake data</td><td>1h</td><td>not start</td><td>Real <code>ChecklistRepositoryImpl</code> over in-memory data sources</td></tr><tr><td><a href=\"#4-view-models--wire-the-checklists-screens\">4</a></td><td>View models</td><td>4h</td><td>not start</td><td>Picker, run, done</td></tr><tr><td><a href=\"#5-local--templates-and-results\">5</a></td><td>Local</td><td>4h</td><td>not start</td><td>Built-ins seeded on SwiftData; results</td></tr><tr><td><a href=\"#6-backend--checklist-tables\">6</a></td><td>Backend</td><td>2h</td><td>not start</td><td><code>0010_checklists.sql</code></td></tr><tr><td><a href=\"#7-sync--checklists-join-the-engine\">7</a></td><td>Sync</td><td>1h</td><td>not start</td><td>Four tables syncable</td></tr></tbody></table></div>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelog/diagram-4608441070e0-dark.svg\"><img src=\"../../synced-docs/sitelog/diagram-4608441070e0-light.svg\" alt=\"Diagram: K1 picker → K2 run → K4 done → Fail → AnswerItemUseCase → LogIssueUseCase (F08) → ChecklistRepositoryImpl → Checklist…LocalDataSourceImpl\" width=\"1233\" height=\"202\" loading=\"lazy\"></picture></figure>\n</dd></dl>",
+          "text": "Goal: pick a template, answer one tap per item, and every Fail opens one prefilled issue. Demo — offline: “Finishing handover” in a room → “14 of 22” → a Fail creates one issue → done sentence. Demo — signed in: the run and its results appear on the second device. Spec: 13 Checklist templates Starts from: F08 (issues) and the skeleton Presentation/Checklists/. Steps: How every feature runs. File tags: New create the file · Edit change only the part shown · Replace overwrite the whole file. Step Layer Hours Status What1 Contract 1h not start Template, item, run, result DTOs 2 Domain 1h not start Types; answer use case (Fail → issue) 3 Fake data 1h not start Real ChecklistRepositoryImpl over in-memory data sources 4 View models 4h not start Picker, run, done 5 Local 4h not start Built-ins seeded on SwiftData; results 6 Backend 2h not start 0010_checklists.sql 7 Sync 1h not start Four tables syncable"
+        }
+      ]
+    },
+    {
+      "id": "target-structure",
+      "title": "Target structure",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<div class=\"md-code\"><div class=\"md-code-bar\"><span class=\"md-code-lang\"></span><button type=\"button\" class=\"md-copy\" aria-label=\"Copy code\"><svg aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect width=\"14\" height=\"14\" x=\"8\" y=\"8\" rx=\"2\" ry=\"2\"/><path d=\"M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2\"/></svg><span class=\"md-copy-label\">Copy</span></button></div><pre class=\"shiki shiki-themes github-light github-dark\" style=\"--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e\" tabindex=\"0\"><code class=\"language-text\"><span class=\"line\"><span>Backend/migrations/0010_checklists.sql                                  # 6</span></span>\n<span class=\"line\"><span>Packages/</span></span>\n<span class=\"line\"><span>├── DomainLayer/Sources/DomainLayer/Entities/Checklists/, UseCases/Checklists/   # 2</span></span>\n<span class=\"line\"><span>├── DataLayer/Sources/DataLayer/</span></span>\n<span class=\"line\"><span>│   ├── Models/Remote/Checklist*DTO.swift                               # 1</span></span>\n<span class=\"line\"><span>│   ├── Repositories/ChecklistRepositoryImpl.swift                      # 3: real from the start</span></span>\n<span class=\"line\"><span>│   └── DataSources/Local/Persistence/ChecklistTemplate…, ChecklistRun… # 3: in memory · 5: SwiftData</span></span>\n<span class=\"line\"><span>SiteLog/</span></span>\n<span class=\"line\"><span>└── Presentation/Checklists/                                            # 4: TemplatePicker, ChecklistRun, ChecklistDone</span></span></code></pre></div>\n</dd></dl>",
+          "text": "Backend/migrations/0010_checklists.sql # 6 Packages/ ├── DomainLayer/Sources/DomainLayer/Entities/Checklists/, UseCases/Checklists/ # 2 ├── DataLayer/Sources/DataLayer/ │ ├── Models/Remote/Checklist*DTO.swift # 1 │ ├── Repositories/ChecklistRepositoryImpl.swift # 3: real from the start │ └── DataSources/Local/Persistence/ChecklistTemplate…, ChecklistRun… # 3: in memory · 5: SwiftData SiteLog/ └── Presentation/Checklists/ # 4: TemplatePicker, ChecklistRun, ChecklistDone"
+        }
+      ]
+    },
+    {
+      "id": "1-contract--checklist-rows",
+      "title": "1. Contract — checklist rows",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<h4 id=\"overview-1\">Overview</h4>\n<dl><dd>\n<ul>\n<li><strong>Goal:</strong> four rows; templates are shared, runs belong to a session.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Row</th><th>Fields</th></tr></thead><tbody><tr><td>Template / template item</td><td><code>name</code>, <code>appliesTo</code>, <code>isBuiltIn</code>, <code>usageCount</code> / <code>ordinal</code>, <code>text</code>, <code>defaultSeverity</code>, <code>requiresPhotoOnFail</code></td></tr><tr><td>Run / result</td><td>template, session, location, times / <code>runId</code>, <code>templateItemId</code>, <code>outcome</code>, <code>note</code>, <code>issueId</code>, <code>answeredAt</code></td></tr></tbody></table></div>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelog/diagram-95ea152b23fa-dark.svg\"><img src=\"../../synced-docs/sitelog/diagram-95ea152b23fa-light.svg\" alt=\"Diagram\" width=\"432\" height=\"661\" loading=\"lazy\"></picture></figure>\n<ul>\n<li><strong>Check:</strong> one result per <code>(runId, templateItemId)</code> on both sides.</li>\n</ul>\n</dd></dl>\n</dd></dl>",
+          "text": "Overview Goal: four rows; templates are shared, runs belong to a session. Row FieldsTemplate / template item name, appliesTo, isBuiltIn, usageCount / ordinal, text, defaultSeverity, requiresPhotoOnFail Run / result template, session, location, times / runId, templateItemId, outcome, note, issueId, answeredAt Check: one result per (runId, templateItemId) on both sides."
+        }
+      ]
+    },
+    {
+      "id": "2-domain--checklist-types",
+      "title": "2. Domain — checklist types",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<h4 id=\"overview-2\">Overview</h4>\n<dl><dd>\n<ul>\n<li><strong>Goal:</strong> the rule “a Fail creates exactly one prefilled issue” lives in a use case.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Action</th><th>File</th><th>Holds</th></tr></thead><tbody><tr><td><b class=\"tag-new\">New</b></td><td><code>Entities/Checklists/</code></td><td>Template, item, run, result</td></tr><tr><td><b class=\"tag-new\">New</b></td><td><code>UseCases/Checklists/</code></td><td>One file per use case: start run, <code>AnswerItemUseCase</code> (Fail → issue through F08), finish</td></tr></tbody></table></div>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelog/diagram-f08848bf5319-dark.svg\"><img src=\"../../synced-docs/sitelog/diagram-f08848bf5319-light.svg\" alt=\"Diagram: answer item → Fail? → yes, no issue yet → LogIssueUseCase → no → save result\" width=\"737\" height=\"190\" loading=\"lazy\"></picture></figure>\n<ul>\n<li><strong>Check:</strong> ⌘B; answering Fail twice still makes one issue.</li>\n</ul>\n</dd></dl>\n</dd></dl>",
+          "text": "Overview Goal: the rule “a Fail creates exactly one prefilled issue” lives in a use case. Action File HoldsNew Entities/Checklists/ Template, item, run, result New UseCases/Checklists/ One file per use case: start run, AnswerItemUseCase (Fail → issue through F08), finish Check: ⌘B; answering Fail twice still makes one issue."
+        }
+      ]
+    },
+    {
+      "id": "3-fake-data--data-sources-in-memory",
+      "title": "3. Fake data — data sources in memory",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<h4 id=\"overview-3\">Overview</h4>\n<dl><dd>\n<ul>\n<li><strong>Goal:</strong> the real repository; “Finishing handover” (22 items) and 5 other templates in memory.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Action</th><th>File</th><th>Holds</th></tr></thead><tbody><tr><td><b class=\"tag-new\">New</b></td><td><code>DataSources/Local/Persistence/ChecklistTemplateLocalDataSource.swift</code>, <code>ChecklistRunLocalDataSource.swift</code> + <code>Impl</code>s</td><td>In memory</td></tr><tr><td><b class=\"tag-new\">New</b></td><td><code>Repositories/ChecklistRepositoryImpl.swift</code></td><td>Real: map, <code>catch</code> → <code>Result</code>, log</td></tr></tbody></table></div>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelog/diagram-0e625fab8ed8-dark.svg\"><img src=\"../../synced-docs/sitelog/diagram-0e625fab8ed8-light.svg\" alt=\"Diagram: ChecklistRepositoryImpl, real → 6 templates → runs in memory\" width=\"411\" height=\"152\" loading=\"lazy\"></picture></figure>\n<ul>\n<li><strong>Check:</strong> dev menu seeds the templates.</li>\n</ul>\n</dd></dl>\n</dd></dl>",
+          "text": "Overview Goal: the real repository; “Finishing handover” (22 items) and 5 other templates in memory. Action File HoldsNew DataSources/Local/Persistence/ChecklistTemplateLocalDataSource.swift, ChecklistRunLocalDataSource.swift + Impls In memory New Repositories/ChecklistRepositoryImpl.swift Real: map, catch → Result, log Check: dev menu seeds the templates."
+        }
+      ]
+    },
+    {
+      "id": "4-view-models--wire-the-checklists-screens",
+      "title": "4. View models — wire the Checklists screens",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<h4 id=\"overview-4\">Overview</h4>\n<dl><dd>\n<ul>\n<li><strong>Goal:</strong> resume, recent and all templates; one tap per item; a result sentence.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Action</th><th>Skeleton folder</th><th>View model work</th></tr></thead><tbody><tr><td><b class=\"tag-new\">New</b> view model · <b class=\"tag-edit\">Edit</b> view</td><td><code>Presentation/Checklists/TemplatePicker/</code></td><td>K1: resume, recent, all</td></tr><tr><td><b class=\"tag-new\">New</b> view model · <b class=\"tag-edit\">Edit</b> view</td><td><code>Presentation/Checklists/ChecklistRun/</code></td><td>K2: one tap per item, “14 of 22”</td></tr><tr><td><b class=\"tag-new\">New</b> view model · <b class=\"tag-edit\">Edit</b> view</td><td><code>Presentation/Checklists/ChecklistDone/</code></td><td>K4: result sentence, issues sent</td></tr></tbody></table></div>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelog/diagram-83555853c22f-dark.svg\"><img src=\"../../synced-docs/sitelog/diagram-83555853c22f-light.svg\" alt=\"Diagram: P7 room → K1 → K2 → K4 → Fail → K3 issue sheet (F08)\" width=\"936\" height=\"152\" loading=\"lazy\"></picture></figure>\n<ul>\n<li><strong>Check:</strong> Continue offline: a full run with one Fail.</li>\n</ul>\n</dd></dl>\n</dd></dl>",
+          "text": "Overview Goal: resume, recent and all templates; one tap per item; a result sentence. Action Skeleton folder View model workNew view model · Edit view Presentation/Checklists/TemplatePicker/ K1: resume, recent, all New view model · Edit view Presentation/Checklists/ChecklistRun/ K2: one tap per item, “14 of 22” New view model · Edit view Presentation/Checklists/ChecklistDone/ K4: result sentence, issues sent Check: Continue offline: a full run with one Fail."
+        }
+      ]
+    },
+    {
+      "id": "5-local--templates-and-results",
+      "title": "5. Local — templates and results",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<h4 id=\"overview-5\">Overview</h4>\n<dl><dd>\n<ul>\n<li><strong>Goal:</strong> the data source <code>Impl</code>s keep their types; built-ins are seeded once on SwiftData; runs keep their own results.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Action</th><th>File</th><th>Holds</th></tr></thead><tbody><tr><td><b class=\"tag-new\">New</b></td><td><code>Models/Local/Checklist*Model.swift</code></td><td><code>@Model</code>; template FKs restrict delete</td></tr><tr><td><b class=\"tag-replace\">Replace</b></td><td><code>ChecklistTemplate…Impl.swift</code>, <code>ChecklistRun…Impl.swift</code></td><td>SwiftData; built-ins seeded on first open</td></tr></tbody></table></div>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelog/diagram-30722b107b1c-dark.svg\"><img src=\"../../synced-docs/sitelog/diagram-30722b107b1c-light.svg\" alt=\"Diagram: edit a built-in → fork a copy → completed runs → unchanged\" width=\"552\" height=\"140\" loading=\"lazy\"></picture></figure>\n<ul>\n<li><strong>Check:</strong> a template edit leaves completed runs unchanged; JSON import is validated.</li>\n</ul>\n</dd></dl>\n</dd></dl>",
+          "text": "Overview Goal: the data source Impls keep their types; built-ins are seeded once on SwiftData; runs keep their own results. Action File HoldsNew Models/Local/Checklist*Model.swift @Model; template FKs restrict delete Replace ChecklistTemplate…Impl.swift, ChecklistRun…Impl.swift SwiftData; built-ins seeded on first open Check: a template edit leaves completed runs unchanged; JSON import is validated."
+        }
+      ]
+    },
+    {
+      "id": "6-backend--checklist-tables",
+      "title": "6. Backend — checklist tables",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<h4 id=\"overview-6\">Overview</h4>\n<dl><dd>\n<ul>\n<li><strong>Goal:</strong> the four server tables.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Action</th><th>File</th><th>Holds</th></tr></thead><tbody><tr><td><b class=\"tag-new\">New</b></td><td><code>Backend/migrations/0010_checklists.sql</code></td><td>Four tables; template FKs <code>on delete restrict</code>; unique <code>(run_id, template_item_id)</code></td></tr><tr><td><b class=\"tag-edit\">Edit</b></td><td><code>Backend/src/sync/tables.ts</code>, <code>routes/account.ts</code></td><td>Allow in sync; account deletion</td></tr></tbody></table></div>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelog/diagram-607e09f5b1bf-dark.svg\"><img src=\"../../synced-docs/sitelog/diagram-607e09f5b1bf-light.svg\" alt=\"Diagram: 0010_checklists.sql → templates · items · runs · results\" width=\"378\" height=\"112\" loading=\"lazy\"></picture></figure>\n<ul>\n<li><strong>Check:</strong> a second result for the same item in a run is rejected.</li>\n</ul>\n</dd></dl>\n</dd></dl>",
+          "text": "Overview Goal: the four server tables. Action File HoldsNew Backend/migrations/0010_checklists.sql Four tables; template FKs on delete restrict; unique (run_id, template_item_id) Edit Backend/src/sync/tables.ts, routes/account.ts Allow in sync; account deletion Check: a second result for the same item in a run is rejected."
+        }
+      ]
+    },
+    {
+      "id": "7-sync--checklists-join-the-engine",
+      "title": "7. Sync — checklists join the engine",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<h4 id=\"overview-7\">Overview</h4>\n<dl><dd>\n<ul>\n<li><strong>Goal:</strong> checklist rows move like every other table; results merge per <code>(run, item)</code>.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Action</th><th>File</th><th>Holds</th></tr></thead><tbody><tr><td><b class=\"tag-edit\">Edit</b></td><td><code>Checklist…LocalDataSourceImpl.swift</code>, <code>App/DI/SyncTablesDI.swift</code></td><td>Syncable; <code>checklist_*</code> last in dependency order</td></tr></tbody></table></div>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelog/diagram-a7ba29765268-dark.svg\"><img src=\"../../synced-docs/sitelog/diagram-a7ba29765268-light.svg\" alt=\"Diagram: run on A → /sync/push → run on B\" width=\"552\" height=\"64\" loading=\"lazy\"></picture></figure>\n<ul>\n<li><strong>Check:</strong> a run started on A shows its results on B.</li>\n</ul>\n</dd></dl>\n</dd></dl>",
+          "text": "Overview Goal: checklist rows move like every other table; results merge per (run, item). Action File HoldsEdit Checklist…LocalDataSourceImpl.swift, App/DI/SyncTablesDI.swift Syncable; checklist_* last in dependency order Check: a run started on A shows its results on B."
+        }
+      ]
+    },
+    {
+      "id": "tests-after-the-feature-works",
+      "title": "Tests (after the feature works)",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<p><strong>2. Domain</strong></p>\n<ul>\n<li>Fail creates one issue</li>\n</ul>\n<p><strong>5. Local</strong></p>\n<ul>\n<li>Template edit leaves completed runs unchanged</li>\n</ul>\n</dd></dl>",
+          "text": "2. Domain Fail creates one issue 5. Local Template edit leaves completed runs unchanged"
+        }
+      ]
+    },
+    {
+      "id": "feature-done",
+      "title": "Feature done",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Check</th><th>How</th></tr></thead><tbody><tr><td>Demo</td><td>Checklist run; Fail creates one issue; run on both devices</td></tr><tr><td>Tests</td><td><code>bundle exec fastlane test</code> and <code>npm test</code> green</td></tr><tr><td>Roadmap</td><td>F12 steps ticked</td></tr></tbody></table></div>\n</dd></dl>",
+          "text": "Check HowDemo Checklist run; Fail creates one issue; run on both devices Tests bundle exec fastlane test and npm test green Roadmap F12 steps ticked"
+        }
+      ]
+    }
+  ],
+  "effectiveDate": "2026-11-02",
+  "lastUpdated": "2026-11-03"
+}
