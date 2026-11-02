@@ -49,10 +49,14 @@ Markdown kept in another repo, published as guide series. Enforced by [synced-do
 | Rule | Reason | Example |
 |---|---|---|
 | Written by `npm run docs:sync`; never hand-edited | The Markdown is the source; the next sync overwrites any edit | — |
-| A series in `src/data/synced-docs.json` is one root file then folders of Markdown, each folder optionally a named group | One entry in the index, the rest reached from it | `sitelog`: `ROADMAP.md`, then `feature-docs` (Feature specs), then `feature-guide` (Build guide) |
-| The root is part 0 and the only page the index lists; a search reaches every page | A 24-page series stays one card | `isListed` in `doc-listing.ts` |
+| A series in `src/data/synced-docs.json` is a list of parts, each one file or one folder of Markdown; a file an earlier part took is skipped in a later folder | One entry in the index, the rest reached from it | `sitelog`: `README.md`, `ROADMAP.md`, `feature-guide/README.md`, `feature-docs`, … then `feature-guide` |
+| A part names its `panel`: the block of the series navigation it sits in, under that heading | Base docs and step-by-step guides read as two lists | `Base docs`, `Sprint guides` |
+| A folder part has one `group` heading for all its pages, or `groupBy: "folder"`: each subfolder a group headed by its README (`opensGroup`) | A sprint reads as its overview with its features under it | `S0-foundation-access/` → S0 README, then F00, F01 |
+| Folders in the series' `host` are copied whole to `public/synced-docs/<id>/<repo path>`, and links into them point at the copy instead of GitHub | A page with its own assets (a mockup) opens on the site, its relative links intact; test-checked | `docs/design/mockups`, `docs/design/app-icon` |
+| The first part is part 0 and the only page the index lists; a search reaches every page | A 40-page series stays one card | `isListed` in `doc-listing.ts`; `sitelog-overview` |
 | The sync reads a local clone (`localPath`); the build never touches the other repo | Static export, reproducible CI | `../../SwiftUI/site-log-ios` |
-| One page per Markdown file; every slug starts with `<series id>-`, which is how stale pages are found | Order: root, then each folder sorted | `sitelog-roadmap`, `sitelog-guide-03-capture` |
+| One page per Markdown file; every slug starts with `<series id>-`, which is how stale pages are found | Order: root, then each folder: its README, its files sorted, then its subfolders the same way | `sitelog-overview`, `sitelog-guide-f05-capture` |
+| A folder's README is named after its folder (the part's own README after the prefix alone), any other file by its name only, lower-cased; two files with one slug fail the sync | A slug does not grow with the folders above it; a link to a folder opens its README | `S0-foundation-access/README.md` → `sitelog-guide-s0-foundation-access` |
 | A folder page's title gets its file's number when it lacks it | The series list reads in order | `01-field-work.md` → `01 — Field work`; `F01 — …` is left alone |
 | English only (`languages: ["en"]`), titles keep their own numbers (`numbered: false`) | The Markdown is English and numbered; no switch, no second number | `0. Entry point (done)` |
 | Rendered to HTML at sync time, drawn by `HtmlBlock` with the `.md-body` styles in globals.css; `text` holds the same words for search | The site ships no Markdown parser | `<details>` hints stay collapsible |
