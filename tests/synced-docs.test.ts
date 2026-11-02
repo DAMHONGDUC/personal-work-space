@@ -51,6 +51,33 @@ describe("synced guides", () => {
       expect(parts).toEqual(parts.map((_, index) => index));
     }
   });
+
+  it("puts every page of a series in a panel once any page names one", () => {
+    for (const series of config.series) {
+      const pages = docs.filter((doc) => doc.series?.id === series.id);
+      if (!pages.some((doc) => doc.series!.panel)) continue;
+
+      expect(pages.filter((doc) => !doc.series!.panel).map((doc) => doc.slug)).toEqual([]);
+    }
+  });
+
+  it("opens each group with at most one page, and that page first", () => {
+    for (const series of config.series) {
+      const pages = docs
+        .filter((doc) => doc.series?.id === series.id)
+        .sort((a, b) => a.series!.part - b.series!.part);
+      const groups = Map.groupBy(
+        pages.filter((doc) => doc.series!.group),
+        (doc) => doc.series!.group!,
+      );
+
+      for (const [group, members] of groups) {
+        const heads = members.filter((doc) => doc.series!.opensGroup);
+        expect(heads.length, group).toBeLessThanOrEqual(1);
+        if (heads.length === 1) expect(members[0].slug, group).toBe(heads[0].slug);
+      }
+    }
+  });
 });
 
 describe.each(docs.map((doc) => [doc.slug, doc] as const))("%s", (slug, doc) => {
@@ -156,6 +183,11 @@ describe.each(docs.map((doc) => [doc.slug, doc] as const))("%s", (slug, doc) => 
 
         for (const [, anchor] of block.html.matchAll(/href="#([^"]+)"/g)) {
           if (!anchorsOf(doc).has(anchor)) broken.push(`${section.id}: no #${anchor}`);
+        }
+
+        // A hosted file (a mockup) is linked at its copy in public/.
+        for (const [, file] of block.html.matchAll(/href="\.\.\/\.\.\/([^"#]+)(?:#[^"]*)?"/g)) {
+          if (!fs.existsSync(path.join("public", file))) broken.push(`${section.id}: no public/${file}`);
         }
       }
     }

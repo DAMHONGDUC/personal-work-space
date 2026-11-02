@@ -1,12 +1,13 @@
 /**
  * Turns Markdown docs kept in another repo into guide pages on this site.
  *
- * Each series in synced-docs.json is one root file followed by folders of
- * Markdown in a local clone of that repo. The root file is part 0 — the page
- * the guide index lists — and every other file is one page after it, in the
- * order the config names the folders and the folder sorts its files. A folder
- * can carry a group name, which the series navigation shows as a heading.
- * Pages are English only and keep the Markdown's own section numbers.
+ * Each series in synced-docs.json is a list of files and folders of Markdown
+ * in a local clone of that repo. The first file is part 0 — the page the guide
+ * index lists — and every other file is one page after it, in the order the
+ * config names them and each folder sorts its files. A part can name the panel
+ * of the series navigation it sits in, and a group heading for its pages, or
+ * make each subfolder a group headed by its README. Pages are English only and
+ * keep the Markdown's own section numbers.
  *
  * The Markdown is rendered to HTML here, once, rather than in the browser: the
  * site ships no Markdown parser, and the page draws exactly what this wrote.
@@ -15,9 +16,10 @@
  * - Headings get GitHub's anchor ids, so the docs' own `#1-product` links and
  *   links from elsewhere keep working.
  * - A link to another synced file, or to a synced folder, points at that page;
- *   a link to any other file in the repo points at it on GitHub; an image is
- *   copied into public/. Links are written relative to the page, so the site's
- *   base path is never needed here.
+ *   a link into a hosted folder (`host`, copied whole into public/) points at
+ *   the copy; a link to any other file in the repo points at it on GitHub; an
+ *   image is copied into public/. Links are written relative to the page, so
+ *   the site's base path is never needed here.
  * - A ```mermaid block is drawn to SVG with mermaid-cli, once light and once
  *   dark, and shown as a <picture> that follows the reader's colour scheme.
  *   Drawings are named by a hash of their source and kept between syncs, so an
@@ -62,7 +64,12 @@ type Part = {
   title?: string;
   dir?: string;
   slugPrefix?: string;
+  /** One heading over every page of the part. */
   group?: string;
+  /** Each subfolder of the part is a group of its own, opened by its README. */
+  groupBy?: "folder";
+  /** The block of the series navigation the part's pages sit in, e.g. "Base docs". */
+  panel?: string;
   icon: string;
   tags?: string[];
 };
@@ -75,10 +82,12 @@ type Series = {
   localPath: string;
   tags: string[];
   parts: Part[];
+  /** Repo folders copied to the site as they are, and linked there instead of GitHub. */
+  host?: string[];
 };
 type Config = { series: Series[] };
 /** One Markdown file and the page it becomes. */
-type Page = { absolute: string; slug: string; part: Part };
+type Page = { absolute: string; slug: string; part: Part; group?: string; opensGroup?: boolean };
 type Section = { id: string; title: string; blocks: { type: "html"; html: string; text: string }[] };
 
 const root = path.join(import.meta.dirname, "..");
@@ -114,30 +123,67 @@ function repoRootOf(series: Series): string {
   return repoRoot;
 }
 
-/** The series' pages in reading order: the root file first, then each folder's files. */
+/**
+ * A folder's pages in reading order: its README, its other files sorted, then
+ * each subfolder the same way. A README is named after its folder — the part's
+ * own README after the prefix alone — and every other file by its name, so a
+ * page's slug does not grow with the folders above it.
+ *
+ * In a part grouped by folder, each of its subfolders is one group, headed in
+ * the navigation by that folder's README; folders deeper down stay in it.
+ */
+function folderPages(part: Part, dir: string, slugPrefix: string, group?: { name: string; dir: string }): Page[] {
+  const entries = fs.readdirSync(dir, { withFileTypes: true });
+  const files = entries
+    .filter((entry) => entry.isFile() && entry.name.endsWith(".md"))
+    .map((entry) => entry.name)
+    .sort((a, b) => Number(b === "README.md") - Number(a === "README.md") || a.localeCompare(b));
+  const folders = entries
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => entry.name)
+    .sort();
+
+  return [
+    ...files.map((file) => ({
+      absolute: path.join(dir, file),
+      slug: (file === "README.md" ? slugPrefix : `${part.slugPrefix}-${path.basename(file, ".md")}`).toLowerCase(),
+      part,
+      ...(group && { group: group.name, opensGroup: file === "README.md" && dir === group.dir }),
+    })),
+    ...folders.flatMap((folder) => {
+      const sub = path.join(dir, folder);
+      const opened = part.groupBy === "folder" && !group ? { name: folder, dir: sub } : group;
+      return folderPages(part, sub, `${part.slugPrefix}-${folder}`, opened);
+    }),
+  ];
+}
+
+/**
+ * The series' pages in the order its parts name them. A file an earlier part
+ * already took is left out of a folder, so a folder's README can sit in
+ * another panel.
+ */
 function pagesOf(series: Series): Page[] {
   const repoRoot = repoRootOf(series);
 
-  const pages = series.parts.flatMap((part): Page[] => {
-    if (part.file) {
-      return [{ absolute: path.join(repoRoot, part.file), slug: part.slug!, part }];
-    }
-    return fs
-      .readdirSync(path.join(repoRoot, part.dir!))
-      .filter((file) => file.endsWith(".md"))
-      .sort()
-      .map((file) => ({
-        absolute: path.join(repoRoot, part.dir!, file),
-        slug: `${part.slugPrefix}-${path.basename(file, ".md")}`,
-        part,
-      }));
-  });
+  const taken = new Set<string>();
+  const pages = series.parts
+    .flatMap((part): Page[] => {
+      if (part.file) {
+        return [{ absolute: path.join(repoRoot, part.file), slug: part.slug!, part }];
+      }
+      return folderPages(part, path.join(repoRoot, part.dir!), part.slugPrefix!);
+    })
+    .filter((page) => !taken.has(page.absolute) && taken.add(page.absolute));
 
   // Stale pages are found by this prefix, so every slug has to carry it.
+  const seen = new Set<string>();
   for (const page of pages) {
     if (!page.slug.startsWith(`${series.id}-`)) {
       throw new Error(`${page.slug} must start with "${series.id}-"`);
     }
+    if (seen.has(page.slug)) throw new Error(`${page.slug}: two files give the same slug`);
+    seen.add(page.slug);
   }
   return pages;
 }
@@ -263,6 +309,9 @@ function rewriteUrl(
 
   const page = pages.get(absolute) ?? folders.get(absolute);
   if (page) return `../${page}/${anchor}`;
+
+  const inHost = (series.host ?? []).some((dir) => !path.relative(path.join(repoRoot, dir), absolute).startsWith(".."));
+  if (inHost) return `../../${assetsUrl}/${series.id}/${path.relative(repoRoot, absolute)}${anchor}`;
 
   if (IMAGE_EXTENSIONS.has(path.extname(absolute).toLowerCase()) && fs.existsSync(absolute)) {
     const name = path.basename(absolute);
@@ -674,12 +723,35 @@ async function convert(
         id: series.id,
         part,
         name: series.name,
-        ...(page.part.group && { group: page.part.group }),
+        ...(page.part.panel && { panel: page.part.panel }),
+        ...((page.group ?? page.part.group) && { group: page.group ?? page.part.group }),
+        ...(page.opensGroup && { opensGroup: true }),
       },
       intro: introLines.length > 0 ? introLines : [series.name],
       sections,
     },
   };
+}
+
+/**
+ * Copies the series' hosted folders to the site at their repo paths, so a page
+ * in one (a mockup) still finds its neighbours by the same relative links.
+ */
+function hostFolders(series: Series) {
+  const repoRoot = repoRootOf(series);
+
+  for (const dir of series.host ?? []) {
+    const from = path.join(repoRoot, dir);
+    for (const file of fs.readdirSync(from, { recursive: true, withFileTypes: true })) {
+      if (!file.isFile()) continue;
+      const source = path.join(file.parentPath, file.name);
+      const copy = path.join(assetsDir, series.id, path.relative(repoRoot, source));
+      fs.mkdirSync(path.dirname(copy), { recursive: true });
+      fs.copyFileSync(source, copy);
+      usedAssets.add(copy);
+    }
+    log(`${series.id}: hosted ${dir}`);
+  }
 }
 
 /** Removes asset files this sync neither wrote nor kept, and the folders left empty. */
@@ -702,16 +774,19 @@ async function sync() {
   const all = config.series.map((series) => ({ series, pages: pagesOf(series) }));
 
   // Every page's slug, known up front so links between them resolve — and every
-  // synced folder's first page, for links that name the folder itself.
+  // synced folder's README, else its first page, for links that name the
+  // folder itself.
   const pages = new Map<string, string>();
   const folders = new Map<string, string>();
-  for (const { series, pages: list } of all) {
-    for (const page of list) pages.set(page.absolute, page.slug);
-    for (const part of series.parts.filter((entry) => entry.dir)) {
-      const first = list.find((page) => page.part === part);
-      if (first) folders.set(path.join(repoRootOf(series), part.dir!), first.slug);
+  for (const { pages: list } of all) {
+    for (const page of list) {
+      pages.set(page.absolute, page.slug);
+      const folder = path.dirname(page.absolute);
+      if (path.basename(page.absolute) === "README.md") folders.set(folder, page.slug);
+      else if (page.part.dir && !folders.has(folder)) folders.set(folder, page.slug);
     }
   }
+  for (const { series } of all) hostFolders(series);
 
   fs.mkdirSync(outDir, { recursive: true });
 
