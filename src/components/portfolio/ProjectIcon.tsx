@@ -1,4 +1,4 @@
-import { PublicImage } from "@/components/portfolio/PublicImage";
+import { PublicImage } from "@/components/shared/PublicImage";
 
 /** `Reseller Studio` -> `RS`, `SiteLog` -> `SL`: the placeholder's letters. */
 function initials(name: string): string {

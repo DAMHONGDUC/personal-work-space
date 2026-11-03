@@ -1,4 +1,4 @@
-import { PublicImage } from "@/components/portfolio/PublicImage";
+import { PublicImage } from "@/components/shared/PublicImage";
 import { enterStyle } from "@/components/portfolio/enter-style";
 
 /**
