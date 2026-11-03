@@ -20,7 +20,7 @@ Rendered at `/personal/portfolio` by `src/components/portfolio/`.
 | A skill area's mark is a tool that area lists, in its brand colour from `AppColors.BRAND` | Test-checked against the CV; monochrome marks take the text colour | Mobile Integration → RevenueCat red; Web Development → Next.js |
 | The exceptions: `Mobile Architecture` lists patterns and `Domains` lists industries, not tools; each takes a generic monochrome mark | No brand stands for a pattern or a domain | `LuLayers`, `LuBriefcaseBusiness` |
 | A project's icon comes from `projectIcons`, keyed by the CV project name | Reuse `/app-icons/…` first, else `public/personal/projects/` | Missing → dashed placeholder with initials, never a stock icon |
-| A project with an entry in `src/data/project-media.json` leads its card with that cover and adds a "Watch the demo" link (YouTube mark) after its code | The same cover and video as the Upwork tab; see [content.md](content.md) | BaroEase, Reseller Studio |
+| A project with an entry in `src/data/project-details.json` leads its card with that cover, lists its highlights in place of the CV line, and adds a "Watch the demo" link (YouTube mark) after its code | The same points, cover and video as the Upwork tab; the one set of project facts not from the CV; see [content.md](content.md) | BaroEase, Reseller Studio |
 | Websites open from `WebsiteButton` | A bordered pill: globe, address, arrow out | — |
 
 ## Page behaviour
