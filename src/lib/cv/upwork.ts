@@ -1,6 +1,7 @@
 import source from "@/data/cv/upwork/upwork.json";
 import { cv } from "@/lib/cv/cv";
 import type { Cv } from "@/lib/cv/cv-types";
+import { projectMedia, type ProjectMedia } from "@/lib/projects/project-media";
 
 /** `ResourceConstant.CV_UPWORK_FILE`: what only Upwork asks for, as the profile shows it. */
 export type UpworkSource = {
@@ -26,8 +27,8 @@ export type UpworkSource = {
 /** One box of Upwork's form: its label and the text pasted into it. */
 export type UpworkField = { label: string; text: string };
 
-/** A portfolio project or a school: a name over its own fields. */
-export type UpworkGroup = { title: string; fields: UpworkField[] };
+/** A portfolio project or a school: a name over its own fields, and a project's cover to upload. */
+export type UpworkGroup = { title: string; fields: UpworkField[]; media?: ProjectMedia };
 
 export type UpworkProfile = {
   profileUrl: string;
@@ -39,9 +40,14 @@ export type UpworkProfile = {
 /**
  * The Upwork profile as fields to paste, in the order Upwork's form asks for
  * them. The overview opens with the CV's About me and the education is the
- * CV's, so the profile never disagrees with the CV.
+ * CV's, so the profile never disagrees with the CV. A project's cover and
+ * video are the ones the portfolio shows (`media`).
  */
-export function buildUpwork(upwork: UpworkSource, from: Cv): UpworkProfile {
+export function buildUpwork(
+  upwork: UpworkSource,
+  from: Cv,
+  media: Record<string, ProjectMedia> = projectMedia,
+): UpworkProfile {
   const projectUrl = (name: string) => {
     const project = from.projects.find((item) => item.name === name);
     if (!project) throw new Error(`Upwork portfolio names "${name}", which is not a CV project.`);
@@ -58,16 +64,22 @@ export function buildUpwork(upwork: UpworkSource, from: Cv): UpworkProfile {
       { label: "Hours per week", text: upwork.hoursPerWeek },
       { label: "Languages", text: upwork.languages.join(", ") },
     ],
-    portfolio: upwork.portfolio.map((project) => ({
-      title: project.title,
-      fields: [
-        { label: "Title", text: project.title },
-        { label: "Role", text: project.role },
-        { label: "Description", text: project.description.join("\n") },
-        { label: "Skills", text: project.skills.join(", ") },
-        ...(project.cvProject ? [{ label: "Project URL", text: projectUrl(project.cvProject) }] : []),
-      ],
-    })),
+    portfolio: upwork.portfolio.map((project) => {
+      const shown = media[project.cvProject ?? project.title];
+
+      return {
+        title: project.title,
+        media: shown,
+        fields: [
+          { label: "Title", text: project.title },
+          { label: "Role", text: project.role },
+          { label: "Description", text: project.description.join("\n") },
+          { label: "Skills", text: project.skills.join(", ") },
+          ...(project.cvProject ? [{ label: "Project URL", text: projectUrl(project.cvProject) }] : []),
+          ...(shown ? [{ label: "Video", text: shown.youtube }] : []),
+        ],
+      };
+    }),
     education: from.education.map((school) => ({
       title: school.institution,
       fields: [

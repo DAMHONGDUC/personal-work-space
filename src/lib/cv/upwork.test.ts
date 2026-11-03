@@ -4,6 +4,7 @@ import { describe, expect, it } from "vitest";
 import source from "@/data/cv/upwork/upwork.json";
 import { cv } from "@/lib/cv/cv";
 import { buildUpwork, upwork, type UpworkSource } from "@/lib/cv/upwork";
+import { projectMedia } from "@/lib/projects/project-media";
 import { ResourceConstant } from "@/lib/resource-constant.mts";
 
 const field = (label: string) => upwork.profile.find((item) => item.label === label)!.text;
@@ -31,6 +32,13 @@ describe("the Upwork profile", () => {
 
       expect(url).toBe(cvProject?.links[0].href);
     }
+  });
+
+  it("offers each portfolio project's shared cover and video", () => {
+    const baroEase = upwork.portfolio.find((group) => group.title === "BaroEase: Migraine Tracker")!;
+
+    expect(baroEase.media).toBe(projectMedia.BaroEase);
+    expect(baroEase.fields.find((item) => item.label === "Video")!.text).toBe(projectMedia.BaroEase.youtube);
   });
 
   it("refuses a portfolio project the CV does not have", () => {

@@ -1,8 +1,27 @@
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Download } from "lucide-react";
 import { CopyBlock } from "@/components/cv/CopyBlock";
+import { ProjectCover } from "@/components/shared/ProjectCover";
 import { Button } from "@/components/ui/button";
 import type { UpworkField, UpworkGroup, UpworkProfile as Profile } from "@/lib/cv/upwork";
 import { AppTextStyles } from "@/lib/design/app-text-styles";
+import { withBasePath } from "@/lib/routes/routes";
+
+/** The cover Upwork asks to upload, with the file to upload it from. */
+function Cover({ group }: { group: UpworkGroup }) {
+  if (!group.media) return null;
+
+  return (
+    <div className="flex flex-col items-start gap-3">
+      <ProjectCover src={group.media.cover} name={group.title} className="max-w-md" />
+      <Button asChild variant="outline" size="sm">
+        <a href={withBasePath(group.media.cover)} download>
+          <Download aria-hidden />
+          Download cover
+        </a>
+      </Button>
+    </div>
+  );
+}
 
 function Fields({ fields, of }: { fields: UpworkField[]; of?: string }) {
   return (
@@ -26,6 +45,7 @@ function Groups({ title, groups }: { title: string; groups: UpworkGroup[] }) {
       {groups.map((group) => (
         <div key={group.title} className="flex flex-col gap-3">
           <h3 className={AppTextStyles.EYEBROW}>{group.title}</h3>
+          <Cover group={group} />
           <Fields fields={group.fields} of={group.title} />
         </div>
       ))}
