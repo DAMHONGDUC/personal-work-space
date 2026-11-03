@@ -25,6 +25,10 @@
 /public/cv.pdf
 /public/cv/
 
+# video (dependencies, and the portrait and music copied or synthesised by render.sh)
+/video/*/node_modules/
+/video/*/public/
+
 # misc
 .DS_Store
 *.pem

@@ -21,6 +21,7 @@
     "cv:pdf": "npm run cv:tex && node scripts/build-cv-pdf.mts && node scripts/publish-cv-pdf.mts && node scripts/build-cv-images.mts",
     "effects:sync": "node scripts/sync-effects.mts",
     "docs:sync": "node scripts/sync-docs.mts",
+    "video:upwork": "bash video/upwork-intro/render.sh",
     "typecheck": "next typegen && tsc --noEmit",
     "test": "vitest run",
     "commits:check": "node scripts/check-commit-message.mts --range"
