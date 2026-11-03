@@ -3,6 +3,7 @@ import { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import type { CvVersion } from "@/lib/cv/cv-types";
+import type { UpworkProfile } from "@/lib/cv/upwork";
 import { CvTabs } from "./CvTabs";
 
 let container: HTMLDivElement;
@@ -34,13 +35,22 @@ function panelText(name: string) {
   return document.getElementById(tab(name).getAttribute("aria-controls")!)!.textContent;
 }
 
+const upwork: UpworkProfile = {
+  profileUrl: "https://www.upwork.com/freelancers/~example",
+  profile: [{ label: "Title", text: "Mobile Developer" }],
+  portfolio: [],
+  education: [],
+};
+
 beforeEach(() => {
   container = document.createElement("div");
   document.body.appendChild(container);
   act(() => {
     root = createRoot(container);
     root.render(
-      <CvTabs versions={[version("cv_normal", "Normal"), version("cv_with_freelancer", "With freelancer")]} coverLetter="Dear Hiring Team," />,
+      <CvTabs versions={[version("cv_normal", "Normal"), version("cv_with_freelancer", "With freelancer")]} coverLetter="Dear Hiring Team,"
+        upwork={upwork}
+      />,
     );
   });
 });
@@ -59,6 +69,16 @@ describe("CvTabs", () => {
 
     expect(panelState("Cover letter")).toBe("active");
     expect(panelText("Cover letter")).toContain("Dear Hiring Team,");
+    expect(panelState("CV")).toBe("inactive");
+  });
+
+  it("shows the Upwork profile in its own tab", () => {
+    expect(panelState("Upwork")).toBe("inactive");
+
+    press(tab("Upwork"));
+
+    expect(panelState("Upwork")).toBe("active");
+    expect(panelText("Upwork")).toContain("Mobile Developer");
     expect(panelState("CV")).toBe("inactive");
   });
 

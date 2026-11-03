@@ -4,6 +4,7 @@ import { PageContainer } from "@/components/layout/PageContainer";
 import { PageIntro } from "@/components/layout/PageIntro";
 import { coverLetter } from "@/lib/cv/cover-letter";
 import { cv, getCvVersions } from "@/lib/cv/cv";
+import { upwork } from "@/lib/cv/upwork";
 import { routes } from "@/lib/routes/routes";
 
 export const metadata: Metadata = {
@@ -26,7 +27,7 @@ export default function CvPage() {
         you are hiring for, read it below, or take a copy with you.
       </PageIntro>
 
-      <CvTabs versions={versions} coverLetter={coverLetter} />
+      <CvTabs versions={versions} coverLetter={coverLetter} upwork={upwork} />
     </PageContainer>
   );
 }
