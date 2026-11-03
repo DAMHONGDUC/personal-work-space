@@ -7,7 +7,7 @@ import { DocBlocks } from "@/components/docs/DocBlocks";
 import { DocHero } from "@/components/docs/DocHero";
 import { LanguageSwitch } from "@/components/docs/LanguageSwitch";
 import { ResumeReading } from "@/components/docs/ResumeReading";
-import { SeriesContents, SeriesPager } from "@/components/docs/SeriesNav";
+import { SeriesContents, SeriesPager, SeriesShortcuts } from "@/components/docs/SeriesNav";
 import { MobileToc, SidebarToc } from "@/components/policy/PolicyToc";
 import { Prose } from "@/components/policy/Prose";
 import { Section } from "@/components/policy/Section";
@@ -19,6 +19,8 @@ import {
   type Doc,
   type SeriesPage,
 } from "@/lib/docs/doc-model";
+import { routes } from "@/lib/routes/routes";
+import { seriesTrail } from "@/lib/docs/series-tree";
 import { AppSpacings } from "@/lib/design/app-spacings";
 import { AppColors } from "@/lib/design/app-colors";
 import { AppTextStyles } from "@/lib/design/app-text-styles";
@@ -68,7 +70,18 @@ export function DocArticle({
     <>
       <ReadingProgress accent={AppColors.DOCS} />
 
-      <DocHero doc={doc} lang={lang}>
+      <DocHero
+        doc={doc}
+        lang={lang}
+        crumbs={
+          series &&
+          seriesTrail(series, doc.slug).map(({ page, label }) => ({
+            label: label ?? page.title[lang],
+            href: routes.doc(page.slug),
+          }))
+        }
+        actions={series && <SeriesShortcuts pages={series} current={doc.slug} />}
+      >
         {!only && <LanguageSwitch lang={lang} onChange={setLang} accent={AppColors.DOCS} />}
       </DocHero>
 

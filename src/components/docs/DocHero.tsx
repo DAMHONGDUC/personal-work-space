@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import Link from "next/link";
 import { AppIcon } from "@/components/shared/AppIcon";
 import { Badge } from "@/components/ui/badge";
@@ -19,10 +20,19 @@ import { AppTextStyles } from "@/lib/design/app-text-styles";
 export function DocHero({
   doc,
   lang,
+  crumbs = [{ label: doc.title, href: routes.doc(doc.slug) }],
+  actions,
   children,
 }: {
   doc: Doc;
   lang: Lang;
+  /**
+   * The breadcrumb after "All guides", the page itself last: a series page
+   * lists where it sits (SiteLog / Sprint guides / S1 / F02). Every step links.
+   */
+  crumbs?: { label: string; href: string }[];
+  /** Buttons under the tagline, e.g. into the series' next panel. */
+  actions?: React.ReactNode;
   /** The language switch, placed alongside the guide's metadata. */
   children?: React.ReactNode;
 }) {
@@ -48,12 +58,27 @@ export function DocHero({
       />
 
       <div className={`relative ${AppSpacings.CONTAINER} ${AppSpacings.HERO_BOTTOM} ${AppSpacings.PAGE_TOP}`}>
-        <nav className={`${AppTextStyles.SMALL} pb-9`}>
+        <nav aria-label="Breadcrumb" className={`${AppTextStyles.SMALL} flex flex-wrap items-baseline gap-y-1 pb-9`}>
           <Link href={routes.docs} className="transition-colors hover:text-foreground">
             All guides
           </Link>
-          <span className="px-2 opacity-50">/</span>
-          <span className="text-foreground">{doc.title}</span>
+          {crumbs.map((crumb, index) => {
+            const last = index === crumbs.length - 1;
+
+            return (
+              <Fragment key={`${crumb.href}-${crumb.label}`}>
+                <span aria-hidden className="px-2 opacity-50">/</span>
+                <Link
+                  href={crumb.href}
+                  lang={lang}
+                  aria-current={last ? "page" : undefined}
+                  className={`transition-colors hover:text-foreground ${last ? "text-foreground" : ""}`}
+                >
+                  {crumb.label}
+                </Link>
+              </Fragment>
+            );
+          })}
         </nav>
 
         <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:gap-6">
@@ -75,6 +100,7 @@ export function DocHero({
             <p lang={lang} className={`${AppTextStyles.BODY} max-w-[72ch]`}>
               {doc.tagline}
             </p>
+            {actions && <div className="pt-2">{actions}</div>}
           </div>
         </div>
 

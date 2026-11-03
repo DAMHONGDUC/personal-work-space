@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { SeriesPage } from "@/lib/docs/doc-model";
-import { groupHolds, seriesPanels } from "@/lib/docs/series-tree";
+import { groupHolds, seriesPanels, seriesTrail } from "@/lib/docs/series-tree";
 
 function page(slug: string, extra: Partial<SeriesPage> = {}): SeriesPage {
   return { slug, part: 0, title: { en: slug, vi: slug }, ...extra };
@@ -53,5 +53,34 @@ describe("groupHolds", () => {
     expect(groupHolds(group, "s0")).toBe(true);
     expect(groupHolds(group, "f00")).toBe(true);
     expect(groupHolds(group, "f01")).toBe(false);
+  });
+});
+
+describe("seriesTrail", () => {
+  const pages = [
+    page("overview", { panel: "Base docs" }),
+    page("roadmap", { panel: "Base docs" }),
+    page("s1", { panel: "Sprint guides", group: "S1", opensGroup: true }),
+    page("f02", { panel: "Sprint guides", group: "S1" }),
+  ];
+  const trail = (slug: string) =>
+    seriesTrail(pages, slug).map((crumb) => crumb.label ?? crumb.page.slug);
+
+  it("leads a feature guide down through the base docs, its panel and its sprint", () => {
+    expect(trail("f02")).toEqual(["overview", "Sprint guides", "s1", "f02"]);
+    expect(seriesTrail(pages, "f02")[1].page.slug).toBe("s1");
+  });
+
+  it("names the sprint once on its own page", () => {
+    expect(trail("s1")).toEqual(["overview", "Sprint guides", "s1"]);
+  });
+
+  it("leads a base page straight from the series' first page", () => {
+    expect(trail("roadmap")).toEqual(["overview", "roadmap"]);
+    expect(trail("overview")).toEqual(["overview"]);
+  });
+
+  it("stays flat for a series without panels", () => {
+    expect(seriesTrail([page("a"), page("b")], "b").map((crumb) => crumb.page.slug)).toEqual(["a", "b"]);
   });
 });

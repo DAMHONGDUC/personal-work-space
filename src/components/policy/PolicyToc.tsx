@@ -1,5 +1,5 @@
 import { PolicyNav, type NavItem } from "@/components/policy/PolicyNav";
-import { AppTextStyles } from "@/lib/design/app-text-styles";
+import { PanelHeading } from "@/components/shared/PanelHeading";
 
 /** Collapsed table of contents, shown instead of the sidebar on small screens. */
 export function MobileToc({
@@ -44,17 +44,16 @@ export function SidebarToc({
 }) {
   return (
     <aside className="hidden lg:block">
-      <div className="sticky top-24 flex max-h-[calc(100vh-7rem)] flex-col gap-8 pb-6">
-        {/* Each block above the contents scrolls on its own and shares the
-            column's height with them (`data-scroll-panel`). */}
+      {/* One fixed height for the column: each block above the contents has its
+          own and scrolls on its own (`data-scroll-panel`), and the contents
+          take the rest, so no block grows or shrinks with what it lists. */}
+      <div data-toc-column className="sticky top-24 flex h-[calc(100vh-7rem)] flex-col gap-8 pb-6">
         {children}
         <nav
           aria-label="On this page"
-          className="flex min-h-0 flex-col gap-3 overflow-y-auto border-l border-border-soft [scrollbar-width:thin]"
+          className="flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto border-l border-border-soft [scrollbar-width:thin]"
         >
-          <p className={`${AppTextStyles.EYEBROW} pl-4`}>
-            On this page
-          </p>
+          <PanelHeading accent={accent}>On this page</PanelHeading>
           <PolicyNav items={items} accent={accent} numbered={numbered} />
         </nav>
       </div>

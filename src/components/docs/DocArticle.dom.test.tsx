@@ -301,25 +301,64 @@ describe("DocArticle", () => {
         { slug: "f01", part: 4, title: { en: "F01", vi: "F01" }, panel: "Sprint guides", group: "S1" },
       ];
 
-      it("draws each panel as its own block, in the card and the sidebar", () => {
+      it("shows only the panel holding the page, with no shortcut inside it", () => {
         const page = render(versions, sprints);
 
         for (const variant of ["card", "sidebar"]) {
           const panels = [...page.querySelectorAll(`[data-variant="${variant}"] [data-panel]`)];
-          expect(panels.map((panel) => panel.getAttribute("data-panel"))).toEqual(["Base docs", "Sprint guides"]);
+          expect(panels.map((panel) => panel.getAttribute("data-panel"))).toEqual(["Sprint guides"]);
+          // No shortcut inside the panel: the way across is the header's.
+          expect(page.querySelector(`[data-variant="${variant}"] a[href="/docs/intro"]`)).toBeNull();
         }
-        // Each sidebar block scrolls on its own, and only the one holding the page counts.
-        const blocks = [...page.querySelectorAll('aside [data-panel]')];
-        expect(blocks.every((block) => block.hasAttribute("data-scroll-panel"))).toBe(true);
-        expect(blocks.map((block) => block.querySelector("p")?.textContent)).toEqual(["Base docs", "Sprint guides3/5"]);
+        // The block scrolls on its own at one fixed height, so folding a sprint never resizes it.
+        const block = page.querySelector("aside [data-panel]")!;
+        expect(block.hasAttribute("data-scroll-panel")).toBe(true);
+        expect(block.classList.contains("h-[45vh]")).toBe(true);
+        expect(block.querySelector("p")?.textContent).toBe("Sprint guides3/5");
+        // The header offers both panels on a sprint page too, this one marked.
+        const buttons = [...page.querySelectorAll("header [data-shortcuts] a")];
+        expect(buttons.map((button) => button.getAttribute("aria-current"))).toEqual([null, "true"]);
+        expect(page.querySelectorAll('[data-variant="card"] [data-panel] > [data-scroll-panel].h-72')).toHaveLength(1);
+        // "On this page" fills the rest of a column of fixed height, so it is fixed too.
+        expect(page.querySelector("aside [data-toc-column]")?.classList.contains("h-[calc(100vh-7rem)]")).toBe(true);
+        expect(page.querySelector('aside nav[aria-label="On this page"]')?.classList.contains("flex-1")).toBe(true);
+      });
+
+      it("offers the next panel from the header of the base docs", () => {
+        const base: SeriesPage[] = sprints.map((entry) =>
+          entry.slug === "guide" ? { ...entry, panel: "Base docs", group: undefined } : entry,
+        );
+        const moved = [base[0], base[2], base[1], base[3], base[4]].map((entry, part) => ({ ...entry, part }));
+        const page = render(versions, moved);
+        const nav = page.querySelector('aside [data-variant="sidebar"]')!;
+
+        expect([...nav.querySelectorAll("a")].map((link) => link.textContent)).toEqual(["Intro", "F00"]);
+        // And both panels in the page's header, the one being read marked.
+        const buttons = [...page.querySelectorAll("header [data-shortcuts] a")];
+        expect(buttons.map((button) => [button.textContent, button.getAttribute("href"), button.getAttribute("aria-current")])).toEqual([
+          ["Base docs", "/docs/intro", "true"],
+          ["Sprint guides", "/docs/s0", null],
+        ]);
       });
 
       it("unfolds only the group holding the page being read, its own page first as the overview", () => {
         const page = render(versions, sprints);
         const nav = page.querySelector('aside [data-variant="sidebar"]')!;
 
-        expect([...nav.querySelectorAll("a")].map((link) => link.textContent)).toEqual(["Intro", "Overview", "F00"]);
+        // A folded sprint's pages stay in the page for the slide, but out of reach.
+        const reachable = [...nav.querySelectorAll("a")].filter((link) => !link.closest("[inert]"));
+        expect(reachable.map((link) => link.textContent)).toEqual(["Overview", "F00"]);
+        // The sprint holding the page is filled with the accent; the page in it is only tinted.
+        const row = nav.querySelector<HTMLElement>('[data-group="S0"] > button')!;
+        expect(row.dataset.holds).toBe("true");
+        expect(row.classList.contains("text-white")).toBe(true);
+        expect(nav.querySelector('[data-group="S1"] > button')?.hasAttribute("data-holds")).toBe(false);
         expect(nav.querySelector("a[href='/docs/s0']")?.textContent).toBe("Overview");
+        // The header's breadcrumb walks down the same levels, every step a link.
+        const crumbs = [...page.querySelectorAll('header nav[aria-label="Breadcrumb"] a')];
+        expect(crumbs.map((crumb) => crumb.textContent)).toEqual(["All guides", "Intro", "Sprint guides", "S0", "F00"]);
+        expect(crumbs.map((crumb) => crumb.getAttribute("href"))).toEqual(["/docs", "/docs/intro", "/docs/s0", "/docs/s0", "/docs/guide"]);
+        expect(crumbs.at(-1)?.getAttribute("aria-current")).toBe("page");
         expect(nav.querySelector('[aria-current="page"]')?.textContent).toBe("F00");
       });
 
@@ -332,9 +371,9 @@ describe("DocArticle", () => {
         expect(row().getAttribute("aria-expanded")).toBe("false");
         act(() => row().querySelector("span")!.click());
         expect(row().getAttribute("aria-expanded")).toBe("true");
-        expect(nav.querySelector('[data-group="S1"]')?.textContent).toContain("F01");
+        expect(nav.querySelector('[data-group="S1"] > div')?.hasAttribute("inert")).toBe(false);
         act(() => row().click());
-        expect(nav.querySelector('[data-group="S1"]')?.textContent).not.toContain("F01");
+        expect(nav.querySelector('[data-group="S1"] > div')?.hasAttribute("inert")).toBe(true);
       });
     });
 

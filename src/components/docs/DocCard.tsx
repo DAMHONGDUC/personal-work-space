@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { AppIcon } from "@/components/shared/AppIcon";
 import { Badge } from "@/components/ui/badge";
+import { PanelButton } from "@/components/docs/PanelButton";
+import type { PanelShortcut } from "@/lib/docs/doc-listing";
 import {
   type Lang,
   type Doc,
@@ -25,12 +27,15 @@ export function DocCard({
   lang,
   sections = doc.sections,
   pages,
+  shortcuts = [],
 }: {
   doc: Doc;
   lang: Lang;
   sections?: DocSection[];
   /** Set on a series' first page: how many pages the series has. */
   pages?: number;
+  /** Set on a series' first page: buttons straight into its other panels. */
+  shortcuts?: PanelShortcut[];
 }) {
   return (
     <article className="relative overflow-hidden rounded-2xl border border-border-soft bg-surface">
@@ -67,6 +72,14 @@ export function DocCard({
             <p lang={lang} className={AppTextStyles.BODY_SM}>
               {doc.tagline}
             </p>
+            {shortcuts.length > 0 && (
+              // Above the stretched title link, so a shortcut is its own click target.
+              <div className="relative mt-2 flex flex-wrap gap-2">
+                {shortcuts.map((shortcut) => (
+                  <PanelButton key={shortcut.slug} href={routes.doc(shortcut.slug)} name={shortcut.name} />
+                ))}
+              </div>
+            )}
           </div>
         </div>
 

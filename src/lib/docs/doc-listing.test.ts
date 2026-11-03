@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { Doc } from "@/lib/docs/doc-model";
-import { isListed, seriesSizes } from "@/lib/docs/doc-listing";
+import { isListed, panelShortcuts, seriesSizes } from "@/lib/docs/doc-listing";
 
 function doc(slug: string, series?: Doc["series"]): Doc {
   return {
@@ -35,5 +35,24 @@ describe("isListed", () => {
 describe("seriesSizes", () => {
   it("counts every page of each series", () => {
     expect(seriesSizes(docs)).toEqual(new Map([["sitelog", 3]]));
+  });
+});
+
+describe("panelShortcuts", () => {
+  it("offers the first page of each panel past the one the series opens in", () => {
+    const panelled = [
+      doc("sitelog-overview", { id: "sitelog", part: 0, panel: "Base docs" }),
+      doc("sitelog-roadmap", { id: "sitelog", part: 1, panel: "Base docs" }),
+      doc("sitelog-guide-s0", { id: "sitelog", part: 2, panel: "Sprint guides", group: "S0", opensGroup: true }),
+      doc("sitelog-guide-f00", { id: "sitelog", part: 3, panel: "Sprint guides", group: "S0" }),
+    ].reverse();
+
+    expect(panelShortcuts(panelled)).toEqual(
+      new Map([["sitelog", [{ name: "Sprint guides", slug: "sitelog-guide-s0" }]]]),
+    );
+  });
+
+  it("offers nothing for a series without panels", () => {
+    expect(panelShortcuts(docs)).toEqual(new Map());
   });
 });

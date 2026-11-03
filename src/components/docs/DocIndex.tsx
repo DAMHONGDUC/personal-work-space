@@ -7,7 +7,7 @@ import { LanguageSwitch } from "@/components/docs/LanguageSwitch";
 import { TopicFilter } from "@/components/docs/TopicFilter";
 import { useDocLanguage } from "@/hooks/docs/useDocLanguage";
 import { useDocSearch } from "@/hooks/docs/useDocSearch";
-import { isListed, seriesSizes } from "@/lib/docs/doc-listing";
+import { isListed, panelShortcuts, seriesSizes } from "@/lib/docs/doc-listing";
 import {
   DOC_TOPICS,
   TOPIC_LABELS,
@@ -42,6 +42,7 @@ export function DocIndex({ versions }: { versions: Record<Lang, Doc[]> }) {
   const searching = query.trim() !== "";
   const listed = docs.filter(isListed);
   const pages = seriesSizes(docs);
+  const shortcuts = panelShortcuts(docs);
   const pool = searching ? docs : listed;
 
   const matches = searching ? found : found.filter(({ doc }) => isListed(doc));
@@ -107,6 +108,7 @@ export function DocIndex({ versions }: { versions: Record<Lang, Doc[]> }) {
                     lang={lang}
                     sections={sections}
                     pages={doc.series && isListed(doc) ? pages.get(doc.series.id) : undefined}
+                    shortcuts={doc.series && isListed(doc) ? shortcuts.get(doc.series.id) : undefined}
                   />
                 ))}
               </section>

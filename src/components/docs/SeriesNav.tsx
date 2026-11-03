@@ -1,13 +1,15 @@
 "use client";
 
-import { Fragment, useEffect, useRef, useState } from "react";
+import { Fragment, useLayoutEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, ChevronRight } from "lucide-react";
 import type { Lang, SeriesPage } from "@/lib/docs/doc-model";
 import { routes } from "@/lib/routes/routes";
 import { AppColors } from "@/lib/design/app-colors";
 import { AppTextStyles } from "@/lib/design/app-text-styles";
-import { groupHolds, seriesPanels, type SeriesItem } from "@/lib/docs/series-tree";
+import { PanelButton } from "@/components/docs/PanelButton";
+import { PanelHeading } from "@/components/shared/PanelHeading";
+import { groupHolds, panelStart, seriesPanels, type SeriesItem } from "@/lib/docs/series-tree";
 
 /** The few words the series navigation prints, in the language of the guide. */
 const LABELS = {
@@ -41,9 +43,11 @@ function seriesName(pages: SeriesPage[], lang: Lang): string {
  * however far the reader scrolls. Smaller screens have no column and get it as
  * a card above the intro (`card`).
  *
- * A series split into panels ("Base docs", "Sprint guides") draws each as a
- * block of its own — its own card, or its own scrolled block in the sidebar —
- * headed by its name; the block holding the page being read shows the count.
+ * A series split into panels ("Base docs", "Sprint guides") shows only the
+ * panel holding the page being read, headed by its name in the accent; the
+ * way into the other panels is the page header's (`SeriesShortcuts`), never
+ * the panel's. The block has a fixed height and scrolls inside, so folding a
+ * group never moves anything around it.
  * A group opened by a page of its own (a sprint's README) is one row that
  * folds and unfolds its pages, that page first as its overview; only the group
  * holding the page being read starts unfolded. A group without one is a plain
@@ -82,18 +86,23 @@ export function SeriesContents({
   );
 
   // A long list runs past the bottom of its scrolled block; bring the page being
-  // read into the block's view, moving only the block, never the page.
-  useEffect(() => {
+  // read into the block's view, moving only the block, never the page. Before
+  // paint: the block is drawn afresh on every page, and scrolling after it
+  // showed the top of the list for a frame, then jumped.
+  useLayoutEffect(() => {
     const link = currentLink.current;
     const panel = link?.closest<HTMLElement>("[data-scroll-panel]");
-    if (!sidebar || !link || !panel) return;
+    if (!link || !panel) return;
 
     // Where the link sits inside the block's scrolled content.
     const top = link.getBoundingClientRect().top - panel.getBoundingClientRect().top + panel.scrollTop;
     if (top < panel.scrollTop || top + link.offsetHeight > panel.scrollTop + panel.clientHeight) {
       panel.scrollTop = top - panel.clientHeight / 3;
     }
-  }, [current, sidebar]);
+  }, [current]);
+
+  // Panels show one at a time: the one holding the page being read.
+  const shown = panels.every((panel) => panel.name) && panels.length > 1 ? [panels[countedPanel]] : panels;
 
   function toggle(group: string) {
     setOpen((before) => {
@@ -113,7 +122,7 @@ export function SeriesContents({
         aria-current={here ? "page" : undefined}
         className={
           sidebar
-            ? `-ml-px block rounded-r-md border-l-2 py-1 pr-2 text-[0.9375rem] leading-6 transition-colors ${
+            ? `-ml-px block rounded-r-md border-l-2 py-1 pr-2 text-[0.9375rem] leading-6 transition-colors duration-200 ${
                 nested ? "pl-7" : "pl-4"
               } ${here ? "font-semibold" : "border-transparent text-muted hover:border-foreground/25 hover:text-foreground"}`
             : `block rounded-lg px-3 py-1.5 text-sm transition-colors ${
@@ -167,25 +176,48 @@ export function SeriesContents({
           type="button"
           onClick={() => toggle(group.name)}
           aria-expanded={unfolded}
-          className={`flex w-full items-center justify-between gap-2 text-left transition-colors ${
+          data-holds={holds || undefined}
+          className={`flex w-full items-center justify-between gap-2 text-left transition-colors duration-200 ${
             sidebar
-              ? "-ml-px rounded-r-md border-l-2 border-transparent py-1 pr-2 pl-4 text-[0.9375rem] leading-6 hover:border-foreground/25"
-              : "rounded-lg px-3 py-1.5 text-sm hover:bg-muted-surface"
-          } ${holds ? "font-medium text-foreground" : "text-muted hover:text-foreground"}`}
+              ? "-ml-px rounded-r-md border-l-2 py-1 pr-2 pl-4 text-[0.9375rem] leading-6"
+              : "rounded-lg px-3 py-1.5 text-sm"
+          } ${
+            holds
+              ? "font-semibold text-white"
+              : `text-muted hover:text-foreground ${sidebar ? "border-transparent hover:border-foreground/25" : "hover:bg-muted-surface"}`
+          }`}
+          // The sprint the reader is in is filled with the accent, so it reads
+          // apart from the page inside it, which is only tinted.
+          style={holds ? { backgroundColor: AppColors.DOCS, borderColor: AppColors.DOCS } : undefined}
         >
           <span>{group.head.title[lang]}</span>
-          <ChevronRight aria-hidden className={`size-4 shrink-0 transition-transform ${unfolded ? "rotate-90" : ""}`} />
+          <ChevronRight
+            aria-hidden
+            className={`size-4 shrink-0 transition-transform duration-300 ease-(--pf-ease) motion-reduce:transition-none ${
+              unfolded ? "rotate-90" : ""
+            }`}
+          />
         </button>
-        {unfolded && (
-          <ol className={`flex flex-col ${sidebar ? "gap-0.5" : "gap-1"}`}>
-            <li className={step}>{pageLink(group.head, true, LABELS.overview[lang])}</li>
-            {group.pages.map((page) => (
-              <li key={page.slug} className={step}>
-                {pageLink(page, true)}
-              </li>
-            ))}
-          </ol>
-        )}
+        {/* Folding slides the height from its own to none (grid rows 1fr ↔ 0fr)
+            and fades it; folded, the list stays out of reach (inert). */}
+        <div
+          inert={!unfolded}
+          className={`grid transition-[grid-template-rows,opacity] duration-300 ease-(--pf-ease) motion-reduce:transition-none ${
+            unfolded ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+          }`}
+        >
+          {/* The clip holds no padding of its own, so folded it is truly none high. */}
+          <div className="min-h-0 overflow-hidden">
+            <ol className={`flex flex-col ${sidebar ? "gap-0.5 pt-0.5" : "gap-1 pt-1"}`}>
+              <li className={step}>{pageLink(group.head, true, LABELS.overview[lang])}</li>
+              {group.pages.map((page) => (
+                <li key={page.slug} className={step}>
+                  {pageLink(page, true)}
+                </li>
+              ))}
+            </ol>
+          </div>
+        </div>
       </li>
     );
   }
@@ -194,33 +226,84 @@ export function SeriesContents({
     <nav
       aria-label={name}
       data-variant={variant}
-      className={sidebar ? "flex min-h-0 shrink flex-col gap-8" : "flex flex-col gap-4 lg:hidden"}
+      className={sidebar ? "flex shrink-0 flex-col gap-8" : "flex flex-col gap-4 lg:hidden"}
     >
-      {panels.map((panel, position) => (
-        <div
-          key={panel.name ?? position}
-          data-panel={panel.name}
-          data-scroll-panel={sidebar ? true : undefined}
-          className={
-            sidebar
-              ? "flex min-h-0 shrink flex-col gap-3 overflow-y-auto border-l border-border-soft [scrollbar-width:thin]"
-              : "rounded-2xl border border-border-soft bg-surface p-5"
-          }
-        >
-          <p className={`${AppTextStyles.EYEBROW} flex items-baseline justify-between gap-2 ${sidebar ? "pl-4" : ""}`}>
-            <span>{panel.name ?? name}</span>
-            {position === countedPanel && (
-              <span className="shrink-0 tabular-nums normal-case tracking-normal">
-                {sidebar
-                  ? `${index + 1}/${pages.length}`
-                  : `${LABELS.page[lang]} ${index + 1} ${LABELS.of[lang]} ${pages.length}`}
-              </span>
+      {shown.map((panel) => {
+        const position = panels.indexOf(panel);
+        const count = position === countedPanel && (
+          <span className="shrink-0 tabular-nums normal-case tracking-normal">
+            {sidebar
+              ? `${index + 1}/${pages.length}`
+              : `${LABELS.page[lang]} ${index + 1} ${LABELS.of[lang]} ${pages.length}`}
+          </span>
+        );
+        const list = <ol className={`flex flex-col ${sidebar ? "gap-0.5" : "gap-1"}`}>{panel.items.map(item)}</ol>;
+
+        if (sidebar) {
+          return (
+            <div
+              key={panel.name ?? position}
+              data-panel={panel.name}
+              data-scroll-panel
+              // A named panel keeps one height whatever is folded; a lone list is capped instead.
+              className={`flex shrink-0 flex-col gap-3 overflow-y-auto border-l border-border-soft [scrollbar-width:thin] ${
+                panel.name ? "h-[45vh]" : "max-h-[40vh]"
+              }`}
+            >
+              <PanelHeading accent={AppColors.DOCS}>
+                <span>{panel.name ?? name}</span>
+                {count}
+              </PanelHeading>
+              {list}
+            </div>
+          );
+        }
+
+        return (
+          <div
+            key={panel.name ?? position}
+            data-panel={panel.name}
+            className="rounded-2xl border border-border-soft bg-surface p-5"
+          >
+            <p
+              className={`${AppTextStyles.EYEBROW} flex items-baseline justify-between gap-2`}
+              style={panel.name ? { color: AppColors.DOCS } : undefined}
+            >
+              <span>{panel.name ?? name}</span>
+              {count}
+            </p>
+            {panel.name ? (
+              <div data-scroll-panel className="mt-3 h-72 overflow-y-auto overscroll-contain [scrollbar-width:thin]">
+                {list}
+              </div>
+            ) : (
+              <div className="mt-3">{list}</div>
             )}
-          </p>
-          <ol className={`flex flex-col ${sidebar ? "gap-0.5" : "mt-3 gap-1"}`}>{panel.items.map(item)}</ol>
-        </div>
-      ))}
+          </div>
+        );
+      })}
     </nav>
+  );
+}
+
+/**
+ * One button per panel of the series, for every page's header: the base docs
+ * and the sprint guides are each one click away from anywhere in the series,
+ * on any screen; the panel being read is marked.
+ */
+export function SeriesShortcuts({ pages, current }: { pages: SeriesPage[]; current: string }) {
+  const panels = seriesPanels(pages);
+  const position = panels.findIndex((panel) =>
+    panel.items.some((item) => ("page" in item ? item.page.slug === current : groupHolds(item.group, current))),
+  );
+  if (position < 0 || panels.length < 2 || !panels.every((panel) => panel.name)) return null;
+
+  return (
+    <div data-shortcuts className="flex flex-wrap gap-2">
+      {panels.map((panel, index) => (
+        <PanelButton key={panel.name} href={pageHref(panelStart(panel))} name={panel.name!} active={index === position} />
+      ))}
+    </div>
   );
 }
 
