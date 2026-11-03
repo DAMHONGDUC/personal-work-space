@@ -1,0 +1,84 @@
+import source from "@/data/cv/upwork/upwork.json";
+import { cv } from "@/lib/cv/cv";
+import type { Cv } from "@/lib/cv/cv-types";
+
+/** `ResourceConstant.CV_UPWORK_FILE`: what only Upwork asks for, as the profile shows it. */
+export type UpworkSource = {
+  profileUrl: string;
+  title: string;
+  hourlyRate: string;
+  /** Overview lines after the CV's About me, which opens it. */
+  overviewNotes: string[];
+  skills: string[];
+  hoursPerWeek: string;
+  languages: string[];
+  portfolio: {
+    title: string;
+    /** The CV project it shows, by name: its GitHub link becomes the project URL. */
+    cvProject?: string;
+    role: string;
+    /** One line each, printed as written. */
+    description: string[];
+    skills: string[];
+  }[];
+};
+
+/** One box of Upwork's form: its label and the text pasted into it. */
+export type UpworkField = { label: string; text: string };
+
+/** A portfolio project or a school: a name over its own fields. */
+export type UpworkGroup = { title: string; fields: UpworkField[] };
+
+export type UpworkProfile = {
+  profileUrl: string;
+  profile: UpworkField[];
+  portfolio: UpworkGroup[];
+  education: UpworkGroup[];
+};
+
+/**
+ * The Upwork profile as fields to paste, in the order Upwork's form asks for
+ * them. The overview opens with the CV's About me and the education is the
+ * CV's, so the profile never disagrees with the CV.
+ */
+export function buildUpwork(upwork: UpworkSource, from: Cv): UpworkProfile {
+  const projectUrl = (name: string) => {
+    const project = from.projects.find((item) => item.name === name);
+    if (!project) throw new Error(`Upwork portfolio names "${name}", which is not a CV project.`);
+    return project.links[0].href;
+  };
+
+  return {
+    profileUrl: upwork.profileUrl,
+    profile: [
+      { label: "Title", text: upwork.title },
+      { label: "Hourly rate", text: upwork.hourlyRate },
+      { label: "Overview", text: [...from.aboutMe, ...upwork.overviewNotes].map((line) => `- ${line}`).join("\n") },
+      { label: "Skills", text: upwork.skills.join(", ") },
+      { label: "Hours per week", text: upwork.hoursPerWeek },
+      { label: "Languages", text: upwork.languages.join(", ") },
+    ],
+    portfolio: upwork.portfolio.map((project) => ({
+      title: project.title,
+      fields: [
+        { label: "Title", text: project.title },
+        { label: "Role", text: project.role },
+        { label: "Description", text: project.description.join("\n") },
+        { label: "Skills", text: project.skills.join(", ") },
+        ...(project.cvProject ? [{ label: "Project URL", text: projectUrl(project.cvProject) }] : []),
+      ],
+    })),
+    education: from.education.map((school) => ({
+      title: school.institution,
+      fields: [
+        { label: "School", text: school.institution },
+        { label: "Degree", text: school.degree },
+        // Upwork asks for years only: `Sep 2019 – Aug 2023` -> `2019 – 2023`.
+        { label: "Dates attended", text: (school.period.match(/\d{4}/g) ?? []).join(" – ") },
+      ],
+    })),
+  };
+}
+
+/** The profile the CV page offers, built from the default CV. */
+export const upwork = buildUpwork(source as UpworkSource, cv);

@@ -90,6 +90,13 @@ export class ResourceConstant {
   static readonly CV_COVER_LETTER_FILE = "src/data/cv/cover-letter/cover-letter.json";
 
   /**
+   * What the Upwork profile says, field by field, offered for copying under
+   * the CV. A subfolder, so it is never offered as a CV; its overview opens
+   * with the default CV's About me and its education is the CV's.
+   */
+  static readonly CV_UPWORK_FILE = "src/data/cv/upwork/upwork.json";
+
+  /**
    * The CV shown first, and the one served at the legacy /cv.pdf. Other files
    * beside it are equally valid CVs — this constant only decides which one a
    * visitor lands on and which one an old link resolves to.
