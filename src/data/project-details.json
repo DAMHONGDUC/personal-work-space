@@ -1,0 +1,50 @@
+{
+  "BaroEase": {
+    "highlights": [
+      "Migraine tracker that reads barometric pressure",
+      "Log an attack in three taps, fully offline",
+      "Pressure forecast, risk outlook and drop alerts",
+      "Encrypted sync with Google and Apple sign-in",
+      "Widget, Live Activity, Siri; seven languages",
+      "Flutter, Riverpod, Firebase, RevenueCat"
+    ],
+    "cover": "/personal/projects/baroease-cover.jpg",
+    "youtube": "https://www.youtube.com/watch?v=pvCg-821vBo&list=PLJ6iMbSFtUWA&index=4"
+  },
+  "Reseller Studio": {
+    "highlights": [
+      "All-in-one app for resellers and dropshippers",
+      "Add an item with just a title or a barcode scan",
+      "Bulk reprice, list and archive",
+      "Real profit from what each platform paid",
+      "Works offline; sign in to sync and share with a team",
+      "Flutter, Riverpod, Drift, Firebase, RevenueCat"
+    ],
+    "cover": "/personal/projects/reseller-studio-cover.jpg",
+    "youtube": "https://www.youtube.com/watch?v=xD6xJtMRUf4&list=PLJ6iMbSFtUWA"
+  },
+  "Sovereign: Private Jet": {
+    "highlights": [
+      "Private jet charter app for iOS and Android",
+      "One way, return and multi-city search",
+      "Compare jets, get a quote, book and pay",
+      "Trips, concierge chat and notifications",
+      "Light and dark, English and Vietnamese",
+      "React Native, Redux Toolkit, RTK Query, Reanimated"
+    ],
+    "cover": "/personal/projects/sovereign-cover.jpg",
+    "youtube": "https://www.youtube.com/watch?v=85PNDAKnmCQ&list=PLJ6iMbSFtUWA&index=3"
+  },
+  "Tuku Shop": {
+    "highlights": [
+      "Clothing store app, from browsing to order tracking",
+      "Categories with filters, search and reviews",
+      "Cart, vouchers and checkout",
+      "Order timeline, notifications and chat with shops",
+      "Light and dark, English and Vietnamese",
+      "Flutter, Cubit, feature-first Clean Architecture"
+    ],
+    "cover": "/personal/projects/tuku-shop-cover.jpg",
+    "youtube": "https://www.youtube.com/watch?v=JfNW-JrB1d8&list=PLJ6iMbSFtUWA&index=2"
+  }
+}

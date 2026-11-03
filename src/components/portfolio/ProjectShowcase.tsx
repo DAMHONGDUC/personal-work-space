@@ -5,7 +5,7 @@ import { SpotlightCard } from "@/components/portfolio/SpotlightCard";
 import { ProjectCover } from "@/components/shared/ProjectCover";
 import type { Project } from "@/lib/cv/cv-types";
 import { AppTextStyles } from "@/lib/design/app-text-styles";
-import type { ProjectMedia } from "@/lib/projects/project-media";
+import type { ProjectDetails } from "@/lib/projects/project-details";
 
 /** A GitHub link gets GitHub's mark, a video YouTube's; anything else a globe. */
 function linkIcon(href: string) {
@@ -18,26 +18,35 @@ function ProjectCard({
   project,
   index,
   icon,
-  media,
+  details,
 }: {
   project: Project;
   index: number;
   icon?: string;
-  media?: ProjectMedia;
+  details?: ProjectDetails;
 }) {
   // The demo video sits with the project's own links, after its code.
-  const links = media ? [...project.links, { label: "Watch the demo", href: media.youtube }] : project.links;
+  const links = details ? [...project.links, { label: "Watch the demo", href: details.youtube }] : project.links;
 
   return (
     <SpotlightCard order={index}>
       <div className="flex h-full flex-col gap-5 p-6 md:p-8">
-        {media && <ProjectCover src={media.cover} name={project.name} />}
+        {details && <ProjectCover src={details.cover} name={project.name} />}
         <div className="flex items-start justify-between gap-4">
           <ProjectIcon name={project.name} src={icon} />
           <span className={AppTextStyles.MONO_LABEL}>{String(index + 1).padStart(2, "0")}</span>
         </div>
         <h3 className={AppTextStyles.CARD_TITLE}>{project.name}</h3>
-        <p className={AppTextStyles.BODY}>{project.description}</p>
+        {/* Its points, the ones Upwork shows, say more than the CV's one line; the line stands in without them. */}
+        {details ? (
+          <ul className={`${AppTextStyles.BODY} flex list-disc flex-col gap-1 pl-5 marker:text-[var(--pf-a)]`}>
+            {details.highlights.map((line) => (
+              <li key={line}>{line}</li>
+            ))}
+          </ul>
+        ) : (
+          <p className={AppTextStyles.BODY}>{project.description}</p>
+        )}
 
         <div className="mt-auto flex flex-wrap gap-2 pt-1">
           {links.map(({ label, href }) => {
@@ -68,18 +77,18 @@ function ProjectCard({
 
 /**
  * The CV's projects, one card each, two to a row on wide screens, each led by
- * its cover, when it has one, then its app icon — `icons` and `media` are keyed
- * by project name, and a project without an icon gets a placeholder. The
- * cover and video are the ones the Upwork tab offers.
+ * its cover, when it has one, then its app icon — `icons` and `details` are
+ * keyed by project name, and a project without an icon gets a placeholder.
+ * The points, cover and video are the ones the Upwork tab offers.
  */
 export function ProjectShowcase({
   projects,
   icons,
-  media,
+  details,
 }: {
   projects: Project[];
   icons: Record<string, string>;
-  media: Record<string, ProjectMedia>;
+  details: Record<string, ProjectDetails>;
 }) {
   return (
     <div className="grid gap-4 md:grid-cols-2">
@@ -89,7 +98,7 @@ export function ProjectShowcase({
           project={project}
           index={index}
           icon={icons[project.name]}
-          media={media[project.name]}
+          details={details[project.name]}
         />
       ))}
     </div>

@@ -8,13 +8,13 @@ import { withBasePath } from "@/lib/routes/routes";
 
 /** The cover Upwork asks to upload, with the file to upload it from. */
 function Cover({ group }: { group: UpworkGroup }) {
-  if (!group.media) return null;
+  if (!group.details) return null;
 
   return (
     <div className="flex flex-col items-start gap-3">
-      <ProjectCover src={group.media.cover} name={group.title} className="max-w-md" />
+      <ProjectCover src={group.details.cover} name={group.title} className="max-w-md" />
       <Button asChild variant="outline" size="sm">
-        <a href={withBasePath(group.media.cover)} download>
+        <a href={withBasePath(group.details.cover)} download>
           <Download aria-hidden />
           Download cover
         </a>

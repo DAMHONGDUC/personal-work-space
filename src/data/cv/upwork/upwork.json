@@ -16,64 +16,49 @@
     "Web Development"
   ],
   "hoursPerWeek": "As Needed - Open to Offers",
-  "languages": ["English: Fluent"],
+  "languages": [
+    "English: Fluent"
+  ],
   "portfolio": [
     {
       "title": "Sovereign: Private Jet",
       "role": "Mobile Developer, Back End Developer, UI/UX Design",
-      "description": [
-        "A private jet booking app",
-        "👉 Just ping me if you want to test it . The Testflight build is ready!"
-      ],
-      "skills": ["React Native", "Node.js", "Figma"]
+      "skills": [
+        "React Native",
+        "Node.js",
+        "Figma"
+      ]
     },
     {
       "title": "Tuku Shop",
       "role": "Mobile dev, backend dev, UI/UX",
-      "description": [
-        "- Home sections that load one by one, each on its own",
-        "- Categories with sort, filters and paging; search with recent terms",
-        "- Product page: gallery, color and size picker, reviews",
-        "- Favorites, cart and checkout with vouchers and addresses",
-        "- Order timeline, notifications and chat with shops",
-        "- Light and dark, English and Vietnamese",
-        "- Cubit + feature-first Clean Architecture, mock data behind data sources",
-        "- Test build (TestFlight) ready — ping me if you want to try it"
-      ],
-      "skills": ["Flutter", "Figma", "Node.js"]
+      "skills": [
+        "Flutter",
+        "Figma",
+        "Node.js"
+      ]
     },
     {
       "title": "BaroEase: Migraine Tracker",
       "cvProject": "BaroEase",
       "role": "Mobile dev, backend dev, UI/UX",
-      "description": [
-        "- Three-tap attack logging that works fully offline",
-        "- Pain location on an interactive 3D head",
-        "- Each attack paired with barometric pressure; forecast and risk outlook",
-        "- Pressure-drop push alerts from Cloud Functions and WeatherKit",
-        "- Encrypted sync with Google and Apple sign-in",
-        "- Home screen widget, Live Activity, Siri",
-        "- Subscriptions with RevenueCat; seven languages",
-        "- Test build (TestFlight) ready — ping me if you want to try it"
-      ],
-      "skills": ["Flutter", "Firebase", "Figma"]
+      "skills": [
+        "Flutter",
+        "Firebase",
+        "Figma"
+      ]
     },
     {
       "title": "Reseller Studio",
       "cvProject": "Reseller Studio",
       "role": "Mobile dev, backend dev, UI/UX",
-      "description": [
-        "- Seller operating system for resellers and dropshippers",
-        "- Home opens on what needs attention today",
-        "- Add an item with just a title; barcode scan",
-        "- Bulk reprice, list and archive",
-        "- Real profit from what each platform paid, never estimated",
-        "- Works offline with no account; sign in to sync and share with a team",
-        "- 7 languages, US and UK tax summaries",
-        "- Flutter, Riverpod, Drift, Firebase, Node.js, RevenueCat",
-        "- Test build (TestFlight) ready — ping me if you want to try it"
-      ],
-      "skills": ["Flutter", "Dart", "Firebase", "Node.js", "Figma"]
+      "skills": [
+        "Flutter",
+        "Dart",
+        "Firebase",
+        "Node.js",
+        "Figma"
+      ]
     }
   ]
 }

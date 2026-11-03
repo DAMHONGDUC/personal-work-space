@@ -12,7 +12,7 @@ import { ProjectShowcase } from "@/components/portfolio/ProjectShowcase";
 import { SkillGroups } from "@/components/portfolio/SkillGroups";
 import { portfolio, portfolioStats } from "@/lib/portfolio/portfolio";
 import { AppColors } from "@/lib/design/app-colors";
-import { projectMedia } from "@/lib/projects/project-media";
+import { projectDetails } from "@/lib/projects/project-details";
 import { routes } from "@/lib/routes/routes";
 
 export const metadata: Metadata = {
@@ -42,7 +42,7 @@ export default function PortfolioPage() {
           </PortfolioSection>
 
           <PortfolioSection id="projects" eyebrow="Personal projects" title="Things I have built on my own">
-            <ProjectShowcase projects={portfolio.projects} icons={portfolio.projectIcons} media={projectMedia} />
+            <ProjectShowcase projects={portfolio.projects} icons={portfolio.projectIcons} details={projectDetails} />
           </PortfolioSection>
 
           <PortfolioSection id="contact" eyebrow="Contact" title="Get in touch">

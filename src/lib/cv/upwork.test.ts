@@ -3,8 +3,8 @@ import path from "node:path";
 import { describe, expect, it } from "vitest";
 import source from "@/data/cv/upwork/upwork.json";
 import { cv } from "@/lib/cv/cv";
-import { buildUpwork, upwork, type UpworkSource } from "@/lib/cv/upwork";
-import { projectMedia } from "@/lib/projects/project-media";
+import { buildUpwork, UPWORK_LIMITS, upwork, type UpworkSource } from "@/lib/cv/upwork";
+import { projectDetails } from "@/lib/projects/project-details";
 import { ResourceConstant } from "@/lib/resource-constant.mts";
 
 const field = (label: string) => upwork.profile.find((item) => item.label === label)!.text;
@@ -34,17 +34,42 @@ describe("the Upwork profile", () => {
     }
   });
 
-  it("offers each portfolio project's shared cover and video", () => {
+  it("describes each portfolio project with its shared points and video", () => {
     const baroEase = upwork.portfolio.find((group) => group.title === "BaroEase: Migraine Tracker")!;
+    const text = (label: string) => baroEase.fields.find((item) => item.label === label)!.text;
 
-    expect(baroEase.media).toBe(projectMedia.BaroEase);
-    expect(baroEase.fields.find((item) => item.label === "Video")!.text).toBe(projectMedia.BaroEase.youtube);
+    expect(baroEase.details).toBe(projectDetails.BaroEase);
+    expect(text("Video")).toBe(projectDetails.BaroEase.youtube);
+    expect(text("Description").split("\n")).toEqual([
+      ...projectDetails.BaroEase.highlights.map((line) => `- ${line}`),
+      `- Demo: ${projectDetails.BaroEase.youtube}`,
+      "- TestFlight build ready — ping me to try it",
+    ]);
+  });
+
+  it("fits Upwork's limits on a project's title and description", () => {
+    const over = upwork.portfolio.flatMap((group) =>
+      group.fields
+        .filter((item) => (item.label === "Title" && item.text.length > UPWORK_LIMITS.title) || (item.label === "Description" && item.text.length > UPWORK_LIMITS.description))
+        .map((item) => `${group.title}: ${item.label}`),
+    );
+
+    expect(over).toEqual([]);
   });
 
   it("refuses a portfolio project the CV does not have", () => {
     const broken = { ...source, portfolio: [{ ...source.portfolio[0], cvProject: "Nope" }] } as UpworkSource;
 
-    expect(() => buildUpwork(broken, cv)).toThrow('"Nope"');
+    // Details for "Nope", so it is the missing CV project that throws.
+    expect(() => buildUpwork(broken, cv, { ...projectDetails, Nope: projectDetails.BaroEase })).toThrow(
+      "which is not a CV project",
+    );
+  });
+
+  it("refuses a portfolio project with no project details", () => {
+    const broken = { ...source, portfolio: [{ ...source.portfolio[0], title: "Untold" }] } as UpworkSource;
+
+    expect(() => buildUpwork(broken, cv)).toThrow('"Untold" has no project details');
   });
 
   it("takes its education from the CV, years only", () => {

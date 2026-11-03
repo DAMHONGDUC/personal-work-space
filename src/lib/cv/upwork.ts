@@ -1,7 +1,7 @@
 import source from "@/data/cv/upwork/upwork.json";
 import { cv } from "@/lib/cv/cv";
 import type { Cv } from "@/lib/cv/cv-types";
-import { projectMedia, type ProjectMedia } from "@/lib/projects/project-media";
+import { projectDetails, type ProjectDetails } from "@/lib/projects/project-details";
 
 /** `ResourceConstant.CV_UPWORK_FILE`: what only Upwork asks for, as the profile shows it. */
 export type UpworkSource = {
@@ -18,8 +18,6 @@ export type UpworkSource = {
     /** The CV project it shows, by name: its GitHub link becomes the project URL. */
     cvProject?: string;
     role: string;
-    /** One line each, printed as written. */
-    description: string[];
     skills: string[];
   }[];
 };
@@ -28,7 +26,13 @@ export type UpworkSource = {
 export type UpworkField = { label: string; text: string };
 
 /** A portfolio project or a school: a name over its own fields, and a project's cover to upload. */
-export type UpworkGroup = { title: string; fields: UpworkField[]; media?: ProjectMedia };
+export type UpworkGroup = { title: string; fields: UpworkField[]; details?: ProjectDetails };
+
+/** Upwork's limits on a portfolio project's boxes. */
+export const UPWORK_LIMITS = { title: 70, description: 600 };
+
+/** Closes every project description: each one has a test build to hand out. */
+const TEST_BUILD_LINE = "TestFlight build ready — ping me to try it";
 
 export type UpworkProfile = {
   profileUrl: string;
@@ -40,13 +44,14 @@ export type UpworkProfile = {
 /**
  * The Upwork profile as fields to paste, in the order Upwork's form asks for
  * them. The overview opens with the CV's About me and the education is the
- * CV's, so the profile never disagrees with the CV. A project's cover and
- * video are the ones the portfolio shows (`media`).
+ * CV's, so the profile never disagrees with the CV. A project's points,
+ * cover and video are the ones the portfolio shows (`details`); its
+ * description is those points, the video link and the test-build line.
  */
 export function buildUpwork(
   upwork: UpworkSource,
   from: Cv,
-  media: Record<string, ProjectMedia> = projectMedia,
+  details: Record<string, ProjectDetails> = projectDetails,
 ): UpworkProfile {
   const projectUrl = (name: string) => {
     const project = from.projects.find((item) => item.name === name);
@@ -65,18 +70,20 @@ export function buildUpwork(
       { label: "Languages", text: upwork.languages.join(", ") },
     ],
     portfolio: upwork.portfolio.map((project) => {
-      const shown = media[project.cvProject ?? project.title];
+      const shown = details[project.cvProject ?? project.title];
+      if (!shown) throw new Error(`Upwork portfolio project "${project.title}" has no project details.`);
+      const description = [...shown.highlights, `Demo: ${shown.youtube}`, TEST_BUILD_LINE];
 
       return {
         title: project.title,
-        media: shown,
+        details: shown,
         fields: [
           { label: "Title", text: project.title },
           { label: "Role", text: project.role },
-          { label: "Description", text: project.description.join("\n") },
+          { label: "Description", text: description.map((line) => `- ${line}`).join("\n") },
           { label: "Skills", text: project.skills.join(", ") },
           ...(project.cvProject ? [{ label: "Project URL", text: projectUrl(project.cvProject) }] : []),
-          ...(shown ? [{ label: "Video", text: shown.youtube }] : []),
+          { label: "Video", text: shown.youtube },
         ],
       };
     }),
