@@ -5,7 +5,7 @@ import { loadFont } from '@remotion/google-fonts/Geist';
 const { fontFamily: SANS } = loadFont('normal', { weights: ['400', '500', '600', '700'], subsets: ['latin'] });
 
 const ease = Easing.bezier(0.16, 1, 0.3, 1);
-const C = { stage: '#ffffff', ink: '#0e0e12', muted: '#6e6e78', rule: '#e8e8ec', accent: '#2f5bff' };
+const C = { stage: '#ffffff', ink: '#0e0e12', muted: '#6e6e78', rule: '#e8e8ec', accent: '#9c7434' };
 
 type Scene = { eyebrow: string; main: string[]; sub?: string; list?: boolean; accent?: boolean; frames: number };
 // Three bars each at 120 bpm (360 frames), the close four.
