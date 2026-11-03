@@ -33,6 +33,12 @@ export const routes = {
 } as const;
 
 /**
+ * The query parameters the guide index keeps its filters in, so a reload or a
+ * shared link opens on the same view: `/docs/?topic=ios&q=auth&lang=vi`.
+ */
+export const DOCS_QUERY = { topic: "topic", search: "q", lang: "lang" } as const;
+
+/**
  * Slugs an app file may not use, because a static segment of the same name
  * already answers that URL and would shadow the app.
  */

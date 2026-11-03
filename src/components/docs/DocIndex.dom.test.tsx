@@ -104,6 +104,8 @@ function chip(label: string) {
 
 beforeEach(() => {
   window.localStorage.clear();
+  // jsdom keeps one address for the whole file; every test starts on a bare one.
+  window.history.replaceState(null, "", "/docs");
 });
 
 afterEach(() => {
@@ -270,3 +272,35 @@ describe("DocIndex", () => {
     expect(titles()).toEqual(["Cài SSH cho git"]);
   });
 });
+
+describe("DocIndex in the address", () => {
+  it("writes the topic and the search to the query, and clears them again", () => {
+    render();
+
+    act(() => chip("iOS").click());
+    type("signing");
+    expect(new URLSearchParams(window.location.search).get("topic")).toBe("ios");
+    expect(new URLSearchParams(window.location.search).get("q")).toBe("signing");
+
+    type("");
+    act(() => chip("iOS").click());
+    expect(window.location.search).toBe("");
+  });
+
+  it("opens on the topic, search and language a shared link carries", () => {
+    window.history.replaceState(null, "", "/docs?topic=ios&q=Signing&lang=vi");
+    const page = render();
+
+    expect(page.querySelector<HTMLInputElement>('input[type="search"]')?.value).toBe("Signing");
+    expect(titles()).toEqual(["Dựng máy Mac cho iOS"]);
+    expect(window.localStorage.getItem("docs-language")).toBe("vi");
+  });
+
+  it("ignores a topic it does not know", () => {
+    window.history.replaceState(null, "", "/docs?topic=cooking");
+    render();
+
+    expect(titles()).toEqual(["Set up a Mac for iOS", "Set up SSH for git"]);
+  });
+});
+

@@ -1,20 +1,23 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect } from "react";
 import { SearchInput } from "@/components/shared/SearchInput";
 import { DocCard } from "@/components/docs/DocCard";
 import { LanguageSwitch } from "@/components/docs/LanguageSwitch";
 import { TopicFilter } from "@/components/docs/TopicFilter";
 import { useDocLanguage } from "@/hooks/docs/useDocLanguage";
 import { useDocSearch } from "@/hooks/docs/useDocSearch";
+import { useQueryParam } from "@/hooks/routes/useQueryParam";
 import { isListed, panelShortcuts, seriesSizes } from "@/lib/docs/doc-listing";
 import {
   DOC_TOPICS,
+  LANGUAGES,
   TOPIC_LABELS,
   type Doc,
   type DocTopic,
   type Lang,
 } from "@/lib/docs/doc-model";
+import { DOCS_QUERY } from "@/lib/routes/routes";
 import { AppColors } from "@/lib/design/app-colors";
 import { AppTextStyles } from "@/lib/design/app-text-styles";
 
@@ -32,12 +35,28 @@ import { AppTextStyles } from "@/lib/design/app-text-styles";
  *
  * A series shows as one card, its first page, until a search is typed; then
  * any page that matches is listed in its own right.
+ *
+ * The topic, the search and a language picked here live in the address
+ * (`DOCS_QUERY`), so a reload or a shared link opens on the same view; a
+ * language in the address wins over the stored one.
  */
 export function DocIndex({ versions }: { versions: Record<Lang, Doc[]> }) {
-  const [lang, setLang] = useDocLanguage();
+  const [lang, storeLang] = useDocLanguage();
+  const [langParam, setLangParam] = useQueryParam(DOCS_QUERY.lang);
+  const [topicParam, setTopicParam] = useQueryParam(DOCS_QUERY.topic);
   const docs = versions[lang];
   const { query, setQuery, results: found } = useDocSearch(docs);
-  const [topic, setTopic] = useState<DocTopic | null>(null);
+  const topic = DOC_TOPICS.includes(topicParam as DocTopic) ? (topicParam as DocTopic) : null;
+  const setTopic = (next: DocTopic | null) => setTopicParam(next);
+  const setLang = (next: Lang) => {
+    storeLang(next);
+    setLangParam(next);
+  };
+
+  // A shared link's language is taken up as the reader's choice.
+  useEffect(() => {
+    if (LANGUAGES.includes(langParam as Lang) && langParam !== lang) storeLang(langParam as Lang);
+  }, [langParam, lang, storeLang]);
 
   const searching = query.trim() !== "";
   const listed = docs.filter(isListed);
