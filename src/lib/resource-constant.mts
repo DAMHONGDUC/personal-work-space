@@ -97,6 +97,12 @@ export class ResourceConstant {
   static readonly CV_UPWORK_FILE = "src/data/cv/upwork/upwork.json";
 
   /**
+   * Each project's cover and demo video, shared by the Upwork tab and the
+   * portfolio. Keyed by the CV's project name, else the Upwork title.
+   */
+  static readonly PROJECT_MEDIA_FILE = "src/data/project-media.json";
+
+  /**
    * The CV shown first, and the one served at the legacy /cv.pdf. Other files
    * beside it are equally valid CVs — this constant only decides which one a
    * visitor lands on and which one an old link resolves to.
