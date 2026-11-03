@@ -97,6 +97,16 @@ export class ResourceConstant {
   static readonly CV_UPWORK_FILE = "src/data/cv/upwork/upwork.json";
 
   /**
+   * The Upwork profile's video introduction, rendered by `npm run video:upwork`
+   * from the Remotion film in UPWORK_INTRO_SOURCE_DIR. Committed, since a
+   * render needs Chrome and minutes; `render.sh` writes this same path.
+   */
+  static readonly UPWORK_INTRO_VIDEO = "public/personal/upwork/duc-upwork-intro-1920x1080.mp4";
+
+  /** The intro film's source: scenes, music synthesiser and render script, with its own dependencies. */
+  static readonly UPWORK_INTRO_SOURCE_DIR = "video/upwork-intro";
+
+  /**
    * Each project's points, cover and demo video, shared by the Upwork tab and the
    * portfolio. Keyed by the CV's project name, else the Upwork title.
    */
