@@ -4,7 +4,7 @@
 
 | Rule | Reason | Example |
 |---|---|---|
-| `src/lib`, `src/hooks`, `src/components` hold one folder per scope | Find a feature in one place | `apps` `cv` `docs` `effects` `portfolio` `routes` `scroll` `layout` `policy` `shared` |
+| `src/lib`, `src/hooks`, `src/components` hold one folder per scope | Find a feature in one place | `apps` `cv` `docs` `effects` `portfolio` `projects` `routes` `scroll` `layout` `policy` `shared` |
 | A test sits beside its file | Moves together | `src/lib/apps/apps.ts` + `apps.test.ts` |
 | Only cross-scope files stay at a root | Keeps roots small | `src/lib/resource-constant.mts`, `format.ts`, `utils.ts` (shadcn alias) |
 | Design tokens are their own scope | See [ui.md](ui.md) | `src/lib/design/` |

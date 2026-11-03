@@ -68,6 +68,17 @@ Markdown kept in another repo, published as guide series. Enforced by [synced-do
 | Only a task's Code folds, closed ("Show code", `md-code-fold`); every other `<details>` becomes a framed block that is always shown (`md-panel`) | Hints and groups are read in passing; the Code holds the answer, checked after trying; test-checked | `unfoldDetails` in the sync |
 | A `## Contents` section is dropped | The page draws its own | — |
 
+## Project media — `src/data/project-media.json`
+
+Enforced by [project-media.test.ts](../../src/lib/projects/project-media.test.ts).
+
+| Rule | Reason | Example |
+|---|---|---|
+| One entry per project: a 4:3 `cover` under `public/personal/projects/` and a `youtube` demo link | The Upwork tab and the portfolio show the same cover and video; changed once | `"BaroEase": { "cover": "/personal/projects/baroease-cover.jpg", "youtube": "https://youtu.be/pvCg-821vBo" }` |
+| Keyed by the CV's project name, else the Upwork portfolio title | The portfolio looks up CV projects, the Upwork tab its `cvProject` or title | `Sovereign: Private Jet` is a client job, not a CV project |
+| Every Upwork portfolio project has an entry; a cover is the app repo's Upwork cover, as JPEG | Upwork asks for a cover on every project; a 1 MB PNG is cut to ~200 KB | `migraine-tracker/assets/mkt/baroease-upwork-cover-1600x1200.png` |
+| `youtube` is `https://youtu.be/<id>` | One short form to paste into Upwork | — |
+
 ## Effects library — `src/data/effects/`
 
 | Rule | Reason | Example |
