@@ -73,11 +73,13 @@ describe("the Upwork profile", () => {
     expect(() => buildUpwork(broken, cv)).toThrow('"Untold" has no project details');
   });
 
-  it("has its video introduction rendered, from a film source that writes it", () => {
+  it("has its video introduction and thumbnail rendered, from a film source that writes them", () => {
     const render = fs.readFileSync(path.join(process.cwd(), ResourceConstant.UPWORK_INTRO_SOURCE_DIR, "render.sh"), "utf8");
 
-    expect(fs.existsSync(path.join(process.cwd(), ResourceConstant.UPWORK_INTRO_VIDEO))).toBe(true);
-    expect(render).toContain(`$ROOT/${ResourceConstant.UPWORK_INTRO_VIDEO}`);
+    for (const file of [ResourceConstant.UPWORK_INTRO_VIDEO, ResourceConstant.UPWORK_INTRO_THUMBNAIL]) {
+      expect(fs.existsSync(path.join(process.cwd(), file))).toBe(true);
+      expect(render).toContain(`$ROOT/${file}`);
+    }
   });
 
   it("takes its education from the CV, years only", () => {

@@ -103,6 +103,9 @@ export class ResourceConstant {
    */
   static readonly UPWORK_INTRO_VIDEO = "public/personal/upwork/duc-upwork-intro-1920x1080.mp4";
 
+  /** The video's YouTube thumbnail, rendered beside it by the same script. */
+  static readonly UPWORK_INTRO_THUMBNAIL = "public/personal/upwork/duc-upwork-intro-youtube-thumbnail-1280x720.png";
+
   /** The intro film's source: scenes, music synthesiser and render script, with its own dependencies. */
   static readonly UPWORK_INTRO_SOURCE_DIR = "video/upwork-intro";
 
