@@ -91,8 +91,8 @@ export class ResourceConstant {
 
   /**
    * What the Upwork profile says, field by field, offered for copying under
-   * the CV. A subfolder, so it is never offered as a CV; its overview opens
-   * with the default CV's About me and its education is the CV's.
+   * the CV. A subfolder, so it is never offered as a CV; its overview counts
+   * `{{years}}` from the default CV and its education is the CV's.
    */
   static readonly CV_UPWORK_FILE = "src/data/cv/upwork/upwork.json";
 

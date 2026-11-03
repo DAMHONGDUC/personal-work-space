@@ -1,5 +1,6 @@
 import source from "@/data/cv/upwork/upwork.json";
 import { cv } from "@/lib/cv/cv";
+import { periodStart, yearsSince } from "@/lib/cv/cv-period.mts";
 import type { Cv } from "@/lib/cv/cv-types";
 import { projectDetails, type ProjectDetails } from "@/lib/projects/project-details";
 
@@ -8,8 +9,11 @@ export type UpworkSource = {
   profileUrl: string;
   title: string;
   hourlyRate: string;
-  /** Overview lines after the CV's About me, which opens it. */
-  overviewNotes: string[];
+  /**
+   * The overview, one `- ` line each: its own words, a pitch for clients
+   * rather than the CV's About me. May write `{{years}}`, counted as About me is.
+   */
+  overview: string[];
   skills: string[];
   hoursPerWeek: string;
   languages: string[];
@@ -43,8 +47,8 @@ export type UpworkProfile = {
 
 /**
  * The Upwork profile as fields to paste, in the order Upwork's form asks for
- * them. The overview opens with the CV's About me and the education is the
- * CV's, so the profile never disagrees with the CV. A project's points,
+ * them. The overview's years are counted from the CV's oldest job and the
+ * education is the CV's, so the profile never disagrees with the CV. A project's points,
  * cover and video are the ones the portfolio shows (`details`); its
  * description is those points, the video link and the test-build line.
  */
@@ -52,6 +56,7 @@ export function buildUpwork(
   upwork: UpworkSource,
   from: Cv,
   details: Record<string, ProjectDetails> = projectDetails,
+  now: Date = new Date(),
 ): UpworkProfile {
   const projectUrl = (name: string) => {
     const project = from.projects.find((item) => item.name === name);
@@ -59,12 +64,15 @@ export function buildUpwork(
     return project.links[0].href;
   };
 
+  const oldest = from.experience[from.experience.length - 1];
+  const years = oldest ? String(yearsSince(periodStart(oldest.period), now)) : "";
+
   return {
     profileUrl: upwork.profileUrl,
     profile: [
       { label: "Title", text: upwork.title },
       { label: "Hourly rate", text: upwork.hourlyRate },
-      { label: "Overview", text: [...from.aboutMe, ...upwork.overviewNotes].map((line) => `- ${line}`).join("\n") },
+      { label: "Overview", text: upwork.overview.map((line) => `- ${line.replaceAll("{{years}}", years)}`).join("\n") },
       { label: "Skills", text: upwork.skills.join(", ") },
       { label: "Hours per week", text: upwork.hoursPerWeek },
       { label: "Languages", text: upwork.languages.join(", ") },

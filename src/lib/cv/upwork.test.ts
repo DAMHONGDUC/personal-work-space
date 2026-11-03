@@ -16,11 +16,15 @@ describe("the Upwork profile", () => {
     expect(onDisk).toEqual(source);
   });
 
-  it("opens its overview with the CV's About me, years counted", () => {
-    const overview = field("Overview");
+  it("counts the overview's years as the CV does and leaves no placeholder", () => {
+    // Flynk, the oldest job, starts in May 2022: 54 months to October 2026.
+    const overview = buildUpwork(source as UpworkSource, cv, projectDetails, new Date(2026, 9, 16)).profile.find(
+      (item) => item.label === "Overview",
+    )!.text;
 
-    expect(overview.startsWith(cv.aboutMe.map((line) => `- ${line}`).join("\n"))).toBe(true);
+    expect(overview).toContain("senior mobile developer with 4.5+ years");
     expect(overview).not.toContain("{{");
+    expect(field("Overview").split("\n").every((line) => line.startsWith("- "))).toBe(true);
   });
 
   it("links a portfolio project to its CV project's GitHub", () => {
