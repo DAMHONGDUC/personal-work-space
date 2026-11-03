@@ -38,6 +38,7 @@
 | Every search filters what the page already shipped | Static export: no endpoint, no build-time index | `useAppSearch`, [doc-search.ts](../../src/lib/docs/doc-search.ts), [effect-search.ts](../../src/lib/effects/effect-search.ts) |
 | Guide search reads diagram dialogs too, and strips Vietnamese diacritics on both sides | Terms are defined there; `ma hoa` must find `mã hoá` | — |
 | The guide index filters by topic too, combined with the search | One topic at a time; All, or pressing the chosen one again, shows every guide | `TopicFilter`, only topics that hold a guide |
+| The guide index keeps its topic, search and a picked language in the address (`?topic=ios&q=auth&lang=vi`), replacing the history entry rather than adding one | A reload or a shared link opens on the same view; Back is not filled with every letter typed | `useQueryParam`, names in `DOCS_QUERY` in `routes.ts`; a language in the address wins over the stored one |
 | One `SearchInput` for every search box | Two slightly different boxes read worse | `src/components/shared/SearchInput.tsx` |
 
 ## Never

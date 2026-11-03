@@ -50,7 +50,7 @@ Markdown kept in another repo, published as guide series. Enforced by [synced-do
 |---|---|---|
 | Written by `npm run docs:sync`; never hand-edited | The Markdown is the source; the next sync overwrites any edit | — |
 | A series in `src/data/synced-docs.json` is a list of parts, each one file or one folder of Markdown; a file an earlier part took is skipped in a later folder | One entry in the index, the rest reached from it | `sitelog`: `README.md`, `ROADMAP.md`, `feature-guide/README.md`, `feature-docs`, … then `feature-guide` |
-| A part names its `panel`: the block of the series navigation it sits in, under that heading | Base docs and step-by-step guides read as two lists | `Base docs`, `Sprint guides` |
+| A part names its `panel`: the block of the series navigation it sits in, under that heading; a page shows only its own panel, with links into the others | The index card opens the base docs, which lead into the guides; the card also jumps straight to them | `Base docs` → `Sprint guides` |
 | A folder part has one `group` heading for all its pages, or `groupBy: "folder"`: each subfolder a group headed by its README (`opensGroup`) | A sprint reads as its overview with its features under it | `S0-foundation-access/` → S0 README, then F00, F01 |
 | Folders in the series' `host` are copied whole to `public/synced-docs/<id>/<repo path>`, and links into them point at the copy instead of GitHub | A page with its own assets (a mockup) opens on the site, its relative links intact; test-checked | `docs/design/mockups`, `docs/design/app-icon` |
 | The first part is part 0 and the only page the index lists; a search reaches every page | A 40-page series stays one card | `isListed` in `doc-listing.ts`; `sitelog-overview` |
