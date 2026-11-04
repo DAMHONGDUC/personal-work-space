@@ -7,6 +7,7 @@ import { EffectGrid } from "@/components/effects/EffectGrid";
 import { EffectPreview } from "@/components/effects/EffectPreview";
 import { EffectTree } from "@/components/effects/EffectTree";
 import { FilterPanel } from "@/components/effects/FilterPanel";
+import { useEffectFilters } from "@/hooks/effects/useEffectFilters";
 import { useEffectUploads } from "@/hooks/effects/useEffectUploads";
 import {
   EFFECT_KINDS,
@@ -27,6 +28,7 @@ const RESULT_LIMIT = 120;
 /**
  * The library's front page. With nothing typed it shows the categories; a
  * query or a kind turns it into one grid of matches from every pack at once.
+ * Both live in the address (`useEffectFilters`).
  */
 export function EffectIndex({
   categories,
@@ -39,8 +41,7 @@ export function EffectIndex({
 }) {
   const { manifest } = useEffectUploads();
   const entries = useMemo(() => [...uploadedEntries(manifest), ...synced], [manifest, synced]);
-  const [query, setQuery] = useState("");
-  const [kind, setKind] = useState<EffectKind | null>(null);
+  const { query, setQuery, kind, setKind } = useEffectFilters();
   const [open, setOpen] = useState<number | null>(null);
 
   const searching = query.trim() !== "" || kind !== null;

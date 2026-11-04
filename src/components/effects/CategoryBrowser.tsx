@@ -7,6 +7,7 @@ import { EffectGrid } from "@/components/effects/EffectGrid";
 import { EffectPreview } from "@/components/effects/EffectPreview";
 import { EffectTree } from "@/components/effects/EffectTree";
 import { FilterPanel } from "@/components/effects/FilterPanel";
+import { useEffectFilters } from "@/hooks/effects/useEffectFilters";
 import { useEffectUploads } from "@/hooks/effects/useEffectUploads";
 import {
   EFFECT_KINDS,
@@ -45,6 +46,7 @@ function groupsOf(entries: EffectEntry[]): { group: string; entries: EffectEntry
  * Every file in one category, a section per pack and a heading per sub-folder,
  * with a search and a kind filter over the lot. The page ships the whole
  * category, so filtering is a re-render and nothing is fetched but thumbnails.
+ * The search and the kind live in the address (`useEffectFilters`).
  */
 export function CategoryBrowser({
   category,
@@ -73,8 +75,7 @@ export function CategoryBrowser({
     for (const entry of entries) totals[entry.kind] += 1;
     return totals;
   }, [entries]);
-  const [query, setQuery] = useState("");
-  const [kind, setKind] = useState<EffectKind | null>(null);
+  const { query, setQuery, kind, setKind } = useEffectFilters();
   const [open, setOpen] = useState<number | null>(null);
 
   const visible = useMemo(() => searchEffects(entries, query, kind ?? undefined), [entries, query, kind]);
