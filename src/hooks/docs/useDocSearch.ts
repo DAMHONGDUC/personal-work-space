@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
-import { useQueryParam } from "@/hooks/routes/useQueryParam";
+import { useQueryText } from "@/hooks/routes/useQueryParam";
 import type { Doc } from "@/lib/docs/doc-model";
 import { searchDocs, type DocMatch } from "@/lib/docs/doc-search";
 import { DOCS_QUERY } from "@/lib/routes/routes";
@@ -16,9 +16,7 @@ export function useDocSearch(docs: Doc[]): {
   setQuery: (value: string) => void;
   results: DocMatch[];
 } {
-  const [stored, store] = useQueryParam(DOCS_QUERY.search);
-  const query = stored ?? "";
-  const setQuery = (value: string) => store(value === "" ? null : value);
+  const [query, setQuery] = useQueryText(DOCS_QUERY.search);
 
   const results = useMemo(() => searchDocs(docs, query), [docs, query]);
 
