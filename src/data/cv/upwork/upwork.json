@@ -3,10 +3,29 @@
   "title": "FullStack Mobile Dev | Flutter, React Native, iOS, Android | Node.js",
   "hourlyRate": "$25.00/hr",
   "overview": [
-    "I am a senior mobile developer with 5+ years building full-stack mobile apps: Flutter, React Native, SwiftUI (iOS) and Jetpack Compose (Android), plus web with Next.js and React.js.",
-    "On the backend I use Node.js and Firebase (Firestore, Cloud Functions, FCM).",
-    "I optimise app size and performance, set up CI/CD, secure apps and ship to both stores, in teams and solo.",
-    "Available for remote contract work."
+    {
+      "heading": "My skills",
+      "items": [
+        "Senior mobile developer with 5+ years",
+        "Mobile: Flutter, React Native, iOS (SwiftUI), Android (Jetpack Compose)",
+        "Backend: Node.js, Firebase",
+        "Web: Next.js, React.js"
+      ]
+    },
+    {
+      "heading": "My services",
+      "items": [
+        "Upgrade Flutter or React Native to the latest version, packages and breaking changes fixed",
+        "Fix App Store and Google Play rejections and get your app approved",
+        "Scale your app as it grows: cleaner architecture, faster screens, smaller app size",
+        "Refresh an existing app with a new UI from your Figma design",
+        "Fix bugs and crashes in an existing app",
+        "Add features: in-app purchases, subscriptions, push notifications, deep links",
+        "Build a new app from idea to release on both stores",
+        "Set up CI/CD for automatic builds and store releases",
+        "And more: send me a message and let's discuss your project"
+      ]
+    }
   ],
   "skills": [
     "Flutter",

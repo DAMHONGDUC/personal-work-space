@@ -9,11 +9,13 @@ export type UpworkSource = {
   title: string;
   hourlyRate: string;
   /**
-   * The overview, one `- ` line each: its own words, a pitch for clients
-   * rather than the CV's About me. Its years are written out (5+), not counted
-   * from the CV's jobs: Upwork lists no employment for them to disagree with.
+   * The overview, headed blocks of `- ` lines (My skills, My services) with no
+   * blank line between them: its own
+   * words, a pitch for clients rather than the CV's About me. Its years are
+   * written out (5+), not counted from the CV's jobs: Upwork lists no
+   * employment for them to disagree with.
    */
-  overview: string[];
+  overview: { heading: string; items: string[] }[];
   skills: string[];
   hoursPerWeek: string;
   languages: string[];
@@ -68,7 +70,12 @@ export function buildUpwork(
     profile: [
       { label: "Title", text: upwork.title },
       { label: "Hourly rate", text: upwork.hourlyRate },
-      { label: "Overview", text: upwork.overview.map((line) => `- ${line}`).join("\n") },
+      {
+        label: "Overview",
+        text: upwork.overview
+          .flatMap(({ heading, items }) => [`${heading}:`, ...items.map((line) => `- ${line}`)])
+          .join("\n"),
+      },
       { label: "Skills", text: upwork.skills.join(", ") },
       { label: "Hours per week", text: upwork.hoursPerWeek },
       { label: "Languages", text: upwork.languages.join(", ") },

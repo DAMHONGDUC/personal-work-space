@@ -16,12 +16,17 @@ describe("the Upwork profile", () => {
     expect(onDisk).toEqual(source);
   });
 
-  it("pitches a senior with 5+ years, one point per line", () => {
+  it("pitches a senior with 5+ years: skills, then services, one point per line", () => {
     const overview = field("Overview");
+    const lines = overview.split("\n");
+    const headings = lines.filter((line) => !line.startsWith("- "));
 
-    expect(overview).toContain("senior mobile developer with 5+ years");
+    expect(overview).toContain("Senior mobile developer with 5+ years");
     expect(overview).not.toContain("{{");
-    expect(overview.split("\n").every((line) => line.startsWith("- "))).toBe(true);
+    expect(headings).toEqual(["My skills:", "My services:"]);
+    expect(lines[0]).toBe("My skills:");
+    expect(lines.indexOf("My services:") - 1).toBeGreaterThan(0);
+    expect(lines.at(-1)).toMatch(/^- /);
   });
 
   it("links a portfolio project to its CV project's GitHub", () => {
