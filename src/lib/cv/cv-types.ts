@@ -37,6 +37,16 @@ export type Skill = {
 };
 
 /**
+ * A skill line as written in `shared/skills.json`. `onlyWith` ties an item to
+ * the job project that shows it, by exact title: a version without that
+ * project prints the line without the item, so no CV claims a skill none of
+ * its jobs backs.
+ */
+export type SharedSkill = Skill & {
+  onlyWith?: Record<string, string>;
+};
+
+/**
  * A project inside one job, printed as its title with the team and client
  * beside it, its stack as the first bullet, then the achievements.
  */
@@ -139,7 +149,7 @@ export type CvShared = {
   /** About me in a brief version. */
   aboutMeBrief: string[];
   education: Education[];
-  skills: Skill[];
+  skills: SharedSkill[];
   projects: Project[];
   /** Every job any version may list, keyed by an id the versions pick from. */
   experience: Record<string, Experience>;

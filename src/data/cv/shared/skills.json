@@ -9,7 +9,10 @@
   },
   {
     "name": "Flutter",
-    "items": "Dart, BLoC, Provider, Riverpod, DI with get_it, Melos Monorepo, Flame, flutter_test"
+    "items": "Dart, BLoC, Provider, Riverpod, DI with get_it, Melos Monorepo, Flame, flutter_test",
+    "onlyWith": {
+      "Flame": "Cocototo – virtual pet game"
+    }
   },
   {
     "name": "React Native",
@@ -25,7 +28,10 @@
   },
   {
     "name": "Mobile Features & Security",
-    "items": "Push notifications, Local databases, Camera, PPG heart rate, Native Modules, Location, Deep links (App Links, Universal Links, Adjust deferred), Play Feature Delivery, On-Demand Resources, SSL pinning, Passcode, Biometrics"
+    "items": "Push notifications, Local databases, Camera, PPG heart rate, Native Modules, Location, Deep links (App Links, Universal Links, Adjust deferred), Play Feature Delivery, On-Demand Resources, SSL pinning, Passcode, Biometrics",
+    "onlyWith": {
+      "Passcode": "SiteLog – Site Inspection App"
+    }
   },
   {
     "name": "Mobile Integration",

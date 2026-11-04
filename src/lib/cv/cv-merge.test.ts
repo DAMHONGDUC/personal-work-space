@@ -188,6 +188,29 @@ describe("a version that leaves out shared parts", () => {
     expect(() => mergeCv({ ...source, leaveOut: { projects: ["Cutt"] } }, pool)).toThrow(/Cutt/);
   });
 
+  it("prints a skill item tied to a project only with that project", () => {
+    const tied = {
+      ...withSide,
+      skills: [
+        { name: "Flutter", items: "Dart, Flame, Firebase (FCM, Crashlytics)", onlyWith: { Flame: "Side App" } },
+        { name: "Native iOS", items: "Swift" },
+      ],
+    };
+
+    expect(mergeCv({ ...source, experience: ["two"] }, tied).skills[0]).toEqual({
+      name: "Flutter",
+      items: "Dart, Flame, Firebase (FCM, Crashlytics)",
+    });
+    expect(mergeCv(cut, tied).skills[0]).toEqual({ name: "Flutter", items: "Dart, Firebase (FCM, Crashlytics)" });
+  });
+
+  it("fails on a tie to an item or a project that is not there", () => {
+    const tie = (onlyWith: Record<string, string>) => ({ ...withSide, skills: [{ name: "Flutter", items: "Dart, Flame", onlyWith }] });
+
+    expect(() => mergeCv({ ...source, experience: ["two"] }, tie({ Flam: "Side App" }))).toThrow(/Flam/);
+    expect(() => mergeCv({ ...source, experience: ["two"] }, tie({ Flame: "Sidd App" }))).toThrow(/Sidd App/);
+  });
+
   it("fails when a job would be left with no project", () => {
     expect(() => mergeCv({ ...cut, leaveOut: { groups: ["App", "Side App"] } }, withSide)).toThrow(/drop the job/);
   });

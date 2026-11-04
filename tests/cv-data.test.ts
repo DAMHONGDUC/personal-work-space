@@ -63,6 +63,21 @@ describe("the CV without SiteLog", () => {
   });
 });
 
+describe("skills tied to a project", () => {
+  it.each(versions)("print in $slug only with that project", ({ data }) => {
+    // Flame rests on Cocototo (P&A), Passcode on SiteLog: a version without
+    // the job or the project must not claim the skill.
+    const titles = new Set(data.experience.flatMap((job) => job.groups.map((group) => group.title)));
+    const printed = data.skills.map((skill) => `${skill.name}: ${skill.items}`).join("\n");
+
+    for (const skill of SHARED.skills) {
+      for (const [item, project] of Object.entries(skill.onlyWith ?? {})) {
+        expect(printed.includes(item), `${item} in ${data.label}`).toBe(titles.has(project));
+      }
+    }
+  });
+});
+
 describe("the shared CV parts", () => {
   it("lists no job that no version prints", () => {
     // A job in the shared pool that every version leaves out is a job that

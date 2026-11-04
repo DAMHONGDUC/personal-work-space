@@ -1,4 +1,4 @@
-import type { Cv, CvLeaveOut, CvShared, CvSource, Experience } from "./cv-types";
+import type { Cv, CvLeaveOut, CvShared, CvSource, Experience, Skill } from "./cv-types";
 import { periodStart, yearsSince } from "./cv-period.mts";
 
 /** The skill line `mergeCv` writes; the shared skills may not hold one. */
@@ -26,7 +26,8 @@ export const DOMAINS_SKILL = "Domains";
  *
  * `leaveOut` cuts named job projects, skill lines, About me phrases and
  * personal projects from what the shared parts give this version; Domains is built after the cut, so a
- * dropped project takes its industry with it.
+ * dropped project takes its industry with it. A skill item tied to a project
+ * (`onlyWith`) goes with it too, or with a job the version does not list.
  *
  * Throws on a job id the shared file does not have, and on anything
  * `leaveOut` names that is not there, so a typo fails the build rather than
@@ -61,7 +62,12 @@ export function mergeCv(source: CvSource, shared: CvShared, now: Date = new Date
     [...shared.aboutMe, ...shared.aboutMeBrief],
     leaveOut.phrases ?? [],
   );
-  const sharedSkills = leaveOutSkills(source.label, shared, leaveOut);
+  const sharedSkills = keepBackedItems(
+    source.label,
+    leaveOutSkills(source.label, shared, leaveOut),
+    Object.values(shared.experience),
+    kept,
+  );
   const projects = leaveOutProjects(source.label, shared, leaveOut.projects ?? []);
 
   const domains = [
@@ -117,6 +123,54 @@ function leaveOutSkills(label: string, shared: CvShared, leaveOut: CvLeaveOut): 
   }
 
   return names.length ? shared.skills.filter((skill) => !names.includes(skill.name)) : shared.skills;
+}
+
+/**
+ * Skill lines without the items whose `onlyWith` project the version's jobs
+ * do not have. Throws on an `onlyWith` naming an item the line lacks or a
+ * project no shared job has, so a rename cannot quietly keep a claim.
+ */
+function keepBackedItems(label: string, skills: CvShared["skills"], every: Experience[], kept: Experience[]): Skill[] {
+  const titles = (jobs: Experience[]) => new Set(jobs.flatMap((job) => job.groups.map((group) => group.title)));
+  const known = titles(every);
+  const shown = titles(kept);
+
+  const result = skills.map((line) => {
+    if (!line.onlyWith) return line;
+
+    const { onlyWith, ...skill } = line;
+    const items = splitItems(skill.items);
+    for (const [item, project] of Object.entries(onlyWith)) {
+      if (!items.includes(item)) {
+        throw new Error(`CV "${label}": skill "${skill.name}" ties "${item}", which it does not list`);
+      }
+      if (!known.has(project)) {
+        throw new Error(`CV "${label}": skill "${skill.name}" ties "${item}" to "${project}", which no job has`);
+      }
+    }
+
+    const cut = items.filter((item) => !onlyWith[item] || shown.has(onlyWith[item]));
+    return cut.length === items.length ? skill : { ...skill, items: cut.join(", ") };
+  });
+
+  return result.every((line, i) => line === skills[i]) ? skills : result;
+}
+
+/** A skill line's items, split on the commas outside parentheses. */
+function splitItems(items: string): string[] {
+  const parts: string[] = [];
+  let depth = 0;
+  let start = 0;
+  for (let i = 0; i < items.length; i++) {
+    if (items[i] === "(") depth++;
+    if (items[i] === ")") depth--;
+    if (items[i] === "," && depth === 0) {
+      parts.push(items.slice(start, i).trim());
+      start = i + 1;
+    }
+  }
+  parts.push(items.slice(start).trim());
+  return parts;
 }
 
 /** The shared personal projects without the ones the version leaves out. */
