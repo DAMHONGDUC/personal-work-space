@@ -19,14 +19,14 @@
           "Built and maintained the design system library; took part in peer code reviews.",
           "Embedded Unity in Flutter for an in-app metaverse of buildings and events; integrated third-party SDKs.",
           "Reduced app size from 200MB to 90MB and raised key screens from 30–40 FPS to a steady 60; optimised data-layer caching and migrated state management from Stream to BLoC.",
-          "Implemented SSL pinning and set up Adjust deferred deep links."
+          "Implemented caching; set up OneSignal push notifications and Adjust deferred deep links."
         ],
         "briefBullets": [
-          "Built features for a 10M+ user Saudi government real estate app: BRDs, APIs, estimates, epic demos.",
+          "Built and maintained features for a Saudi government client's 10M+ user real estate app; analysed BRDs with BA, backend and QC, agreed APIs, estimated tasks and demoed every epic to the client.",
           "Built and maintained the design system library; took part in peer code reviews.",
-          "Embedded Unity in Flutter for an in-app metaverse of buildings and events; integrated SDKs.",
-          "Cut app size 200MB to 90MB, FPS 30–40 to 60; optimised caching, migrated Stream to BLoC.",
-          "Implemented SSL pinning and set up Adjust deferred deep links."
+          "Embedded Unity in Flutter for an in-app metaverse of buildings and events; integrated third-party SDKs.",
+          "Cut app size from 200MB to 90MB and raised key screens from 30–40 FPS to a steady 60; optimised data-layer caching and migrated state management from Stream to BLoC.",
+          "Implemented caching; set up OneSignal push notifications and Adjust deferred deep links."
         ]
       },
       {
@@ -38,10 +38,12 @@
         ],
         "bullets": [
           "Built a booking app for private jet flights from scratch, with smooth, complex animations and transitions, including an animated dashboard page.",
+          "Contributed to researching and setting up Stripe payments for flight bookings; implemented SSL pinning and biometric login.",
           "Built and maintained CI/CD pipelines with Fastlane and a self-hosted GitLab Runner on a Mac mini."
         ],
         "briefBullets": [
-          "Built a private jet booking app from scratch, with complex animations and an animated dashboard.",
+          "Built a private jet booking app from scratch, with smooth, complex animations and transitions, including an animated dashboard.",
+          "Contributed to researching and setting up Stripe payments for flight bookings; implemented SSL pinning and biometric login.",
           "Built and maintained CI/CD pipelines with Fastlane and a self-hosted GitLab Runner on a Mac mini."
         ]
       },
@@ -59,10 +61,10 @@
           "Built PDFKit floor plans with pins, photo markup and stamps, checklists and BLE meter readings; multi-device sync, realtime WebSocket progress, push and deep links; CI/CD with Fastlane and TestFlight."
         ],
         "briefBullets": [
-          "Built an offline-first iOS app for site inspections that exports a signed PDF report.",
-          "Built a background upload engine (S3 multipart) that survives app kill and network loss.",
-          "Made captures tamper-evident: SHA-256, markup layer, audit log, Keychain; biometric/passcode lock.",
-          "Built floor plans, markup, checklists, BLE meters, sync, realtime, push, deep links; Fastlane CI/CD."
+          "Built an offline-first iOS app where site supervisors record site conditions and export a signed PDF inspection report.",
+          "Built a background URLSession upload engine (S3 multipart) that survives suspension, termination and network loss in multi-GB sessions.",
+          "Made captures tamper-evident with SHA-256 hashes, a separate vector markup layer, an audit log and Keychain-held keys; added biometric and passcode lock.",
+          "Built PDFKit floor plans with pins, photo markup and stamps, checklists and BLE meter readings; multi-device sync, realtime WebSocket progress, push, deep links; Fastlane and TestFlight CI/CD."
         ]
       }
     ]
@@ -121,7 +123,7 @@
         "briefBullets": [
           "Built a warehouse management app for Unitech HT300/HT330 barcode devices, end to end.",
           "Integrated the hardware scanner for live barcode capture; synced receipt, dispatch and inventory.",
-          "Built offline-first sync; agreed barcode formats; set up kiosk, auto-launch, private Play release."
+          "Built an offline-first data layer with periodic sync so the floor works without a network; agreed barcode formats across teams; set up kiosk mode, auto-launch on boot and a private Play release."
         ]
       },
       {
@@ -137,15 +139,15 @@
         "bullets": [
           "Built new apps and maintained others: booking and health apps in React Native; an appliance and apartment maintenance app in Expo; e-learning, file management and equipment apps in Flutter.",
           "Wrote a native module for the health app to measure heart rate using the phone camera.",
-          "Implemented FCM push notifications, Firebase Crashlytics and Firebase Analytics.",
+          "Integrated GraphQL APIs with Apollo Client; implemented FCM push notifications, Firebase Crashlytics and Firebase Analytics.",
           "Set up and maintained CI/CD pipelines to build and release the apps.",
           "Made the apps responsive on iPad, in portrait and landscape.",
           "Led a sub-project with 3 members: planned sprints, estimated tasks and reviewed delivery."
         ],
         "briefBullets": [
-          "Built RN booking/health apps, an Expo maintenance app, Flutter e-learning, file and equipment apps.",
-          "Wrote a native module for camera-based heart rate measurement in the health app.",
-          "Implemented FCM push notifications, Firebase Crashlytics and Firebase Analytics.",
+          "Built new apps and maintained others: React Native booking and health apps; an Expo appliance and apartment maintenance app; Flutter e-learning, file management and equipment apps.",
+          "Wrote a native module for the health app to measure heart rate using the phone camera.",
+          "Integrated GraphQL APIs with Apollo Client; implemented FCM push notifications, Firebase Crashlytics and Firebase Analytics.",
           "Set up and maintained CI/CD pipelines to build and release the apps.",
           "Made the apps responsive on iPad, in portrait and landscape.",
           "Led a sub-project with 3 members: planned sprints, estimated tasks and reviewed delivery."
@@ -154,8 +156,8 @@
     ],
     "note": {
       "label": "Also:",
-      "text": "Maintained React.js and Next.js admin dashboards and academy sites, with Three.js 3D UI and VNPAY.",
-      "brief": "Maintained React.js/Next.js dashboards and academy sites (Three.js 3D UI, VNPAY for a VN client)."
+      "text": "Maintained React.js and Next.js admin dashboards and academy sites, with Three.js 3D UI and VNPAY for a Vietnamese client.",
+      "brief": "Maintained React.js/Next.js admin dashboards and academy sites, with Three.js 3D UI and VNPAY for a VN client."
     }
   },
   "flynk": {

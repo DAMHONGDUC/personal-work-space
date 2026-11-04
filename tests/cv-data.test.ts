@@ -101,12 +101,13 @@ describe("the shared CV parts", () => {
     expect(repeated).toEqual([]);
   });
 
-  it("says in a brief CV everything the full wording says, one line a point", () => {
-    // A brief version is the full wording in shared/ cut short: the same
-    // sentences, jobs, projects, bullets, notes and skills. The full wording
-    // is what the portfolio prints, so each brief version is checked against
-    // its own jobs merged in full. 100 characters is what one bullet line of
-    // the PDF holds (101 fits, 102 wraps: it depends on the letters).
+  it("says in a brief CV everything the full wording says, only tighter", () => {
+    // A brief version is the full wording in shared/ with its grammar
+    // tightened, never a point dropped: the same sentences, jobs, projects,
+    // bullets, notes and skills. The full wording is what the portfolio
+    // prints, so each brief version is checked against its own jobs merged in
+    // full. A brief bullet is never longer than its full one and keeps every
+    // figure in it (10M+, 200MB, HT300/HT330): the one cut a test can see.
     const shared = readCvShared(process.cwd());
     const brief = versions.filter(({ data }) => data.brief);
     expect(brief.length).toBeGreaterThan(0);
@@ -123,9 +124,15 @@ describe("the shared CV parts", () => {
         expect(Boolean(job.note), `${slug}: ${job.company} note`).toBe(Boolean(full.experience[j].note));
 
         job.groups.forEach((group, g) => {
-          const points = full.experience[j].groups[g].bullets.length;
-          expect(group.bullets.length, `${slug}: ${group.title}`).toBe(points);
-          expect(group.bullets.filter((bullet) => bullet.length > 100)).toEqual([]);
+          const fullBullets = full.experience[j].groups[g].bullets;
+          expect(group.bullets.length, `${slug}: ${group.title}`).toBe(fullBullets.length);
+
+          group.bullets.forEach((bullet, b) => {
+            const fullBullet = fullBullets[b];
+            expect(bullet.length, `${slug}: ${bullet}`).toBeLessThanOrEqual(fullBullet.length);
+            const figures = fullBullet.match(/[^\s,;:()]*\d[^\s,;:()]*/g) ?? [];
+            expect(figures.filter((figure) => !bullet.includes(figure.replace(/\.$/, ""))), `${slug}: ${bullet}`).toEqual([]);
+          });
         });
       });
     }

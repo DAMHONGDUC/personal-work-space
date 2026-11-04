@@ -66,8 +66,9 @@ export type ExperienceGroup = {
   domains: string[];
   bullets: string[];
   /**
-   * The same work in fewer, shorter lines, printed instead of `bullets` by a
-   * brief version. Written beside the full bullets so the two are edited
+   * The same points as `bullets`, one for one, in tighter wording, printed
+   * instead of `bullets` by a brief version: nothing dropped, only the
+   * grammar shortened. Written beside the full bullets so the two are edited
    * together.
    */
   briefBullets?: string[];

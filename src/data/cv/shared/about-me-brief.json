@@ -1,4 +1,4 @@
 [
-  "I am a mobile developer with {{years}}+ years in Jetpack Compose (Android), SwiftUI (iOS), Flutter and React Native, plus web with Next.js and React.js.",
-  "I optimise app size and performance, set up CI/CD, secure apps and ship to both stores, in teams and solo."
+  "I am a mobile developer with {{years}}+ years in Android, SwiftUI (iOS), cross-platform Flutter and React Native, plus front-end web with Next.js and React.js.",
+  "I optimise app size and rendering performance, set up CI/CD pipelines, secure apps and deliver them to the App Store and Google Play, both in large teams and on my own."
 ]
