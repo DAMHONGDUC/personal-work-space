@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
 import source from "@/data/cv/upwork/upwork.json";
-import { cv } from "@/lib/cv/cv";
+import { cv, SHARED } from "@/lib/cv/cv";
 import { buildUpwork, UPWORK_LIMITS, upwork, type UpworkSource } from "@/lib/cv/upwork";
 import { projectDetails } from "@/lib/projects/project-details";
 import { ResourceConstant } from "@/lib/resource-constant.mts";
@@ -29,7 +29,7 @@ describe("the Upwork profile", () => {
       const url = upwork.portfolio
         .find((group) => group.title === project.title)!
         .fields.find((item) => item.label === "Project URL")?.text;
-      const cvProject = cv.projects.find((item) => item.name === project.cvProject);
+      const cvProject = SHARED.projects.find((item) => item.name === project.cvProject);
 
       expect(url).toBe(cvProject?.links[0].href);
     }

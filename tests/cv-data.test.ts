@@ -6,7 +6,7 @@ import { renderCvLatex } from "@/lib/cv/cv-latex.mts";
 import { mergeCv } from "@/lib/cv/cv-merge.mts";
 import { periodWithDuration } from "@/lib/cv/cv-period.mts";
 import { ResourceConstant } from "@/lib/resource-constant.mts";
-import { cv, getCvVersions } from "@/lib/cv/cv";
+import { cv, getCvVersions, SHARED } from "@/lib/cv/cv";
 import type { CvSource } from "@/lib/cv/cv-types";
 
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
@@ -204,7 +204,8 @@ describe.each(versions)("the CV data file $slug", ({ slug, data: cv }) => {
   it("links every project to its GitHub repository", () => {
     // A personal project is shown by its code: the PDF prints the address, so
     // a printed copy keeps it too.
-    const unlinked = cv.projects
+    // Checked on the shared pool: a version may leave every project out.
+    const unlinked = SHARED.projects
       .filter((project) => !project.links.some((link) => link.href.startsWith("https://github.com/")))
       .map((project) => project.name);
 
@@ -212,7 +213,7 @@ describe.each(versions)("the CV data file $slug", ({ slug, data: cv }) => {
   });
 
   it("uses https for every project link", () => {
-    for (const project of cv.projects) {
+    for (const project of SHARED.projects) {
       for (const link of project.links) {
         expect(link.href).toMatch(/^https:\/\//);
       }
@@ -221,7 +222,7 @@ describe.each(versions)("the CV data file $slug", ({ slug, data: cv }) => {
 
   it("introduces every project on one line: framework – what it does", () => {
     // 110 characters, name included, is what one line of the A4 PDF holds.
-    for (const project of cv.projects) {
+    for (const project of SHARED.projects) {
       expect(project.description).toMatch(/^[^–]+ – [A-Z].+\.$/);
       expect(`${project.name}: ${project.description}`.length).toBeLessThanOrEqual(110);
     }

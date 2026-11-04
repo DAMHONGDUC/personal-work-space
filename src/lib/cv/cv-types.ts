@@ -171,6 +171,8 @@ export type CvLeaveOut = {
   groups?: string[];
   /** Skill line names. */
   skills?: string[];
+  /** Personal project names; the portfolio and Upwork still show them. */
+  projects?: string[];
   /** Exact text cut from About me; list the full and the brief wording's phrase. */
   phrases?: string[];
 };

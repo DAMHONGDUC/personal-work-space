@@ -24,8 +24,8 @@ export const DOMAINS_SKILL = "Domains";
  * `aboutMeBrief`, each group's `briefBullets` and a note's `brief` text, each
  * falling back to the full wording when it has none. Skills are the same.
  *
- * `leaveOut` cuts named projects, skill lines and About me phrases from what
- * the shared parts give this version; Domains is built after the cut, so a
+ * `leaveOut` cuts named job projects, skill lines, About me phrases and
+ * personal projects from what the shared parts give this version; Domains is built after the cut, so a
  * dropped project takes its industry with it.
  *
  * Throws on a job id the shared file does not have, and on anything
@@ -62,6 +62,7 @@ export function mergeCv(source: CvSource, shared: CvShared, now: Date = new Date
     leaveOut.phrases ?? [],
   );
   const sharedSkills = leaveOutSkills(source.label, shared, leaveOut);
+  const projects = leaveOutProjects(source.label, shared, leaveOut.projects ?? []);
 
   const domains = [
     ...new Set(kept.flatMap((job) => job.groups.flatMap((group) => group.domains))),
@@ -84,7 +85,7 @@ export function mergeCv(source: CvSource, shared: CvShared, now: Date = new Date
     education: shared.education,
     skills,
     experience: kept,
-    projects: shared.projects,
+    projects,
   };
 }
 
@@ -116,6 +117,16 @@ function leaveOutSkills(label: string, shared: CvShared, leaveOut: CvLeaveOut): 
   }
 
   return names.length ? shared.skills.filter((skill) => !names.includes(skill.name)) : shared.skills;
+}
+
+/** The shared personal projects without the ones the version leaves out. */
+function leaveOutProjects(label: string, shared: CvShared, names: string[]): CvShared["projects"] {
+  const unknown = names.filter((name) => !shared.projects.some((project) => project.name === name));
+  if (unknown.length) {
+    throw new Error(`CV "${label}" leaves out personal projects shared/projects.json does not have: ${unknown.join(", ")}`);
+  }
+
+  return names.length ? shared.projects.filter((project) => !names.includes(project.name)) : shared.projects;
 }
 
 /**

@@ -1,5 +1,5 @@
 import source from "@/data/cv/upwork/upwork.json";
-import { cv } from "@/lib/cv/cv";
+import { cv, SHARED } from "@/lib/cv/cv";
 import type { Cv } from "@/lib/cv/cv-types";
 import { projectDetails, type ProjectDetails } from "@/lib/projects/project-details";
 
@@ -57,7 +57,8 @@ export function buildUpwork(
   details: Record<string, ProjectDetails> = projectDetails,
 ): UpworkProfile {
   const projectUrl = (name: string) => {
-    const project = from.projects.find((item) => item.name === name);
+    // The shared pool, not `from`: a CV may leave its personal projects out.
+    const project = SHARED.projects.find((item) => item.name === name);
     if (!project) throw new Error(`Upwork portfolio names "${name}", which is not a CV project.`);
     return project.links[0].href;
   };

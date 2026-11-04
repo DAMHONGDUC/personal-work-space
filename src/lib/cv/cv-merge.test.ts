@@ -174,6 +174,20 @@ describe("a version that leaves out shared parts", () => {
     expect(() => mergeCv({ ...cut, leaveOut: { phrases: ["Kotlin"] } }, withSide)).toThrow(/Kotlin/);
   });
 
+  it("leaves out named personal projects, and fails on one that is not there", () => {
+    const pool = {
+      ...shared,
+      projects: [
+        { name: "Kept", description: "Flutter – Kept.", links: [] },
+        { name: "Cut", description: "Flutter – Cut.", links: [] },
+      ],
+    };
+
+    expect(mergeCv({ ...source, leaveOut: { projects: ["Cut"] } }, pool).projects.map((p) => p.name)).toEqual(["Kept"]);
+    expect(mergeCv(source, pool).projects).toBe(pool.projects);
+    expect(() => mergeCv({ ...source, leaveOut: { projects: ["Cutt"] } }, pool)).toThrow(/Cutt/);
+  });
+
   it("fails when a job would be left with no project", () => {
     expect(() => mergeCv({ ...cut, leaveOut: { groups: ["App", "Side App"] } }, withSide)).toThrow(/drop the job/);
   });

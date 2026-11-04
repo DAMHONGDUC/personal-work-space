@@ -3,7 +3,7 @@ import path from "node:path";
 import { describe, expect, it } from "vitest";
 import source from "@/data/project-details.json";
 import upworkSource from "@/data/cv/upwork/upwork.json";
-import { cv } from "@/lib/cv/cv";
+import { SHARED } from "@/lib/cv/cv";
 import { HIGHLIGHT_MAX, projectDetails } from "@/lib/projects/project-details";
 import { ResourceConstant } from "@/lib/resource-constant.mts";
 
@@ -15,7 +15,7 @@ describe("project details", () => {
   });
 
   it("names only projects the CV or the Upwork portfolio has", () => {
-    const names = [...cv.projects.map((project) => project.name), ...upworkSource.portfolio.map((project) => project.title)];
+    const names = [...SHARED.projects.map((project) => project.name), ...upworkSource.portfolio.map((project) => project.title)];
 
     expect(Object.keys(projectDetails).filter((name) => !names.includes(name))).toEqual([]);
   });
