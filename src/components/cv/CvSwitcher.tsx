@@ -1,12 +1,13 @@
 "use client";
 
-import { useState, type CSSProperties } from "react";
+import { type CSSProperties } from "react";
 import { DownloadIcon, ExternalLinkIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { useQueryChoice } from "@/hooks/routes/useQueryParam";
 import type { CvVersion } from "@/lib/cv/cv-types";
 import { formatDate } from "@/lib/format";
-import { withBasePath } from "@/lib/routes/routes";
+import { CV_QUERY, withBasePath } from "@/lib/routes/routes";
 import { AppColors } from "@/lib/design/app-colors";
 import { AppTextStyles } from "@/lib/design/app-text-styles";
 
@@ -31,18 +32,25 @@ const ACCENT: CSSProperties = {
  * version is in sight at once, and one press shows it.
  *
  * Several CVs live side by side in the data directory, each cut for a
- * different reader, and the build compiles every one of them. Switching is
- * client-side state rather than a route per version: the pages are already in
- * the export, so a change of version is an image swap and never a navigation
- * that loses the reader's place.
+ * different reader, and the build compiles every one of them. Switching is a
+ * query parameter (`CV_QUERY.version`) rather than a route per version: the
+ * pages are already in the export, so a change of version is an image swap and
+ * never a navigation that loses the reader's place, while a reload or a shared
+ * link still opens on the version chosen. The first version leaves the address
+ * bare.
  *
  * The whole set is rendered by the server component that hosts this, and
  * everything the switcher needs arrives as props — no fetch, in a site that
  * has no server to fetch from.
  */
 export function CvSwitcher({ versions }: { versions: CvVersion[] }) {
-  const [slug, setSlug] = useState(versions[0].slug);
-  const current = versions.find((version) => version.slug === slug) ?? versions[0];
+  const [chosen, setChosen] = useQueryChoice(
+    CV_QUERY.version,
+    versions.map((version) => version.slug),
+  );
+  const current = versions.find((version) => version.slug === chosen) ?? versions[0];
+  const slug = current.slug;
+  const setSlug = (next: string) => setChosen(next === versions[0].slug ? null : next);
   const { pdf, pages } = current;
 
   return (

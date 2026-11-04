@@ -4,6 +4,7 @@ import { createRoot, type Root } from "react-dom/client";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import type { CvVersion } from "@/lib/cv/cv-types";
 import type { UpworkProfile } from "@/lib/cv/upwork";
+import { CV_QUERY } from "@/lib/routes/routes";
 import { CvTabs } from "./CvTabs";
 
 let container: HTMLDivElement;
@@ -42,7 +43,9 @@ const upwork: UpworkProfile = {
   education: [],
 };
 
-beforeEach(() => {
+/** Renders the page as opened at `address`, the query and all. */
+function render(address = "/personal/cv/") {
+  window.history.replaceState(null, "", address);
   container = document.createElement("div");
   document.body.appendChild(container);
   act(() => {
@@ -53,7 +56,17 @@ beforeEach(() => {
       />,
     );
   });
-});
+}
+
+function versionTag(label: string) {
+  return [...container.querySelectorAll('[role="radio"]')].find((el) => el.textContent === label)!;
+}
+
+function param(name: string) {
+  return new URLSearchParams(window.location.search).get(name);
+}
+
+beforeEach(() => render());
 
 afterEach(() => {
   act(() => root.unmount());
@@ -83,7 +96,7 @@ describe("CvTabs", () => {
   });
 
   it("keeps the chosen CV version across a visit to the letter", () => {
-    const freelancer = [...container.querySelectorAll('[role="radio"]')].find((el) => el.textContent === "With freelancer")!;
+    const freelancer = versionTag("With freelancer");
     press(freelancer);
     expect(freelancer.getAttribute("aria-checked")).toBe("true");
 
@@ -92,5 +105,41 @@ describe("CvTabs", () => {
 
     expect(freelancer.isConnected).toBe(true);
     expect(freelancer.getAttribute("aria-checked")).toBe("true");
+  });
+
+  it("keeps the open tab and the chosen version in the address", () => {
+    press(tab("Upwork"));
+    expect(param(CV_QUERY.tab)).toBe("upwork");
+
+    press(tab("CV"));
+    expect(param(CV_QUERY.tab)).toBeNull();
+
+    press(versionTag("With freelancer"));
+    expect(param(CV_QUERY.version)).toBe("cv_with_freelancer");
+
+    press(versionTag("Normal"));
+    expect(window.location.search).toBe("");
+  });
+});
+
+describe("CvTabs opened from a link", () => {
+  beforeEach(() => {
+    act(() => root.unmount());
+    container.remove();
+  });
+
+  it("opens on the tab and the version the address names", () => {
+    render(`/personal/cv/?${CV_QUERY.tab}=cover-letter&${CV_QUERY.version}=cv_with_freelancer`);
+
+    expect(panelState("Cover letter")).toBe("active");
+    expect(panelState("CV")).toBe("inactive");
+    expect(versionTag("With freelancer").getAttribute("aria-checked")).toBe("true");
+  });
+
+  it("falls back to the CV and the first version on an unknown value", () => {
+    render(`/personal/cv/?${CV_QUERY.tab}=letters&${CV_QUERY.version}=cv_old`);
+
+    expect(panelState("CV")).toBe("active");
+    expect(versionTag("Normal").getAttribute("aria-checked")).toBe("true");
   });
 });
