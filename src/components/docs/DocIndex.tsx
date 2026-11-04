@@ -7,7 +7,7 @@ import { LanguageSwitch } from "@/components/docs/LanguageSwitch";
 import { TopicFilter } from "@/components/docs/TopicFilter";
 import { useDocLanguage } from "@/hooks/docs/useDocLanguage";
 import { useDocSearch } from "@/hooks/docs/useDocSearch";
-import { useQueryParam } from "@/hooks/routes/useQueryParam";
+import { useQueryChoice, useQueryParam } from "@/hooks/routes/useQueryParam";
 import { isListed, panelShortcuts, seriesSizes } from "@/lib/docs/doc-listing";
 import {
   DOC_TOPICS,
@@ -43,11 +43,9 @@ import { AppTextStyles } from "@/lib/design/app-text-styles";
 export function DocIndex({ versions }: { versions: Record<Lang, Doc[]> }) {
   const [lang, storeLang] = useDocLanguage();
   const [langParam, setLangParam] = useQueryParam(DOCS_QUERY.lang);
-  const [topicParam, setTopicParam] = useQueryParam(DOCS_QUERY.topic);
+  const [topic, setTopic] = useQueryChoice(DOCS_QUERY.topic, DOC_TOPICS);
   const docs = versions[lang];
   const { query, setQuery, results: found } = useDocSearch(docs);
-  const topic = DOC_TOPICS.includes(topicParam as DocTopic) ? (topicParam as DocTopic) : null;
-  const setTopic = (next: DocTopic | null) => setTopicParam(next);
   const setLang = (next: Lang) => {
     storeLang(next);
     setLangParam(next);

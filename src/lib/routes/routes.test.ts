@@ -1,5 +1,13 @@
 import { afterEach, describe, expect, it } from "vitest";
-import { RESERVED_SLUGS, routes, withBasePath } from "./routes";
+import {
+  APPS_QUERY,
+  CV_QUERY,
+  DOCS_QUERY,
+  EFFECTS_QUERY,
+  RESERVED_SLUGS,
+  routes,
+  withBasePath,
+} from "./routes";
 
 describe("routes", () => {
   it("puts the apps, the guides and the CV under different top-level sections", () => {
@@ -52,6 +60,45 @@ describe("routes", () => {
 
     for (const section of sections) {
       expect([...RESERVED_SLUGS] as string[]).toContain(section);
+    }
+  });
+});
+
+describe("query names", () => {
+  // Each page's filters, keyed by the page that reads them.
+  const pages = {
+    [routes.docs]: DOCS_QUERY,
+    [routes.apps]: APPS_QUERY,
+    [routes.effects]: EFFECTS_QUERY,
+    [routes.cv]: CV_QUERY,
+  };
+
+  it("names every filter on the site", () => {
+    expect(DOCS_QUERY).toEqual({ topic: "topic", search: "q", lang: "lang" });
+    expect(APPS_QUERY).toEqual({ search: "q" });
+    expect(EFFECTS_QUERY).toEqual({ search: "q", kind: "kind" });
+    expect(CV_QUERY).toEqual({ tab: "tab", version: "version" });
+  });
+
+  it("calls every search box `q`, so a search link reads the same on any page", () => {
+    for (const names of Object.values(pages)) {
+      if ("search" in names) expect(names.search).toBe("q");
+    }
+  });
+
+  it("gives each filter of a page its own parameter", () => {
+    for (const names of Object.values(pages)) {
+      const values = Object.values(names);
+      expect(new Set(values).size).toBe(values.length);
+    }
+  });
+
+  it("uses short lower-case names that need no escaping", () => {
+    for (const names of Object.values(pages)) {
+      for (const name of Object.values(names)) {
+        expect(name).toMatch(/^[a-z]+$/);
+        expect(encodeURIComponent(name)).toBe(name);
+      }
     }
   });
 });

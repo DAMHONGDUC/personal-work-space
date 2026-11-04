@@ -38,6 +38,22 @@ export const routes = {
  */
 export const DOCS_QUERY = { topic: "topic", search: "q", lang: "lang" } as const;
 
+/** The app directory's search: `/apps/?q=timer`. */
+export const APPS_QUERY = { search: "q" } as const;
+
+/**
+ * The effects library's search and kind filter, on the front page and on each
+ * category alike: `/effects/?q=whoosh&kind=audio`.
+ */
+export const EFFECTS_QUERY = { search: "q", kind: "kind" } as const;
+
+/**
+ * The CV page's tab and the CV version shown in the first one:
+ * `/personal/cv/?tab=upwork`, `/personal/cv/?version=cv_with_freelancer`.
+ * The defaults (the CV tab, the first version) leave the address bare.
+ */
+export const CV_QUERY = { tab: "tab", version: "version" } as const;
+
 /**
  * Slugs an app file may not use, because a static segment of the same name
  * already answers that URL and would shadow the app.

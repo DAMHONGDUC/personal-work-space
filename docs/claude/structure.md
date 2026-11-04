@@ -38,7 +38,9 @@
 | Every search filters what the page already shipped | Static export: no endpoint, no build-time index | `useAppSearch`, [doc-search.ts](../../src/lib/docs/doc-search.ts), [effect-search.ts](../../src/lib/effects/effect-search.ts) |
 | Guide search reads diagram dialogs too, and strips Vietnamese diacritics on both sides | Terms are defined there; `ma hoa` must find `mã hoá` | — |
 | The guide index filters by topic too, combined with the search | One topic at a time; All, or pressing the chosen one again, shows every guide | `TopicFilter`, only topics that hold a guide |
-| The guide index keeps its topic, search and a picked language in the address (`?topic=ios&q=auth&lang=vi`), replacing the history entry rather than adding one | A reload or a shared link opens on the same view; Back is not filled with every letter typed | `useQueryParam`, names in `DOCS_QUERY` in `routes.ts`; a language in the address wins over the stored one |
+| Every filter, search box, tab and version picker keeps its choice in the address, never only in component state, replacing the history entry rather than adding one | A reload, Back or a shared link opens on the same view; Back is not filled with every letter typed | `useQueryParam`, `useQueryText` (a box), `useQueryChoice` (fixed options; an unknown value reads as none) in `src/hooks/routes/` |
+| Each page's parameter names sit beside each other in `routes.ts`; every search is `q`; a default (no search, the first tab, the first version) leaves the address bare | One place to see what a link can carry; test-checked in `routes.test.ts` | Guides `DOCS_QUERY` (`?topic=ios&q=auth&lang=vi`, a language in the address wins over the stored one), apps `APPS_QUERY` (`?q=`), effects `EFFECTS_QUERY` (`?q=whoosh&kind=audio`, the front page and every category), CV `CV_QUERY` (`?tab=upwork&version=cv_with_freelancer`) |
+| What is open, not what is filtered, stays in state | Not a view anyone shares | The effect preview dialog, a folded tree or series group |
 | One `SearchInput` for every search box | Two slightly different boxes read worse | `src/components/shared/SearchInput.tsx` |
 
 ## Never

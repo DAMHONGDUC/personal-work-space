@@ -46,3 +46,26 @@ export function useQueryParam(name: string): [string | null, (value: string | nu
 
   return [value, write];
 }
+
+/**
+ * A text box kept in the address, such as a search: `""` when the parameter
+ * is absent, and clearing the box removes it.
+ */
+export function useQueryText(name: string): [string, (value: string) => void] {
+  const [value, write] = useQueryParam(name);
+  return [value ?? "", write];
+}
+
+/**
+ * A choice among fixed options kept in the address, such as a topic or a tab.
+ * A value that is not one of `options` (an old or hand-edited link) reads as
+ * `null`, so the page falls back to its default rather than to nothing.
+ */
+export function useQueryChoice<T extends string>(
+  name: string,
+  options: readonly T[],
+): [T | null, (value: T | null) => void] {
+  const [value, write] = useQueryParam(name);
+  const choice = options.includes(value as T) ? (value as T) : null;
+  return [choice, write];
+}
