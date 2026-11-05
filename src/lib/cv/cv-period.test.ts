@@ -3,16 +3,16 @@ import { formatDuration, periodStart, periodWithDuration } from "./cv-period.mts
 
 describe("periodWithDuration", () => {
   it("counts both the first and the last month, as a CV does", () => {
-    expect(periodWithDuration("Jul 2022 – Nov 2022")).toBe("Jul 2022 – Nov 2022 (5 mos)");
-    expect(periodWithDuration("Nov 2022 – Oct 2024")).toBe("Nov 2022 – Oct 2024 (2 yrs)");
+    expect(periodWithDuration("Jul 2022 – Nov 2022")).toBe("Jul 2022 – Nov 2022 (5 months)");
+    expect(periodWithDuration("Nov 2022 – Oct 2024")).toBe("Nov 2022 – Oct 2024 (2 years)");
   });
 
   it("counts a running job up to the month of the build", () => {
     expect(periodWithDuration("Oct 2024 – now", new Date(2026, 7, 14))).toBe(
-      "Oct 2024 – now (1 yr 11 mos)",
+      "Oct 2024 – now (1 year 11 months)",
     );
     expect(periodWithDuration("Oct 2024 – now", new Date(2026, 9, 4))).toBe(
-      "Oct 2024 – now (2 yrs 1 mo)",
+      "Oct 2024 – now (2 years 1 month)",
     );
   });
 
@@ -25,10 +25,10 @@ describe("periodWithDuration", () => {
 
 describe("formatDuration", () => {
   it("writes singular and plural units, and leaves out a zero", () => {
-    expect(formatDuration(1)).toBe("1 mo");
-    expect(formatDuration(12)).toBe("1 yr");
-    expect(formatDuration(13)).toBe("1 yr 1 mo");
-    expect(formatDuration(36)).toBe("3 yrs");
+    expect(formatDuration(1)).toBe("1 month");
+    expect(formatDuration(12)).toBe("1 year");
+    expect(formatDuration(13)).toBe("1 year 1 month");
+    expect(formatDuration(36)).toBe("3 years");
   });
 });
 

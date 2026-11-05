@@ -55,20 +55,20 @@ export function yearsSince(start: string, now: Date = new Date()): number {
   return Math.max(0, Math.floor(months / 6) / 2);
 }
 
-/** 23 -> `1 yr 11 mos`, 24 -> `2 yrs`, 5 -> `5 mos`. */
+/** 23 -> `1 year 11 months`, 24 -> `2 years`, 5 -> `5 months`; never abbreviated. */
 export function formatDuration(months: number): string {
   const years = Math.floor(months / 12);
   const rest = months % 12;
   const parts = [
-    years > 0 ? `${years} ${years === 1 ? "yr" : "yrs"}` : "",
-    rest > 0 ? `${rest} ${rest === 1 ? "mo" : "mos"}` : "",
+    years > 0 ? `${years} ${years === 1 ? "year" : "years"}` : "",
+    rest > 0 ? `${rest} ${rest === 1 ? "month" : "months"}` : "",
   ];
 
   return parts.filter(Boolean).join(" ");
 }
 
 /**
- * `Oct 2024 – now` -> `Oct 2024 – now (2 yrs 1 mo)`, counted to `now`.
+ * `Oct 2024 – now` -> `Oct 2024 – now (2 years 1 month)`, counted to `now`.
  *
  * The length is computed, never typed: a job that is still running would
  * otherwise print last month's figure. Throws on a period it cannot read.

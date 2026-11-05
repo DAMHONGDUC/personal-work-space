@@ -198,7 +198,7 @@ describe("derived values", () => {
   });
 
   it("counts half years, both the first and the current month, rounded down", () => {
-    // Jun 2022 to Oct 2026 is 53 months counted as a job's length is: 4 yrs 5 mos.
+    // Jun 2022 to Oct 2026 is 53 months counted as a job's length is: 4 years 5 months.
     expect(yearsSince("2022-06", new Date(2026, 9, 15))).toBe(4);
     expect(yearsSince("2022-06", new Date(2026, 10, 1))).toBe(4.5);
     expect(yearsSince("2022-07", new Date(2026, 4, 31))).toBe(3.5);

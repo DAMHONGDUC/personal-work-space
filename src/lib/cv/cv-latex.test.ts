@@ -236,7 +236,7 @@ describe("renderCvLatex", () => {
     // headings drifted out of step with each other before.
     const out = renderCvLatex(makeCv(), TEMPLATE);
 
-    expect(out).toContain("\\cvDate{Jan 2024 -- Mar 2024 (3 mos)}");
+    expect(out).toContain("\\cvDate{Jan 2024 -- Mar 2024 (3 months)}");
     expect(out).toContain("\\cvRole{Mobile App}");
     expect(out).not.toContain("\\fontsize");
   });
