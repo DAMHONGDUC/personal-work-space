@@ -27,6 +27,45 @@ function readCvSource(slug: string): CvSource {
   return JSON.parse(fs.readFileSync(file, "utf8")) as CvSource;
 }
 
+/**
+ * Short forms a CV may not print. Technical names (API, SDK, CI/CD, BLE) are
+ * how the trade writes them and stay; months stay `Oct 2024`.
+ */
+const ABBREVIATIONS = [
+  /\bincl\./,
+  /\be\.g\./,
+  /\bi\.e\./,
+  /\betc\./,
+  /\bapprox\./,
+  /\bVN\b/,
+  /\bHCM\b/,
+  /\bdevs?\b/,
+  /\byrs?\b/,
+  /\bmos?\b/,
+  // `React.js/Next.js` for `React.js and Next.js`.
+  /\.js\/[A-Z]/,
+];
+
+describe("the words a CV prints", () => {
+  it.each(versions)("writes every word out in $slug", ({ data }) => {
+    // Job lengths are counted at build, so they are checked as printed.
+    const text = [JSON.stringify(data), ...data.experience.map((job) => periodWithDuration(job.period))].join("\n");
+
+    expect(ABBREVIATIONS.flatMap((pattern) => text.match(pattern) ?? [])).toEqual([]);
+  });
+
+  it.each(versions)("credits shared work as contributed, never helped, in $slug", ({ data }) => {
+    // "Helped" reads as standing beside the work; "Contributed to" owns a part of it.
+    expect(JSON.stringify(data).match(/\bhelp(ed|ing)?\b/gi) ?? []).toEqual([]);
+  });
+
+  it.each(versions)("names each project's team, never its client, in $slug", ({ data }) => {
+    const metas = data.experience.flatMap((job) => job.groups.map((group) => group.meta));
+
+    expect(metas.filter((meta) => /client/i.test(meta))).toEqual([]);
+  });
+});
+
 describe("the set of CVs", () => {
   it("offers every file in the data directory", () => {
     // Bundling a static export needs a literal import path, so cv.ts names the
@@ -159,7 +198,7 @@ describe.each(versions)("the CV data file $slug", ({ slug, data: cv }) => {
   });
 
   it("writes every job's period without its length, which the build counts", () => {
-    // A typed "(1 yr 11 mos)" goes stale the month after it is written.
+    // A typed "(1 year 11 months)" goes stale the month after it is written.
     for (const job of cv.experience) {
       expect(() => periodWithDuration(job.period)).not.toThrow();
     }

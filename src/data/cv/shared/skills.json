@@ -1,7 +1,7 @@
 [
   {
     "name": "Native Android",
-    "items": "Kotlin, XML layouts, Jetpack Compose, DI with Hilt and Dagger, Broadcast receivers, Kiosk mode, JUnit, Mockito, Compose UI Test"
+    "items": "Kotlin, Java, XML layouts, Jetpack Compose, DI with Hilt and Dagger, Broadcast receivers, Kiosk mode, JUnit, Mockito, Compose UI Test"
   },
   {
     "name": "Native iOS",
@@ -35,7 +35,7 @@
   },
   {
     "name": "Mobile Integration",
-    "items": "RevenueCat, IAP, Stripe, Firebase (Firestore, FCM, Crashlytics, Analytics), OneSignal, Unity"
+    "items": "RevenueCat, IAP, Stripe, Firebase (Firestore, FCM, Crashlytics, Analytics), Unity"
   },
   {
     "name": "Mobile CI/CD",

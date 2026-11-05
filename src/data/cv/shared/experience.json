@@ -4,67 +4,65 @@
     "url": "https://oivan.com/",
     "role": "Mobile Developer",
     "arrangement": "Hybrid",
-    "location": "HCM City, Viet Nam",
+    "location": "Ho Chi Minh City, Viet Nam",
     "period": "Oct 2024 – now",
     "groups": [
       {
         "title": "Real Estate Product",
-        "meta": "17 mobile devs (VN, Egypt, Thailand) · Client: Saudi Arabia",
+        "meta": "17 mobile developers (Viet Nam, Egypt, Thailand)",
         "stack": "Flutter, Modular Feature-Based Clean Architecture, Melos Monorepo, BLoC, Scrum, Kanban",
         "domains": [
           "Real estate"
         ],
         "bullets": [
-          "Built and maintained features for a Saudi Arabian government client's real estate product with 10M+ users; analysed BRDs with BA, backend and QC, agreed APIs, estimated tasks and demoed every epic to the client.",
-          "Built and maintained the design system library; took part in peer code reviews.",
-          "Embedded Unity in Flutter for an in-app metaverse of buildings and events; integrated third-party SDKs.",
-          "Reduced app size from 200MB to 90MB and raised key screens from 30–40 FPS to a steady 60; optimised data-layer caching and migrated state management from Stream to BLoC.",
-          "Implemented caching; set up OneSignal push notifications and Adjust deferred deep links."
+          "Built and maintained features of a real estate app with 10M+ users for a Saudi government client; analysed BRDs with BA, backend and QC, agreed API contracts, estimated tasks and demoed each epic to the client.",
+          "Built and maintained the shared design system library; reviewed teammates' pull requests.",
+          "Embedded Unity in Flutter for an in-app metaverse of buildings and events; integrated third-party SDKs, including Adjust deferred deep links.",
+          "Reduced app size from 200MB to 90MB and raised key screens from 30–40 FPS to a steady 60; optimised data-layer caching and migrated state management from Stream to BLoC."
         ],
         "briefBullets": [
-          "Built and maintained features for a Saudi government client's 10M+ user real estate app; analysed BRDs with BA, backend and QC, agreed APIs, estimated tasks and demoed every epic to the client.",
-          "Built and maintained the design system library; took part in peer code reviews.",
-          "Embedded Unity in Flutter for an in-app metaverse of buildings and events; integrated third-party SDKs.",
-          "Cut app size from 200MB to 90MB and raised key screens from 30–40 FPS to a steady 60; optimised data-layer caching and migrated state management from Stream to BLoC.",
-          "Implemented caching; set up OneSignal push notifications and Adjust deferred deep links."
+          "Built and maintained features of a 10M+ user real estate app for a Saudi government client; analysed BRDs with BA, backend and QC, agreed APIs, estimated tasks, demoed each epic to the client.",
+          "Built and maintained the shared design system library; reviewed teammates' pull requests.",
+          "Embedded Unity in Flutter for an in-app metaverse of buildings and events; integrated third-party SDKs, including Adjust deferred deep links.",
+          "Cut app size from 200MB to 90MB and raised key screens from 30–40 FPS to a steady 60; optimised data-layer caching and migrated state management from Stream to BLoC."
         ]
       },
       {
         "title": "Private Jet App",
-        "meta": "5 mobile devs (VN, Finland) · Client: Australia",
+        "meta": "5 mobile developers (Viet Nam, Finland)",
         "stack": "React Native, Redux Toolkit, RTK Query, Reanimated, Jest, RNTL, Clean Architecture, Scrum",
         "domains": [
           "Aviation"
         ],
         "bullets": [
-          "Built a booking app for private jet flights from scratch, with smooth, complex animations and transitions, including an animated dashboard page.",
+          "Built a private jet booking app from scratch, with smooth, complex animations and transitions, including an animated dashboard.",
           "Contributed to researching and setting up Stripe payments for flight bookings; implemented SSL pinning and biometric login.",
           "Built and maintained CI/CD pipelines with Fastlane and a self-hosted GitLab Runner on a Mac mini."
         ],
         "briefBullets": [
-          "Built a private jet booking app from scratch, with smooth, complex animations and transitions, including an animated dashboard.",
+          "Built a private jet booking app from scratch, with smooth, complex animations, transitions and an animated dashboard.",
           "Contributed to researching and setting up Stripe payments for flight bookings; implemented SSL pinning and biometric login.",
           "Built and maintained CI/CD pipelines with Fastlane and a self-hosted GitLab Runner on a Mac mini."
         ]
       },
       {
         "title": "SiteLog – Site Inspection App",
-        "meta": "4 mobile devs (VN, Finland)",
+        "meta": "4 mobile developers (Viet Nam, Finland)",
         "stack": "Swift, SwiftUI, Swift Concurrency, SwiftData, Clean Architecture, MVVM, Factory, Swift Testing",
         "domains": [
           "Construction"
         ],
         "bullets": [
           "Built an offline-first iOS app for site supervisors to record site conditions and export a signed PDF inspection report.",
-          "Built a background URLSession upload engine with S3 multipart uploads that survives suspension, termination and network loss for multi-GB sessions.",
+          "Built a background URLSession upload engine with S3 multipart uploads that survives app suspension, termination and network loss across multi-GB sessions.",
           "Made captures tamper-evident with SHA-256 hashes, a separate vector markup layer, an audit log and Keychain-held keys; added biometric and passcode lock.",
-          "Built PDFKit floor plans with pins, photo markup and stamps, checklists and BLE meter readings; multi-device sync, realtime WebSocket progress, push and deep links; CI/CD with Fastlane and TestFlight."
+          "Built PDFKit floor plans with pins, photo markup and stamps, checklists and BLE meter readings; added multi-device sync, realtime WebSocket progress, push and deep links; set up Fastlane and TestFlight CI/CD."
         ],
         "briefBullets": [
-          "Built an offline-first iOS app where site supervisors record site conditions and export a signed PDF inspection report.",
+          "Built an offline-first iOS app for supervisors to record site conditions and export a signed PDF inspection report.",
           "Built a background URLSession upload engine (S3 multipart) that survives suspension, termination and network loss in multi-GB sessions.",
           "Made captures tamper-evident with SHA-256 hashes, a separate vector markup layer, an audit log and Keychain-held keys; added biometric and passcode lock.",
-          "Built PDFKit floor plans with pins, photo markup and stamps, checklists and BLE meter readings; multi-device sync, realtime WebSocket progress, push, deep links; Fastlane and TestFlight CI/CD."
+          "Built PDFKit floor plans with pins, photo markup, stamps, checklists and BLE meter readings; added multi-device sync, realtime WebSocket progress, push, deep links; Fastlane and TestFlight CI/CD."
         ]
       }
     ]
@@ -73,12 +71,12 @@
     "company": "P&A Inc.",
     "role": "Mobile Developer",
     "arrangement": "Freelancer, part-time, remote (Japan)",
-    "location": "HCM City, Viet Nam",
+    "location": "Ho Chi Minh City, Viet Nam",
     "period": "Aug 2023 – Jul 2026",
     "groups": [
       {
         "title": "Cocototo – virtual pet game",
-        "meta": "2 mobile devs (VN, Japan) · Client: Japan",
+        "meta": "2 mobile developers (Viet Nam, Japan)",
         "stack": "Flutter, Flame, Firebase",
         "domains": [
           "Games"
@@ -89,7 +87,7 @@
       },
       {
         "title": "Pet Management App",
-        "meta": "3 mobile devs (VN, Japan) · Client: Japan",
+        "meta": "3 mobile developers (Viet Nam, Japan)",
         "stack": "Jetpack Compose",
         "domains": [
           "Pet care"
@@ -105,30 +103,30 @@
     "url": "https://www.tgl-sol.com/",
     "role": "Mobile Developer",
     "arrangement": "Onsite",
-    "location": "HCM City, Viet Nam",
+    "location": "Ho Chi Minh City, Viet Nam",
     "period": "Nov 2022 – Oct 2024",
     "groups": [
       {
         "title": "Warehouse App for Handheld Devices",
-        "meta": "4 mobile devs (VN) · Client: Japan",
+        "meta": "4 mobile developers (Viet Nam)",
         "stack": "Kotlin, Jetpack Compose, MVVM, Clean Architecture",
         "domains": [
           "Logistics"
         ],
         "bullets": [
-          "Built a warehouse management app for Unitech HT300/HT330 barcode devices, end to end.",
-          "Integrated the hardware scanner for live barcode capture; synced receipt, dispatch and inventory.",
-          "Built an offline-first data layer with periodic sync, so the floor kept working without a network; agreed barcode formats across teams; set up kiosk mode, auto-launch on boot and a private Play release."
+          "Built a warehouse management app end to end for Unitech HT300/HT330 handheld barcode scanners.",
+          "Integrated the built-in hardware scanner for live barcode capture; synced goods receipt, dispatch and inventory data.",
+          "Built an offline-first data layer with periodic sync so the warehouse floor kept working without a network; agreed barcode formats across teams; set up kiosk mode, auto-launch on boot and a private Google Play release."
         ],
         "briefBullets": [
-          "Built a warehouse management app for Unitech HT300/HT330 barcode devices, end to end.",
-          "Integrated the hardware scanner for live barcode capture; synced receipt, dispatch and inventory.",
-          "Built an offline-first data layer with periodic sync so the floor works without a network; agreed barcode formats across teams; set up kiosk mode, auto-launch on boot and a private Play release."
+          "Built a warehouse management app end to end for Unitech HT300/HT330 barcode scanners.",
+          "Integrated the hardware scanner for live barcode capture; synced goods receipt, dispatch and inventory.",
+          "Built an offline-first data layer with periodic sync so the floor kept working offline; agreed barcode formats across teams; set up kiosk mode, auto-launch on boot and a private Play release."
         ]
       },
       {
         "title": "Cross-Platform Apps",
-        "meta": "4–6 mobile devs (VN) · Client: Japan",
+        "meta": "4–6 mobile developers (Viet Nam)",
         "stack": "React Native, Expo, Flutter",
         "domains": [
           "Utilities",
@@ -137,27 +135,27 @@
           "E-learning"
         ],
         "bullets": [
-          "Built new apps and maintained others: booking and health apps in React Native; an appliance and apartment maintenance app in Expo; e-learning, file management and equipment apps in Flutter.",
-          "Wrote a native module for the health app to measure heart rate using the phone camera.",
+          "Built new apps and maintained existing ones: booking and health apps in React Native; an appliance and apartment maintenance app in Expo; e-learning, file management and equipment apps in Flutter.",
+          "Wrote a native module for the health app that measures heart rate with the phone camera.",
           "Integrated GraphQL APIs with Apollo Client; implemented FCM push notifications, Firebase Crashlytics and Firebase Analytics.",
           "Set up and maintained CI/CD pipelines to build and release the apps.",
-          "Made the apps responsive on iPad, in portrait and landscape.",
-          "Led a sub-project with 3 members: planned sprints, estimated tasks and reviewed delivery."
+          "Made the apps responsive on iPad in both portrait and landscape.",
+          "Led a 3-person sub-project: planned sprints, estimated tasks and reviewed deliverables."
         ],
         "briefBullets": [
           "Built new apps and maintained others: React Native booking and health apps; an Expo appliance and apartment maintenance app; Flutter e-learning, file management and equipment apps.",
-          "Wrote a native module for the health app to measure heart rate using the phone camera.",
-          "Integrated GraphQL APIs with Apollo Client; implemented FCM push notifications, Firebase Crashlytics and Firebase Analytics.",
+          "Wrote a native module for the health app that measures heart rate with the phone camera.",
+          "Integrated GraphQL APIs with Apollo Client; added FCM push notifications, Firebase Crashlytics and Analytics.",
           "Set up and maintained CI/CD pipelines to build and release the apps.",
-          "Made the apps responsive on iPad, in portrait and landscape.",
-          "Led a sub-project with 3 members: planned sprints, estimated tasks and reviewed delivery."
+          "Made the apps responsive on iPad in portrait and landscape.",
+          "Led a 3-person sub-project: planned sprints, estimated tasks and reviewed deliverables."
         ]
       }
     ],
     "note": {
       "label": "Also:",
-      "text": "Maintained React.js and Next.js admin dashboards and academy sites, with Three.js 3D UI and VNPAY for a Vietnamese client.",
-      "brief": "Maintained React.js/Next.js admin dashboards and academy sites, with Three.js 3D UI and VNPAY for a VN client."
+      "text": "Maintained React.js and Next.js admin dashboards and academy websites for a Vietnamese client, with a Three.js 3D UI and VNPAY payments.",
+      "brief": "Maintained React.js and Next.js admin dashboards and academy sites for a Vietnamese client, with a Three.js 3D UI and VNPAY payments."
     }
   },
   "flynk": {
@@ -165,18 +163,18 @@
     "url": "https://flynk.com/",
     "role": "Fresher Mobile Developer",
     "arrangement": "Onsite",
-    "location": "HCM City, Viet Nam",
+    "location": "Ho Chi Minh City, Viet Nam",
     "period": "May 2022 – Oct 2022",
     "groups": [
       {
         "title": "Trading & Finance App",
-        "meta": "3 mobile devs (VN, Australia) · Client: Australia",
-        "stack": "React Native, Redux Toolkit",
+        "meta": "3 mobile developers (Viet Nam, Australia)",
+        "stack": "Java, XML layouts, MVP",
         "domains": [
           "Fintech"
         ],
         "bullets": [
-          "Maintained and improved the app UI; implemented charts for trading and financial data."
+          "Maintained the native Android app and improved its UI; implemented charts for trading and financial data."
         ]
       }
     ]

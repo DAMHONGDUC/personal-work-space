@@ -52,7 +52,7 @@ export type SharedSkill = Skill & {
  */
 export type ExperienceGroup = {
   title: string;
-  /** Team size and client, beside the title: `20 mobile devs · Client: Saudi Arabia`. */
+  /** The team beside the title, never the client: `17 mobile developers (Viet Nam, Egypt, Thailand)`. */
   meta: string;
   /**
    * Framework and architecture, the first bullet: `Flutter, Clean Architecture`.
