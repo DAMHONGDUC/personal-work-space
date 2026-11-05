@@ -6,5 +6,10 @@
     "p-and-a",
     "tgl-solutions",
     "flynk"
-  ]
+  ],
+  "leaveOut": {
+    "skills": [
+      "AI-Assisted Development"
+    ]
+  }
 }

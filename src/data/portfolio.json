@@ -17,7 +17,6 @@
     "Mobile Integration": "revenuecat",
     "Mobile CI/CD": "github-actions",
     "Web Development": "nextjs",
-    "AI-Assisted Development": "claude",
     "Domains": "domains"
   },
   "projectIcons": {
