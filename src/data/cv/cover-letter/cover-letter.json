@@ -2,7 +2,7 @@
   "greeting": "Dear Hiring Team,",
   "opening": "I am applying for the [Mobile Developer] role. I have {{years}} years of experience building mobile apps.",
   "points": [
-    { "label": "Cross-platform", "text": "React Native (TypeScript, Redux Toolkit, Reanimated) and Flutter (BLoC, Riverpod)" },
+    { "label": "Cross-platform", "text": "Flutter (BLoC, Riverpod) and React Native (TypeScript, Redux Toolkit, Reanimated)" },
     { "label": "Native", "text": "Android with Kotlin and Jetpack Compose; iOS with Swift and SwiftUI" },
     { "label": "Architecture", "text": "Clean Architecture, design systems, native modules, code reviews" },
     { "label": "Performance", "text": "reduced app size and increased FPS on production apps" },

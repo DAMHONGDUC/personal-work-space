@@ -1,4 +1,4 @@
 [
-  "I am a mobile developer with {{years}}+ years in Android, SwiftUI (iOS), cross-platform Flutter and React Native, plus front-end web with Next.js and React.js.",
-  "I optimise app size and rendering performance, set up CI/CD pipelines, secure apps and deliver them to the App Store and Google Play, both in large teams and on my own."
+  "I am a mobile developer with {{years}}+ years in cross-platform Flutter and React Native, native Android and SwiftUI (iOS), plus front-end web with Next.js and React.js.",
+  "I optimise app size and rendering performance, build CI/CD pipelines, secure apps and release them to the App Store and Google Play, in large teams and on my own."
 ]

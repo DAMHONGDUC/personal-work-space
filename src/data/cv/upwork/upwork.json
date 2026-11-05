@@ -7,7 +7,7 @@
       "heading": "My skills",
       "items": [
         "Senior mobile developer with 5+ years",
-        "Mobile: Flutter, React Native, iOS (SwiftUI), Android (Jetpack Compose)",
+        "Mobile: Flutter, React Native, Android (Jetpack Compose), iOS (SwiftUI)",
         "Backend: Node.js, Firebase",
         "Web: Next.js, React.js"
       ]
@@ -30,9 +30,9 @@
   "skills": [
     "Flutter",
     "React Native",
-    "SwiftUI",
-    "iOS Development",
     "Android App Development",
+    "iOS Development",
+    "SwiftUI",
     "Next.js",
     "Mobile App Development",
     "Web Development",

@@ -1,13 +1,5 @@
 [
   {
-    "name": "Native Android",
-    "items": "Kotlin, Java, XML layouts, Jetpack Compose, DI with Hilt and Dagger, Broadcast receivers, Kiosk mode, JUnit, Mockito, Compose UI Test"
-  },
-  {
-    "name": "Native iOS",
-    "items": "Swift, SwiftUI, Swift Concurrency, SwiftData, DI with Factory, CoreBluetooth, PDFKit, Swift Testing"
-  },
-  {
     "name": "Flutter",
     "items": "Dart, BLoC, Provider, Riverpod, DI with get_it, Melos Monorepo, Flame, flutter_test",
     "onlyWith": {
@@ -17,6 +9,14 @@
   {
     "name": "React Native",
     "items": "TypeScript, Expo, Redux Toolkit, RTK Query, Reanimated, Jest, RNTL"
+  },
+  {
+    "name": "Native Android",
+    "items": "Kotlin, Java, XML layouts, Jetpack Compose, DI with Hilt and Dagger, Broadcast receivers, Kiosk mode, JUnit, Mockito, Compose UI Test"
+  },
+  {
+    "name": "Native iOS",
+    "items": "Swift, SwiftUI, Swift Concurrency, SwiftData, DI with Factory, CoreBluetooth, PDFKit, Swift Testing"
   },
   {
     "name": "Mobile Architecture",
