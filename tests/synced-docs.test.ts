@@ -131,7 +131,8 @@ describe.each(docs.map((doc) => [doc.slug, doc] as const))("%s", (slug, doc) => 
         ];
         let expected = 0;
         for (const [, letter, name, body] of steps) {
-          if (name === "File") expected = 0;
+          // A task restarts the letters: at its File line, or at its first step when it has none (a Try-only task).
+          if (name === "File" || letter === "a") expected = 0;
           if (letter !== "abcdefghijklmnopqrstuvwxyz"[expected++]) wrong.push(`${section.id}: ${letter}. ${name}`);
           if (name === "File" && body.includes("<code") && !/^\s*<p><code class="md-file">/.test(body)) {
             wrong.push(`${section.id}: File path not tagged`);
