@@ -611,7 +611,10 @@ async function render(nodes: RootContent[]): Promise<{ html: string; text: strin
   const hast = (await toHast.run({ type: "root", children: nodes } satisfies Root)) as HastRoot;
   const text = toText(hast).replace(/\s+/g, " ").trim();
   await decorate.run(hast);
-  return { html: stringify.stringify(hast).trim(), text };
+  const html = stringify.stringify(hast).trim();
+  // A drawn diagram is read by its alt text, so a section holding only a diagram still has words to search.
+  const alts = [...html.matchAll(/<img [^>]*alt="([^"]*)"/g)].map(([, alt]) => alt.replace(/&quot;/g, '"').replace(/&amp;/g, "&"));
+  return { html, text: [text, ...alts].join(" ").trim() };
 }
 
 function oneLine(node: Parameters<typeof toString>[0]): string {

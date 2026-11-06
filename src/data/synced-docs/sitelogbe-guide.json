@@ -1,0 +1,87 @@
+{
+  "title": "Backend feature guides",
+  "tagline": "Step-by-step build of the backend, one folder per sprint, one guide per feature. Same sprints and feature numbers as the iOS guides: a feature's app and backend work go in the same sprint.",
+  "icon": "🛠️",
+  "topic": "fullstack",
+  "tags": [
+    "Node.js",
+    "TypeScript",
+    "AWS",
+    "Step by step"
+  ],
+  "readingTime": "3 min",
+  "languages": [
+    "en"
+  ],
+  "numbered": false,
+  "series": {
+    "id": "sitelogbe",
+    "part": 1,
+    "name": "SiteLog backend: the API, built",
+    "panel": "Base docs"
+  },
+  "intro": [
+    "Step-by-step build of the backend, one folder per sprint, one guide per feature. Same sprints and feature numbers as the iOS guides: a feature's app and backend work go in the same sprint.",
+    "Specs: feature-docs. The contract the app uses: 01-api.",
+    "Run the backend next to the app: local testing with iOS."
+  ],
+  "sections": [
+    {
+      "id": "sprint-board",
+      "title": "Sprint board",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelogbe/diagram-aefcb0457bfd-dark.svg\"><img src=\"../../synced-docs/sitelogbe/diagram-aefcb0457bfd-light.svg\" alt=\"Diagram: S0, setup, skeleton,, AWS staging → S1, auth, projects → S2, sync → S3, captures, upload → S4, multipart, TestFlight #1 → S5, issues, markup → S6, verify, plans → S7, checklists, TestFlight #2 → S8, realtime, push → S9, production, App Store\" width=\"1896\" height=\"112\" loading=\"lazy\"></picture></figure>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Sprint</th><th>Guides</th><th>Hours</th><th>Ends with</th></tr></thead><tbody><tr><td><a href=\"../sitelogbe-guide-s0-foundation/\">S0</a></td><td><a href=\"../sitelogbe-guide-f00a-setup/\">F00a Setup</a> · <a href=\"../sitelogbe-guide-f00b-api-skeleton/\">F00b API skeleton</a> · <a href=\"../sitelogbe-guide-f00c-aws-staging/\">F00c AWS staging</a></td><td>11</td><td><code>https://api-staging.&#x3C;domain>/health</code> answers; CI green</td></tr><tr><td><a href=\"../sitelogbe-guide-s1-auth-projects/\">S1</a></td><td><a href=\"../sitelogbe-guide-f02-auth/\">F02 Auth</a> · <a href=\"../sitelogbe-guide-f03-projects/\">F03 Projects</a></td><td>7</td><td>A call without a token is <code>401</code>; project tables exist</td></tr><tr><td><a href=\"../sitelogbe-guide-s2-sync-engine/\">S2</a></td><td><a href=\"../sitelogbe-guide-f04-sync/\">F04 Sync</a></td><td>8</td><td>Two devices see each other's projects</td></tr><tr><td><a href=\"../sitelogbe-guide-s3-capture-upload/\">S3</a></td><td><a href=\"../sitelogbe-guide-f05-captures/\">F05 Captures</a> · <a href=\"../sitelogbe-guide-f06-upload/\">F06 Upload</a></td><td>10</td><td>A photo goes to S3 and gets a code</td></tr><tr><td><a href=\"../sitelogbe-guide-s4-resumable-upload/\">S4</a></td><td><a href=\"../sitelogbe-guide-f07-multipart/\">F07 Multipart</a></td><td>6</td><td>A 1 GB video resumes after a kill</td></tr><tr><td><a href=\"../sitelogbe-guide-s5-issues-markup/\">S5</a></td><td><a href=\"../sitelogbe-guide-f08-issues/\">F08 Issues</a> · <a href=\"../sitelogbe-guide-f09-annotations/\">F09 Annotations</a></td><td>3</td><td>Issues and markup sync</td></tr><tr><td><a href=\"../sitelogbe-guide-s6-reports-plans/\">S6</a></td><td><a href=\"../sitelogbe-guide-f10-reports-verify/\">F10 Reports, verify</a> · <a href=\"../sitelogbe-guide-f11-plans/\">F11 Plans</a></td><td>6</td><td>A code from a PDF resolves at <code>/verify</code></td></tr><tr><td><a href=\"../sitelogbe-guide-s7-checklists/\">S7</a></td><td><a href=\"../sitelogbe-guide-f12-checklists/\">F12 Checklists</a></td><td>2</td><td>Checklist answers sync</td></tr><tr><td><a href=\"../sitelogbe-guide-s8-realtime-push/\">S8</a></td><td><a href=\"../sitelogbe-guide-f15-realtime/\">F15 Realtime</a> · <a href=\"../sitelogbe-guide-f16-push/\">F16 Push</a></td><td>11</td><td>Uploads turn \"verified\" live; a push arrives</td></tr><tr><td><a href=\"../sitelogbe-guide-s9-release/\">S9</a></td><td><a href=\"../sitelogbe-guide-f18-production/\">F18 Production</a></td><td>6</td><td>Production live, alarms, backups tested</td></tr></tbody></table></div>\n<ul>\n<li>Hours come from the sprint plan. A first AWS setup (F00c) often takes longer: budget a spare evening.</li>\n<li>Features without backend work: F01 Access, F13 DeviceLink, F14 Diagnostics, F17 Accessibility.</li>\n</ul>\n</dd></dl>",
+          "text": "Sprint Guides Hours Ends withS0 F00a Setup · F00b API skeleton · F00c AWS staging 11 https://api-staging.<domain>/health answers; CI green S1 F02 Auth · F03 Projects 7 A call without a token is 401; project tables exist S2 F04 Sync 8 Two devices see each other's projects S3 F05 Captures · F06 Upload 10 A photo goes to S3 and gets a code S4 F07 Multipart 6 A 1 GB video resumes after a kill S5 F08 Issues · F09 Annotations 3 Issues and markup sync S6 F10 Reports, verify · F11 Plans 6 A code from a PDF resolves at /verify S7 F12 Checklists 2 Checklist answers sync S8 F15 Realtime · F16 Push 11 Uploads turn \"verified\" live; a push arrives S9 F18 Production 6 Production live, alarms, backups tested Hours come from the sprint plan. A first AWS setup (F00c) often takes longer: budget a spare evening. Features without backend work: F01 Access, F13 DeviceLink, F14 Diagnostics, F17 Accessibility. Diagram: S0, setup, skeleton,, AWS staging → S1, auth, projects → S2, sync → S3, captures, upload → S4, multipart, TestFlight #1 → S5, issues, markup → S6, verify, plans → S7, checklists, TestFlight #2 → S8, realtime, push → S9, production, App Store"
+        }
+      ]
+    },
+    {
+      "id": "how-a-backend-feature-runs",
+      "title": "How a backend feature runs",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelogbe/diagram-530034533fba-dark.svg\"><img src=\"../../synced-docs/sitelogbe/diagram-530034533fba-light.svg\" alt=\"Diagram: 1 Contract, 01-api → 2 Migration, new .sql → 3 Registry or route, src/ → 4 Run locally, curl, then the app → 5 Tests, after it works → 6 Deploy, merge → staging\" width=\"1128\" height=\"112\" loading=\"lazy\"></picture></figure>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Step</th><th>Builds</th><th>Done when</th></tr></thead><tbody><tr><td>1 Contract</td><td>Read the feature's rows in <a href=\"../sitelogbe-specs-01-api/\">01-api</a></td><td>You can say what the app sends and gets back</td></tr><tr><td>2 Migration</td><td>One numbered <code>.sql</code> file</td><td><code>npm run migrate</code> runs it on your database</td></tr><tr><td>3 Registry or route</td><td>A table entry in <code>src/sync/tables.ts</code>, or a route file</td><td><code>npm run typecheck</code> is clean</td></tr><tr><td>4 Run locally</td><td><code>npm run dev</code>, curl, then the app on the simulator</td><td>The app's signed-in path works against your Mac</td></tr><tr><td>5 Tests</td><td>The guide's test file</td><td><code>npm test</code> green</td></tr><tr><td>6 Deploy</td><td>PR → CI → merge</td><td>Staging answers; the app's staging build works</td></tr></tbody></table></div>\n</dd></dl>",
+          "text": "Step Builds Done when1 Contract Read the feature's rows in 01-api You can say what the app sends and gets back 2 Migration One numbered .sql file npm run migrate runs it on your database 3 Registry or route A table entry in src/sync/tables.ts, or a route file npm run typecheck is clean 4 Run locally npm run dev, curl, then the app on the simulator The app's signed-in path works against your Mac 5 Tests The guide's test file npm test green 6 Deploy PR → CI → merge Staging answers; the app's staging build works Diagram: 1 Contract, 01-api → 2 Migration, new .sql → 3 Registry or route, src/ → 4 Run locally, curl, then the app → 5 Tests, after it works → 6 Deploy, merge → staging"
+        }
+      ]
+    },
+    {
+      "id": "how-to-use-a-guide",
+      "title": "How to use a guide",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul>\n<li>Every step opens with an <strong>overview</strong> (goal, files, diagram, check) that alone is enough to build it. Try from the overview first.</li>\n<li>Then, per file: <strong>Explain</strong> (what it is) → <strong>Think</strong> (answer before writing) → <strong>Hint 1 · Idea</strong> → <strong>Hint 2 · APIs</strong> → <strong>Hint 3 · Skeleton</strong> → <strong>Code</strong> (collapsed: open it to check, or when stuck) → <strong>Try</strong> (break it on purpose, predict, observe, undo).</li>\n<li><strong>File tags:</strong> <b class=\"tag-new\">New</b> create the file · <b class=\"tag-edit\">Edit</b> change the part the diff shows · <b class=\"tag-replace\">Replace</b> overwrite the whole file · <b class=\"tag-check\">Check</b> nothing to write, compare only.</li>\n<li>An <strong>Edit</strong> shows a <code>diff</code> (open) and the whole file after the change (collapsed). Lines starting <code>+</code> are added, <code>-</code> removed.</li>\n<li>Commands to run are open, one per block.</li>\n</ul>\n</dd></dl>",
+          "text": "Every step opens with an overview (goal, files, diagram, check) that alone is enough to build it. Try from the overview first. Then, per file: Explain (what it is) → Think (answer before writing) → Hint 1 · Idea → Hint 2 · APIs → Hint 3 · Skeleton → Code (collapsed: open it to check, or when stuck) → Try (break it on purpose, predict, observe, undo). File tags: New create the file · Edit change the part the diff shows · Replace overwrite the whole file · Check nothing to write, compare only. An Edit shows a diff (open) and the whole file after the change (collapsed). Lines starting + are added, - removed. Commands to run are open, one per block."
+        }
+      ]
+    },
+    {
+      "id": "rules",
+      "title": "Rules",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ol>\n<li><strong>Contract first:</strong> the app and the backend agree on <a href=\"../sitelogbe-specs-01-api/\">01-api</a> before either is coded; change the doc first.</li>\n<li><strong>Tests after the feature works</strong> end to end, never while a step is half built.</li>\n<li><strong>Never <code>400</code> or <code>404</code> for a temporary problem:</strong> the app aborts an upload on them.</li>\n<li><strong>Every user query filters <code>uid</code>.</strong> Every new table joins the account deletion (<code>syncTables</code> or <code>serverTables</code>).</li>\n<li><strong>A migration that ran is never edited.</strong> Fix it with the next number.</li>\n<li><strong>No secret in git.</strong> <code>.env</code> locally, SSM on AWS.</li>\n<li><strong>Commit when the step's check passes;</strong> tick the sprint's task table in the same commit.</li>\n</ol>\n</dd></dl>",
+          "text": "Contract first: the app and the backend agree on 01-api before either is coded; change the doc first. Tests after the feature works end to end, never while a step is half built. Never 400 or 404 for a temporary problem: the app aborts an upload on them. Every user query filters uid. Every new table joins the account deletion (syncTables or serverTables). A migration that ran is never edited. Fix it with the next number. No secret in git. .env locally, SSM on AWS. Commit when the step's check passes; tick the sprint's task table in the same commit."
+        }
+      ]
+    },
+    {
+      "id": "tested-versions",
+      "title": "Tested versions",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul>\n<li>Every code block in these guides was compiled, linted and tested with these versions (<code>npm install &#x3C;name>@&#x3C;major></code> gets compatible ones):</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Package</th><th>Version</th><th>Package</th><th>Version</th></tr></thead><tbody><tr><td>Node.js</td><td>24</td><td><code>typescript</code></td><td>6.0.3</td></tr><tr><td><code>fastify</code></td><td>5.12.8</td><td><code>tsx</code></td><td>4.23.15</td></tr><tr><td><code>@fastify/type-provider-typebox</code></td><td>6.3.0</td><td><code>vitest</code></td><td>5.1.0</td></tr><tr><td><code>typebox</code></td><td>1.4.4</td><td><code>eslint</code></td><td>10.14.0</td></tr><tr><td><code>@fastify/rate-limit</code></td><td>11.2.2</td><td><code>typescript-eslint</code></td><td>8.72.1</td></tr><tr><td><code>@fastify/websocket</code></td><td>11.3.7</td><td><code>prettier</code></td><td>3.9.10</td></tr><tr><td><code>pg</code></td><td>8.23.1</td><td><code>aws-sdk-client-mock</code></td><td>4.1.0</td></tr><tr><td><code>pino</code></td><td>10.4.0</td><td><code>@types/node</code></td><td>24.19.2</td></tr><tr><td><code>firebase-admin</code></td><td>14.5.0</td><td><code>@types/pg</code></td><td>8.23.1</td></tr><tr><td><code>@aws-sdk/client-s3</code>, <code>@aws-sdk/s3-request-presigner</code></td><td>3.1162.0</td><td><code>aws-cdk-lib</code></td><td>2.275.0</td></tr><tr><td><code>jose</code></td><td>6.2.15</td><td><code>aws-cdk</code> (CLI)</td><td>2.1147.0</td></tr><tr><td>PostgreSQL</td><td>16</td><td><code>constructs</code></td><td>10.8.1</td></tr></tbody></table></div>\n</dd></dl>",
+          "text": "Every code block in these guides was compiled, linted and tested with these versions (npm install <name>@<major> gets compatible ones): Package Version Package VersionNode.js 24 typescript 6.0.3 fastify 5.12.8 tsx 4.23.15 @fastify/type-provider-typebox 6.3.0 vitest 5.1.0 typebox 1.4.4 eslint 10.14.0 @fastify/rate-limit 11.2.2 typescript-eslint 8.72.1 @fastify/websocket 11.3.7 prettier 3.9.10 pg 8.23.1 aws-sdk-client-mock 4.1.0 pino 10.4.0 @types/node 24.19.2 firebase-admin 14.5.0 @types/pg 8.23.1 @aws-sdk/client-s3, @aws-sdk/s3-request-presigner 3.1162.0 aws-cdk-lib 2.275.0 jose 6.2.15 aws-cdk (CLI) 2.1147.0 PostgreSQL 16 constructs 10.8.1"
+        }
+      ]
+    }
+  ],
+  "effectiveDate": "2026-11-05",
+  "lastUpdated": "2026-11-05"
+}

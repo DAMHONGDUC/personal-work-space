@@ -1,0 +1,76 @@
+{
+  "title": "S2 — Sync engine",
+  "tagline": "the delta sync every later table joins by adding one registry entry.",
+  "icon": "🛠️",
+  "topic": "fullstack",
+  "tags": [
+    "Node.js",
+    "TypeScript",
+    "AWS",
+    "Step by step"
+  ],
+  "readingTime": "1 min",
+  "languages": [
+    "en"
+  ],
+  "numbered": false,
+  "series": {
+    "id": "sitelogbe",
+    "part": 15,
+    "name": "SiteLog backend: the API, built",
+    "panel": "Sprint guides",
+    "group": "S2-sync-engine",
+    "opensGroup": true
+  },
+  "intro": [
+    "Sprint 2 · 2 weeks · backend 8h of the sprint's 45h · all sprints · iOS side: S2 iOS"
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Overview",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul>\n<li><strong>Goal:</strong> the delta sync every later table joins by adding one registry entry.</li>\n<li><strong>Demo:</strong> two simulators, one account: a project made offline on one appears on the other after sync; a delete stays deleted.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Guide</th><th>Builds</th><th>Hours</th></tr></thead><tbody><tr><td><a href=\"../sitelogbe-guide-f04-sync/\">F04 Sync</a></td><td><code>sync_state</code>, pull, push, routes</td><td>8</td></tr></tbody></table></div>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelogbe/diagram-b2c7db2edfd4-dark.svg\"><img src=\"../../synced-docs/sitelogbe/diagram-b2c7db2edfd4-light.svg\" alt=\"Diagram: device A → push batch → /sync/push → lock sync_state, rev + 1 per row → Postgres → device B → pull since → /sync/pull → rev > since\" width=\"908\" height=\"152\" loading=\"lazy\"></picture></figure>\n</dd></dl>",
+          "text": "Goal: the delta sync every later table joins by adding one registry entry. Demo: two simulators, one account: a project made offline on one appears on the other after sync; a delete stays deleted. Guide Builds HoursF04 Sync sync_state, pull, push, routes 8 Diagram: device A → push batch → /sync/push → lock sync_state, rev + 1 per row → Postgres → device B → pull since → /sync/pull → rev > since"
+        }
+      ]
+    },
+    {
+      "id": "tasks",
+      "title": "Tasks",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Task</th><th>What</th><th>Guide</th><th>Hours</th><th>Status</th></tr></thead><tbody><tr><td>F04.1</td><td><code>0002_sync_state.sql</code></td><td><a href=\"../sitelogbe-guide-f04-sync/#1-revision-counter\">F04 §1</a></td><td>0.5</td><td>not start</td></tr><tr><td>F04.2</td><td>Pull</td><td><a href=\"../sitelogbe-guide-f04-sync/#2-pull\">F04 §2</a></td><td>2</td><td>not start</td></tr><tr><td>F04.3</td><td>Push (split: SQL builders · upsert/delete · batch + fallback)</td><td><a href=\"../sitelogbe-guide-f04-sync/#3-push\">F04 §3</a></td><td>3.5</td><td>not start</td></tr><tr><td>F04.4</td><td>Routes, curl demo</td><td><a href=\"../sitelogbe-guide-f04-sync/#4-routes\">F04 §4</a></td><td>1</td><td>not start</td></tr><tr><td>F04.5</td><td>Tests</td><td><a href=\"../sitelogbe-guide-f04-sync/#tests\">F04 Tests</a></td><td>1</td><td>not start</td></tr></tbody></table></div>\n</dd></dl>",
+          "text": "Task What Guide Hours StatusF04.1 0002_sync_state.sql F04 §1 0.5 not start F04.2 Pull F04 §2 2 not start F04.3 Push (split: SQL builders · upsert/delete · batch + fallback) F04 §3 3.5 not start F04.4 Routes, curl demo F04 §4 1 not start F04.5 Tests F04 Tests 1 not start"
+        }
+      ]
+    },
+    {
+      "id": "done",
+      "title": "Done",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul class=\"contains-task-list\">\n<li class=\"task-list-item\"><input type=\"checkbox\" disabled> <code>npm test</code> green; staging migrated</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" disabled> The iOS two-device demo passes against staging</li>\n</ul>\n</dd></dl>",
+          "text": "npm test green; staging migrated The iOS two-device demo passes against staging"
+        }
+      ]
+    },
+    {
+      "id": "self-check",
+      "title": "Self-check",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul>\n<li>A push of 200 mutations: how many revs does it use if 10 are superseded?</li>\n<li>Why can an offline device never reopen an exported session, even with a newer <code>clientUpdatedAt</code>?</li>\n</ul>\n</dd></dl>",
+          "text": "A push of 200 mutations: how many revs does it use if 10 are superseded? Why can an offline device never reopen an exported session, even with a newer clientUpdatedAt?"
+        }
+      ]
+    }
+  ],
+  "effectiveDate": "2026-11-05",
+  "lastUpdated": "2026-11-05"
+}

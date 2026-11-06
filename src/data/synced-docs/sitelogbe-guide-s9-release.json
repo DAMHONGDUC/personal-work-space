@@ -1,0 +1,76 @@
+{
+  "title": "S9 — Production · App Store",
+  "tagline": "production ready for real users before the App Store build is submitted.",
+  "icon": "🛠️",
+  "topic": "fullstack",
+  "tags": [
+    "Node.js",
+    "TypeScript",
+    "AWS",
+    "Step by step"
+  ],
+  "readingTime": "1 min",
+  "languages": [
+    "en"
+  ],
+  "numbered": false,
+  "series": {
+    "id": "sitelogbe",
+    "part": 33,
+    "name": "SiteLog backend: the API, built",
+    "panel": "Sprint guides",
+    "group": "S9-release",
+    "opensGroup": true
+  },
+  "intro": [
+    "Sprint 9 · 2 weeks · backend 6h of the sprint's 54h · all sprints · iOS side: S9 iOS"
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Overview",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul>\n<li><strong>Goal:</strong> production ready for real users before the App Store build is submitted.</li>\n<li><strong>Demo:</strong> the App Store build signs in, syncs and uploads against <code>https://api.&#x3C;domain></code>; staging and prod data stay apart.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Guide</th><th>Builds</th><th>Hours</th></tr></thead><tbody><tr><td><a href=\"../sitelogbe-guide-f18-production/\">F18 Production</a></td><td>Purge, alarms, uptime, prod stack, release workflow, restore test</td><td>6</td></tr></tbody></table></div>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelogbe/diagram-c76928d6f8ab-dark.svg\"><img src=\"../../synced-docs/sitelogbe/diagram-c76928d6f8ab-light.svg\" alt=\"Diagram: main → every merge → staging → v* tag → approval → production → alarms · uptime · backups\" width=\"685\" height=\"164\" loading=\"lazy\"></picture></figure>\n</dd></dl>",
+          "text": "Goal: production ready for real users before the App Store build is submitted. Demo: the App Store build signs in, syncs and uploads against https://api.<domain>; staging and prod data stay apart. Guide Builds HoursF18 Production Purge, alarms, uptime, prod stack, release workflow, restore test 6 Diagram: main → every merge → staging → v* tag → approval → production → alarms · uptime · backups"
+        }
+      ]
+    },
+    {
+      "id": "tasks",
+      "title": "Tasks",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Task</th><th>What</th><th>Guide</th><th>Hours</th><th>Status</th></tr></thead><tbody><tr><td>F18.1</td><td>Tombstone purge</td><td><a href=\"../sitelogbe-guide-f18-production/#1-tombstone-purge\">F18 §1</a></td><td>1</td><td>not start</td></tr><tr><td>F18.2</td><td>Alarms and uptime</td><td><a href=\"../sitelogbe-guide-f18-production/#2-alarms-and-uptime\">F18 §2</a></td><td>1.5</td><td>not start</td></tr><tr><td>F18.3</td><td>Production stack, secrets, DNS</td><td><a href=\"../sitelogbe-guide-f18-production/#3-production-stack\">F18 §3</a></td><td>1.5</td><td>not start</td></tr><tr><td>F18.4</td><td>Release workflow, <code>v1.0.0</code></td><td><a href=\"../sitelogbe-guide-f18-production/#4-release-workflow\">F18 §4</a></td><td>0.5</td><td>not start</td></tr><tr><td>F18.5</td><td>Restore test, review checklist</td><td><a href=\"../sitelogbe-guide-f18-production/#5-restore-test\">F18 §5–6</a></td><td>1.5</td><td>not start</td></tr></tbody></table></div>\n</dd></dl>",
+          "text": "Task What Guide Hours StatusF18.1 Tombstone purge F18 §1 1 not start F18.2 Alarms and uptime F18 §2 1.5 not start F18.3 Production stack, secrets, DNS F18 §3 1.5 not start F18.4 Release workflow, v1.0.0 F18 §4 0.5 not start F18.5 Restore test, review checklist F18 §5–6 1.5 not start"
+        }
+      ]
+    },
+    {
+      "id": "done",
+      "title": "Done",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul class=\"contains-task-list\">\n<li class=\"task-list-item\"><input type=\"checkbox\" disabled> Production deployed through an approved tag; alarms and uptime green</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" disabled> Restore test done: date ____, <code>projects</code> rows ____</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" disabled> The App Store review checklist in F18 §6 is all ticked</li>\n</ul>\n</dd></dl>",
+          "text": "Production deployed through an approved tag; alarms and uptime green Restore test done: date ____, projects rows ____ The App Store review checklist in F18 §6 is all ticked"
+        }
+      ]
+    },
+    {
+      "id": "self-check",
+      "title": "Self-check",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul>\n<li>A bad release breaks uploads. Which command puts the previous version back, and what must be true of the migrations for that to work?</li>\n<li>Which two things in AWS cost money even when nobody uses the app?</li>\n</ul>\n</dd></dl>",
+          "text": "A bad release breaks uploads. Which command puts the previous version back, and what must be true of the migrations for that to work? Which two things in AWS cost money even when nobody uses the app?"
+        }
+      ]
+    }
+  ],
+  "effectiveDate": "2026-11-05",
+  "lastUpdated": "2026-11-05"
+}

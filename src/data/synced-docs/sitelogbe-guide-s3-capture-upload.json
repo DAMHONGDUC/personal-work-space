@@ -1,0 +1,76 @@
+{
+  "title": "S3 — Capture and upload",
+  "tagline": "capture rows sync; files go to S3 and come back with a verification code.",
+  "icon": "🛠️",
+  "topic": "fullstack",
+  "tags": [
+    "Node.js",
+    "TypeScript",
+    "AWS",
+    "Step by step"
+  ],
+  "readingTime": "1 min",
+  "languages": [
+    "en"
+  ],
+  "numbered": false,
+  "series": {
+    "id": "sitelogbe",
+    "part": 17,
+    "name": "SiteLog backend: the API, built",
+    "panel": "Sprint guides",
+    "group": "S3-capture-upload",
+    "opensGroup": true
+  },
+  "intro": [
+    "Sprint 3 · 2 weeks · backend 10h of the sprint's 60h · all sprints · iOS side: S3 iOS"
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Overview",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul>\n<li><strong>Goal:</strong> capture rows sync; files go to S3 and come back with a verification code.</li>\n<li><strong>Demo:</strong> the app takes a photo on a phone signed in to staging: the row syncs, the file uploads, the code appears; a second device shows the photo through <code>/media/urls</code>.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Guide</th><th>Builds</th><th>Hours</th></tr></thead><tbody><tr><td><a href=\"../sitelogbe-guide-f05-captures/\">F05 Captures</a></td><td><code>0003_captures.sql</code>, registry entry</td><td>2</td></tr><tr><td><a href=\"../sitelogbe-guide-f06-upload/\">F06 Upload</a></td><td><code>0004_uploads.sql</code>, keys, codes, signing, begin / complete / abort, media URLs</td><td>8</td></tr></tbody></table></div>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelogbe/diagram-9783c0d69a11-dark.svg\"><img src=\"../../synced-docs/sitelogbe/diagram-9783c0d69a11-light.svg\" alt=\"Diagram: app → sync captures row → /sync/push → begin · complete → /uploads → PUT bytes → S3 → HeadObject → second device → /media/urls → GET\" width=\"922\" height=\"304\" loading=\"lazy\"></picture></figure>\n</dd></dl>",
+          "text": "Goal: capture rows sync; files go to S3 and come back with a verification code. Demo: the app takes a photo on a phone signed in to staging: the row syncs, the file uploads, the code appears; a second device shows the photo through /media/urls. Guide Builds HoursF05 Captures 0003_captures.sql, registry entry 2 F06 Upload 0004_uploads.sql, keys, codes, signing, begin / complete / abort, media URLs 8 Diagram: app → sync captures row → /sync/push → begin · complete → /uploads → PUT bytes → S3 → HeadObject → second device → /media/urls → GET"
+        }
+      ]
+    },
+    {
+      "id": "tasks",
+      "title": "Tasks",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Task</th><th>What</th><th>Guide</th><th>Hours</th><th>Status</th></tr></thead><tbody><tr><td>F05.1</td><td><code>0003_captures.sql</code>, registry, tests</td><td><a href=\"../sitelogbe-guide-f05-captures/\">F05</a></td><td>2</td><td>not start</td></tr><tr><td>F06.1</td><td><code>0004_uploads.sql</code>, keys, codes</td><td><a href=\"../sitelogbe-guide-f06-upload/#1-uploads-table\">F06 §1–2</a></td><td>2</td><td>not start</td></tr><tr><td>F06.2</td><td>Signing in <code>storage.ts</code></td><td><a href=\"../sitelogbe-guide-f06-upload/#3-signing\">F06 §3</a></td><td>1</td><td>not start</td></tr><tr><td>F06.3</td><td>Begin, complete, abort (split: begin · complete · abort)</td><td><a href=\"../sitelogbe-guide-f06-upload/#4-begin-complete-abort\">F06 §4</a></td><td>3</td><td>not start</td></tr><tr><td>F06.4</td><td>Media URLs, real-file demo, tests</td><td><a href=\"../sitelogbe-guide-f06-upload/#5-media-urls\">F06 §5–6</a></td><td>2</td><td>not start</td></tr></tbody></table></div>\n</dd></dl>",
+          "text": "Task What Guide Hours StatusF05.1 0003_captures.sql, registry, tests F05 2 not start F06.1 0004_uploads.sql, keys, codes F06 §1–2 2 not start F06.2 Signing in storage.ts F06 §3 1 not start F06.3 Begin, complete, abort (split: begin · complete · abort) F06 §4 3 not start F06.4 Media URLs, real-file demo, tests F06 §5–6 2 not start"
+        }
+      ]
+    },
+    {
+      "id": "done",
+      "title": "Done",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul class=\"contains-task-list\">\n<li class=\"task-list-item\"><input type=\"checkbox\" disabled> <code>npm test</code> green; staging migrated</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" disabled> A photo from the app reaches the staging bucket and gets a code</li>\n</ul>\n</dd></dl>",
+          "text": "npm test green; staging migrated A photo from the app reaches the staging bucket and gets a code"
+        }
+      ]
+    },
+    {
+      "id": "self-check",
+      "title": "Self-check",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul>\n<li>Who can read a file in the bucket, and for how long?</li>\n<li>The app's <code>complete</code> response is lost. What does the app see on its retry, and why is it safe?</li>\n</ul>\n</dd></dl>",
+          "text": "Who can read a file in the bucket, and for how long? The app's complete response is lost. What does the app see on its retry, and why is it safe?"
+        }
+      ]
+    }
+  ],
+  "effectiveDate": "2026-11-05",
+  "lastUpdated": "2026-11-05"
+}

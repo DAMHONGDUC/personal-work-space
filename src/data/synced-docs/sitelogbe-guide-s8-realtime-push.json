@@ -1,0 +1,76 @@
+{
+  "title": "S8 — Realtime and push",
+  "tagline": "the server tells the app what it knows first — completed, verified, failed — over a socket and, when the app is closed, a push. F17 has no backend work.",
+  "icon": "🛠️",
+  "topic": "fullstack",
+  "tags": [
+    "Node.js",
+    "TypeScript",
+    "AWS",
+    "Step by step"
+  ],
+  "readingTime": "1 min",
+  "languages": [
+    "en"
+  ],
+  "numbered": false,
+  "series": {
+    "id": "sitelogbe",
+    "part": 30,
+    "name": "SiteLog backend: the API, built",
+    "panel": "Sprint guides",
+    "group": "S8-realtime-push",
+    "opensGroup": true
+  },
+  "intro": [
+    "Sprint 8 · 2 weeks · backend 11h of the sprint's 49h · all sprints · iOS side: S8 iOS"
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Overview",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul>\n<li><strong>Goal:</strong> the server tells the app what it knows first — completed, verified, failed — over a socket and, when the app is closed, a push. F17 has no backend work.</li>\n<li><strong>Demo:</strong> 50 photos upload; the list turns \"verified\" live; with the app closed, a notification arrives when the last one is verified.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Guide</th><th>Builds</th><th>Hours</th></tr></thead><tbody><tr><td><a href=\"../sitelogbe-guide-f15-realtime/\">F15 Realtime</a></td><td>Hub, <code>/ws</code>, verify worker, abandoned uploads, worker container</td><td>8</td></tr><tr><td><a href=\"../sitelogbe-guide-f16-push/\">F16 Push</a></td><td><code>devices</code>, APNs sender, push on session verified</td><td>3</td></tr></tbody></table></div>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelogbe/diagram-99a0aa690753-dark.svg\"><img src=\"../../synced-docs/sitelogbe/diagram-99a0aa690753-light.svg\" alt=\"Diagram: api: complete → pg_notify → Postgres → worker: verify → pg_notify → LISTEN → hub in api → WSS → app (open) → APNs → app (closed)\" width=\"1021\" height=\"198\" loading=\"lazy\"></picture></figure>\n</dd></dl>",
+          "text": "Goal: the server tells the app what it knows first — completed, verified, failed — over a socket and, when the app is closed, a push. F17 has no backend work. Demo: 50 photos upload; the list turns \"verified\" live; with the app closed, a notification arrives when the last one is verified. Guide Builds HoursF15 Realtime Hub, /ws, verify worker, abandoned uploads, worker container 8 F16 Push devices, APNs sender, push on session verified 3 Diagram: api: complete → pg_notify → Postgres → worker: verify → pg_notify → LISTEN → hub in api → WSS → app (open) → APNs → app (closed)"
+        }
+      ]
+    },
+    {
+      "id": "tasks",
+      "title": "Tasks",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Task</th><th>What</th><th>Guide</th><th>Hours</th><th>Status</th></tr></thead><tbody><tr><td>F15.1</td><td>Hub</td><td><a href=\"../sitelogbe-guide-f15-realtime/#1-hub\">F15 §1</a></td><td>2</td><td>not start</td></tr><tr><td>F15.2</td><td><code>/ws</code> route, app, main</td><td><a href=\"../sitelogbe-guide-f15-realtime/#2-websocket-route\">F15 §2</a></td><td>2</td><td>not start</td></tr><tr><td>F15.3</td><td>Worker: verify, abandoned (split: claim · hash · loop)</td><td><a href=\"../sitelogbe-guide-f15-realtime/#3-worker\">F15 §3</a></td><td>2.5</td><td>not start</td></tr><tr><td>F15.4</td><td>Worker container, tests</td><td><a href=\"../sitelogbe-guide-f15-realtime/#4-run-the-worker-on-the-server\">F15 §4</a></td><td>1.5</td><td>not start</td></tr><tr><td>F16.1</td><td>APNs key, devices</td><td><a href=\"../sitelogbe-guide-f16-push/#1-apns-key\">F16 §1–2</a></td><td>1.5</td><td>not start</td></tr><tr><td>F16.2</td><td>Sending, tests</td><td><a href=\"../sitelogbe-guide-f16-push/#3-sending\">F16 §3</a></td><td>1.5</td><td>not start</td></tr></tbody></table></div>\n</dd></dl>",
+          "text": "Task What Guide Hours StatusF15.1 Hub F15 §1 2 not start F15.2 /ws route, app, main F15 §2 2 not start F15.3 Worker: verify, abandoned (split: claim · hash · loop) F15 §3 2.5 not start F15.4 Worker container, tests F15 §4 1.5 not start F16.1 APNs key, devices F16 §1–2 1.5 not start F16.2 Sending, tests F16 §3 1.5 not start"
+        }
+      ]
+    },
+    {
+      "id": "done",
+      "title": "Done",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul class=\"contains-task-list\">\n<li class=\"task-list-item\"><input type=\"checkbox\" disabled> <code>npm test</code> green; staging runs <code>api</code>, <code>worker</code>, <code>caddy</code></li>\n<li class=\"task-list-item\"><input type=\"checkbox\" disabled> The iOS F15 demo shows \"verified\" without polling; the F16 push arrives on a real iPhone</li>\n</ul>\n</dd></dl>",
+          "text": "npm test green; staging runs api, worker, caddy The iOS F15 demo shows \"verified\" without polling; the F16 push arrives on a real iPhone"
+        }
+      ]
+    },
+    {
+      "id": "self-check",
+      "title": "Self-check",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul>\n<li>The socket was down for 2 minutes. How does the app learn what it missed?</li>\n<li>Why is a push sent per session, not per photo?</li>\n</ul>\n</dd></dl>",
+          "text": "The socket was down for 2 minutes. How does the app learn what it missed? Why is a push sent per session, not per photo?"
+        }
+      ]
+    }
+  ],
+  "effectiveDate": "2026-11-05",
+  "lastUpdated": "2026-11-05"
+}

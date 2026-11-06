@@ -1,0 +1,76 @@
+{
+  "title": "S7 — Checklists · TestFlight #2",
+  "tagline": "checklists sync; every table of the app is now on the server. F13 DeviceLink and F14 Diagnostics have no backend work.",
+  "icon": "🛠️",
+  "topic": "fullstack",
+  "tags": [
+    "Node.js",
+    "TypeScript",
+    "AWS",
+    "Step by step"
+  ],
+  "readingTime": "1 min",
+  "languages": [
+    "en"
+  ],
+  "numbered": false,
+  "series": {
+    "id": "sitelogbe",
+    "part": 28,
+    "name": "SiteLog backend: the API, built",
+    "panel": "Sprint guides",
+    "group": "S7-checklists",
+    "opensGroup": true
+  },
+  "intro": [
+    "Sprint 7 · 2 weeks · backend 2h of the sprint's 49h · all sprints · iOS side: S7 iOS"
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Overview",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul>\n<li><strong>Goal:</strong> checklists sync; every table of the app is now on the server. F13 DeviceLink and F14 Diagnostics have no backend work.</li>\n<li><strong>Demo:</strong> a checklist run with one failed item that raised an issue, made on the iPhone, appears complete on the iPad.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Guide</th><th>Builds</th><th>Hours</th></tr></thead><tbody><tr><td><a href=\"../sitelogbe-guide-f12-checklists/\">F12 Checklists</a></td><td><code>0009_checklists.sql</code>, four entries</td><td>2</td></tr></tbody></table></div>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelogbe/diagram-7fb1a9a08014-dark.svg\"><img src=\"../../synced-docs/sitelogbe/diagram-7fb1a9a08014-light.svg\" alt=\"Diagram: templates → items → runs → results → fail raises → issues\" width=\"857\" height=\"152\" loading=\"lazy\"></picture></figure>\n</dd></dl>",
+          "text": "Goal: checklists sync; every table of the app is now on the server. F13 DeviceLink and F14 Diagnostics have no backend work. Demo: a checklist run with one failed item that raised an issue, made on the iPhone, appears complete on the iPad. Guide Builds HoursF12 Checklists 0009_checklists.sql, four entries 2 Diagram: templates → items → runs → results → fail raises → issues"
+        }
+      ]
+    },
+    {
+      "id": "tasks",
+      "title": "Tasks",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Task</th><th>What</th><th>Guide</th><th>Hours</th><th>Status</th></tr></thead><tbody><tr><td>F12.1</td><td><code>0009_checklists.sql</code>, entries, tests</td><td><a href=\"../sitelogbe-guide-f12-checklists/\">F12</a></td><td>2</td><td>not start</td></tr></tbody></table></div>\n</dd></dl>",
+          "text": "Task What Guide Hours StatusF12.1 0009_checklists.sql, entries, tests F12 2 not start"
+        }
+      ]
+    },
+    {
+      "id": "done",
+      "title": "Done",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul class=\"contains-task-list\">\n<li class=\"task-list-item\"><input type=\"checkbox\" disabled> <code>npm test</code> green; staging migrated</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" disabled> TestFlight #2 testers' checklists appear on their second device</li>\n</ul>\n</dd></dl>",
+          "text": "npm test green; staging migrated TestFlight #2 testers' checklists appear on their second device"
+        }
+      ]
+    },
+    {
+      "id": "self-check",
+      "title": "Self-check",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul>\n<li>Count the synced tables now. Where would you look to check that account deletion removes every one of them?</li>\n</ul>\n</dd></dl>",
+          "text": "Count the synced tables now. Where would you look to check that account deletion removes every one of them?"
+        }
+      ]
+    }
+  ],
+  "effectiveDate": "2026-11-05",
+  "lastUpdated": "2026-11-05"
+}

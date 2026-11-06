@@ -1,0 +1,76 @@
+{
+  "title": "S1 — Auth and projects",
+  "tagline": "the backend knows the caller; the project tables exist for F04.",
+  "icon": "🛠️",
+  "topic": "fullstack",
+  "tags": [
+    "Node.js",
+    "TypeScript",
+    "AWS",
+    "Step by step"
+  ],
+  "readingTime": "1 min",
+  "languages": [
+    "en"
+  ],
+  "numbered": false,
+  "series": {
+    "id": "sitelogbe",
+    "part": 12,
+    "name": "SiteLog backend: the API, built",
+    "panel": "Sprint guides",
+    "group": "S1-auth-projects",
+    "opensGroup": true
+  },
+  "intro": [
+    "Sprint 1 · 2 weeks · backend 7h of the sprint's 56h · all sprints · iOS side: S1 iOS"
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Overview",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul>\n<li><strong>Goal:</strong> the backend knows the caller; the project tables exist for F04.</li>\n<li><strong>Demo:</strong> the app signed in against staging: a call without a token gets <code>401</code>; <code>DELETE /account</code> from the app deletes the Firebase user.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Guide</th><th>Builds</th><th>Hours</th></tr></thead><tbody><tr><td><a href=\"../sitelogbe-guide-f02-auth/\">F02 Auth</a></td><td><code>requireUser</code>, S3 storage, <code>DELETE /account</code>, dev token script</td><td>4</td></tr><tr><td><a href=\"../sitelogbe-guide-f03-projects/\">F03 Projects</a></td><td><code>0001_projects.sql</code>, registry entries</td><td>3</td></tr></tbody></table></div>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelogbe/diagram-fabeb93730d9-dark.svg\"><img src=\"../../synced-docs/sitelogbe/diagram-fabeb93730d9-light.svg\" alt=\"Diagram: iOS app → Bearer ID token → requireUser → Firebase → DELETE /account → S3 uid/… → projects · locations · sessions\" width=\"892\" height=\"284\" loading=\"lazy\"></picture></figure>\n</dd></dl>",
+          "text": "Goal: the backend knows the caller; the project tables exist for F04. Demo: the app signed in against staging: a call without a token gets 401; DELETE /account from the app deletes the Firebase user. Guide Builds HoursF02 Auth requireUser, S3 storage, DELETE /account, dev token script 4 F03 Projects 0001_projects.sql, registry entries 3 Diagram: iOS app → Bearer ID token → requireUser → Firebase → DELETE /account → S3 uid/… → projects · locations · sessions"
+        }
+      ]
+    },
+    {
+      "id": "tasks",
+      "title": "Tasks",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Task</th><th>What</th><th>Guide</th><th>Hours</th><th>Status</th></tr></thead><tbody><tr><td>F02.1</td><td><code>requireUser</code></td><td><a href=\"../sitelogbe-guide-f02-auth/#1-token-check\">F02 §1</a></td><td>1</td><td>not start</td></tr><tr><td>F02.2</td><td>S3 storage</td><td><a href=\"../sitelogbe-guide-f02-auth/#2-s3-storage\">F02 §2</a></td><td>1</td><td>not start</td></tr><tr><td>F02.3</td><td><code>DELETE /account</code></td><td><a href=\"../sitelogbe-guide-f02-auth/#3-account-deletion\">F02 §3</a></td><td>1</td><td>not start</td></tr><tr><td>F02.4</td><td>Real Firebase, token script, tests</td><td><a href=\"../sitelogbe-guide-f02-auth/#4-run-it-with-real-firebase\">F02 §4</a></td><td>1</td><td>not start</td></tr><tr><td>F03.1</td><td><code>0001_projects.sql</code></td><td><a href=\"../sitelogbe-guide-f03-projects/#1-migration\">F03 §1</a></td><td>2</td><td>not start</td></tr><tr><td>F03.2</td><td>Registry entries, tests</td><td><a href=\"../sitelogbe-guide-f03-projects/#2-registry\">F03 §2</a></td><td>1</td><td>not start</td></tr></tbody></table></div>\n</dd></dl>",
+          "text": "Task What Guide Hours StatusF02.1 requireUser F02 §1 1 not start F02.2 S3 storage F02 §2 1 not start F02.3 DELETE /account F02 §3 1 not start F02.4 Real Firebase, token script, tests F02 §4 1 not start F03.1 0001_projects.sql F03 §1 2 not start F03.2 Registry entries, tests F03 §2 1 not start"
+        }
+      ]
+    },
+    {
+      "id": "done",
+      "title": "Done",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul class=\"contains-task-list\">\n<li class=\"task-list-item\"><input type=\"checkbox\" disabled> <code>npm test</code> green; staging deployed and migrated</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" disabled> The app's sign-in works against staging; a request without a token is <code>401</code></li>\n</ul>\n</dd></dl>",
+          "text": "npm test green; staging deployed and migrated The app's sign-in works against staging; a request without a token is 401"
+        }
+      ]
+    },
+    {
+      "id": "self-check",
+      "title": "Self-check",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul>\n<li>Why is a revoked token caught on the next request, not when it expires an hour later?</li>\n<li>Two users both have a project with the same id. Why can that never happen, and what stops a location pointing at the wrong one?</li>\n</ul>\n</dd></dl>",
+          "text": "Why is a revoked token caught on the next request, not when it expires an hour later? Two users both have a project with the same id. Why can that never happen, and what stops a location pointing at the wrong one?"
+        }
+      ]
+    }
+  ],
+  "effectiveDate": "2026-11-05",
+  "lastUpdated": "2026-11-05"
+}

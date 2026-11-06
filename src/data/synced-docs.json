@@ -7,50 +7,69 @@
       "github": "DAMHONGDUC/site-log-ios",
       "branch": "main",
       "localPath": "../../SwiftUI/site-log-ios",
-      "tags": ["SwiftUI", "iOS"],
-      "host": ["docs/design/mockups", "docs/design/app-icon"],
+      "tags": [
+        "SwiftUI",
+        "iOS"
+      ],
+      "host": [
+        "docs/design/mockups",
+        "docs/design/app-icon"
+      ],
       "parts": [
         {
           "file": "README.md",
           "slug": "sitelog-overview",
           "panel": "Base docs",
           "icon": "📱",
-          "tags": ["Overview"]
+          "tags": [
+            "Overview"
+          ]
         },
         {
           "file": "ROADMAP.md",
           "slug": "sitelog-roadmap",
           "panel": "Base docs",
           "icon": "🗺️",
-          "tags": ["Roadmap"]
+          "tags": [
+            "Roadmap"
+          ]
         },
         {
           "file": "docs/feature-guide/README.md",
           "slug": "sitelog-guide",
           "panel": "Base docs",
           "icon": "🛠️",
-          "tags": ["Step by step"]
+          "tags": [
+            "Step by step"
+          ]
         },
         {
           "dir": "docs/feature-docs",
           "slugPrefix": "sitelog-specs",
           "panel": "Base docs",
           "icon": "📐",
-          "tags": ["Architecture", "Specs"]
+          "tags": [
+            "Architecture",
+            "Specs"
+          ]
         },
         {
           "file": "docs/design/00-design-plan.md",
           "slug": "sitelog-design-plan",
           "panel": "Base docs",
           "icon": "🎨",
-          "tags": ["Design"]
+          "tags": [
+            "Design"
+          ]
         },
         {
           "file": "docs/swiftui-rules.md",
           "slug": "sitelog-swiftui-rules",
           "panel": "Base docs",
           "icon": "📏",
-          "tags": ["Rules"]
+          "tags": [
+            "Rules"
+          ]
         },
         {
           "dir": "docs/feature-guide",
@@ -58,7 +77,62 @@
           "panel": "Sprint guides",
           "groupBy": "folder",
           "icon": "🛠️",
-          "tags": ["Step by step"]
+          "tags": [
+            "Step by step"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sitelogbe",
+      "name": "SiteLog backend: the API, built",
+      "topic": "fullstack",
+      "github": "DAMHONGDUC/site-log-be",
+      "branch": "main",
+      "localPath": "../../BE/site-log-be",
+      "tags": [
+        "Node.js",
+        "TypeScript",
+        "AWS"
+      ],
+      "parts": [
+        {
+          "file": "README.md",
+          "slug": "sitelogbe-overview",
+          "panel": "Base docs",
+          "icon": "🖥️",
+          "tags": [
+            "Overview"
+          ]
+        },
+        {
+          "file": "docs/feature-guide/README.md",
+          "slug": "sitelogbe-guide",
+          "panel": "Base docs",
+          "icon": "🛠️",
+          "tags": [
+            "Step by step"
+          ]
+        },
+        {
+          "dir": "docs/feature-docs",
+          "slugPrefix": "sitelogbe-specs",
+          "panel": "Base docs",
+          "icon": "📐",
+          "tags": [
+            "Architecture",
+            "Specs"
+          ]
+        },
+        {
+          "dir": "docs/feature-guide",
+          "slugPrefix": "sitelogbe-guide",
+          "panel": "Sprint guides",
+          "groupBy": "folder",
+          "icon": "🛠️",
+          "tags": [
+            "Step by step"
+          ]
         }
       ]
     }

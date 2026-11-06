@@ -1,0 +1,76 @@
+{
+  "title": "S5 — Issues and markup",
+  "tagline": "issues, their photos, phrases and markup sync; adding a table is now one migration and one registry entry.",
+  "icon": "🛠️",
+  "topic": "fullstack",
+  "tags": [
+    "Node.js",
+    "TypeScript",
+    "AWS",
+    "Step by step"
+  ],
+  "readingTime": "1 min",
+  "languages": [
+    "en"
+  ],
+  "numbered": false,
+  "series": {
+    "id": "sitelogbe",
+    "part": 22,
+    "name": "SiteLog backend: the API, built",
+    "panel": "Sprint guides",
+    "group": "S5-issues-markup",
+    "opensGroup": true
+  },
+  "intro": [
+    "Sprint 5 · 2 weeks · backend 3h of the sprint's 48h · all sprints · iOS side: S5 iOS"
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Overview",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul>\n<li><strong>Goal:</strong> issues, their photos, phrases and markup sync; adding a table is now one migration and one registry entry.</li>\n<li><strong>Demo:</strong> an issue with two photos and an arrow drawn on one, made on the iPhone, appears on the iPad.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Guide</th><th>Builds</th><th>Hours</th></tr></thead><tbody><tr><td><a href=\"../sitelogbe-guide-f08-issues/\">F08 Issues</a></td><td><code>0005_issues.sql</code>, three entries</td><td>2</td></tr><tr><td><a href=\"../sitelogbe-guide-f09-annotations/\">F09 Annotations</a></td><td><code>0006_annotations.sql</code>, one entry</td><td>1</td></tr></tbody></table></div>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelogbe/diagram-811511014fd8-dark.svg\"><img src=\"../../synced-docs/sitelogbe/diagram-811511014fd8-light.svg\" alt=\"Diagram: migration .sql → registry entry, src/sync/tables.ts → /sync/push accepts it → /sync/pull returns it → DELETE /account removes it\" width=\"563\" height=\"336\" loading=\"lazy\"></picture></figure>\n</dd></dl>",
+          "text": "Goal: issues, their photos, phrases and markup sync; adding a table is now one migration and one registry entry. Demo: an issue with two photos and an arrow drawn on one, made on the iPhone, appears on the iPad. Guide Builds HoursF08 Issues 0005_issues.sql, three entries 2 F09 Annotations 0006_annotations.sql, one entry 1 Diagram: migration .sql → registry entry, src/sync/tables.ts → /sync/push accepts it → /sync/pull returns it → DELETE /account removes it"
+        }
+      ]
+    },
+    {
+      "id": "tasks",
+      "title": "Tasks",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Task</th><th>What</th><th>Guide</th><th>Hours</th><th>Status</th></tr></thead><tbody><tr><td>F08.1</td><td><code>0005_issues.sql</code>, registry, tests</td><td><a href=\"../sitelogbe-guide-f08-issues/\">F08</a></td><td>2</td><td>not start</td></tr><tr><td>F09.1</td><td><code>0006_annotations.sql</code>, registry, tests</td><td><a href=\"../sitelogbe-guide-f09-annotations/\">F09</a></td><td>1</td><td>not start</td></tr></tbody></table></div>\n</dd></dl>",
+          "text": "Task What Guide Hours StatusF08.1 0005_issues.sql, registry, tests F08 2 not start F09.1 0006_annotations.sql, registry, tests F09 1 not start"
+        }
+      ]
+    },
+    {
+      "id": "done",
+      "title": "Done",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul class=\"contains-task-list\">\n<li class=\"task-list-item\"><input type=\"checkbox\" disabled> <code>npm test</code> green; staging migrated</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" disabled> The iOS demo passes between two devices</li>\n</ul>\n</dd></dl>",
+          "text": "npm test green; staging migrated The iOS demo passes between two devices"
+        }
+      ]
+    },
+    {
+      "id": "self-check",
+      "title": "Self-check",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul>\n<li>Which four places use a new registry entry without any other code change?</li>\n<li>An issue references a plan sheet id in S5, before <code>plan_sheets</code> exists. What stops a wrong id, and when?</li>\n</ul>\n</dd></dl>",
+          "text": "Which four places use a new registry entry without any other code change? An issue references a plan sheet id in S5, before plan_sheets exists. What stops a wrong id, and when?"
+        }
+      ]
+    }
+  ],
+  "effectiveDate": "2026-11-05",
+  "lastUpdated": "2026-11-05"
+}

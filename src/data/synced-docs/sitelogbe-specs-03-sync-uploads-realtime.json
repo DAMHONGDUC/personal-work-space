@@ -1,0 +1,97 @@
+{
+  "title": "03 — Sync, uploads, realtime",
+  "tagline": "How the backend keeps devices in step, accepts files and reports their state. Request and response shapes: 01-api.",
+  "icon": "📐",
+  "topic": "fullstack",
+  "tags": [
+    "Node.js",
+    "TypeScript",
+    "AWS",
+    "Architecture",
+    "Specs"
+  ],
+  "readingTime": "3 min",
+  "languages": [
+    "en"
+  ],
+  "numbered": false,
+  "series": {
+    "id": "sitelogbe",
+    "part": 5,
+    "name": "SiteLog backend: the API, built",
+    "panel": "Base docs"
+  },
+  "intro": [
+    "How the backend keeps devices in step, accepts files and reports their state. Request and response shapes: 01-api."
+  ],
+  "sections": [
+    {
+      "id": "1-sync",
+      "title": "1. Sync",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<h3 id=\"11-revisions\">1.1 Revisions</h3>\n<dl><dd>\n<ul>\n<li>Each user has one counter, <code>sync_state.last_rev</code>. Every row a push writes gets the next number in <code>rev</code>.</li>\n<li>A push first locks the user's <code>sync_state</code> row (<code>select … for update</code>). A second push of the same user waits, so revs are committed in order.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Why not a timestamp or a sequence</th><th>What goes wrong</th></tr></thead><tbody><tr><td><code>updated_at > since</code></td><td>Two devices' clocks differ; a row written \"in the past\" is never pulled</td></tr><tr><td><code>nextval()</code> sequence</td><td>Rev 8 can commit before rev 7; a device that pulled up to 8 never sees 7</td></tr></tbody></table></div>\n</dd></dl>\n<h3 id=\"12-pull\">1.2 Pull</h3>\n<dl><dd>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelogbe/diagram-d40304c209d6-dark.svg\"><img src=\"../../synced-docs/sitelogbe/diagram-d40304c209d6-light.svg\" alt=\"Diagram: since, limit → since < purged_through_rev? → resyncRequired → each table:, rev > since, limit + 1 → merge, sort by rev,, keep first limit → changes, nextRev, hasMore\" width=\"1079\" height=\"244\" loading=\"lazy\"></picture></figure>\n<ul>\n<li>Revs are unique per user, so <code>limit + 1</code> rows from each table are enough to find the first <code>limit</code> overall.</li>\n</ul>\n</dd></dl>\n<h3 id=\"13-push\">1.3 Push</h3>\n<dl><dd>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelogbe/diagram-aafdd7b6891e-dark.svg\"><img src=\"../../synced-docs/sitelogbe/diagram-aafdd7b6891e-light.svg\" alt=\"Diagram\" width=\"848\" height=\"580\" loading=\"lazy\"></picture></figure>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Case</th><th>Result</th></tr></thead><tbody><tr><td>New row</td><td><code>applied</code></td></tr><tr><td>Existing row, mutation newer</td><td><code>applied</code> (frozen columns keep their value; <code>sessions.state</code> takes the higher state)</td></tr><tr><td>Existing row, mutation older</td><td><code>superseded</code> + stored row (unless <code>sessions.state</code> moved forward: then <code>applied</code>)</td></tr><tr><td>Row deleted on the server</td><td><code>superseded</code> + tombstone</td></tr><tr><td>Same natural key as a live row</td><td><code>superseded</code> + that row</td></tr><tr><td>Id owned by another user</td><td><code>rejected: forbidden</code></td></tr><tr><td>Bad value or broken rule</td><td><code>rejected: invalid_row:&#x3C;code></code>; the rest of the batch still applies</td></tr><tr><td>Parent missing at commit</td><td>Batch retried one mutation per transaction; only that one <code>rejected: missing_parent</code></td></tr></tbody></table></div>\n<ul>\n<li>Last write wins is decided in SQL: <code>where t.client_updated_at &#x3C; excluded.client_updated_at</code>.</li>\n<li>A delete wins a tie with an edit made at the same millisecond.</li>\n</ul>\n</dd></dl>\n</dd></dl>",
+          "text": "1.1 Revisions Each user has one counter, sync_state.last_rev. Every row a push writes gets the next number in rev. A push first locks the user's sync_state row (select … for update). A second push of the same user waits, so revs are committed in order. Why not a timestamp or a sequence What goes wrongupdated_at > since Two devices' clocks differ; a row written \"in the past\" is never pulled nextval() sequence Rev 8 can commit before rev 7; a device that pulled up to 8 never sees 7 1.2 Pull Revs are unique per user, so limit + 1 rows from each table are enough to find the first limit overall. 1.3 Push Case ResultNew row applied Existing row, mutation newer applied (frozen columns keep their value; sessions.state takes the higher state) Existing row, mutation older superseded + stored row (unless sessions.state moved forward: then applied) Row deleted on the server superseded + tombstone Same natural key as a live row superseded + that row Id owned by another user rejected: forbidden Bad value or broken rule rejected: invalid_row:<code>; the rest of the batch still applies Parent missing at commit Batch retried one mutation per transaction; only that one rejected: missing_parent Last write wins is decided in SQL: where t.client_updated_at < excluded.client_updated_at. A delete wins a tie with an edit made at the same millisecond. Diagram: since, limit → since < purged_through_rev? → resyncRequired → each table:, rev > since, limit + 1 → merge, sort by rev,, keep first limit → changes, nextRev, hasMore Diagram"
+        }
+      ]
+    },
+    {
+      "id": "2-uploads",
+      "title": "2. Uploads",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelogbe/diagram-2ed2a1439e4a-dark.svg\"><img src=\"../../synced-docs/sitelogbe/diagram-2ed2a1439e4a-light.svg\" alt=\"Diagram\" width=\"936\" height=\"816\" loading=\"lazy\"></picture></figure>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Rule</th><th>Why</th></tr></thead><tbody><tr><td>The API never sees bytes</td><td>A slow server never stalls an upload; no bandwidth bill on the server</td></tr><tr><td>Mode from size: &#x3C; 5 MiB single PUT, else 8 MiB parts</td><td>Few requests for photos, resumable for video</td></tr><tr><td><code>complete</code> locks the row, then checks S3</td><td>Two concurrent completes return the same body</td></tr><tr><td><code>HeadObject</code> before recording</td><td>Nobody gets a code for a file they never uploaded</td></tr><tr><td>Size must equal <code>byteSize</code></td><td>A truncated upload is caught at once</td></tr><tr><td>S3 client with <code>requestChecksumCalculation: 'WHEN_REQUIRED'</code></td><td>Otherwise presigned URLs demand a checksum header the app does not send</td></tr></tbody></table></div>\n</dd></dl>",
+          "text": "Rule WhyThe API never sees bytes A slow server never stalls an upload; no bandwidth bill on the server Mode from size: < 5 MiB single PUT, else 8 MiB parts Few requests for photos, resumable for video complete locks the row, then checks S3 Two concurrent completes return the same body HeadObject before recording Nobody gets a code for a file they never uploaded Size must equal byteSize A truncated upload is caught at once S3 client with requestChecksumCalculation: 'WHEN_REQUIRED' Otherwise presigned URLs demand a checksum header the app does not send Diagram"
+        }
+      ]
+    },
+    {
+      "id": "3-integrity",
+      "title": "3. Integrity",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Step</th><th>Who</th><th>Claim</th></tr></thead><tbody><tr><td><code>registered</code></td><td><code>complete</code></td><td>\"This account registered this hash at this time\"</td></tr><tr><td><code>verified</code></td><td>Worker re-reads the object, recomputes SHA-256</td><td>\"The stored bytes hash to this value\"</td></tr><tr><td><code>mismatch</code></td><td>Worker hash differs</td><td><code>jobFailed(integrity)</code> to the app</td></tr></tbody></table></div>\n<ul>\n<li>Recording a hash the app sent proves nothing by itself: the worker's check is what makes a report say \"verified\".</li>\n<li>Reading objects back from EC2 in the same region costs nothing.</li>\n</ul>\n</dd></dl>",
+          "text": "Step Who Claimregistered complete \"This account registered this hash at this time\" verified Worker re-reads the object, recomputes SHA-256 \"The stored bytes hash to this value\" mismatch Worker hash differs jobFailed(integrity) to the app Recording a hash the app sent proves nothing by itself: the worker's check is what makes a report say \"verified\". Reading objects back from EC2 in the same region costs nothing."
+        }
+      ]
+    },
+    {
+      "id": "4-realtime",
+      "title": "4. Realtime",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelogbe/diagram-d37d592212dc-dark.svg\"><img src=\"../../synced-docs/sitelogbe/diagram-d37d592212dc-light.svg\" alt=\"Diagram: complete / abort, (API) → pg_notify upload_events, {uid, sessionId, uploadId, type} → Postgres → verify worker → pg_notify → LISTEN → RealtimeHub, in each API process → re-read row → jobCompleted / jobFailed → app sockets of that uid,, subscribed to that session\" width=\"1319\" height=\"200\" loading=\"lazy\"></picture></figure>\n<ul>\n<li>The notification carries ids only (Postgres caps payloads at 8000 bytes); the hub reads the row.</li>\n<li><code>pg_notify</code> inside a transaction is delivered at commit and dropped on rollback.</li>\n<li>Delivery is at most once. The <code>snapshot</code> after every <code>subscribe</code> is how the app catches up.</li>\n<li>Works unchanged with one API process or several.</li>\n</ul>\n</dd></dl>",
+          "text": "The notification carries ids only (Postgres caps payloads at 8000 bytes); the hub reads the row. pg_notify inside a transaction is delivered at commit and dropped on rollback. Delivery is at most once. The snapshot after every subscribe is how the app catches up. Works unchanged with one API process or several. Diagram: complete / abort, (API) → pg_notify upload_events, {uid, sessionId, uploadId, type} → Postgres → verify worker → pg_notify → LISTEN → RealtimeHub, in each API process → re-read row → jobCompleted / jobFailed → app sockets of that uid,, subscribed to that session"
+        }
+      ]
+    },
+    {
+      "id": "5-background-jobs",
+      "title": "5. Background jobs",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Job</th><th>When</th><th>Does</th></tr></thead><tbody><tr><td>Verify</td><td>Continuously, one upload at a time</td><td>Claims the oldest <code>registered</code> upload (<code>for update skip locked</code>, a 30-minute claim), hashes it, sets <code>verified</code> or <code>mismatch</code>, notifies; F16: pushes when a session is fully verified</td></tr><tr><td>Abandoned uploads</td><td>Hourly</td><td><code>created</code> uploads older than 7 days → abort in S3, <code>aborted</code></td></tr><tr><td>Tombstone purge</td><td>Daily</td><td>Deletes rows with <code>deleted_at</code> older than 90 days, raises <code>purged_through_rev</code></td></tr></tbody></table></div>\n<ul>\n<li>S3 also deletes unfinished multipart parts after 7 days (bucket lifecycle rule).</li>\n</ul>\n</dd></dl>",
+          "text": "Job When DoesVerify Continuously, one upload at a time Claims the oldest registered upload (for update skip locked, a 30-minute claim), hashes it, sets verified or mismatch, notifies; F16: pushes when a session is fully verified Abandoned uploads Hourly created uploads older than 7 days → abort in S3, aborted Tombstone purge Daily Deletes rows with deleted_at older than 90 days, raises purged_through_rev S3 also deletes unfinished multipart parts after 7 days (bucket lifecycle rule)."
+        }
+      ]
+    },
+    {
+      "id": "6-security-rules",
+      "title": "6. Security rules",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Rule</th><th>Where</th></tr></thead><tbody><tr><td>Token checked on every request, with <code>checkRevoked</code></td><td><code>src/auth.ts</code></td></tr><tr><td>Auth failures are <code>401</code>, never <code>403</code></td><td><code>src/auth.ts</code></td></tr><tr><td>Every user query filters <code>uid = $n</code></td><td>All routes, <code>src/sync/</code></td></tr><tr><td>Keys must match a full pattern starting with the caller's uid</td><td><code>src/keys.ts</code></td></tr><tr><td>Foreign keys include <code>uid</code></td><td>Migrations</td></tr><tr><td><code>/verify</code> returns facts only, constant delay, rate limited</td><td><code>src/routes/verify.ts</code></td></tr><tr><td>Token only in the first WebSocket message, never the URL</td><td><code>src/realtime/ws.ts</code></td></tr><tr><td>Logs never contain tokens, URLs or keys' signatures</td><td><code>src/logger.ts</code> redaction, route log fields</td></tr><tr><td>Bucket private, TLS only, encrypted</td><td><code>infra/lib/env-stack.ts</code></td></tr><tr><td>Database in isolated subnets, reachable only from the server</td><td><code>infra/lib/env-stack.ts</code></td></tr></tbody></table></div>\n</dd></dl>",
+          "text": "Rule WhereToken checked on every request, with checkRevoked src/auth.ts Auth failures are 401, never 403 src/auth.ts Every user query filters uid = $n All routes, src/sync/ Keys must match a full pattern starting with the caller's uid src/keys.ts Foreign keys include uid Migrations /verify returns facts only, constant delay, rate limited src/routes/verify.ts Token only in the first WebSocket message, never the URL src/realtime/ws.ts Logs never contain tokens, URLs or keys' signatures src/logger.ts redaction, route log fields Bucket private, TLS only, encrypted infra/lib/env-stack.ts Database in isolated subnets, reachable only from the server infra/lib/env-stack.ts"
+        }
+      ]
+    }
+  ],
+  "effectiveDate": "2026-11-05",
+  "lastUpdated": "2026-11-05"
+}

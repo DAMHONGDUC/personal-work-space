@@ -1,0 +1,76 @@
+{
+  "title": "S6 — Reports and floor plans",
+  "tagline": "codes printed in reports can be checked by anyone; plans and branding sync.",
+  "icon": "🛠️",
+  "topic": "fullstack",
+  "tags": [
+    "Node.js",
+    "TypeScript",
+    "AWS",
+    "Step by step"
+  ],
+  "readingTime": "1 min",
+  "languages": [
+    "en"
+  ],
+  "numbered": false,
+  "series": {
+    "id": "sitelogbe",
+    "part": 25,
+    "name": "SiteLog backend: the API, built",
+    "panel": "Sprint guides",
+    "group": "S6-reports-plans",
+    "opensGroup": true
+  },
+  "intro": [
+    "Sprint 6 · 2 weeks · backend 6h of the sprint's 58h · all sprints · iOS side: S6 iOS"
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Overview",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul>\n<li><strong>Goal:</strong> codes printed in reports can be checked by anyone; plans and branding sync.</li>\n<li><strong>Demo:</strong> export a PDF in the app, read a code under a photo, open <code>https://api-staging.&#x3C;domain>/verify/&#x3C;code></code> in Safari.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Guide</th><th>Builds</th><th>Hours</th></tr></thead><tbody><tr><td><a href=\"../sitelogbe-guide-f10-reports-verify/\">F10 Reports, verify</a></td><td><code>0007_report_branding.sql</code>, <code>GET /verify/:code</code></td><td>4</td></tr><tr><td><a href=\"../sitelogbe-guide-f11-plans/\">F11 Plans</a></td><td><code>0008_plan_sheets.sql</code>, pin foreign key</td><td>2</td></tr></tbody></table></div>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelogbe/diagram-e440cd922102-dark.svg\"><img src=\"../../synced-docs/sitelogbe/diagram-e440cd922102-light.svg\" alt=\"Diagram: app → sync branding, plan sheets → /sync/push → upload plan PDF → /uploads → PDF reader → public → /verify/:code\" width=\"594\" height=\"240\" loading=\"lazy\"></picture></figure>\n</dd></dl>",
+          "text": "Goal: codes printed in reports can be checked by anyone; plans and branding sync. Demo: export a PDF in the app, read a code under a photo, open https://api-staging.<domain>/verify/<code> in Safari. Guide Builds HoursF10 Reports, verify 0007_report_branding.sql, GET /verify/:code 4 F11 Plans 0008_plan_sheets.sql, pin foreign key 2 Diagram: app → sync branding, plan sheets → /sync/push → upload plan PDF → /uploads → PDF reader → public → /verify/:code"
+        }
+      ]
+    },
+    {
+      "id": "tasks",
+      "title": "Tasks",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Task</th><th>What</th><th>Guide</th><th>Hours</th><th>Status</th></tr></thead><tbody><tr><td>F10.1</td><td>Branding table and entry</td><td><a href=\"../sitelogbe-guide-f10-reports-verify/#1-branding-table\">F10 §1</a></td><td>1</td><td>not start</td></tr><tr><td>F10.2</td><td><code>GET /verify/:code</code></td><td><a href=\"../sitelogbe-guide-f10-reports-verify/#2-verify-endpoint\">F10 §2</a></td><td>2</td><td>not start</td></tr><tr><td>F10.3</td><td>Tests</td><td><a href=\"../sitelogbe-guide-f10-reports-verify/#tests\">F10 Tests</a></td><td>1</td><td>not start</td></tr><tr><td>F11.1</td><td><code>0008_plan_sheets.sql</code>, entry, tests</td><td><a href=\"../sitelogbe-guide-f11-plans/\">F11</a></td><td>2</td><td>not start</td></tr></tbody></table></div>\n</dd></dl>",
+          "text": "Task What Guide Hours StatusF10.1 Branding table and entry F10 §1 1 not start F10.2 GET /verify/:code F10 §2 2 not start F10.3 Tests F10 Tests 1 not start F11.1 0008_plan_sheets.sql, entry, tests F11 2 not start"
+        }
+      ]
+    },
+    {
+      "id": "done",
+      "title": "Done",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul class=\"contains-task-list\">\n<li class=\"task-list-item\"><input type=\"checkbox\" disabled> <code>npm test</code> green; staging migrated</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" disabled> A code from a real PDF resolves on staging</li>\n</ul>\n</dd></dl>",
+          "text": "npm test green; staging migrated A code from a real PDF resolves on staging"
+        }
+      ]
+    },
+    {
+      "id": "self-check",
+      "title": "Self-check",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul>\n<li>Why is <code>/verify</code> the only endpoint without a token, and what does it do differently because of that?</li>\n<li>What may a report print for a capture whose upload is still <code>registered</code>?</li>\n</ul>\n</dd></dl>",
+          "text": "Why is /verify the only endpoint without a token, and what does it do differently because of that? What may a report print for a capture whose upload is still registered?"
+        }
+      ]
+    }
+  ],
+  "effectiveDate": "2026-11-05",
+  "lastUpdated": "2026-11-05"
+}
