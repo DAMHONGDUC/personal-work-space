@@ -2,7 +2,7 @@
   "title": "01 — API",
   "tagline": "Every endpoint and WebSocket message the backend serves. The iOS app codes against this page; the backend tests check it.",
   "icon": "📐",
-  "topic": "fullstack",
+  "topic": "ios",
   "tags": [
     "Node.js",
     "TypeScript",
@@ -16,10 +16,11 @@
   ],
   "numbered": false,
   "series": {
-    "id": "sitelogbe",
-    "part": 3,
-    "name": "SiteLog backend: the API, built",
-    "panel": "Base docs"
+    "id": "sitelog",
+    "part": 14,
+    "name": "SiteLog: an iOS app and its API, built",
+    "panel": "Base docs",
+    "group": "Backend"
   },
   "intro": [
     "Every endpoint and WebSocket message the backend serves. The iOS app codes against this page; the backend tests check it.",
@@ -160,5 +161,5 @@
     }
   ],
   "effectiveDate": "2026-11-05",
-  "lastUpdated": "2026-11-05"
+  "lastUpdated": "2026-11-06"
 }

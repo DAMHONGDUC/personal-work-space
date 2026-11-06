@@ -2,7 +2,7 @@
   "title": "S6 — Reports and floor plans",
   "tagline": "codes printed in reports can be checked by anyone; plans and branding sync.",
   "icon": "🛠️",
-  "topic": "fullstack",
+  "topic": "ios",
   "tags": [
     "Node.js",
     "TypeScript",
@@ -15,10 +15,10 @@
   ],
   "numbered": false,
   "series": {
-    "id": "sitelogbe",
-    "part": 25,
-    "name": "SiteLog backend: the API, built",
-    "panel": "Sprint guides",
+    "id": "sitelog",
+    "part": 65,
+    "name": "SiteLog: an iOS app and its API, built",
+    "panel": "BE sprint guides",
     "group": "S6-reports-plans",
     "opensGroup": true
   },
@@ -72,5 +72,5 @@
     }
   ],
   "effectiveDate": "2026-11-05",
-  "lastUpdated": "2026-11-05"
+  "lastUpdated": "2026-11-06"
 }

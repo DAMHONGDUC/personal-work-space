@@ -2,132 +2,165 @@
   "series": [
     {
       "id": "sitelog",
-      "name": "SiteLog: an iOS app, built",
+      "name": "SiteLog: an iOS app and its API, built",
       "topic": "ios",
-      "github": "DAMHONGDUC/site-log-ios",
-      "branch": "main",
-      "localPath": "../../SwiftUI/site-log-ios",
-      "tags": [
-        "SwiftUI",
-        "iOS"
-      ],
-      "host": [
-        "docs/design/mockups",
-        "docs/design/app-icon"
+      "tags": [],
+      "repos": [
+        {
+          "id": "sitelog",
+          "github": "DAMHONGDUC/site-log-ios",
+          "branch": "main",
+          "localPath": "../../SwiftUI/site-log-ios",
+          "tags": [
+            "SwiftUI",
+            "iOS"
+          ],
+          "host": [
+            "docs/design/mockups",
+            "docs/design/app-icon"
+          ]
+        },
+        {
+          "id": "sitelogbe",
+          "github": "DAMHONGDUC/site-log-be",
+          "branch": "main",
+          "localPath": "../../BE/site-log-be",
+          "tags": [
+            "Node.js",
+            "TypeScript",
+            "AWS"
+          ]
+        }
       ],
       "parts": [
         {
           "file": "README.md",
+          "repo": "sitelog",
           "slug": "sitelog-overview",
           "panel": "Base docs",
           "icon": "📱",
           "tags": [
             "Overview"
-          ]
+          ],
+          "group": "iOS app"
         },
         {
           "file": "ROADMAP.md",
+          "repo": "sitelog",
           "slug": "sitelog-roadmap",
           "panel": "Base docs",
           "icon": "🗺️",
           "tags": [
             "Roadmap"
-          ]
+          ],
+          "group": "iOS app"
         },
         {
           "file": "docs/feature-guide/README.md",
+          "repo": "sitelog",
           "slug": "sitelog-guide",
           "panel": "Base docs",
           "icon": "🛠️",
           "tags": [
             "Step by step"
-          ]
+          ],
+          "group": "iOS app"
         },
         {
           "dir": "docs/feature-docs",
+          "repo": "sitelog",
           "slugPrefix": "sitelog-specs",
           "panel": "Base docs",
           "icon": "📐",
           "tags": [
             "Architecture",
             "Specs"
-          ]
+          ],
+          "group": "iOS app"
         },
         {
           "file": "docs/design/00-design-plan.md",
+          "repo": "sitelog",
           "slug": "sitelog-design-plan",
           "panel": "Base docs",
           "icon": "🎨",
           "tags": [
             "Design"
-          ]
+          ],
+          "group": "iOS app"
         },
         {
           "file": "docs/swiftui-rules.md",
+          "repo": "sitelog",
           "slug": "sitelog-swiftui-rules",
           "panel": "Base docs",
           "icon": "📏",
           "tags": [
             "Rules"
-          ]
+          ],
+          "group": "iOS app"
         },
         {
-          "dir": "docs/feature-guide",
-          "slugPrefix": "sitelog-guide",
-          "panel": "Sprint guides",
-          "groupBy": "folder",
-          "icon": "🛠️",
-          "tags": [
-            "Step by step"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "sitelogbe",
-      "name": "SiteLog backend: the API, built",
-      "topic": "fullstack",
-      "github": "DAMHONGDUC/site-log-be",
-      "branch": "main",
-      "localPath": "../../BE/site-log-be",
-      "tags": [
-        "Node.js",
-        "TypeScript",
-        "AWS"
-      ],
-      "parts": [
-        {
           "file": "README.md",
+          "repo": "sitelogbe",
           "slug": "sitelogbe-overview",
           "panel": "Base docs",
           "icon": "🖥️",
           "tags": [
             "Overview"
-          ]
+          ],
+          "group": "Backend"
         },
         {
           "file": "docs/feature-guide/README.md",
+          "repo": "sitelogbe",
           "slug": "sitelogbe-guide",
           "panel": "Base docs",
           "icon": "🛠️",
           "tags": [
             "Step by step"
-          ]
+          ],
+          "group": "Backend"
         },
         {
           "dir": "docs/feature-docs",
+          "repo": "sitelogbe",
           "slugPrefix": "sitelogbe-specs",
           "panel": "Base docs",
           "icon": "📐",
           "tags": [
             "Architecture",
             "Specs"
+          ],
+          "group": "Backend"
+        },
+        {
+          "file": "docs/feature-guide/local-testing-with-ios.md",
+          "repo": "sitelogbe",
+          "slug": "sitelogbe-guide-local-testing-with-ios",
+          "panel": "Base docs",
+          "icon": "🧪",
+          "tags": [
+            "Local testing"
+          ],
+          "group": "Backend"
+        },
+        {
+          "dir": "docs/feature-guide",
+          "repo": "sitelog",
+          "slugPrefix": "sitelog-guide",
+          "panel": "iOS sprint guides",
+          "groupBy": "folder",
+          "icon": "🛠️",
+          "tags": [
+            "Step by step"
           ]
         },
         {
           "dir": "docs/feature-guide",
+          "repo": "sitelogbe",
           "slugPrefix": "sitelogbe-guide",
-          "panel": "Sprint guides",
+          "panel": "BE sprint guides",
           "groupBy": "folder",
           "icon": "🛠️",
           "tags": [

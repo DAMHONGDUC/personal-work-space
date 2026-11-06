@@ -17,8 +17,9 @@
   "series": {
     "id": "sitelog",
     "part": 6,
-    "name": "SiteLog: an iOS app, built",
-    "panel": "Base docs"
+    "name": "SiteLog: an iOS app and its API, built",
+    "panel": "Base docs",
+    "group": "iOS app"
   },
   "intro": [
     "What the app calls on the backend, what it sends and gets back, how each call works on the server, and what the app must do with the answer.",
@@ -160,5 +161,5 @@
     }
   ],
   "effectiveDate": "2026-10-01",
-  "lastUpdated": "2026-11-05"
+  "lastUpdated": "2026-11-06"
 }

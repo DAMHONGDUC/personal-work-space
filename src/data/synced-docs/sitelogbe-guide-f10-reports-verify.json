@@ -2,7 +2,7 @@
   "title": "F10 — Reports and verify (backend)",
   "tagline": "branding shared by all of a user's devices; a public lookup that tells only facts about a file and leaks nothing else.",
   "icon": "🛠️",
-  "topic": "fullstack",
+  "topic": "ios",
   "tags": [
     "Node.js",
     "TypeScript",
@@ -15,10 +15,10 @@
   ],
   "numbered": false,
   "series": {
-    "id": "sitelogbe",
-    "part": 26,
-    "name": "SiteLog backend: the API, built",
-    "panel": "Sprint guides",
+    "id": "sitelog",
+    "part": 66,
+    "name": "SiteLog: an iOS app and its API, built",
+    "panel": "BE sprint guides",
     "group": "S6-reports-plans"
   },
   "intro": [
@@ -83,5 +83,5 @@
     }
   ],
   "effectiveDate": "2026-11-05",
-  "lastUpdated": "2026-11-05"
+  "lastUpdated": "2026-11-06"
 }

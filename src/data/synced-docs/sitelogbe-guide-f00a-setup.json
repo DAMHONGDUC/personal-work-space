@@ -2,7 +2,7 @@
   "title": "F00a — Setup: tools and accounts",
   "tagline": "every tool and account the backend needs, checked once, so later steps only write code.",
   "icon": "🛠️",
-  "topic": "fullstack",
+  "topic": "ios",
   "tags": [
     "Node.js",
     "TypeScript",
@@ -15,10 +15,10 @@
   ],
   "numbered": false,
   "series": {
-    "id": "sitelogbe",
-    "part": 9,
-    "name": "SiteLog backend: the API, built",
-    "panel": "Sprint guides",
+    "id": "sitelog",
+    "part": 49,
+    "name": "SiteLog: an iOS app and its API, built",
+    "panel": "BE sprint guides",
     "group": "S0-foundation"
   },
   "intro": [
@@ -105,5 +105,5 @@
     }
   ],
   "effectiveDate": "2026-11-05",
-  "lastUpdated": "2026-11-05"
+  "lastUpdated": "2026-11-06"
 }

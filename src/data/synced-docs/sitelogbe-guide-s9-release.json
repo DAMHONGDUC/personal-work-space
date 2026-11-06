@@ -2,7 +2,7 @@
   "title": "S9 — Production · App Store",
   "tagline": "production ready for real users before the App Store build is submitted.",
   "icon": "🛠️",
-  "topic": "fullstack",
+  "topic": "ios",
   "tags": [
     "Node.js",
     "TypeScript",
@@ -15,10 +15,10 @@
   ],
   "numbered": false,
   "series": {
-    "id": "sitelogbe",
-    "part": 33,
-    "name": "SiteLog backend: the API, built",
-    "panel": "Sprint guides",
+    "id": "sitelog",
+    "part": 73,
+    "name": "SiteLog: an iOS app and its API, built",
+    "panel": "BE sprint guides",
     "group": "S9-release",
     "opensGroup": true
   },
@@ -72,5 +72,5 @@
     }
   ],
   "effectiveDate": "2026-11-05",
-  "lastUpdated": "2026-11-05"
+  "lastUpdated": "2026-11-06"
 }

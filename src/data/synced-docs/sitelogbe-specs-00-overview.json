@@ -2,7 +2,7 @@
   "title": "00 — Backend overview",
   "tagline": "What the SiteLog backend does, how it is built and why. The app side: SiteLog iOS.",
   "icon": "📐",
-  "topic": "fullstack",
+  "topic": "ios",
   "tags": [
     "Node.js",
     "TypeScript",
@@ -16,10 +16,11 @@
   ],
   "numbered": false,
   "series": {
-    "id": "sitelogbe",
-    "part": 2,
-    "name": "SiteLog backend: the API, built",
-    "panel": "Base docs"
+    "id": "sitelog",
+    "part": 13,
+    "name": "SiteLog: an iOS app and its API, built",
+    "panel": "Base docs",
+    "group": "Backend"
   },
   "intro": [
     "What the SiteLog backend does, how it is built and why. The app side: SiteLog iOS.",
@@ -116,5 +117,5 @@
     }
   ],
   "effectiveDate": "2026-11-05",
-  "lastUpdated": "2026-11-05"
+  "lastUpdated": "2026-11-06"
 }

@@ -2,7 +2,7 @@
   "title": "04 — AWS and operations",
   "tagline": "Every AWS resource, setting and secret of the backend, how a deploy works, and how to run it day to day.",
   "icon": "📐",
-  "topic": "fullstack",
+  "topic": "ios",
   "tags": [
     "Node.js",
     "TypeScript",
@@ -16,10 +16,11 @@
   ],
   "numbered": false,
   "series": {
-    "id": "sitelogbe",
-    "part": 6,
-    "name": "SiteLog backend: the API, built",
-    "panel": "Base docs"
+    "id": "sitelog",
+    "part": 17,
+    "name": "SiteLog: an iOS app and its API, built",
+    "panel": "Base docs",
+    "group": "Backend"
   },
   "intro": [
     "Every AWS resource, setting and secret of the backend, how a deploy works, and how to run it day to day.",
@@ -116,5 +117,5 @@
     }
   ],
   "effectiveDate": "2026-11-05",
-  "lastUpdated": "2026-11-05"
+  "lastUpdated": "2026-11-06"
 }

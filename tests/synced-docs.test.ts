@@ -66,9 +66,10 @@ describe("synced guides", () => {
       const pages = docs
         .filter((doc) => doc.series?.id === series.id)
         .sort((a, b) => a.series!.part - b.series!.part);
+      // Two panels may each hold a group of one name (an iOS and a backend S1).
       const groups = Map.groupBy(
         pages.filter((doc) => doc.series!.group),
-        (doc) => doc.series!.group!,
+        (doc) => `${doc.series!.panel ?? ""} / ${doc.series!.group!}`,
       );
 
       for (const [group, members] of groups) {

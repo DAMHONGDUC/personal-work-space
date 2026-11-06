@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { AppColors } from "@/lib/design/app-colors";
 
 /**
- * A button straight into a panel of a series ("Sprint guides →"), tinted with
+ * A button straight into a panel of a series ("iOS sprint guides →"), tinted with
  * the docs accent: on the series' card in the index, and in the header of
  * every page of the series. The panel being read is `active`: filled with the
  * accent, white text, and no arrow, since it leads where the reader already is.

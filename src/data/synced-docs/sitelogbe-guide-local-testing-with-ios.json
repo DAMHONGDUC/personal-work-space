@@ -1,13 +1,13 @@
 {
   "title": "Local testing with iOS",
   "tagline": "Run the backend on your Mac and point the SiteLog app at it, on the simulator or a real iPhone, to test a feature end to end before it reaches staging.",
-  "icon": "🛠️",
-  "topic": "fullstack",
+  "icon": "🧪",
+  "topic": "ios",
   "tags": [
     "Node.js",
     "TypeScript",
     "AWS",
-    "Step by step"
+    "Local testing"
   ],
   "readingTime": "5 min",
   "languages": [
@@ -15,10 +15,11 @@
   ],
   "numbered": false,
   "series": {
-    "id": "sitelogbe",
-    "part": 7,
-    "name": "SiteLog backend: the API, built",
-    "panel": "Sprint guides"
+    "id": "sitelog",
+    "part": 18,
+    "name": "SiteLog: an iOS app and its API, built",
+    "panel": "Base docs",
+    "group": "Backend"
   },
   "intro": [
     "Run the backend on your Mac and point the SiteLog app at it, on the simulator or a real iPhone, to test a feature end to end before it reaches staging.",
@@ -115,5 +116,5 @@
     }
   ],
   "effectiveDate": "2026-11-05",
-  "lastUpdated": "2026-11-05"
+  "lastUpdated": "2026-11-06"
 }

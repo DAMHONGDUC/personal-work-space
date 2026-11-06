@@ -1,8 +1,9 @@
 /**
  * Turns Markdown docs kept in another repo into guide pages on this site.
  *
- * Each series in synced-docs.json is a list of files and folders of Markdown
- * in a local clone of that repo. The first file is part 0 — the page the guide
+ * Each series in synced-docs.json is a list of files and folders of Markdown,
+ * each read from a local clone of one of the series' repos (an iOS app and its
+ * backend can be one series). The first file is part 0 — the page the guide
  * index lists — and every other file is one page after it, in the order the
  * config names them and each folder sorts its files. A part can name the panel
  * of the series navigation it sits in, and a group heading for its pages, or
@@ -70,24 +71,36 @@ type Part = {
   groupBy?: "folder";
   /** The block of the series navigation the part's pages sit in, e.g. "Base docs". */
   panel?: string;
+  /** The `id` of the series' repo the part is read from. */
+  repo: string;
   icon: string;
   tags?: string[];
+};
+/**
+ * A repo a series reads from. Its `id` starts every slug of its pages, which is
+ * how stale pages are found, and names its asset folder in public/.
+ */
+type Repo = {
+  id: string;
+  github: string;
+  branch: string;
+  localPath: string;
+  /** Tags every page from this repo carries, after the series' own. */
+  tags?: string[];
+  /** Repo folders copied to the site as they are, and linked there instead of GitHub. */
+  host?: string[];
 };
 type Series = {
   id: string;
   name: string;
   topic: string;
-  github: string;
-  branch: string;
-  localPath: string;
   tags: string[];
+  repos: Repo[];
   parts: Part[];
-  /** Repo folders copied to the site as they are, and linked there instead of GitHub. */
-  host?: string[];
 };
 type Config = { series: Series[] };
 /** One Markdown file and the page it becomes. */
-type Page = { absolute: string; slug: string; part: Part; group?: string; opensGroup?: boolean };
+type Page = { absolute: string; slug: string; part: Part; repo: Repo; group?: string; opensGroup?: boolean };
 type Section = { id: string; title: string; blocks: { type: "html"; html: string; text: string }[] };
 
 const root = path.join(import.meta.dirname, "..");
@@ -113,14 +126,20 @@ function log(message: string) {
   console.log(`[docs:sync] ${message}`);
 }
 
-function repoRootOf(series: Series): string {
-  const repoRoot = path.resolve(root, series.localPath);
+function repoRootOf(repo: Repo): string {
+  const repoRoot = path.resolve(root, repo.localPath);
   if (!fs.existsSync(repoRoot)) {
     throw new Error(
-      `${series.id}: ${repoRoot} does not exist. Clone ${series.github} there, or fix localPath in ${ResourceConstant.SYNCED_DOCS_CONFIG}.`,
+      `${repo.id}: ${repoRoot} does not exist. Clone ${repo.github} there, or fix localPath in ${ResourceConstant.SYNCED_DOCS_CONFIG}.`,
     );
   }
   return repoRoot;
+}
+
+function repoOf(series: Series, part: Part): Repo {
+  const repo = series.repos.find((entry) => entry.id === part.repo);
+  if (!repo) throw new Error(`${series.id}: a part names repo "${part.repo}", which the series does not list`);
+  return repo;
 }
 
 /**
@@ -132,7 +151,13 @@ function repoRootOf(series: Series): string {
  * In a part grouped by folder, each of its subfolders is one group, headed in
  * the navigation by that folder's README; folders deeper down stay in it.
  */
-function folderPages(part: Part, dir: string, slugPrefix: string, group?: { name: string; dir: string }): Page[] {
+function folderPages(
+  part: Part,
+  repo: Repo,
+  dir: string,
+  slugPrefix: string,
+  group?: { name: string; dir: string },
+): Page[] {
   const entries = fs.readdirSync(dir, { withFileTypes: true });
   const files = entries
     .filter((entry) => entry.isFile() && entry.name.endsWith(".md"))
@@ -148,12 +173,13 @@ function folderPages(part: Part, dir: string, slugPrefix: string, group?: { name
       absolute: path.join(dir, file),
       slug: (file === "README.md" ? slugPrefix : `${part.slugPrefix}-${path.basename(file, ".md")}`).toLowerCase(),
       part,
+      repo,
       ...(group && { group: group.name, opensGroup: file === "README.md" && dir === group.dir }),
     })),
     ...folders.flatMap((folder) => {
       const sub = path.join(dir, folder);
       const opened = part.groupBy === "folder" && !group ? { name: folder, dir: sub } : group;
-      return folderPages(part, sub, `${part.slugPrefix}-${folder}`, opened);
+      return folderPages(part, repo, sub, `${part.slugPrefix}-${folder}`, opened);
     }),
   ];
 }
@@ -164,23 +190,23 @@ function folderPages(part: Part, dir: string, slugPrefix: string, group?: { name
  * another panel.
  */
 function pagesOf(series: Series): Page[] {
-  const repoRoot = repoRootOf(series);
-
   const taken = new Set<string>();
   const pages = series.parts
     .flatMap((part): Page[] => {
+      const repo = repoOf(series, part);
+      const repoRoot = repoRootOf(repo);
       if (part.file) {
-        return [{ absolute: path.join(repoRoot, part.file), slug: part.slug!, part }];
+        return [{ absolute: path.join(repoRoot, part.file), slug: part.slug!, part, repo }];
       }
-      return folderPages(part, path.join(repoRoot, part.dir!), part.slugPrefix!);
+      return folderPages(part, repo, path.join(repoRoot, part.dir!), part.slugPrefix!);
     })
     .filter((page) => !taken.has(page.absolute) && taken.add(page.absolute));
 
   // Stale pages are found by this prefix, so every slug has to carry it.
   const seen = new Set<string>();
   for (const page of pages) {
-    if (!page.slug.startsWith(`${series.id}-`)) {
-      throw new Error(`${page.slug} must start with "${series.id}-"`);
+    if (!page.slug.startsWith(`${page.repo.id}-`)) {
+      throw new Error(`${page.slug} must start with "${page.repo.id}-"`);
     }
     if (seen.has(page.slug)) throw new Error(`${page.slug}: two files give the same slug`);
     seen.add(page.slug);
@@ -235,9 +261,9 @@ function fixSvgSize(file: string) {
  * shows it — or null when mermaid cannot parse it, so the page keeps the block
  * as code and the sync names the file to fix instead of stopping.
  */
-function renderMermaid(source: string, series: Series, from: string): string | null {
+function renderMermaid(source: string, repo: Repo, from: string): string | null {
   const hash = createHash("sha256").update(source).digest("hex").slice(0, 12);
-  const dir = path.join(assetsDir, series.id);
+  const dir = path.join(assetsDir, repo.id);
   fs.mkdirSync(dir, { recursive: true });
 
   const files = { light: `diagram-${hash}-light.svg`, dark: `diagram-${hash}-dark.svg` };
@@ -268,13 +294,13 @@ function renderMermaid(source: string, series: Series, from: string): string | n
       fs.rmSync(work, { recursive: true, force: true });
     }
     fixSvgSize(out);
-    log(`${series.id}: drew diagram ${hash} (${scheme})`);
+    log(`${repo.id}: drew diagram ${hash} (${scheme})`);
   }
 
   // The quoted labels, in order, describe the drawing well enough to read aloud.
   const labels = [...source.matchAll(/"([^"]+)"/g)].map(([, label]) => label.replace(/<br\s*\/?>/g, ", "));
   const alt = labels.length > 0 ? `Diagram: ${labels.join(" → ")}` : "Diagram";
-  const url = (file: string) => `../../${assetsUrl}/${series.id}/${file}`;
+  const url = (file: string) => `../../${assetsUrl}/${repo.id}/${file}`;
   // The size on the <img> holds the drawing's space before it loads, so the
   // page does not grow under a reader scrolling past — or to a section below.
   const size = svgSize(fs.readFileSync(path.join(dir, files.light), "utf8"));
@@ -296,7 +322,7 @@ function renderMermaid(source: string, series: Series, from: string): string | n
 function rewriteUrl(
   url: string,
   from: string,
-  series: Series,
+  repo: Repo,
   repoRoot: string,
   pages: Map<string, string>,
   folders: Map<string, string>,
@@ -310,17 +336,17 @@ function rewriteUrl(
   const page = pages.get(absolute) ?? folders.get(absolute);
   if (page) return `../${page}/${anchor}`;
 
-  const inHost = (series.host ?? []).some((dir) => !path.relative(path.join(repoRoot, dir), absolute).startsWith(".."));
-  if (inHost) return `../../${assetsUrl}/${series.id}/${path.relative(repoRoot, absolute)}${anchor}`;
+  const inHost = (repo.host ?? []).some((dir) => !path.relative(path.join(repoRoot, dir), absolute).startsWith(".."));
+  if (inHost) return `../../${assetsUrl}/${repo.id}/${path.relative(repoRoot, absolute)}${anchor}`;
 
   if (IMAGE_EXTENSIONS.has(path.extname(absolute).toLowerCase()) && fs.existsSync(absolute)) {
     const name = path.basename(absolute);
-    const copy = path.join(assetsDir, series.id, name);
+    const copy = path.join(assetsDir, repo.id, name);
     fs.mkdirSync(path.dirname(copy), { recursive: true });
     fs.copyFileSync(absolute, copy);
     usedAssets.add(copy);
     // The page lives at /docs/<slug>/, two levels below the site root.
-    return `../../${assetsUrl}/${series.id}/${name}`;
+    return `../../${assetsUrl}/${repo.id}/${name}`;
   }
 
   const inRepo = path.relative(repoRoot, absolute);
@@ -329,7 +355,7 @@ function rewriteUrl(
     return url;
   }
   const kind = fs.existsSync(absolute) && fs.statSync(absolute).isDirectory() ? "tree" : "blob";
-  return `https://github.com/${series.github}/${kind}/${series.branch}/${inRepo}${anchor}`;
+  return `https://github.com/${repo.github}/${kind}/${repo.branch}/${inRepo}${anchor}`;
 }
 
 /** Wraps every table so a wide one scrolls on its own instead of widening the page. */
@@ -628,7 +654,7 @@ async function convert(
   pages: Map<string, string>,
   folders: Map<string, string>,
 ) {
-  const repoRoot = repoRootOf(series);
+  const repoRoot = repoRootOf(page.repo);
   const tree = unified()
     .use(remarkParse)
     .use(remarkGfm)
@@ -641,7 +667,7 @@ async function convert(
   });
   visit(tree, (node) => node.type === "link" || node.type === "image" || node.type === "definition", (node) => {
     const linked = node as { url: string; type: string; data?: { hProperties?: Record<string, unknown> } };
-    linked.url = rewriteUrl(linked.url, page.absolute, series, repoRoot, pages, folders);
+    linked.url = rewriteUrl(linked.url, page.absolute, page.repo, repoRoot, pages, folders);
 
     // A copied SVG gets its size on the <img>, for the same reason as a diagram.
     const copied = linked.url.match(new RegExp(`^\\.\\./\\.\\./${assetsUrl}/(.+\\.svg)$`));
@@ -652,7 +678,7 @@ async function convert(
   });
   visit(tree, "code", (node: Code, index, parent) => {
     if (node.lang !== "mermaid" || !parent || index === undefined) return;
-    const drawn = renderMermaid(node.value, series, page.absolute);
+    const drawn = renderMermaid(node.value, page.repo, page.absolute);
     if (drawn === null) return;
     const html: Html = { type: "html", value: drawn };
     parent.children[index] = html;
@@ -718,7 +744,7 @@ async function convert(
       tagline: goal ?? introLines[0] ?? series.name,
       icon: page.part.icon,
       topic: series.topic,
-      tags: [...series.tags, ...(page.part.tags ?? [])],
+      tags: [...series.tags, ...(page.repo.tags ?? []), ...(page.part.tags ?? [])],
       readingTime: `${Math.max(1, Math.round(words / WORDS_PER_MINUTE))} min`,
       languages: ["en"],
       numbered: false,
@@ -737,23 +763,23 @@ async function convert(
 }
 
 /**
- * Copies the series' hosted folders to the site at their repo paths, so a page
+ * Copies a repo's hosted folders to the site at their repo paths, so a page
  * in one (a mockup) still finds its neighbours by the same relative links.
  */
-function hostFolders(series: Series) {
-  const repoRoot = repoRootOf(series);
+function hostFolders(repo: Repo) {
+  const repoRoot = repoRootOf(repo);
 
-  for (const dir of series.host ?? []) {
+  for (const dir of repo.host ?? []) {
     const from = path.join(repoRoot, dir);
     for (const file of fs.readdirSync(from, { recursive: true, withFileTypes: true })) {
       if (!file.isFile()) continue;
       const source = path.join(file.parentPath, file.name);
-      const copy = path.join(assetsDir, series.id, path.relative(repoRoot, source));
+      const copy = path.join(assetsDir, repo.id, path.relative(repoRoot, source));
       fs.mkdirSync(path.dirname(copy), { recursive: true });
       fs.copyFileSync(source, copy);
       usedAssets.add(copy);
     }
-    log(`${series.id}: hosted ${dir}`);
+    log(`${repo.id}: hosted ${dir}`);
   }
 }
 
@@ -789,7 +815,7 @@ async function sync() {
       else if (page.part.dir && !folders.has(folder)) folders.set(folder, page.slug);
     }
   }
-  for (const { series } of all) hostFolders(series);
+  for (const { series } of all) series.repos.forEach(hostFolders);
 
   fs.mkdirSync(outDir, { recursive: true });
 
@@ -805,8 +831,10 @@ async function sync() {
   );
 
   for (const { series, converted } of results) {
-    for (const stale of fs.readdirSync(outDir).filter((file) => file.startsWith(`${series.id}-`))) {
-      fs.rmSync(path.join(outDir, stale));
+    for (const { id } of series.repos) {
+      for (const stale of fs.readdirSync(outDir).filter((file) => file.startsWith(`${id}-`))) {
+        fs.rmSync(path.join(outDir, stale));
+      }
     }
 
     // One date for the whole series, so its pages stay together and in order

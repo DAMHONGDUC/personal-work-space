@@ -2,7 +2,7 @@
   "title": "F11 — Floor plans (backend)",
   "tagline": "plan_sheets table; the foreign key issues.plan_sheet_id finally checked. Plan keys were already accepted by keys.ts since F06.",
   "icon": "🛠️",
-  "topic": "fullstack",
+  "topic": "ios",
   "tags": [
     "Node.js",
     "TypeScript",
@@ -15,10 +15,10 @@
   ],
   "numbered": false,
   "series": {
-    "id": "sitelogbe",
-    "part": 27,
-    "name": "SiteLog backend: the API, built",
-    "panel": "Sprint guides",
+    "id": "sitelog",
+    "part": 67,
+    "name": "SiteLog: an iOS app and its API, built",
+    "panel": "BE sprint guides",
     "group": "S6-reports-plans"
   },
   "intro": [
@@ -72,5 +72,5 @@
     }
   ],
   "effectiveDate": "2026-11-05",
-  "lastUpdated": "2026-11-05"
+  "lastUpdated": "2026-11-06"
 }

@@ -2,7 +2,7 @@
   "title": "Backend feature guides",
   "tagline": "Step-by-step build of the backend, one folder per sprint, one guide per feature. Same sprints and feature numbers as the iOS guides: a feature's app and backend work go in the same sprint.",
   "icon": "🛠️",
-  "topic": "fullstack",
+  "topic": "ios",
   "tags": [
     "Node.js",
     "TypeScript",
@@ -15,10 +15,11 @@
   ],
   "numbered": false,
   "series": {
-    "id": "sitelogbe",
-    "part": 1,
-    "name": "SiteLog backend: the API, built",
-    "panel": "Base docs"
+    "id": "sitelog",
+    "part": 12,
+    "name": "SiteLog: an iOS app and its API, built",
+    "panel": "Base docs",
+    "group": "Backend"
   },
   "intro": [
     "Step-by-step build of the backend, one folder per sprint, one guide per feature. Same sprints and feature numbers as the iOS guides: a feature's app and backend work go in the same sprint.",
@@ -83,5 +84,5 @@
     }
   ],
   "effectiveDate": "2026-11-05",
-  "lastUpdated": "2026-11-05"
+  "lastUpdated": "2026-11-06"
 }

@@ -16,8 +16,9 @@
   "series": {
     "id": "sitelog",
     "part": 0,
-    "name": "SiteLog: an iOS app, built",
-    "panel": "Base docs"
+    "name": "SiteLog: an iOS app and its API, built",
+    "panel": "Base docs",
+    "group": "iOS app"
   },
   "intro": [
     "Offline-first iOS app for site supervisors: record construction site conditions, export a signed PDF inspection report.",
@@ -59,5 +60,5 @@
     }
   ],
   "effectiveDate": "2026-09-09",
-  "lastUpdated": "2026-11-05"
+  "lastUpdated": "2026-11-06"
 }
