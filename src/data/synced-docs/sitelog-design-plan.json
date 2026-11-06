@@ -16,8 +16,9 @@
   "series": {
     "id": "sitelog",
     "part": 9,
-    "name": "SiteLog: an iOS app, built",
-    "panel": "Base docs"
+    "name": "SiteLog: an iOS app and its API, built",
+    "panel": "Base docs",
+    "group": "iOS app"
   },
   "intro": [
     "Screen inventory and Figma file structure for the whole app, derived from docs/feature-docs/.",
@@ -92,5 +93,5 @@
     }
   ],
   "effectiveDate": "2026-09-30",
-  "lastUpdated": "2026-11-05"
+  "lastUpdated": "2026-11-06"
 }

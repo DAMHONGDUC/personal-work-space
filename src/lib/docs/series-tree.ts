@@ -56,7 +56,7 @@ export type SeriesCrumb = { page: SeriesPage; label?: string };
  * Where a page sits in its series, from the top down, the page itself last:
  * the series' first page, then the panel the page is in when it is not the
  * first one (opening at the panel's first page), then the group's own page.
- * A SiteLog feature guide reads SiteLog / Sprint guides / S1 / F02.
+ * A SiteLog feature guide reads SiteLog / iOS sprint guides / S1 / F02.
  */
 export function seriesTrail(pages: SeriesPage[], current: string): SeriesCrumb[] {
   const page = pages.find((entry) => entry.slug === current);

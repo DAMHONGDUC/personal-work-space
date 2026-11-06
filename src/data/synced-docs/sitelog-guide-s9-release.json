@@ -15,9 +15,9 @@
   "numbered": false,
   "series": {
     "id": "sitelog",
-    "part": 38,
-    "name": "SiteLog: an iOS app, built",
-    "panel": "Sprint guides",
+    "part": 46,
+    "name": "SiteLog: an iOS app and its API, built",
+    "panel": "iOS sprint guides",
     "group": "S9-release",
     "opensGroup": true
   },
@@ -71,5 +71,5 @@
     }
   ],
   "effectiveDate": "2026-11-02",
-  "lastUpdated": "2026-11-05"
+  "lastUpdated": "2026-11-06"
 }

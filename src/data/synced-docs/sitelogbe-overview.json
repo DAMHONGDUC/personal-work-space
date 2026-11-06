@@ -2,7 +2,7 @@
   "title": "SiteLog backend",
   "tagline": "The server behind the SiteLog iOS app: sign-in check, delta sync, presigned S3 uploads, verification codes, realtime upload state, push.",
   "icon": "🖥️",
-  "topic": "fullstack",
+  "topic": "ios",
   "tags": [
     "Node.js",
     "TypeScript",
@@ -15,10 +15,11 @@
   ],
   "numbered": false,
   "series": {
-    "id": "sitelogbe",
-    "part": 0,
-    "name": "SiteLog backend: the API, built",
-    "panel": "Base docs"
+    "id": "sitelog",
+    "part": 11,
+    "name": "SiteLog: an iOS app and its API, built",
+    "panel": "Base docs",
+    "group": "Backend"
   },
   "intro": [
     "The server behind the SiteLog iOS app: sign-in check, delta sync, presigned S3 uploads, verification codes, realtime upload state, push.",
@@ -83,5 +84,5 @@
     }
   ],
   "effectiveDate": "2026-11-05",
-  "lastUpdated": "2026-11-05"
+  "lastUpdated": "2026-11-06"
 }

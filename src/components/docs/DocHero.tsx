@@ -28,7 +28,7 @@ export function DocHero({
   lang: Lang;
   /**
    * The breadcrumb after "All guides", the page itself last: a series page
-   * lists where it sits (SiteLog / Sprint guides / S1 / F02). Every step links.
+   * lists where it sits (SiteLog / iOS sprint guides / S1 / F02). Every step links.
    */
   crumbs?: { label: string; href: string }[];
   /** Buttons under the tagline, e.g. into the series' next panel. */

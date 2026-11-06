@@ -17,8 +17,9 @@
   "series": {
     "id": "sitelog",
     "part": 7,
-    "name": "SiteLog: an iOS app, built",
-    "panel": "Base docs"
+    "name": "SiteLog: an iOS app and its API, built",
+    "panel": "Base docs",
+    "group": "iOS app"
   },
   "intro": [
     "The paid deliverable and the protection of the evidence behind it.",
@@ -60,5 +61,5 @@
     }
   ],
   "effectiveDate": "2026-10-01",
-  "lastUpdated": "2026-11-05"
+  "lastUpdated": "2026-11-06"
 }

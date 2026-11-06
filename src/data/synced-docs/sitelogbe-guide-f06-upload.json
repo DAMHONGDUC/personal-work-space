@@ -2,7 +2,7 @@
   "title": "F06 — Upload (backend)",
   "tagline": "single-PUT uploads for every file size (F07 adds multipart from 5 MiB), confirmed with HeadObject, idempotent complete, abort, and GET URLs for other devices.",
   "icon": "🛠️",
-  "topic": "fullstack",
+  "topic": "ios",
   "tags": [
     "Node.js",
     "TypeScript",
@@ -15,10 +15,10 @@
   ],
   "numbered": false,
   "series": {
-    "id": "sitelogbe",
-    "part": 19,
-    "name": "SiteLog backend: the API, built",
-    "panel": "Sprint guides",
+    "id": "sitelog",
+    "part": 59,
+    "name": "SiteLog: an iOS app and its API, built",
+    "panel": "BE sprint guides",
     "group": "S3-capture-upload"
   },
   "intro": [
@@ -127,5 +127,5 @@
     }
   ],
   "effectiveDate": "2026-11-05",
-  "lastUpdated": "2026-11-05"
+  "lastUpdated": "2026-11-06"
 }

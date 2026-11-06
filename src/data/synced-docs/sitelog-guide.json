@@ -16,8 +16,9 @@
   "series": {
     "id": "sitelog",
     "part": 2,
-    "name": "SiteLog: an iOS app, built",
-    "panel": "Base docs"
+    "name": "SiteLog: an iOS app and its API, built",
+    "panel": "Base docs",
+    "group": "iOS app"
   },
   "intro": [
     "Step-by-step guides, grouped by sprint: one folder per sprint, one guide per feature.",
@@ -82,5 +83,5 @@
     }
   ],
   "effectiveDate": "2026-11-02",
-  "lastUpdated": "2026-11-05"
+  "lastUpdated": "2026-11-06"
 }

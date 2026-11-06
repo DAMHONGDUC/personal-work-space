@@ -2,7 +2,7 @@
   "title": "03 — Sync, uploads, realtime",
   "tagline": "How the backend keeps devices in step, accepts files and reports their state. Request and response shapes: 01-api.",
   "icon": "📐",
-  "topic": "fullstack",
+  "topic": "ios",
   "tags": [
     "Node.js",
     "TypeScript",
@@ -16,10 +16,11 @@
   ],
   "numbered": false,
   "series": {
-    "id": "sitelogbe",
-    "part": 5,
-    "name": "SiteLog backend: the API, built",
-    "panel": "Base docs"
+    "id": "sitelog",
+    "part": 16,
+    "name": "SiteLog: an iOS app and its API, built",
+    "panel": "Base docs",
+    "group": "Backend"
   },
   "intro": [
     "How the backend keeps devices in step, accepts files and reports their state. Request and response shapes: 01-api."
@@ -93,5 +94,5 @@
     }
   ],
   "effectiveDate": "2026-11-05",
-  "lastUpdated": "2026-11-05"
+  "lastUpdated": "2026-11-06"
 }

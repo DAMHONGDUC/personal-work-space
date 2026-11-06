@@ -17,8 +17,9 @@
   "series": {
     "id": "sitelog",
     "part": 4,
-    "name": "SiteLog: an iOS app, built",
-    "panel": "Base docs"
+    "name": "SiteLog: an iOS app and its API, built",
+    "panel": "Base docs",
+    "group": "iOS app"
   },
   "intro": [
     "What the supervisor does on site: organize the walk, capture, log and verify issues, pin them on plans, mark up photos, run checklists, read measuring tools.",
@@ -116,5 +117,5 @@
     }
   ],
   "effectiveDate": "2026-10-01",
-  "lastUpdated": "2026-11-05"
+  "lastUpdated": "2026-11-06"
 }

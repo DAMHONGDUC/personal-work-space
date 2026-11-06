@@ -16,8 +16,9 @@
   "series": {
     "id": "sitelog",
     "part": 10,
-    "name": "SiteLog: an iOS app, built",
-    "panel": "Base docs"
+    "name": "SiteLog: an iOS app and its API, built",
+    "panel": "Base docs",
+    "group": "iOS app"
   },
   "intro": [
     "Small views, minimal state, logic outside the View, styles from the design system, text via keys, meaningful names."
@@ -124,5 +125,5 @@
     }
   ],
   "effectiveDate": "2026-10-23",
-  "lastUpdated": "2026-11-05"
+  "lastUpdated": "2026-11-06"
 }
