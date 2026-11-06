@@ -9,6 +9,7 @@ import { AppColors } from "@/lib/design/app-colors";
 import { AppTextStyles } from "@/lib/design/app-text-styles";
 import { PanelButton } from "@/components/docs/PanelButton";
 import { PanelHeading } from "@/components/shared/PanelHeading";
+import { SlidingMarker } from "@/components/shared/SlidingMarker";
 import { groupHolds, panelStart, seriesPanels, type SeriesItem } from "@/lib/docs/series-tree";
 
 /** The few words the series navigation prints, in the language of the guide. */
@@ -43,7 +44,7 @@ function seriesName(pages: SeriesPage[], lang: Lang): string {
  * however far the reader scrolls. Smaller screens have no column and get it as
  * a card above the intro (`card`).
  *
- * A series split into panels ("Base docs", "Sprint guides") shows only the
+ * A series split into panels ("Base docs", "iOS sprint guides") shows only the
  * panel holding the page being read, headed by its name in the accent; the
  * way into the other panels is the page header's (`SeriesShortcuts`), never
  * the panel's. The block has a fixed height and scrolls inside, so folding a
@@ -122,21 +123,15 @@ export function SeriesContents({
         aria-current={here ? "page" : undefined}
         className={
           sidebar
-            ? `-ml-px block rounded-r-md border-l-2 py-1 pr-2 text-[0.9375rem] leading-6 transition-colors duration-200 ${
+            ? `relative -ml-px block rounded-r-md border-l-2 border-transparent py-1 pr-2 text-[0.9375rem] leading-6 transition-colors duration-200 ${
                 nested ? "pl-7" : "pl-4"
-              } ${here ? "font-semibold" : "border-transparent text-muted hover:border-foreground/25 hover:text-foreground"}`
-            : `block rounded-lg px-3 py-1.5 text-sm transition-colors ${
+              } ${here ? "font-semibold" : "text-muted hover:border-foreground/25 hover:text-foreground"}`
+            : `relative block rounded-lg px-3 py-1.5 text-sm transition-colors ${
                 here ? "font-medium" : "text-muted hover:bg-muted-surface hover:text-foreground"
               }`
         }
-        // In the sidebar, the same selected look as the contents list beneath it.
-        style={
-          here
-            ? sidebar
-              ? { borderColor: AppColors.DOCS, color: AppColors.DOCS, backgroundColor: AppColors.tint(AppColors.DOCS, 12) }
-              : { backgroundColor: AppColors.tint(AppColors.DOCS, 14), color: AppColors.DOCS }
-            : undefined
-        }
+        // The tint and bar are the list's SlidingMarker, which slides here from the last page's link.
+        style={here ? { color: AppColors.DOCS } : undefined}
       >
         {label}
       </Link>
@@ -237,7 +232,17 @@ export function SeriesContents({
               : `${LABELS.page[lang]} ${index + 1} ${LABELS.of[lang]} ${pages.length}`}
           </span>
         );
-        const list = <ol className={`flex flex-col ${sidebar ? "gap-0.5" : "gap-1"}`}>{panel.items.map(item)}</ol>;
+        const list = (
+          <ol className={`relative flex flex-col ${sidebar ? "gap-0.5" : "gap-1"}`}>
+            <SlidingMarker
+              accent={AppColors.DOCS}
+              selected={current}
+              memory={`${name}/${panel.name ?? ""}/${variant}`}
+              variant={sidebar ? "bar" : "pill"}
+            />
+            {panel.items.map(item)}
+          </ol>
+        );
 
         if (sidebar) {
           return (

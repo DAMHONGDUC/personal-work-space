@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useActiveSection } from "@/hooks/scroll/useActiveSection";
 import { scrollToSection } from "@/lib/scroll/scroll-to-section";
-import { AppColors } from "@/lib/design/app-colors";
+import { SlidingMarker } from "@/components/shared/SlidingMarker";
 
 export type NavItem = { id: string; title: string };
 
@@ -20,7 +20,8 @@ export type NavItem = { id: string; title: string };
  * with a modifier key still does what the browser does with a link. The
  * clicked item shows as selected at once, not only when the scroll arrives,
  * so the list does not flicker through every section passed on the way. The
- * selected item reads at a glance: tinted, in the accent, with a thick bar.
+ * selected item reads at a glance: tinted, in the accent, with a thick bar —
+ * one marker behind the list that slides to each section as it is reached.
  */
 export function PolicyNav({
   items,
@@ -36,7 +37,8 @@ export function PolicyNav({
   const active = clicked ?? reached;
 
   return (
-    <ol className="flex flex-col gap-0.5">
+    <ol className="relative flex flex-col gap-0.5">
+      <SlidingMarker accent={accent} selected={active} />
       {items.map((item, index) => {
         const isActive = item.id === active;
 
@@ -54,16 +56,10 @@ export function PolicyNav({
                 }
               }}
               aria-current={isActive ? "location" : undefined}
-              className={`-ml-px flex gap-1 rounded-r-md border-l-2 py-1 pr-2 pl-4 text-sm leading-6 transition-colors ${
-                isActive
-                  ? "font-semibold"
-                  : "border-transparent text-muted hover:border-foreground/25 hover:text-foreground"
+              className={`relative -ml-px flex gap-1 rounded-r-md border-l-2 border-transparent py-1 pr-2 pl-4 text-sm leading-6 transition-colors ${
+                isActive ? "font-semibold" : "text-muted hover:border-foreground/25 hover:text-foreground"
               }`}
-              style={
-                isActive
-                  ? { borderColor: accent, color: accent, backgroundColor: AppColors.tint(accent, 12) }
-                  : undefined
-              }
+              style={isActive ? { color: accent } : undefined}
             >
               {numbered && (
                 <span aria-hidden className="w-5 shrink-0 tabular-nums opacity-60">

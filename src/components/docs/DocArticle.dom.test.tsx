@@ -288,7 +288,7 @@ describe("DocArticle", () => {
 
       expect(headings.map((heading) => heading.textContent)).toEqual(["Build guide"]);
       // The group's pages step in under its name; the overview above it does not.
-      const items = [...page.querySelectorAll('[data-variant="card"] ol > li:not([role])')];
+      const items = [...page.querySelectorAll('[data-variant="card"] ol > li:not([role]):not([data-marker])')];
       expect(items.map((item) => item.className)).toEqual(["", "ml-3", "ml-3"]);
     });
 
