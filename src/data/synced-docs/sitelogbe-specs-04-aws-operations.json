@@ -1,0 +1,120 @@
+{
+  "title": "04 — AWS and operations",
+  "tagline": "Every AWS resource, setting and secret of the backend, how a deploy works, and how to run it day to day.",
+  "icon": "📐",
+  "topic": "fullstack",
+  "tags": [
+    "Node.js",
+    "TypeScript",
+    "AWS",
+    "Architecture",
+    "Specs"
+  ],
+  "readingTime": "4 min",
+  "languages": [
+    "en"
+  ],
+  "numbered": false,
+  "series": {
+    "id": "sitelogbe",
+    "part": 6,
+    "name": "SiteLog backend: the API, built",
+    "panel": "Base docs"
+  },
+  "intro": [
+    "Every AWS resource, setting and secret of the backend, how a deploy works, and how to run it day to day.",
+    "All resources come from the CDK app in infra/ (B03). Region: ap-southeast-1."
+  ],
+  "sections": [
+    {
+      "id": "1-stacks",
+      "title": "1. Stacks",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Stack</th><th>Created in</th><th>Holds</th></tr></thead><tbody><tr><td><code>SiteLog-Shared</code></td><td>F00c</td><td>ECR repository <code>sitelog-api</code>, GitHub OIDC provider, role <code>sitelog-github-deploy</code></td></tr><tr><td><code>SiteLog-Dev</code></td><td>F00c</td><td>S3 bucket <code>sitelog-dev-&#x3C;account></code> for your laptop</td></tr><tr><td><code>SiteLog-Staging</code></td><td>F00c</td><td>VPC, RDS, S3, EC2 + Elastic IP, IAM role, log groups; alarms from F18</td></tr><tr><td><code>SiteLog-Prod</code></td><td>F18</td><td>Same as staging, deletion-protected database, 14-day backups</td></tr><tr><td><code>SiteLog-Prod-Uptime</code></td><td>F18</td><td>Route 53 health check on <code>/health</code> and its alarm (us-east-1)</td></tr></tbody></table></div>\n</dd></dl>",
+          "text": "Stack Created in HoldsSiteLog-Shared F00c ECR repository sitelog-api, GitHub OIDC provider, role sitelog-github-deploy SiteLog-Dev F00c S3 bucket sitelog-dev-<account> for your laptop SiteLog-Staging F00c VPC, RDS, S3, EC2 + Elastic IP, IAM role, log groups; alarms from F18 SiteLog-Prod F18 Same as staging, deletion-protected database, 14-day backups SiteLog-Prod-Uptime F18 Route 53 health check on /health and its alarm (us-east-1)"
+        }
+      ]
+    },
+    {
+      "id": "2-network",
+      "title": "2. Network",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelogbe/diagram-39c3ddf73b80-dark.svg\"><img src=\"../../synced-docs/sitelogbe/diagram-39c3ddf73b80-light.svg\" alt=\"Diagram: 80, 443 → Elastic IP → VPC (2 zones) → public subnets → EC2 t4g.small, caddy · api · worker → isolated subnets (no internet) → RDS Postgres 16 → 5432, TLS → HTTPS → S3 → HTTPS → ECR · SSM · Secrets Manager · CloudWatch\" width=\"435\" height=\"1254\" loading=\"lazy\"></picture></figure>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Security group</th><th>In</th><th>From</th></tr></thead><tbody><tr><td>Server</td><td>80, 443</td><td>anywhere</td></tr><tr><td>Database</td><td>5432</td><td>the server group only</td></tr></tbody></table></div>\n<ul>\n<li>No SSH port: shell access goes through SSM Session Manager.</li>\n<li>No NAT gateway (~$32/month saved): the server has a public IP; the database needs no internet.</li>\n</ul>\n</dd></dl>",
+          "text": "Security group In FromServer 80, 443 anywhere Database 5432 the server group only No SSH port: shell access goes through SSM Session Manager. No NAT gateway (~$32/month saved): the server has a public IP; the database needs no internet. Diagram: 80, 443 → Elastic IP → VPC (2 zones) → public subnets → EC2 t4g.small, caddy · api · worker → isolated subnets (no internet) → RDS Postgres 16 → 5432, TLS → HTTPS → S3 → HTTPS → ECR · SSM · Secrets Manager · CloudWatch"
+        }
+      ]
+    },
+    {
+      "id": "3-configuration",
+      "title": "3. Configuration",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Variable</th><th>Default</th><th>Where it comes from on AWS</th><th>Meaning</th></tr></thead><tbody><tr><td><code>DATABASE_URL</code></td><td>—</td><td>Built by <code>deploy.sh</code> from the RDS secret</td><td>Postgres connection</td></tr><tr><td><code>DATABASE_SSL_CA_PATH</code></td><td>—</td><td><code>compose.yml</code></td><td>RDS certificate bundle in the image; turns on verified TLS</td></tr><tr><td><code>PG_POOL_MAX</code></td><td><code>10</code></td><td>—</td><td>Connections per process (RDS micro allows ~80)</td></tr><tr><td><code>AWS_REGION</code></td><td>—</td><td><code>instance.env</code></td><td>Region for S3</td></tr><tr><td><code>S3_BUCKET</code></td><td>—</td><td><code>instance.env</code></td><td>The environment's bucket</td></tr><tr><td><code>FIREBASE_SERVICE_ACCOUNT_BASE64</code></td><td>—</td><td>SSM</td><td>Firebase service-account JSON, base64</td></tr><tr><td><code>PORT</code> · <code>LOG_LEVEL</code></td><td><code>3000</code> · <code>info</code></td><td><code>compose.yml</code></td><td></td></tr><tr><td><code>PRESIGN_TTL_SECONDS</code></td><td><code>3600</code></td><td>—</td><td>Presigned URL lifetime</td></tr><tr><td><code>SINGLE_PUT_THRESHOLD_BYTES</code></td><td><code>5242880</code></td><td>—</td><td>Must match the app</td></tr><tr><td><code>PART_SIZE_BYTES</code></td><td><code>8388608</code></td><td>—</td><td>Must match the app</td></tr><tr><td><code>MAX_UPLOAD_BYTES</code></td><td>20 GiB</td><td>—</td><td>Largest file</td></tr><tr><td><code>MAX_REQUEST_BYTES</code></td><td>1 MiB</td><td>—</td><td>Largest JSON body</td></tr><tr><td><code>PULL_PAGE_SIZE_MAX</code> · <code>PUSH_BATCH_MAX</code></td><td><code>500</code> · <code>200</code></td><td>—</td><td>Sync limits</td></tr><tr><td><code>TOMBSTONE_RETENTION_DAYS</code></td><td><code>90</code></td><td>—</td><td>Purge window</td></tr><tr><td><code>VERIFY_MIN_DELAY_MS</code> · <code>VERIFY_RATE_LIMIT_PER_MINUTE</code></td><td><code>300</code> · <code>30</code></td><td>—</td><td><code>/verify</code> timing and limit</td></tr><tr><td><code>UPLOAD_RATE_LIMIT_PER_MINUTE</code></td><td><code>600</code></td><td>—</td><td>Begins per user</td></tr><tr><td><code>MAX_SOCKETS_PER_USER</code></td><td><code>5</code></td><td>—</td><td>WebSocket cap</td></tr><tr><td><code>APNS_KEY_P8_BASE64</code>, <code>APNS_KEY_ID</code>, <code>APNS_TEAM_ID</code>, <code>APNS_BUNDLE_ID</code></td><td>—</td><td>SSM</td><td>Push (F16)</td></tr><tr><td><code>ENV_NAME</code>, <code>API_DOMAIN</code>, <code>ECR_REPOSITORY</code>, <code>DB_SECRET_ARN</code></td><td>—</td><td><code>instance.env</code></td><td>Used by <code>deploy.sh</code> and Caddy</td></tr></tbody></table></div>\n<ul>\n<li><code>src/config.ts</code> reads every variable once at start and fails fast on a missing one.</li>\n</ul>\n</dd></dl>",
+          "text": "Variable Default Where it comes from on AWS MeaningDATABASE_URL — Built by deploy.sh from the RDS secret Postgres connection DATABASE_SSL_CA_PATH — compose.yml RDS certificate bundle in the image; turns on verified TLS PG_POOL_MAX 10 — Connections per process (RDS micro allows ~80) AWS_REGION — instance.env Region for S3 S3_BUCKET — instance.env The environment's bucket FIREBASE_SERVICE_ACCOUNT_BASE64 — SSM Firebase service-account JSON, base64 PORT · LOG_LEVEL 3000 · info compose.yml PRESIGN_TTL_SECONDS 3600 — Presigned URL lifetime SINGLE_PUT_THRESHOLD_BYTES 5242880 — Must match the app PART_SIZE_BYTES 8388608 — Must match the app MAX_UPLOAD_BYTES 20 GiB — Largest file MAX_REQUEST_BYTES 1 MiB — Largest JSON body PULL_PAGE_SIZE_MAX · PUSH_BATCH_MAX 500 · 200 — Sync limits TOMBSTONE_RETENTION_DAYS 90 — Purge window VERIFY_MIN_DELAY_MS · VERIFY_RATE_LIMIT_PER_MINUTE 300 · 30 — /verify timing and limit UPLOAD_RATE_LIMIT_PER_MINUTE 600 — Begins per user MAX_SOCKETS_PER_USER 5 — WebSocket cap APNS_KEY_P8_BASE64, APNS_KEY_ID, APNS_TEAM_ID, APNS_BUNDLE_ID — SSM Push (F16) ENV_NAME, API_DOMAIN, ECR_REPOSITORY, DB_SECRET_ARN — instance.env Used by deploy.sh and Caddy src/config.ts reads every variable once at start and fails fast on a missing one."
+        }
+      ]
+    },
+    {
+      "id": "4-secrets",
+      "title": "4. Secrets",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Secret</th><th>Store</th><th>Path or name</th><th>Created by</th></tr></thead><tbody><tr><td>Database password</td><td>Secrets Manager</td><td><code>SiteLog-Staging…DatabaseSecret…</code> (generated)</td><td>CDK</td></tr><tr><td>Firebase service account</td><td>SSM Parameter Store, <code>SecureString</code></td><td><code>/sitelog/&#x3C;env>/FIREBASE_SERVICE_ACCOUNT_BASE64</code></td><td>You, once (<a href=\"../sitelogbe-guide-f00c-aws-staging/\">F00c</a>)</td></tr><tr><td>APNs key</td><td>SSM, <code>SecureString</code></td><td><code>/sitelog/&#x3C;env>/APNS_KEY_P8_BASE64</code>, <code>…/APNS_KEY_ID</code>, <code>…/APNS_TEAM_ID</code>, <code>…/APNS_BUNDLE_ID</code></td><td>You, in F16</td></tr></tbody></table></div>\n<ul>\n<li><code>deploy.sh</code> turns every parameter under <code>/sitelog/&#x3C;env>/</code> into <code>NAME=value</code> in <code>/opt/sitelog/secrets.env</code> (root-only). Adding a secret = one <code>put-parameter</code> + a deploy.</li>\n</ul>\n</dd></dl>",
+          "text": "Secret Store Path or name Created byDatabase password Secrets Manager SiteLog-Staging…DatabaseSecret… (generated) CDK Firebase service account SSM Parameter Store, SecureString /sitelog/<env>/FIREBASE_SERVICE_ACCOUNT_BASE64 You, once (F00c) APNs key SSM, SecureString /sitelog/<env>/APNS_KEY_P8_BASE64, …/APNS_KEY_ID, …/APNS_TEAM_ID, …/APNS_BUNDLE_ID You, in F16 deploy.sh turns every parameter under /sitelog/<env>/ into NAME=value in /opt/sitelog/secrets.env (root-only). Adding a secret = one put-parameter + a deploy."
+        }
+      ]
+    },
+    {
+      "id": "5-deploy",
+      "title": "5. Deploy",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelogbe/diagram-8f234cfa6137-dark.svg\"><img src=\"../../synced-docs/sitelogbe/diagram-8f234cfa6137-light.svg\" alt=\"Diagram\" width=\"1239\" height=\"629\" loading=\"lazy\"></picture></figure>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Trigger</th><th>Target</th></tr></thead><tbody><tr><td>Push to <code>main</code></td><td>staging</td></tr><tr><td>Tag <code>v*</code> (e.g. <code>v1.0.0</code>)</td><td>production, after a reviewer approves the <code>production</code> environment</td></tr></tbody></table></div>\n<ul>\n<li>Rollback: run the <code>Deploy</code> workflow's SSM step with an older commit, or on the server <code>sitelog-deploy &#x3C;older-commit></code>. Migrations are forward only, so a rollback must work with the newer schema (add columns, never rename or drop in the same release).</li>\n</ul>\n</dd></dl>",
+          "text": "Trigger TargetPush to main staging Tag v* (e.g. v1.0.0) production, after a reviewer approves the production environment Rollback: run the Deploy workflow's SSM step with an older commit, or on the server sitelog-deploy <older-commit>. Migrations are forward only, so a rollback must work with the newer schema (add columns, never rename or drop in the same release). Diagram"
+        }
+      ]
+    },
+    {
+      "id": "6-logs-and-alarms",
+      "title": "6. Logs and alarms",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Log group</th><th>From</th></tr></thead><tbody><tr><td><code>/sitelog/&#x3C;env>/api</code></td><td>Fastify JSON logs: one line per request + one per action</td></tr><tr><td><code>/sitelog/&#x3C;env>/worker</code></td><td>Verify, abandoned, purge, push</td></tr><tr><td><code>/sitelog/&#x3C;env>/caddy</code></td><td>TLS certificate and proxy errors</td></tr></tbody></table></div>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Alarm (F18)</th><th>Fires when</th><th>Action</th></tr></thead><tbody><tr><td>EC2 system check</td><td>Host hardware fault, 2 min</td><td>Auto-recover the instance, email</td></tr><tr><td>EC2 instance check</td><td>OS not responding, 3 min</td><td>Reboot, email</td></tr><tr><td>RDS free storage</td><td>&#x3C; 2 GB</td><td>Email</td></tr><tr><td>RDS CPU</td><td>> 80 % for 15 min</td><td>Email</td></tr><tr><td>API 5xx</td><td>≥ 5 in 5 min (log metric <code>$.res.statusCode >= 500</code>)</td><td>Email</td></tr><tr><td>Uptime (prod)</td><td><code>/health</code> fails from Route 53 checkers for 2 min</td><td>Email</td></tr></tbody></table></div>\n<ul>\n<li>CloudWatch Logs Insights, the query you will use most:</li>\n</ul>\n<div class=\"md-code\"><div class=\"md-code-bar\"><span class=\"md-code-lang\"></span><button type=\"button\" class=\"md-copy\" aria-label=\"Copy code\"><svg aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect width=\"14\" height=\"14\" x=\"8\" y=\"8\" rx=\"2\" ry=\"2\"/><path d=\"M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2\"/></svg><span class=\"md-copy-label\">Copy</span></button></div><pre class=\"shiki shiki-themes github-light github-dark\" style=\"--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e\" tabindex=\"0\"><code class=\"language-text\"><span class=\"line\"><span>fields @timestamp, msg, uid, uploadId, res.statusCode, err.message</span></span>\n<span class=\"line\"><span>| filter level >= 40</span></span>\n<span class=\"line\"><span>| sort @timestamp desc</span></span>\n<span class=\"line\"><span>| limit 50</span></span></code></pre></div>\n</dd></dl>",
+          "text": "Log group From/sitelog/<env>/api Fastify JSON logs: one line per request + one per action /sitelog/<env>/worker Verify, abandoned, purge, push /sitelog/<env>/caddy TLS certificate and proxy errors Alarm (F18) Fires when ActionEC2 system check Host hardware fault, 2 min Auto-recover the instance, email EC2 instance check OS not responding, 3 min Reboot, email RDS free storage < 2 GB Email RDS CPU > 80 % for 15 min Email API 5xx ≥ 5 in 5 min (log metric $.res.statusCode >= 500) Email Uptime (prod) /health fails from Route 53 checkers for 2 min Email CloudWatch Logs Insights, the query you will use most: fields @timestamp, msg, uid, uploadId, res.statusCode, err.message | filter level >= 40 | sort @timestamp desc | limit 50"
+        }
+      ]
+    },
+    {
+      "id": "7-backups",
+      "title": "7. Backups",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>What</th><th>How</th><th>Kept</th></tr></thead><tbody><tr><td>Database</td><td>RDS automated backups + point-in-time restore</td><td>7 days staging, 14 days prod</td></tr><tr><td>Files</td><td>S3 (11 nines durability); no versioning — deletes are user actions</td><td>—</td></tr><tr><td>Infrastructure</td><td><code>infra/</code> in git</td><td>—</td></tr></tbody></table></div>\n<ul>\n<li>Restore test, once per release (<a href=\"../sitelogbe-guide-f18-production/\">F18</a>): restore to a new instance at a point in time, connect, count rows, delete it.</li>\n</ul>\n</dd></dl>",
+          "text": "What How KeptDatabase RDS automated backups + point-in-time restore 7 days staging, 14 days prod Files S3 (11 nines durability); no versioning — deletes are user actions — Infrastructure infra/ in git — Restore test, once per release (F18): restore to a new instance at a point in time, connect, count rows, delete it."
+        }
+      ]
+    },
+    {
+      "id": "8-runbook",
+      "title": "8. Runbook",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Task</th><th>Command</th></tr></thead><tbody><tr><td>Shell on the server</td><td><code>aws ssm start-session --target &#x3C;instance-id></code> (needs the Session Manager plugin)</td></tr><tr><td>Containers</td><td><code>cd /opt/sitelog &#x26;&#x26; sudo docker compose ps</code></td></tr><tr><td>Last API logs</td><td><code>sudo docker compose logs --tail 100 api</code></td></tr><tr><td>Restart the API</td><td><code>sudo docker compose restart api</code></td></tr><tr><td>Deploy a commit by hand</td><td><code>sudo /usr/local/bin/sitelog-deploy &#x3C;commit></code></td></tr><tr><td>OS updates</td><td><code>sudo dnf upgrade -y &#x26;&#x26; sudo reboot</code> (monthly; containers come back by themselves)</td></tr><tr><td>Psql into RDS</td><td>From the server: <code>sudo docker compose run --rm api node -e \"…\"</code>, or a temporary <code>postgres:16</code> container with the URL from <code>secrets.env</code></td></tr><tr><td>Stop staging to save money</td><td><code>aws ec2 stop-instances --instance-ids &#x3C;id></code> and <code>aws rds stop-db-instance --db-instance-identifier &#x3C;id></code> (RDS restarts itself after 7 days)</td></tr></tbody></table></div>\n</dd></dl>",
+          "text": "Task CommandShell on the server aws ssm start-session --target <instance-id> (needs the Session Manager plugin) Containers cd /opt/sitelog && sudo docker compose ps Last API logs sudo docker compose logs --tail 100 api Restart the API sudo docker compose restart api Deploy a commit by hand sudo /usr/local/bin/sitelog-deploy <commit> OS updates sudo dnf upgrade -y && sudo reboot (monthly; containers come back by themselves) Psql into RDS From the server: sudo docker compose run --rm api node -e \"…\", or a temporary postgres:16 container with the URL from secrets.env Stop staging to save money aws ec2 stop-instances --instance-ids <id> and aws rds stop-db-instance --db-instance-identifier <id> (RDS restarts itself after 7 days)"
+        }
+      ]
+    }
+  ],
+  "effectiveDate": "2026-11-05",
+  "lastUpdated": "2026-11-05"
+}

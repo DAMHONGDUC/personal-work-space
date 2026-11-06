@@ -1,0 +1,87 @@
+{
+  "title": "02 — Database",
+  "tagline": "PostgreSQL 16. Every change is a numbered file in migrations/, run once, forward only (B08).",
+  "icon": "📐",
+  "topic": "fullstack",
+  "tags": [
+    "Node.js",
+    "TypeScript",
+    "AWS",
+    "Architecture",
+    "Specs"
+  ],
+  "readingTime": "2 min",
+  "languages": [
+    "en"
+  ],
+  "numbered": false,
+  "series": {
+    "id": "sitelogbe",
+    "part": 4,
+    "name": "SiteLog backend: the API, built",
+    "panel": "Base docs"
+  },
+  "intro": [
+    "PostgreSQL 16. Every change is a numbered file in migrations/, run once, forward only (B08).",
+    "Field-by-field contract of the synced tables: 01-api §6.3."
+  ],
+  "sections": [
+    {
+      "id": "1-migrations",
+      "title": "1. Migrations",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>File</th><th>Feature</th><th>Creates</th></tr></thead><tbody><tr><td><code>0001_projects.sql</code></td><td>F03</td><td><code>session_state</code> enum, <code>projects</code>, <code>locations</code>, <code>sessions</code></td></tr><tr><td><code>0002_sync_state.sql</code></td><td>F04</td><td><code>sync_state</code></td></tr><tr><td><code>0003_captures.sql</code></td><td>F05</td><td><code>captures</code></td></tr><tr><td><code>0004_uploads.sql</code></td><td>F06</td><td><code>upload_mode</code>, <code>upload_state</code>, <code>verify_state</code> enums, <code>uploads</code></td></tr><tr><td><code>0005_issues.sql</code></td><td>F08</td><td><code>issues</code>, <code>issue_captures</code>, <code>phrases</code></td></tr><tr><td><code>0006_annotations.sql</code></td><td>F09</td><td><code>annotations</code></td></tr><tr><td><code>0007_report_branding.sql</code></td><td>F10</td><td><code>report_branding</code></td></tr><tr><td><code>0008_plan_sheets.sql</code></td><td>F11</td><td><code>plan_sheets</code>; foreign key <code>issues.plan_sheet_id</code></td></tr><tr><td><code>0009_checklists.sql</code></td><td>F12</td><td>four checklist tables; foreign key <code>issues.source_checklist_result_id</code></td></tr><tr><td><code>0010_verify_worker.sql</code></td><td>F15</td><td><code>uploads.verify_claimed_at</code></td></tr><tr><td><code>0011_devices.sql</code></td><td>F16</td><td><code>devices</code></td></tr></tbody></table></div>\n<ul>\n<li><code>schema_migrations (name, run_at)</code> records what ran. A file that ran is never edited: fix it with a new file.</li>\n</ul>\n</dd></dl>",
+          "text": "File Feature Creates0001_projects.sql F03 session_state enum, projects, locations, sessions 0002_sync_state.sql F04 sync_state 0003_captures.sql F05 captures 0004_uploads.sql F06 upload_mode, upload_state, verify_state enums, uploads 0005_issues.sql F08 issues, issue_captures, phrases 0006_annotations.sql F09 annotations 0007_report_branding.sql F10 report_branding 0008_plan_sheets.sql F11 plan_sheets; foreign key issues.plan_sheet_id 0009_checklists.sql F12 four checklist tables; foreign key issues.source_checklist_result_id 0010_verify_worker.sql F15 uploads.verify_claimed_at 0011_devices.sql F16 devices schema_migrations (name, run_at) records what ran. A file that ran is never edited: fix it with a new file."
+        }
+      ]
+    },
+    {
+      "id": "2-synced-tables",
+      "title": "2. Synced tables",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul>\n<li>Every synced table starts with the same five columns:</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Column</th><th>Type</th><th>Set by</th><th>Why</th></tr></thead><tbody><tr><td><code>id</code></td><td><code>uuid</code> primary key</td><td>App</td><td>Rows are created offline, so the app makes the id</td></tr><tr><td><code>uid</code></td><td><code>text</code></td><td>Server, from the token</td><td>Owner; every query filters it</td></tr><tr><td><code>rev</code></td><td><code>bigint</code></td><td>Server</td><td>Position in the user's change history; pull reads <code>rev > since</code></td></tr><tr><td><code>client_updated_at</code></td><td><code>timestamptz</code></td><td>App</td><td>Last write wins</td></tr><tr><td><code>deleted_at</code></td><td><code>timestamptz</code></td><td>App (delete)</td><td>Tombstone, purged after 90 days</td></tr></tbody></table></div>\n<ul>\n<li>Index <code>(uid, rev)</code> on every synced table makes pull fast.</li>\n<li>Business columns: <a href=\"../sitelogbe-specs-01-api/#63-synced-tables\">01-api §6.3</a>; exact SQL: the migration files.</li>\n</ul>\n</dd></dl>",
+          "text": "Every synced table starts with the same five columns: Column Type Set by Whyid uuid primary key App Rows are created offline, so the app makes the id uid text Server, from the token Owner; every query filters it rev bigint Server Position in the user's change history; pull reads rev > since client_updated_at timestamptz App Last write wins deleted_at timestamptz App (delete) Tombstone, purged after 90 days Index (uid, rev) on every synced table makes pull fast. Business columns: 01-api §6.3; exact SQL: the migration files."
+        }
+      ]
+    },
+    {
+      "id": "3-server-only-tables",
+      "title": "3. Server-only tables",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Table</th><th>Key</th><th>Holds</th></tr></thead><tbody><tr><td><code>sync_state</code></td><td><code>uid</code></td><td><code>last_rev</code> (per-user counter), <code>purged_through_rev</code> (resync watermark)</td></tr><tr><td><code>uploads</code></td><td><code>id</code> (server uuid)</td><td>One row per upload job: key, size, hash, mode, S3 upload id, state, verification code, verify state</td></tr><tr><td><code>devices</code></td><td><code>token</code></td><td>APNs token, owner, <code>sandbox</code> or <code>production</code></td></tr><tr><td><code>schema_migrations</code></td><td><code>name</code></td><td>Migrations that ran</td></tr></tbody></table></div>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th><code>uploads.state</code></th><th>Meaning</th></tr></thead><tbody><tr><td><code>created</code></td><td>Begun; bytes may be on their way</td></tr><tr><td><code>completed</code></td><td>Object confirmed in S3, code issued</td></tr><tr><td><code>aborted</code></td><td>Cancelled or abandoned; never completes</td></tr></tbody></table></div>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th><code>uploads.verify_state</code></th><th>Meaning</th></tr></thead><tbody><tr><td><code>registered</code></td><td>The client's hash is recorded</td></tr><tr><td><code>verified</code></td><td>The worker re-read the object and the hash matches</td></tr><tr><td><code>mismatch</code></td><td>The stored bytes hash to something else</td></tr></tbody></table></div>\n</dd></dl>",
+          "text": "Table Key Holdssync_state uid last_rev (per-user counter), purged_through_rev (resync watermark) uploads id (server uuid) One row per upload job: key, size, hash, mode, S3 upload id, state, verification code, verify state devices token APNs token, owner, sandbox or production schema_migrations name Migrations that ran uploads.state Meaningcreated Begun; bytes may be on their way completed Object confirmed in S3, code issued aborted Cancelled or abandoned; never completes uploads.verify_state Meaningregistered The client's hash is recorded verified The worker re-read the object and the hash matches mismatch The stored bytes hash to something else"
+        }
+      ]
+    },
+    {
+      "id": "4-relations",
+      "title": "4. Relations",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelogbe/diagram-2b269d44a8a5-dark.svg\"><img src=\"../../synced-docs/sitelogbe/diagram-2b269d44a8a5-light.svg\" alt=\"Diagram: markup (same id) → pin\" width=\"959\" height=\"848\" loading=\"lazy\"></picture></figure>\n</dd></dl>",
+          "text": "Diagram: markup (same id) → pin"
+        }
+      ]
+    },
+    {
+      "id": "5-rules",
+      "title": "5. Rules",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Rule</th><th>How</th></tr></thead><tbody><tr><td>A row points only at rows of the same user</td><td>Foreign keys include <code>uid</code>: <code>foreign key (uid, project_id) references projects (uid, id)</code></td></tr><tr><td>A push may insert a child before its parent</td><td>Every foreign key is <code>deferrable initially deferred</code>: checked at commit</td></tr><tr><td>A tombstone does not block reuse</td><td>Unique indexes are partial: <code>… where deleted_at is null</code></td></tr><tr><td>No free-text states</td><td><code>check (kind in (…))</code> or an enum</td></tr><tr><td>Sizes over 2 GB</td><td><code>bigint</code></td></tr><tr><td>Times</td><td><code>timestamptz</code>, the session runs in UTC</td></tr><tr><td>Coordinates come in pairs</td><td><code>check ((latitude is null) = (longitude is null))</code></td></tr><tr><td>A pin is complete or absent</td><td><code>check</code> on <code>plan_sheet_id</code>, <code>pin_x</code>, <code>pin_y</code></td></tr></tbody></table></div>\n</dd></dl>",
+          "text": "Rule HowA row points only at rows of the same user Foreign keys include uid: foreign key (uid, project_id) references projects (uid, id) A push may insert a child before its parent Every foreign key is deferrable initially deferred: checked at commit A tombstone does not block reuse Unique indexes are partial: … where deleted_at is null No free-text states check (kind in (…)) or an enum Sizes over 2 GB bigint Times timestamptz, the session runs in UTC Coordinates come in pairs check ((latitude is null) = (longitude is null)) A pin is complete or absent check on plan_sheet_id, pin_x, pin_y"
+        }
+      ]
+    }
+  ],
+  "effectiveDate": "2026-11-05",
+  "lastUpdated": "2026-11-05"
+}

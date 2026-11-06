@@ -1,0 +1,87 @@
+{
+  "title": "SiteLog backend",
+  "tagline": "The server behind the SiteLog iOS app: sign-in check, delta sync, presigned S3 uploads, verification codes, realtime upload state, push.",
+  "icon": "🖥️",
+  "topic": "fullstack",
+  "tags": [
+    "Node.js",
+    "TypeScript",
+    "AWS",
+    "Overview"
+  ],
+  "readingTime": "2 min",
+  "languages": [
+    "en"
+  ],
+  "numbered": false,
+  "series": {
+    "id": "sitelogbe",
+    "part": 0,
+    "name": "SiteLog backend: the API, built",
+    "panel": "Base docs"
+  },
+  "intro": [
+    "The server behind the SiteLog iOS app: sign-in check, delta sync, presigned S3 uploads, verification codes, realtime upload state, push.",
+    "Node 24 · TypeScript · Fastify · PostgreSQL 16 · AWS (EC2 + Docker Compose, RDS, S3), infrastructure in AWS CDK.",
+    "Built step by step from the guides in docs/feature-guide, sprint by sprint, next to the iOS app."
+  ],
+  "sections": [
+    {
+      "id": "status",
+      "title": "Status",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul>\n<li>This repository holds the docs only. The code is written by following the guides, starting with <a href=\"../sitelogbe-guide-s0-foundation/\">S0</a>.</li>\n<li>Every code block in the guides was compiled, linted and tested (Postgres 16, Node 24) before it was written down.</li>\n</ul>\n</dd></dl>",
+          "text": "This repository holds the docs only. The code is written by following the guides, starting with S0. Every code block in the guides was compiled, linted and tested (Postgres 16, Node 24) before it was written down."
+        }
+      ]
+    },
+    {
+      "id": "quick-start",
+      "title": "Quick start",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul>\n<li>After S0 the backend runs on your Mac like this (full steps: <a href=\"../sitelogbe-guide-f00a-setup/\">F00a</a>, <a href=\"../sitelogbe-guide-local-testing-with-ios/\">local testing with the app</a>):</li>\n</ul>\n<div class=\"md-code\"><div class=\"md-code-bar\"><span class=\"md-code-lang\">bash</span><button type=\"button\" class=\"md-copy\" aria-label=\"Copy code\"><svg aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect width=\"14\" height=\"14\" x=\"8\" y=\"8\" rx=\"2\" ry=\"2\"/><path d=\"M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2\"/></svg><span class=\"md-copy-label\">Copy</span></button></div><pre class=\"shiki shiki-themes github-light github-dark\" style=\"--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e\" tabindex=\"0\"><code class=\"language-bash\"><span class=\"line\"><span style=\"--shiki-light:#6F42C1;--shiki-dark:#B392F0\">docker</span><span style=\"--shiki-light:#032F62;--shiki-dark:#9ECBFF\"> compose</span><span style=\"--shiki-light:#032F62;--shiki-dark:#9ECBFF\"> up</span><span style=\"--shiki-light:#005CC5;--shiki-dark:#79B8FF\"> -d</span></span></code></pre></div>\n<div class=\"md-code\"><div class=\"md-code-bar\"><span class=\"md-code-lang\">bash</span><button type=\"button\" class=\"md-copy\" aria-label=\"Copy code\"><svg aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect width=\"14\" height=\"14\" x=\"8\" y=\"8\" rx=\"2\" ry=\"2\"/><path d=\"M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2\"/></svg><span class=\"md-copy-label\">Copy</span></button></div><pre class=\"shiki shiki-themes github-light github-dark\" style=\"--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e\" tabindex=\"0\"><code class=\"language-bash\"><span class=\"line\"><span style=\"--shiki-light:#6F42C1;--shiki-dark:#B392F0\">cp</span><span style=\"--shiki-light:#032F62;--shiki-dark:#9ECBFF\"> .env.example</span><span style=\"--shiki-light:#032F62;--shiki-dark:#9ECBFF\"> .env</span></span></code></pre></div>\n<div class=\"md-code\"><div class=\"md-code-bar\"><span class=\"md-code-lang\">bash</span><button type=\"button\" class=\"md-copy\" aria-label=\"Copy code\"><svg aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect width=\"14\" height=\"14\" x=\"8\" y=\"8\" rx=\"2\" ry=\"2\"/><path d=\"M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2\"/></svg><span class=\"md-copy-label\">Copy</span></button></div><pre class=\"shiki shiki-themes github-light github-dark\" style=\"--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e\" tabindex=\"0\"><code class=\"language-bash\"><span class=\"line\"><span style=\"--shiki-light:#6F42C1;--shiki-dark:#B392F0\">npm</span><span style=\"--shiki-light:#032F62;--shiki-dark:#9ECBFF\"> ci</span><span style=\"--shiki-light:#24292E;--shiki-dark:#E1E4E8\"> &#x26;&#x26; </span><span style=\"--shiki-light:#6F42C1;--shiki-dark:#B392F0\">npm</span><span style=\"--shiki-light:#032F62;--shiki-dark:#9ECBFF\"> run</span><span style=\"--shiki-light:#032F62;--shiki-dark:#9ECBFF\"> migrate</span><span style=\"--shiki-light:#24292E;--shiki-dark:#E1E4E8\"> &#x26;&#x26; </span><span style=\"--shiki-light:#6F42C1;--shiki-dark:#B392F0\">npm</span><span style=\"--shiki-light:#032F62;--shiki-dark:#9ECBFF\"> run</span><span style=\"--shiki-light:#032F62;--shiki-dark:#9ECBFF\"> dev</span></span></code></pre></div>\n<div class=\"md-code\"><div class=\"md-code-bar\"><span class=\"md-code-lang\">bash</span><button type=\"button\" class=\"md-copy\" aria-label=\"Copy code\"><svg aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect width=\"14\" height=\"14\" x=\"8\" y=\"8\" rx=\"2\" ry=\"2\"/><path d=\"M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2\"/></svg><span class=\"md-copy-label\">Copy</span></button></div><pre class=\"shiki shiki-themes github-light github-dark\" style=\"--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e\" tabindex=\"0\"><code class=\"language-bash\"><span class=\"line\"><span style=\"--shiki-light:#6F42C1;--shiki-dark:#B392F0\">curl</span><span style=\"--shiki-light:#032F62;--shiki-dark:#9ECBFF\"> localhost:3000/health</span></span></code></pre></div>\n</dd></dl>",
+          "text": "After S0 the backend runs on your Mac like this (full steps: F00a, local testing with the app): docker compose up -d cp .env.example .env npm ci && npm run migrate && npm run dev curl localhost:3000/health"
+        }
+      ]
+    },
+    {
+      "id": "docs",
+      "title": "Docs",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Doc</th><th>Holds</th></tr></thead><tbody><tr><td><a href=\"../sitelogbe-specs-00-overview/\">00-overview</a></td><td>What the backend does, architecture, stack, decisions, environments, cost</td></tr><tr><td><a href=\"../sitelogbe-specs-01-api/\">01-api</a></td><td>Every endpoint and message: request, response, errors — the contract the app codes against</td></tr><tr><td><a href=\"../sitelogbe-specs-02-database/\">02-database</a></td><td>Tables, sync columns, keys, migrations</td></tr><tr><td><a href=\"../sitelogbe-specs-03-sync-uploads-realtime/\">03-sync-uploads-realtime</a></td><td>How sync, uploads, verification and the WebSocket channel work inside</td></tr><tr><td><a href=\"../sitelogbe-specs-04-aws-operations/\">04-aws-operations</a></td><td>AWS resources, configuration, secrets, deploy, logs, alarms, backups</td></tr><tr><td><a href=\"../sitelogbe-guide/\">Feature guides</a></td><td>Step-by-step build, one folder per sprint</td></tr><tr><td><a href=\"../sitelogbe-guide-local-testing-with-ios/\">Local testing with iOS</a></td><td>Run the backend on your Mac and point the simulator or an iPhone at it</td></tr></tbody></table></div>\n</dd></dl>",
+          "text": "Doc Holds00-overview What the backend does, architecture, stack, decisions, environments, cost 01-api Every endpoint and message: request, response, errors — the contract the app codes against 02-database Tables, sync columns, keys, migrations 03-sync-uploads-realtime How sync, uploads, verification and the WebSocket channel work inside 04-aws-operations AWS resources, configuration, secrets, deploy, logs, alarms, backups Feature guides Step-by-step build, one folder per sprint Local testing with iOS Run the backend on your Mac and point the simulator or an iPhone at it"
+        }
+      ]
+    },
+    {
+      "id": "repository-layout",
+      "title": "Repository layout",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<div class=\"md-code\"><div class=\"md-code-bar\"><span class=\"md-code-lang\"></span><button type=\"button\" class=\"md-copy\" aria-label=\"Copy code\"><svg aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect width=\"14\" height=\"14\" x=\"8\" y=\"8\" rx=\"2\" ry=\"2\"/><path d=\"M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2\"/></svg><span class=\"md-copy-label\">Copy</span></button></div><pre class=\"shiki shiki-themes github-light github-dark\" style=\"--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e\" tabindex=\"0\"><code class=\"language-text\"><span class=\"line\"><span>site-log-be/</span></span>\n<span class=\"line\"><span>├── src/                    # the API and the worker (TypeScript)</span></span>\n<span class=\"line\"><span>│   ├── main.ts             # starts the HTTP + WebSocket server</span></span>\n<span class=\"line\"><span>│   ├── worker.ts           # background jobs: verify uploads, abort abandoned ones, purge tombstones</span></span>\n<span class=\"line\"><span>│   ├── app.ts              # builds the Fastify app from its dependencies</span></span>\n<span class=\"line\"><span>│   ├── routes/             # one file per group of endpoints</span></span>\n<span class=\"line\"><span>│   ├── sync/               # pull, push, the table registry</span></span>\n<span class=\"line\"><span>│   ├── realtime/           # WebSocket channel and pg_notify fan-out</span></span>\n<span class=\"line\"><span>│   ├── workers/            # the worker's jobs</span></span>\n<span class=\"line\"><span>│   └── push/               # APNs</span></span>\n<span class=\"line\"><span>├── migrations/             # numbered .sql files, run once each, forward only</span></span>\n<span class=\"line\"><span>├── test/                   # vitest against a real Postgres</span></span>\n<span class=\"line\"><span>├── deploy/                 # what runs on the EC2 server: compose.yml, Caddyfile, deploy.sh</span></span>\n<span class=\"line\"><span>├── infra/                  # AWS CDK app: every AWS resource</span></span>\n<span class=\"line\"><span>├── .github/                # CI and deploy workflows</span></span>\n<span class=\"line\"><span>├── docs/                   # specs (feature-docs) and guides (feature-guide)</span></span>\n<span class=\"line\"><span>├── Tools/Docs/indent-md.py # run after editing any .md</span></span>\n<span class=\"line\"><span>├── docker-compose.yml      # local Postgres</span></span>\n<span class=\"line\"><span>└── Dockerfile              # the one image: API, worker and migrations</span></span></code></pre></div>\n</dd></dl>",
+          "text": "site-log-be/ ├── src/ # the API and the worker (TypeScript) │ ├── main.ts # starts the HTTP + WebSocket server │ ├── worker.ts # background jobs: verify uploads, abort abandoned ones, purge tombstones │ ├── app.ts # builds the Fastify app from its dependencies │ ├── routes/ # one file per group of endpoints │ ├── sync/ # pull, push, the table registry │ ├── realtime/ # WebSocket channel and pg_notify fan-out │ ├── workers/ # the worker's jobs │ └── push/ # APNs ├── migrations/ # numbered .sql files, run once each, forward only ├── test/ # vitest against a real Postgres ├── deploy/ # what runs on the EC2 server: compose.yml, Caddyfile, deploy.sh ├── infra/ # AWS CDK app: every AWS resource ├── .github/ # CI and deploy workflows ├── docs/ # specs (feature-docs) and guides (feature-guide) ├── Tools/Docs/indent-md.py # run after editing any .md ├── docker-compose.yml # local Postgres └── Dockerfile # the one image: API, worker and migrations"
+        }
+      ]
+    },
+    {
+      "id": "commands",
+      "title": "Commands",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Command</th><th>Does</th></tr></thead><tbody><tr><td><code>npm run dev</code></td><td>API with reload, reads <code>.env</code></td></tr><tr><td><code>npm run worker:dev</code></td><td>Worker with reload</td></tr><tr><td><code>npm run migrate</code></td><td>Runs new migrations</td></tr><tr><td><code>npm test</code></td><td>All tests against <code>sitelog_test</code></td></tr><tr><td><code>npm run lint</code> · <code>npm run typecheck</code> · <code>npm run format</code></td><td>Code checks</td></tr><tr><td><code>npm run token -- &#x3C;email> &#x3C;password></code></td><td>A Firebase ID token for curl</td></tr><tr><td><code>cd infra &#x26;&#x26; npx cdk deploy SiteLog-Staging</code></td><td>Creates or updates the staging AWS resources</td></tr><tr><td><code>python3 Tools/Docs/indent-md.py</code></td><td>Re-indents every <code>.md</code> after an edit</td></tr></tbody></table></div>\n</dd></dl>",
+          "text": "Command Doesnpm run dev API with reload, reads .env npm run worker:dev Worker with reload npm run migrate Runs new migrations npm test All tests against sitelog_test npm run lint · npm run typecheck · npm run format Code checks npm run token -- <email> <password> A Firebase ID token for curl cd infra && npx cdk deploy SiteLog-Staging Creates or updates the staging AWS resources python3 Tools/Docs/indent-md.py Re-indents every .md after an edit"
+        }
+      ]
+    }
+  ],
+  "effectiveDate": "2026-11-05",
+  "lastUpdated": "2026-11-05"
+}

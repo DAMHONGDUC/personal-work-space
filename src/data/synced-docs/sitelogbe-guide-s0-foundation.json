@@ -1,0 +1,76 @@
+{
+  "title": "S0 — Foundation",
+  "tagline": "a backend that builds, tests and deploys itself before any feature needs it.",
+  "icon": "🛠️",
+  "topic": "fullstack",
+  "tags": [
+    "Node.js",
+    "TypeScript",
+    "AWS",
+    "Step by step"
+  ],
+  "readingTime": "2 min",
+  "languages": [
+    "en"
+  ],
+  "numbered": false,
+  "series": {
+    "id": "sitelogbe",
+    "part": 8,
+    "name": "SiteLog backend: the API, built",
+    "panel": "Sprint guides",
+    "group": "S0-foundation",
+    "opensGroup": true
+  },
+  "intro": [
+    "Sprint 0 · 2 weeks · backend 11h of the sprint's 54h · all sprints · iOS side: S0 iOS"
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Overview",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul>\n<li><strong>Goal:</strong> a backend that builds, tests and deploys itself before any feature needs it.</li>\n<li><strong>Demo — local:</strong> <code>npm run dev</code> → <code>curl localhost:3000/health</code> → <code>{\"status\":\"ok\"}</code>; <code>npm test</code> green.</li>\n<li><strong>Demo — staging:</strong> Safari on the iPhone → <code>https://api-staging.&#x3C;domain>/health</code> → <code>{\"status\":\"ok\"}</code>; a merge to <code>main</code> redeploys.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Guide</th><th>Builds</th><th>Hours</th></tr></thead><tbody><tr><td><a href=\"../sitelogbe-guide-f00a-setup/\">F00a Setup</a></td><td>Tools, AWS account + SSO, Firebase project, domain</td><td>2</td></tr><tr><td><a href=\"../sitelogbe-guide-f00b-api-skeleton/\">F00b API skeleton</a></td><td>Fastify, config, Postgres, error contract, migrations, tests, Docker image, CI</td><td>5</td></tr><tr><td><a href=\"../sitelogbe-guide-f00c-aws-staging/\">F00c AWS staging</a></td><td>CDK stacks, EC2 + RDS + S3, Caddy, deploy workflow</td><td>4</td></tr></tbody></table></div>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelogbe/diagram-7a5e259da8e9-dark.svg\"><img src=\"../../synced-docs/sitelogbe/diagram-7a5e259da8e9-light.svg\" alt=\"Diagram: Your Mac → npm run dev → Docker Postgres → cdk deploy → AWS ap-southeast-1 → EC2: caddy + api → RDS → ECR → GitHub Actions, CI · Deploy → image → SSM → iPhone → HTTPS\" width=\"1072\" height=\"509\" loading=\"lazy\"></picture></figure>\n</dd></dl>",
+          "text": "Goal: a backend that builds, tests and deploys itself before any feature needs it. Demo — local: npm run dev → curl localhost:3000/health → {\"status\":\"ok\"}; npm test green. Demo — staging: Safari on the iPhone → https://api-staging.<domain>/health → {\"status\":\"ok\"}; a merge to main redeploys. Guide Builds HoursF00a Setup Tools, AWS account + SSO, Firebase project, domain 2 F00b API skeleton Fastify, config, Postgres, error contract, migrations, tests, Docker image, CI 5 F00c AWS staging CDK stacks, EC2 + RDS + S3, Caddy, deploy workflow 4 Diagram: Your Mac → npm run dev → Docker Postgres → cdk deploy → AWS ap-southeast-1 → EC2: caddy + api → RDS → ECR → GitHub Actions, CI · Deploy → image → SSM → iPhone → HTTPS"
+        }
+      ]
+    },
+    {
+      "id": "tasks",
+      "title": "Tasks",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Task</th><th>What</th><th>Guide</th><th>Hours</th><th>Status</th></tr></thead><tbody><tr><td>F00a.1</td><td>Node, Docker, AWS CLI, Session Manager plugin</td><td><a href=\"../sitelogbe-guide-f00a-setup/#1-tools-on-the-mac\">F00a §1</a></td><td>0.5</td><td>not start</td></tr><tr><td>F00a.2</td><td>AWS account, budget, Identity Center, <code>aws configure sso</code></td><td><a href=\"../sitelogbe-guide-f00a-setup/#2-aws-account-and-login\">F00a §2</a></td><td>1</td><td>not start</td></tr><tr><td>F00a.3</td><td>Firebase <code>sitelog-dev</code>, key, domain</td><td><a href=\"../sitelogbe-guide-f00a-setup/#3-firebase-project\">F00a §3–4</a></td><td>0.5</td><td>not start</td></tr><tr><td>F00b.1</td><td>Project files, local Postgres</td><td><a href=\"../sitelogbe-guide-f00b-api-skeleton/#1-project-files\">F00b §1–2</a></td><td>1</td><td>not start</td></tr><tr><td>F00b.2</td><td>Config, logger, database</td><td><a href=\"../sitelogbe-guide-f00b-api-skeleton/#3-config-logger-database\">F00b §3</a></td><td>1</td><td>not start</td></tr><tr><td>F00b.3</td><td>Error contract, app, health, main</td><td><a href=\"../sitelogbe-guide-f00b-api-skeleton/#4-error-contract-app-health\">F00b §4</a></td><td>1</td><td>not start</td></tr><tr><td>F00b.4</td><td>Migration runner, tests</td><td><a href=\"../sitelogbe-guide-f00b-api-skeleton/#5-migration-runner\">F00b §5–6</a></td><td>1.5</td><td>not start</td></tr><tr><td>F00b.5</td><td>Docker image, CI</td><td><a href=\"../sitelogbe-guide-f00b-api-skeleton/#7-docker-image\">F00b §7–8</a></td><td>0.5</td><td>not start</td></tr><tr><td>F00c.1</td><td>CDK project, dev bucket, shared stack</td><td><a href=\"../sitelogbe-guide-f00c-aws-staging/#1-cdk-project\">F00c §1–2</a></td><td>1</td><td>not start</td></tr><tr><td>F00c.2</td><td>Staging stack</td><td><a href=\"../sitelogbe-guide-f00c-aws-staging/#3-staging-stack\">F00c §3</a></td><td>1</td><td>not start</td></tr><tr><td>F00c.3</td><td>Server files, DNS, secrets</td><td><a href=\"../sitelogbe-guide-f00c-aws-staging/#4-server-files\">F00c §4–5</a></td><td>1</td><td>not start</td></tr><tr><td>F00c.4</td><td>Deploy workflow, first deploy</td><td><a href=\"../sitelogbe-guide-f00c-aws-staging/#6-deploy-workflow\">F00c §6</a></td><td>1</td><td>not start</td></tr></tbody></table></div>\n</dd></dl>",
+          "text": "Task What Guide Hours StatusF00a.1 Node, Docker, AWS CLI, Session Manager plugin F00a §1 0.5 not start F00a.2 AWS account, budget, Identity Center, aws configure sso F00a §2 1 not start F00a.3 Firebase sitelog-dev, key, domain F00a §3–4 0.5 not start F00b.1 Project files, local Postgres F00b §1–2 1 not start F00b.2 Config, logger, database F00b §3 1 not start F00b.3 Error contract, app, health, main F00b §4 1 not start F00b.4 Migration runner, tests F00b §5–6 1.5 not start F00b.5 Docker image, CI F00b §7–8 0.5 not start F00c.1 CDK project, dev bucket, shared stack F00c §1–2 1 not start F00c.2 Staging stack F00c §3 1 not start F00c.3 Server files, DNS, secrets F00c §4–5 1 not start F00c.4 Deploy workflow, first deploy F00c §6 1 not start"
+        }
+      ]
+    },
+    {
+      "id": "done",
+      "title": "Done",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul class=\"contains-task-list\">\n<li class=\"task-list-item\"><input type=\"checkbox\" disabled> <code>npm test</code> green locally and in CI</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" disabled> <code>https://api-staging.&#x3C;domain>/health</code> answers from the iPhone</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" disabled> A merge to <code>main</code> deploys to staging</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" disabled> No secret in git: <code>git grep -i \"private_key\"</code> finds nothing</li>\n</ul>\n</dd></dl>",
+          "text": "npm test green locally and in CI https://api-staging.<domain>/health answers from the iPhone A merge to main deploys to staging No secret in git: git grep -i \"private_key\" finds nothing"
+        }
+      ]
+    },
+    {
+      "id": "self-check",
+      "title": "Self-check",
+      "blocks": [
+        {
+          "type": "html",
+          "html": "<dl><dd>\n<ul>\n<li>Why does the server answer <code>401</code>, never <code>403</code>, for a bad token? (Read <a href=\"../sitelogbe-specs-01-api/#2-error-contract\">01-api §2</a>.)</li>\n<li>Where does the database password live, and who can read it?</li>\n<li>A deploy fails halfway, after migrations ran. What runs now: the old code or the new one, and against which schema?</li>\n</ul>\n</dd></dl>",
+          "text": "Why does the server answer 401, never 403, for a bad token? (Read 01-api §2.) Where does the database password live, and who can read it? A deploy fails halfway, after migrations ran. What runs now: the old code or the new one, and against which schema?"
+        }
+      ]
+    }
+  ],
+  "effectiveDate": "2026-11-05",
+  "lastUpdated": "2026-11-05"
+}
