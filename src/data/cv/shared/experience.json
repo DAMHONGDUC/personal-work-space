@@ -41,7 +41,7 @@
         ],
         "briefBullets": [
           "Built a private jet booking app from scratch, with smooth, complex animations, transitions and an animated dashboard.",
-          "Contributed to researching and setting up Stripe payments for flight bookings; implemented SSL pinning and biometric login.",
+          "Contributed to Stripe payment research and setup for flights; added SSL pinning and biometric login.",
           "Built and maintained CI/CD pipelines with Fastlane and a self-hosted GitLab Runner on a Mac mini."
         ]
       },
@@ -59,7 +59,7 @@
           "Built PDFKit floor plans with pins, photo markup and stamps, checklists and BLE meter readings; added multi-device sync, realtime WebSocket progress, push and deep links; set up Fastlane and TestFlight CI/CD."
         ],
         "briefBullets": [
-          "Built an offline-first iOS app for supervisors to record site conditions and export a signed PDF inspection report.",
+          "Built an offline-first iOS app: supervisors log site conditions, export a signed PDF inspection report.",
           "Built a background URLSession upload engine (S3 multipart) that survives suspension, termination and network loss in multi-GB sessions.",
           "Made captures tamper-evident with SHA-256 hashes, a separate vector markup layer, an audit log and Keychain-held keys; added biometric and passcode lock.",
           "Built PDFKit floor plans with pins, photo markup, stamps, checklists and BLE meter readings; added multi-device sync, realtime WebSocket progress, push, deep links; Fastlane and TestFlight CI/CD."
@@ -145,7 +145,7 @@
         "briefBullets": [
           "Built new apps and maintained others: React Native booking and health apps; an Expo appliance and apartment maintenance app; Flutter e-learning, file management and equipment apps.",
           "Wrote a native module for the health app that measures heart rate with the phone camera.",
-          "Integrated GraphQL APIs with Apollo Client; added FCM push notifications, Firebase Crashlytics and Analytics.",
+          "Integrated GraphQL APIs via Apollo Client; added FCM push, Firebase Crashlytics and Analytics.",
           "Set up and maintained CI/CD pipelines to build and release the apps.",
           "Made the apps responsive on iPad in portrait and landscape.",
           "Led a 3-person sub-project: planned sprints, estimated tasks and reviewed deliverables."
@@ -175,6 +175,9 @@
         ],
         "bullets": [
           "Maintained the native Android app and improved its UI; implemented charts for trading and financial data."
+        ],
+        "briefBullets": [
+          "Maintained the native Android app, improved its UI, built trading and financial data charts."
         ]
       }
     ]
