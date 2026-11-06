@@ -7,5 +7,12 @@
     "p-and-a",
     "tgl-solutions",
     "flynk"
-  ]
+  ],
+  "leaveOut": {
+    "projects": [
+      "BaroEase",
+      "Reseller Studio",
+      "SMS Hook"
+    ]
+  }
 }
