@@ -8,7 +8,7 @@
     "iOS",
     "Step by step"
   ],
-  "readingTime": "1 min",
+  "readingTime": "2 min",
   "languages": [
     "en"
   ],
@@ -32,7 +32,7 @@
         {
           "type": "html",
           "html": "<dl><dd>\n<ul>\n<li><strong>Goal:</strong> every screen works with Dynamic Type, VoiceOver and high contrast; every Instruments budget is met with a saved trace; TestFlight feedback is closed. Submission is F18.</li>\n<li><strong>Demo — offline:</strong> VoiceOver walk unlock → projects → capture → report.</li>\n<li><strong>Demo — signed in:</strong> the same walk with sync running; Instruments scenarios on a Release build.</li>\n<li><strong>Spec:</strong> <a href=\"../sitelog-specs-05-platform/#19-performance-profiling-with-instruments\">19 Instruments</a></li>\n<li><strong>Steps:</strong> a cross-cutting pass, not the feature template; each step still opens with an overview.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Step</th><th>Layer</th><th>Hours</th><th>Status</th><th>What</th></tr></thead><tbody><tr><td><a href=\"#1-polish--accessibility-pass\">1</a></td><td>Polish</td><td>8h</td><td>not start</td><td>Labels, traits, grouping, focus order, 44 pt targets</td></tr><tr><td><a href=\"#2-release--budgets-privacy-manifest-feedback\">2</a></td><td>Release</td><td>6h</td><td>not start</td><td>Budgets, <code>PrivacyInfo.xcprivacy</code>, feedback</td></tr></tbody></table></div>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelog/diagram-191a0d3d0ca4-dark.svg\"><img src=\"../../synced-docs/sitelog/diagram-191a0d3d0ca4-light.svg\" alt=\"Diagram: every screen → VoiceOver → Dynamic Type accessibility3 → high contrast → Release build → Instruments 1–5 → saved traces\" width=\"552\" height=\"352\" loading=\"lazy\"></picture></figure>\n</dd></dl>",
-          "text": "Goal: every screen works with Dynamic Type, VoiceOver and high contrast; every Instruments budget is met with a saved trace; TestFlight feedback is closed. Submission is F18. Demo — offline: VoiceOver walk unlock → projects → capture → report. Demo — signed in: the same walk with sync running; Instruments scenarios on a Release build. Spec: 19 Instruments Steps: a cross-cutting pass, not the feature template; each step still opens with an overview. Step Layer Hours Status What1 Polish 8h not start Labels, traits, grouping, focus order, 44 pt targets 2 Release 6h not start Budgets, PrivacyInfo.xcprivacy, feedback"
+          "text": "Goal: every screen works with Dynamic Type, VoiceOver and high contrast; every Instruments budget is met with a saved trace; TestFlight feedback is closed. Submission is F18. Demo — offline: VoiceOver walk unlock → projects → capture → report. Demo — signed in: the same walk with sync running; Instruments scenarios on a Release build. Spec: 19 Instruments Steps: a cross-cutting pass, not the feature template; each step still opens with an overview. Step Layer Hours Status What1 Polish 8h not start Labels, traits, grouping, focus order, 44 pt targets 2 Release 6h not start Budgets, PrivacyInfo.xcprivacy, feedback Diagram: every screen → VoiceOver → Dynamic Type accessibility3 → high contrast → Release build → Instruments 1–5 → saved traces"
         }
       ]
     },
@@ -54,7 +54,7 @@
         {
           "type": "html",
           "html": "<dl><dd>\n<h4 id=\"overview-1\">Overview</h4>\n<dl><dd>\n<ul>\n<li><strong>Goal:</strong> every screen readable and usable without sight, at large text, without colour. Split into tasks: access + projects · capture + issues · reports + settings.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Check</th><th>Rule</th></tr></thead><tbody><tr><td>VoiceOver</td><td>Every control has a label and trait; groups read as one sentence; focus order follows the layout</td></tr><tr><td>Colour</td><td>Severity readable without colour (shapes already in <code>DSStatusMarker</code>)</td></tr><tr><td>Size</td><td>Minimum 44 pt targets; usable at <code>accessibility3</code></td></tr></tbody></table></div>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelog/diagram-a42696d234cf-dark.svg\"><img src=\"../../synced-docs/sitelog/diagram-a42696d234cf-light.svg\" alt=\"Diagram: unlock → projects → capture → report\" width=\"744\" height=\"64\" loading=\"lazy\"></picture></figure>\n<ul>\n<li><strong>Check:</strong> the walk above with VoiceOver on, eyes closed; Accessibility Inspector audit clean.</li>\n</ul>\n</dd></dl>\n</dd></dl>",
-          "text": "Overview Goal: every screen readable and usable without sight, at large text, without colour. Split into tasks: access + projects · capture + issues · reports + settings. Check RuleVoiceOver Every control has a label and trait; groups read as one sentence; focus order follows the layout Colour Severity readable without colour (shapes already in DSStatusMarker) Size Minimum 44 pt targets; usable at accessibility3 Check: the walk above with VoiceOver on, eyes closed; Accessibility Inspector audit clean."
+          "text": "Overview Goal: every screen readable and usable without sight, at large text, without colour. Split into tasks: access + projects · capture + issues · reports + settings. Check RuleVoiceOver Every control has a label and trait; groups read as one sentence; focus order follows the layout Colour Severity readable without colour (shapes already in DSStatusMarker) Size Minimum 44 pt targets; usable at accessibility3 Check: the walk above with VoiceOver on, eyes closed; Accessibility Inspector audit clean. Diagram: unlock → projects → capture → report"
         }
       ]
     },
@@ -65,7 +65,7 @@
         {
           "type": "html",
           "html": "<dl><dd>\n<h4 id=\"overview-2\">Overview</h4>\n<dl><dd>\n<ul>\n<li><strong>Goal:</strong> measured performance, a correct privacy manifest, no open feedback.</li>\n</ul>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"md-table\"><table><thead><tr><th>Action</th><th>File</th><th>Holds</th></tr></thead><tbody><tr><td><b class=\"tag-new\">New</b></td><td><code>SiteLog/PrivacyInfo.xcprivacy</code></td><td>Location, device ID, crash data declared</td></tr><tr><td>—</td><td>Release build on device</td><td>Scenarios 1–5 of 05 §19; traces saved</td></tr><tr><td>—</td><td>TestFlight</td><td>Every feedback item closed</td></tr></tbody></table></div>\n<figure class=\"md-diagram\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"../../synced-docs/sitelog/diagram-b5e6aaf31324-dark.svg\"><img src=\"../../synced-docs/sitelog/diagram-b5e6aaf31324-light.svg\" alt=\"Diagram: scenario → within budget? → yes → save trace → no → fix\" width=\"641\" height=\"210\" loading=\"lazy\"></picture></figure>\n<ul>\n<li><strong>Check:</strong> every budget met with a recorded trace; no open TestFlight feedback.</li>\n</ul>\n</dd></dl>\n</dd></dl>",
-          "text": "Overview Goal: measured performance, a correct privacy manifest, no open feedback. Action File HoldsNew SiteLog/PrivacyInfo.xcprivacy Location, device ID, crash data declared — Release build on device Scenarios 1–5 of 05 §19; traces saved — TestFlight Every feedback item closed Check: every budget met with a recorded trace; no open TestFlight feedback."
+          "text": "Overview Goal: measured performance, a correct privacy manifest, no open feedback. Action File HoldsNew SiteLog/PrivacyInfo.xcprivacy Location, device ID, crash data declared — Release build on device Scenarios 1–5 of 05 §19; traces saved — TestFlight Every feedback item closed Check: every budget met with a recorded trace; no open TestFlight feedback. Diagram: scenario → within budget? → yes → save trace → no → fix"
         }
       ]
     },
@@ -93,5 +93,5 @@
     }
   ],
   "effectiveDate": "2026-11-02",
-  "lastUpdated": "2026-11-03"
+  "lastUpdated": "2026-11-05"
 }
